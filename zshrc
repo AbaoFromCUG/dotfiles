@@ -127,4 +127,4 @@ export PATH="/usr/local/opt/icu4c/sbin:$PATH"
 export CMAKE_INCLUDE_PATH=/usr/local/Cellar/liblcf/0.6.2_1/include:$CMAKE_INCLUDE_PATH
 export CMAKE_INCLUDE_PATH=/usr/local/Cellar/eigen/3.3.7/include:$CMAKE_INCLUDE_PATH
 
-
+alias vim=nvim
