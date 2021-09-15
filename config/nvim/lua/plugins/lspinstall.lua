@@ -29,6 +29,7 @@ return function()
     elseif client.resolved_capabilities.document_range_formatting then
       buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
     end
+    
   
     -- Set autocommands conditional on server_capabilities
     if client.resolved_capabilities.document_highlight then
@@ -52,7 +53,7 @@ return function()
       on_attach = on_attach,
     }
   end
-
+    
   local function setup_servers()
     require'lspinstall'.setup()
     local servers = require'lspinstall'.installed_servers()
@@ -62,6 +63,8 @@ return function()
         config.settings = require('lsp.lua.settings')
       elseif server == 'clangd' then
         config.filetypes = {'c', 'cpp'}
+      elseif server == 'pyright' then
+        config.filetypes = {'py'}
       end
       require'lspconfig'[server].setup(config)
     end
