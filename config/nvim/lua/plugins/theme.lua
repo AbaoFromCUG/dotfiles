@@ -1,7 +1,7 @@
 return function()
 
   require("github-theme").setup({
-    themeStyle = "dark"
+    theme_style = "dark"
     -- ... your github-theme config
   })
 end

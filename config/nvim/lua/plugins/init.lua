@@ -9,7 +9,6 @@ return require('packer').startup(function()
   use 'wbthomason/packer.nvim'
   use {'nvim-lua/plenary.nvim'}
   use 'nvim-lua/popup.nvim'
-
   -- theme & color
   use {'projekt0n/github-nvim-theme', config = require('plugins.theme')}
   use {
@@ -68,7 +67,7 @@ return require('packer').startup(function()
 
   -- lsp
   use {'neovim/nvim-lspconfig'}
-  use {'kabouzeid/nvim-lspinstall', config = require('plugins.lspinstall')}
+  use {'williamboman/nvim-lsp-installer', config = require('plugins.lspinstall')}
   use {'hrsh7th/nvim-cmp', config = require('plugins.cmp')} -- Autocompletion plugin
   use {'hrsh7th/vim-vsnip'}
   use {'hrsh7th/vim-vsnip-integ'}

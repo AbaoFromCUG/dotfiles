@@ -25,7 +25,7 @@ eval "$(rbenv init -)"
 # nvm 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use # This loads nvm
-export PATH=$HOME/.nvm/versions/node/v14.15.3/bin:$PATH
+export PATH=$HOME/.nvm/versions/node/v14.16.1/bin:$PATH
 export NODE_PATH="$HOME/.nvm/versions/node/14.18.3/lib/node_modules"
 
 export PATH=/opt/BaiduPCS-Go/:$PATH
@@ -47,13 +47,12 @@ export NDK_ROOT=/usr/ndk/android-ndk-r16b
 export PATH=$NDK_ROOT:$PATH
 
 #ANDROID_SDK_ROOT
-export ANDROID_SDK_ROOT=$HOME/.android/android-sdk
+export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
 export PATH=$ANDROID_SDK_ROOT:$PATH
-export ANDROID_HOME=$HOME/.android/android-sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$ANDROID_SDK_ROOT/emulator
+export PATH=$PATH:$ANDROID_SDK_ROOT/tools
+export PATH=$PATH:$ANDROID_SDK_ROOT/tools/bin
+export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
 
 
 # Add environment variable COCOS_CONSOLE_ROOT for cocos2d-x
@@ -90,11 +89,8 @@ export QT_QMAKE_EXECUTABLE=/usr/bin/
 export CLASS_PATH=$CLASS_PATH:/opt/xmind-8-update8-linux/plugins
 
 # Qt 
-export QTDIR=/Applications/Qt/5.12.4/clang_64
-export QML_IMPORT_PATH=$QML_IMPORT_PATH:$QTDIR/qml:/Applications/Spark\ AR\ Studio.app/Contents/Resources 
-export QT_INSTALL_QML=$QTDIR/qml
-export PATH=$PATH:/Applications/Qt/5.12.4/clang_64/bin
-
+# export Qt5_DIR=/Applications/Qt/5.15.2/clang_64/lib/cmake/Qt5
+# export Qt6_DIR=/Applications/Qt/6.2.1/macos/lib/cmake/Qt6
 #JMeter
 export PATH=$PATH:/opt/apache-jmeter-5.1.1/bin/
 
@@ -130,3 +126,8 @@ export PATH=$PATH:$HOME/Documents/github/depot_tools
 #    source "$POWERLINE_HOME/powerline/bindings/bash/powerline.sh"
 #    export POWERLINE_HOME
 #fi
+
+export PATH="/usr/local/opt/binutils/bin:$PATH"
+
+export PATH="/usr/local/opt/llvm@11/bin:$PATH"
+#export CPPFLAGS="-I/usr/local/opt/llvm@11/include"
