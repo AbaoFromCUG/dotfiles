@@ -85,6 +85,8 @@ return require('packer').startup(function()
   use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
 
+  use {'folke/trouble.nvim', config = require('plugins.trouble')}
+
   -- formatter
-  use {'mhartington/formatter.nvim', config = require('plugins.formatter')}
+  use {'jose-elias-alvarez/null-ls.nvim', config = require('plugins.null-ls')}
 end)
