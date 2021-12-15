@@ -92,6 +92,7 @@ ZSH_HIGHLIGHT_STYLES[assign]=none
 
 antigen theme robbyrussell
 # antigen theme gruvbox
+
 antigen apply
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
 
@@ -102,29 +103,16 @@ bindkey '\ek' deer
 bindkey -s '\eo' 'cd ..\n'
 
 
-
-#export http_proxy="http://127.0.0.1:12333"
-#export https_proxy="http://127.0.0.1:12333"
 export all_proxy=""
-#tmux 
-export POWERLINE_CONFIG_COMMAND=/home/abao/.pyenv/shims/powerline-config
-export POWERLINE_COMMAND=/home/abao/.pyenv/shims/powerline
 
 function docker_ip() {
         sudo docker inspect --format '{{ .NetworkSettings.IPAddress  }}' $1
         
 }
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export HOMEBREW_NO_AUTO_UPDATE=true
-
-export PATH="/usr/local/opt/llvm@9/bin:$PATH"
-export PATH="/usr/local/opt/llvm@9/bin:$PATH"
-export PATH="/usr/local/opt/llvm@9/bin:$PATH"
-export PATH="/usr/local/opt/icu4c/bin:$PATH"
-export PATH="/usr/local/opt/icu4c/sbin:$PATH"
-
-export CMAKE_INCLUDE_PATH=/usr/local/Cellar/liblcf/0.6.2_1/include:$CMAKE_INCLUDE_PATH
-export CMAKE_INCLUDE_PATH=/usr/local/Cellar/eigen/3.3.7/include:$CMAKE_INCLUDE_PATH
-
 alias vim=nvim
+
+eval "$(pyenv init -)"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
