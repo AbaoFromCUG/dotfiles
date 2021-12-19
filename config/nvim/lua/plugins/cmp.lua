@@ -1,17 +1,17 @@
 return function()
     local cmp = require "cmp"
     local lspkind = require "lspkind"
-    local luasnip = require "luasnip"
+    local cmp_ultisnips_mappings = require "cmp_nvim_ultisnips.mappings"
     cmp.setup {
         completion = { completeopt = "menu,menuone,noinsert" },
         snippet = {
             expand = function(args)
-                require("luasnip").lsp_expand(args.body)
+                vim.fn["UltiSnips#Anon"](args.body)
             end,
         },
         mapping = {
-            ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-            ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+            ["<C-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
+            ["<C-p>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
             ["<Down>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
             ["<Up>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
             ["<C-d>"] = cmp.mapping.scroll_docs(4),
@@ -22,27 +22,12 @@ return function()
                 behavior = cmp.ConfirmBehavior.Replace,
                 select = true,
             },
-            ["<Tab>"] = function(fallback)
-                if vim.fn.pumvisible() == 1 then
-                    vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-n>", true, true, true), "n")
-                elseif luasnip.expand_or_jumpable() then
-                    vim.fn.feedkeys(
-                        vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true),
-                        ""
-                    )
-                else
-                    fallback()
-                end
-            end,
-            ["<S-Tab>"] = function(fallback)
-                if vim.fn.pumvisible() == 1 then
-                    vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-p>", true, true, true), "n")
-                elseif luasnip.jumpable(-1) then
-                    vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true), "")
-                else
-                    fallback()
-                end
-            end,
+            ["<Tab>"] = cmp.mapping(function(fallback)
+                cmp_ultisnips_mappings.expand_or_jump_forwards(fallback)
+            end, { "i", "s" }),
+            ["<S-Tab>"] = cmp.mapping(function(fallback)
+                cmp_ultisnips_mappings.jump_backwards(fallback)
+            end, { "i", "s"}),
         },
         sources = {
             { name = "nvim_lsp" },
@@ -50,7 +35,7 @@ return function()
             { name = "path" },
             { name = "comdline" },
             { name = "treesitter" },
-            { name = "luasnip" },
+            { name = "ultisnips" },
         },
         formatting = {
             format = function(entry, vim_item)
@@ -68,4 +53,3 @@ return function()
     local cmp_autopairs = require "nvim-autopairs.completion.cmp"
     cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done { map_char = { tex = "" } })
 end
-

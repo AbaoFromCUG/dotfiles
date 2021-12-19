@@ -66,7 +66,7 @@ return require("packer").startup(function()
     use { "windwp/nvim-autopairs", config = require "plugins.autopairs" }
 
     -- lsp
-    use { "neovim/nvim-lspconfig", config = require "plugins.lspconfig"}
+    use { "neovim/nvim-lspconfig", config = require "plugins.lspconfig" }
     use { "williamboman/nvim-lsp-installer", config = require "plugins.lspinstall" }
 
     -- lsp completion engine
@@ -78,8 +78,8 @@ return require("packer").startup(function()
     use { "hrsh7th/cmp-path" }
     use { "hrsh7th/cmp-cmdline" }
     use { "ray-x/cmp-treesitter" }
-    use "saadparwaiz1/cmp_luasnip"
-    use "L3MON4D3/LuaSnip"
+    use "SirVer/ultisnips"
+    use "quangnguyen30192/cmp-nvim-ultisnips"
 
     use { "onsails/lspkind-nvim", config = require "plugins.lspkind" }
     use { "folke/trouble.nvim", config = require "plugins.trouble" }
