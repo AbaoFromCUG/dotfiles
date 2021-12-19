@@ -41,7 +41,6 @@ return require("packer").startup(function()
         config = require "plugins.treesitter",
     }
 
-
     -- debug
     use { "mfussenegger/nvim-dap", config = require "plugins.dap" }
     use { "rcarriga/nvim-dap-ui", config = require "plugins.dapui" }
@@ -70,22 +69,19 @@ return require("packer").startup(function()
     use { "neovim/nvim-lspconfig" }
     use { "williamboman/nvim-lsp-installer", config = require "plugins.lspinstall" }
 
-    -- lsp snpipets
+    -- lsp completion engine
     use { "hrsh7th/nvim-cmp", config = require "plugins.cmp" } -- Autocompletion plugin
+    -- source for builtin lsp
     use { "hrsh7th/cmp-nvim-lsp" }
+    -- snippets source
     use { "hrsh7th/cmp-buffer" }
     use { "hrsh7th/cmp-path" }
     use { "hrsh7th/cmp-cmdline" }
-
-    use { "f3fora/cmp-spell" }
-    use { "octaltree/cmp-look" }
     use { "ray-x/cmp-treesitter" }
-    use { "kristijanhusak/vim-dadbod-completion" }
+    use "saadparwaiz1/cmp_luasnip"
+    use "L3MON4D3/LuaSnip"
 
     use { "onsails/lspkind-nvim", config = require "plugins.lspkind" }
-    use "saadparwaiz1/cmp_luasnip" -- Snippets source for nvim-cmp
-    use "L3MON4D3/LuaSnip" -- Snippets plugin
-
     use { "folke/trouble.nvim", config = require "plugins.trouble" }
 
     -- formatter
