@@ -66,7 +66,7 @@ return require("packer").startup(function()
     use { "windwp/nvim-autopairs", config = require "plugins.autopairs" }
 
     -- lsp
-    use { "neovim/nvim-lspconfig" }
+    use { "neovim/nvim-lspconfig", config = require "plugins.lspconfig"}
     use { "williamboman/nvim-lsp-installer", config = require "plugins.lspinstall" }
 
     -- lsp completion engine

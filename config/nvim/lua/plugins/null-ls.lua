@@ -5,13 +5,14 @@ return function()
         sources = {
             null_ls.builtins.formatting.stylua.with {
                 condition = function(utils)
-                    return utils.root_has_file "stylua.toml"
+                    return utils.root_has_file "stylua.toml" or utils.root_has_file ".stylua.toml"
                 end,
             },
-            null_ls.builtins.diagnostics.eslint,
-            null_ls.builtins.completion.spell,
             null_ls.builtins.formatting.cmake_format,
 
+            null_ls.builtins.completion.spell,
+
+            null_ls.builtins.diagnostics.eslint,
             null_ls.builtins.diagnostics.shellcheck,
         },
     }

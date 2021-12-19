@@ -25,9 +25,6 @@ vim.opt.langmenu = "zh_CN.UTR-8"
 vim.opt.helplang = "cn"
 vim.opt.encoding = "utf8"
 
-
-vim.g.python3_host_prog = home_dir..'/.pyenv/shims/python3'
-
 -- Plugin config
 local fn = vim.fn
 local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
