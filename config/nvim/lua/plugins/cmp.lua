@@ -9,7 +9,6 @@ return function()
                 vim.fn["UltiSnips#Anon"](args.body)
             end,
         },
-        -- Intellij-like mapping
         mapping = {
             ["<C-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
             ["<C-p>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
@@ -23,23 +22,38 @@ return function()
                 behavior = cmp.ConfirmBehavior.Replace,
                 select = true,
             },
-
-            ["<Tab>"] = cmp.mapping(function(fallback)
-                -- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
-                if cmp.visible() then
-                    local entry = cmp.get_selected_entry()
-                    if not entry then
-                        cmp.select_next_item { behavior = cmp.SelectBehavior.Select }
+            -- Intellij-like mapping
+            ["<Tab>"] = cmp.mapping {
+                c = function()
+                    if cmp.visible() then
+                        cmp.select_next_item { behavior = cmp.SelectBehavior.Insert }
+                    else
+                        cmp.complete()
                     end
-                    cmp.confirm()
-                else
-                    fallback()
-                end
-            end, { "i", "s", "c" }),
+                end,
+                i = function(fallback)
+                    -- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
+                    if cmp.visible() then
+                        local entry = cmp.get_selected_entry()
+                        if not entry then
+                            cmp.select_next_item { behavior = cmp.SelectBehavior.Select }
+                        end
+                        cmp.confirm()
+                    else
+                        fallback()
+                    end
+                end,
+            },
 
-            ["<S-Tab>"] = cmp.mapping(function(fallback)
-                cmp_ultisnips_mappings.jump_backwards(fallback)
-            end, { "i", "s" }),
+            ["<S-Tab>"] = cmp.mapping {
+                c = function()
+                    if cmp.visible() then
+                        cmp.select_prev_item { behavior = cmp.SelectBehavior.Insert }
+                    else
+                        cmp.complete()
+                    end
+                end,
+            },
         },
         sources = cmp.config.sources({
             { name = "nvim_lsp" },
