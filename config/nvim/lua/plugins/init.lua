@@ -78,7 +78,9 @@ return require("packer").startup(function()
     use { "hrsh7th/cmp-path" }
     use { "hrsh7th/cmp-cmdline" }
     use { "ray-x/cmp-treesitter" }
-    use "SirVer/ultisnips"
+    use { "SirVer/ultisnips", requires = {
+        { "honza/vim-snippets", rtp = "." },
+    } }
     use "quangnguyen30192/cmp-nvim-ultisnips"
 
     use { "onsails/lspkind-nvim", config = require "plugins.lspkind" }

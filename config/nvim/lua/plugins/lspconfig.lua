@@ -31,15 +31,14 @@ return function()
         buf_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
         buf_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
         buf_set_keymap("n", "<space>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-        buf_set_keymap("n", "<C-A-l>", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+        buf_set_keymap("n", "<C-l>", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
     end
+    local cmp_nvim_lsp = require "cmp_nvim_lsp"
     -- config that activates keymaps and enables snippet support
     local function make_config()
         local capabilities = vim.lsp.protocol.make_client_capabilities()
-        capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
-        capabilities.textDocument.completion.completionItem.snippetSupport = true
+        capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
         return {
-            -- enable snippet support
             capabilities = capabilities,
             -- map buffer local keybindings when the language server attaches
             on_attach = on_attach,
@@ -47,7 +46,6 @@ return function()
     end
 
     local servers = require("nvim-lsp-installer").get_installed_servers()
-
 
     for _, server in pairs(servers) do
         local config = make_config()
