@@ -26,7 +26,13 @@
       path: config/nvim/lua/*
     # alacritty
     ~/.config/alacritty/alacritty.yml: config/alacritty/alacritty.yml
-
+    # lazygit
+    ~/Library/Application Support/lazygit/config.yml:
+      path: config/lazygit/config.yml
+      if: '[ `uname -s` = Darwin ]'
+    ~/.config/lazygit/config.yml:
+      path: config/lazygit/config.yml
+      if: '[ `uname -s` = Linux ]'
 - shell:
     - [
         cd ~ && rm -rf .tmux && git clone https://github.com/gpakosz/.tmux.git && ln -s -f .tmux/.tmux.conf,
