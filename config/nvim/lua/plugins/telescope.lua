@@ -31,6 +31,7 @@ return function()
         },
     }
     telescope.load_extension "project"
+    telescope.load_extension "cmake"
     telescope.load_extension "fzf"
     telescope.load_extension "hop"
 end

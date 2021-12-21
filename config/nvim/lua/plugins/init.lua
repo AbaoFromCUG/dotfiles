@@ -49,16 +49,11 @@ return require("packer").startup(function()
 
     -- cmake
     use "skywind3000/asyncrun.vim"
-    use { "Shatur/neovim-cmake" }
+    use { "Shatur/neovim-cmake", config = require "plugins.cmake" }
 
     -- project
     use "ahmedkhalf/project.nvim"
-    use {
-        "windwp/nvim-projectconfig",
-        config = function()
-            require("nvim-projectconfig").load_project_config()
-        end,
-    }
+    use { "windwp/nvim-projectconfig", config = require "plugins.projectconfig" }
     -- dashboard
     use "glepnir/dashboard-nvim"
 
