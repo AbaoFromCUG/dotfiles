@@ -3,7 +3,7 @@ return function()
     local cmp_ultisnips_mappings = require "cmp_nvim_ultisnips.mappings"
     local lspkind = require "lspkind"
     cmp.setup {
-        completion = { completeopt = "menu,menuone,noinsert" },
+        completion = { completeopt = "menu,menuone,noselect" },
         snippet = {
             expand = function(args)
                 vim.fn["UltiSnips#Anon"](args.body)
