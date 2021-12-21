@@ -33,6 +33,15 @@ let g:dashboard_custom_header = [
 \ ' ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║',
 \ ' ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝',
 \]
+let g:dashboard_custom_shortcut={
+\ 'last_session'       : 'SPC s l',
+\ 'find_history'       : 'SPC f h',
+\ 'find_file'          : 'SPC f f',
+\ 'new_file'           : 'SPC n f',
+\ 'change_colorscheme' : 'SPC c c',
+\ 'find_word'          : 'SPC f w',
+\ 'book_marks'         : 'SPC f m',
+\ }
 
 " copy to system clipboard
 vmap <leader>y "+y

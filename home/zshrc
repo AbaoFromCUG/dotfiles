@@ -111,6 +111,7 @@ function docker_ip() {
 }
 
 alias vim=nvim
+alias s='neofetch|lolcat'
 
 eval "$(pyenv init -)"
 

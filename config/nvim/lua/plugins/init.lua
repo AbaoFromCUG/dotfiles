@@ -43,6 +43,7 @@ return require("packer").startup(function()
 
     -- debug
     use { "mfussenegger/nvim-dap", config = require "plugins.dap" }
+    use { "Pocco81/DAPInstall.nvim" }
     use { "rcarriga/nvim-dap-ui", config = require "plugins.dapui" }
     use { "theHamsta/nvim-dap-virtual-text" }
     use { "nvim-telescope/telescope-dap.nvim" }
