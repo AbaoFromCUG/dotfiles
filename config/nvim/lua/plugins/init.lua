@@ -4,11 +4,12 @@ vim.cmd [[packadd packer.nvim]]
 -- Only if your version of Neovim doesn't have https://github.com/neovim/neovim/pull/12632 merged
 -- vim._update_package_paths()
 
-return require("packer").startup(function()
+return require("packer").startup(function(use)
     -- base plugin
     use "wbthomason/packer.nvim"
     use { "nvim-lua/plenary.nvim" }
     use "nvim-lua/popup.nvim"
+
     -- theme & color
     use { "projekt0n/github-nvim-theme", config = require "plugins.theme" }
     use {
@@ -29,6 +30,10 @@ return require("packer").startup(function()
     use { "nvim-telescope/telescope-hop.nvim" }
     use { "nvim-telescope/telescope-project.nvim" }
     use { "nvim-telescope/telescope-dap.nvim" }
+    use { "nvim-telescope/telescope-symbols.nvim" }
+
+    -- session
+    use { "Shatur/neovim-session-manager", config = require "plugins.session" }
 
     -- icon
     use "kyazdani42/nvim-web-devicons"
@@ -53,8 +58,9 @@ return require("packer").startup(function()
 
     -- project
     use { "windwp/nvim-projectconfig", config = require "plugins.projectconfig" }
+
     -- dashboard
-    use "glepnir/dashboard-nvim"
+    use { "glepnir/dashboard-nvim", config = require "plugins.dashboard" }
 
     -- editor
     use { "windwp/nvim-autopairs", config = require "plugins.autopairs" }

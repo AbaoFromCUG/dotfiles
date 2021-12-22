@@ -1,11 +1,12 @@
- -- stylua: ignore start
-local keys = {"a", "s", "d", "f", "g", "h", "j", "k", "l", ";",
-              "q", "w", "e", "r", "t", "y", "u", "i", "o", "p",
-              "A", "S", "D", "F", "G", "H", "J", "K", "L", ":",
-              "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", }
--- stylua: ignore end
---
 return function()
+
+    -- stylua: ignore start
+    local keys = {"a", "s", "d", "f", "g", "h", "j", "k", "l", ";",
+                  "q", "w", "e", "r", "t", "y", "u", "i", "o", "p",
+                  "A", "S", "D", "F", "G", "H", "J", "K", "L", ":",
+                  "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", }
+    -- stylua: ignore end
+
     local telescope = require "telescope"
     local actions = require "telescope._extensions.hop.actions"
     telescope.setup {
@@ -16,14 +17,14 @@ return function()
                 i = {
                     -- IMPORTANT
                     -- either hot-reloaded or `function(prompt_bufnr) telescope.extensions.hop.hop end`
-                    ["<C-h>"] = R("telescope").extensions.hop.hop, -- hop.hop_toggle_selection
+                    ["<C-h>"] =telescope.extensions.hop.hop, -- hop.hop_toggle_selection
                     -- custom hop loop to multi selects and sending selected entries to quickfix list
                     ["<C-l>"] = function(prompt_bufnr)
                         local opts = {
                             callback = actions.toggle_selection,
                             loop_callback = actions.send_selected_to_qflist,
                         }
-                        require("telescope").extensions.hop._hop_loop(prompt_bufnr, opts)
+                        telescope.extensions.hop._hop_loop(prompt_bufnr, opts)
                     end,
                 },
             },
@@ -69,4 +70,5 @@ return function()
     telescope.load_extension "fzf"
     telescope.load_extension "hop"
     telescope.load_extension "dap"
+    telescope.load_extension "sessions"
 end

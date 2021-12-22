@@ -28,21 +28,7 @@ local fn = vim.fn
 local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
     fn.system { "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path }
-    vim.cmd "packadd packer.nvim"
 end
 
 require "plugins"
 
-P = function(v)
-    print(vim.inspect(v))
-    return v
-end
-
-if pcall(require, "plenary") then
-    RELOAD = require("plenary.reload").reload_module
-
-    R = function(name)
-        RELOAD(name)
-        return require(name)
-    end
-end

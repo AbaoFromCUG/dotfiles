@@ -17,13 +17,9 @@
       path: home/*
       prefix: "."
     # nvim
-    ~/.config/nvim/init.lua: config/nvim/init.lua
-    ~/.config/nvim/plugin:
+    ~/.config/nvim/:
       glob: true
-      path: config/nvim/plugin/*
-    ~/.config/nvim/lua:
-      glob: true
-      path: config/nvim/lua/*
+      path: config/nvim/*
     # alacritty
     ~/.config/alacritty/alacritty.yml: config/alacritty/alacritty.yml
     # lazygit
