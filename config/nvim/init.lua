@@ -13,12 +13,10 @@ vim.opt.hlsearch = true
 vim.opt.incsearch = true
 vim.opt.ignorecase = true
 
-
 -- code indent
 vim.opt.autoindent = true
 vim.opt.cindent = true
 vim.opt.smartindent = true
-
 
 -- encodeing
 vim.opt.langmenu = "zh_CN.UTR-8"
@@ -27,11 +25,24 @@ vim.opt.encoding = "utf8"
 
 -- Plugin config
 local fn = vim.fn
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
-  fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-  vim.cmd 'packadd packer.nvim'
+    fn.system { "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path }
+    vim.cmd "packadd packer.nvim"
 end
 
-require("plugins")
+require "plugins"
 
+P = function(v)
+    print(vim.inspect(v))
+    return v
+end
+
+if pcall(require, "plenary") then
+    RELOAD = require("plenary.reload").reload_module
+
+    R = function(name)
+        RELOAD(name)
+        return require(name)
+    end
+end

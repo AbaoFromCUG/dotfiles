@@ -8,7 +8,7 @@ nmap <Leader>ss :<C-u>SessionSave<CR>
 nmap <Leader>sl :<C-u>SessionLoad<CR>
 nnoremap <silent> <Leader>fh :DashboardFindHistory<CR>
 nnoremap <silent> <Leader>ff :DashboardFindFile<CR>
-nnoremap <silent> <Leader>tc :DashboardChangeColorscheme<CR>
+nnoremap <silent> <Leader>cc :DashboardChangeColorscheme<CR>
 nnoremap <silent> <Leader>fw :DashboardFindWord<CR>
 nnoremap <silent> <Leader>fm :DashboardJumpMark<CR>
 nnoremap <silent> <Leader>nf :DashboardNewFile<CR>

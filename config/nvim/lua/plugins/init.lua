@@ -23,12 +23,12 @@ return require("packer").startup(function()
     -- terminal
     use { "akinsho/nvim-toggleterm.lua", config = require "plugins.toggleterm" }
 
-    -- fuzzy finder
+    -- telescope
     use { "nvim-telescope/telescope.nvim", config = require "plugins.telescope" }
     use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
-    use { "nvim-telescope/telescope-fzf-writer.nvim" }
     use { "nvim-telescope/telescope-hop.nvim" }
     use { "nvim-telescope/telescope-project.nvim" }
+    use { "nvim-telescope/telescope-dap.nvim" }
 
     -- icon
     use "kyazdani42/nvim-web-devicons"
@@ -46,14 +46,12 @@ return require("packer").startup(function()
     use { "Pocco81/DAPInstall.nvim" }
     use { "rcarriga/nvim-dap-ui", config = require "plugins.dapui" }
     use { "theHamsta/nvim-dap-virtual-text" }
-    use { "nvim-telescope/telescope-dap.nvim" }
 
     -- cmake
     use "skywind3000/asyncrun.vim"
     use { "Shatur/neovim-cmake", config = require "plugins.cmake" }
 
     -- project
-    use "ahmedkhalf/project.nvim"
     use { "windwp/nvim-projectconfig", config = require "plugins.projectconfig" }
     -- dashboard
     use "glepnir/dashboard-nvim"
