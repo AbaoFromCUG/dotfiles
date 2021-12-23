@@ -38,7 +38,7 @@ return require("packer").startup(function(use)
     -- icon
     use "kyazdani42/nvim-web-devicons"
     -- fileexplor
-    use "kevinhwang91/rnvimr"
+    use {"kyazdani42/nvim-tree.lua", config = require"plugins.filetree"}
     -- treesitter
     use {
         "nvim-treesitter/nvim-treesitter",
