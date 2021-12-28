@@ -20,16 +20,6 @@ return function()
     -- vim.g.dashboard_preview_file_width = 56
 
     vim.g.dashboard_custom_footer = { "🦋neovim loaded " .. plugin_count.." plugins"  }
-    -- vim.g.dashboard_custom_shortcut = {
-    --     last_session = "SPC s l",
-    --     find_history = "SPC f h",
-    --     find_file = "SPC f f",
-    --     new_file = "SPC n f",
-    --     change_colorscheme = "SPC c c",
-    --     find_word = "SPC f w",
-    --     book_marks = "SPC f m",
-    -- }
-    --
     local function format_desc(name, shortcut)
         return { string.format("%-50s%10s", name, shortcut) }
     end

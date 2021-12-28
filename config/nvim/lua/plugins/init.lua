@@ -24,6 +24,14 @@ return require("packer").startup(function(use)
     -- terminal
     use { "akinsho/nvim-toggleterm.lua", config = require "plugins.toggleterm" }
 
+    -- browsers
+    use {
+        "glacambre/firenvim",
+        run = function()
+            vim.fn["firenvim#install"](0)
+        end,
+    }
+
     -- telescope
     use { "nvim-telescope/telescope.nvim", config = require "plugins.telescope" }
     use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
@@ -38,7 +46,7 @@ return require("packer").startup(function(use)
     -- icon
     use "kyazdani42/nvim-web-devicons"
     -- fileexplor
-    use {"kyazdani42/nvim-tree.lua", config = require"plugins.filetree"}
+    use { "kyazdani42/nvim-tree.lua", config = require "plugins.filetree" }
     -- treesitter
     use {
         "nvim-treesitter/nvim-treesitter",
@@ -48,7 +56,6 @@ return require("packer").startup(function(use)
 
     -- debug
     use { "mfussenegger/nvim-dap", config = require "plugins.dap" }
-    use { "Pocco81/DAPInstall.nvim" }
     use { "rcarriga/nvim-dap-ui", config = require "plugins.dapui" }
     use { "theHamsta/nvim-dap-virtual-text" }
 

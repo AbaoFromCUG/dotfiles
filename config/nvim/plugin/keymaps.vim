@@ -3,9 +3,8 @@ nnoremap <silent><C-t><C-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
 tnoremap <silent><C-t><C-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
 tnoremap <silent><C-t><C-r> <C-\><C-n>
 
-" dashboard
-nmap <Leader>ss :<C-u>SaveSession<CR>
-nmap <Leader>sl :<C-u>Telescope sessions<CR>
+nnoremap <Leader>ss :SaveSession<CR>
+nnoremap <Leader>fs :Telescope sessions<CR>
 nnoremap <silent> <Leader>fh :DashboardFindHistory<CR>
 nnoremap <silent> <Leader>ff :DashboardFindFile<CR>
 nnoremap <silent> <Leader>cc :DashboardChangeColorscheme<CR>
