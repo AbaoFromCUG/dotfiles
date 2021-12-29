@@ -14,17 +14,4 @@ return function()
             "/Volumes/Demon/github/vscode-node-debug2/out/src/nodeDebug.js",
         },
     }
-
-    dap.configurations.javascript = {
-        {
-            name = "Default Js",
-            type = "node2",
-            request = "launch",
-            program = "${workspaceFolder}/${file}",
-            cwd = vim.fn.getcwd(),
-            sourceMaps = true,
-            protocol = "inspector",
-            console = "integratedTerminal",
-        },
-    }
 end

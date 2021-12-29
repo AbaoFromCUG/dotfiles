@@ -2,6 +2,20 @@ return function()
     local cmp = require "cmp"
     local cmp_ultisnips_mappings = require "cmp_nvim_ultisnips.mappings"
     local lspkind = require "lspkind"
+    local selectNext = function(fallback)
+        if cmp.visible() then
+            cmp.select_next_item { behavior = cmp.SelectBehavior.Insert }
+        else
+            fallback()
+        end
+    end
+    local selectPrev = function(fallback)
+        if cmp.visible() then
+            cmp.select_prev_item { behavior = cmp.SelectBehavior.Insert }
+        else
+            fallback()
+        end
+    end
     cmp.setup {
         completion = { completeopt = "menu,menuone,noselect" },
         snippet = {
@@ -9,51 +23,40 @@ return function()
                 vim.fn["UltiSnips#Anon"](args.body)
             end,
         },
+
         mapping = {
             ["<C-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
             ["<C-p>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
-            ["<Down>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
-            ["<Up>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
+            ["<Down>"] = cmp.mapping {
+                c = function(fallback)
+                    fallback()
+                end,
+                i = selectNext,
+            },
+            ["<Up>"] = cmp.mapping {
+                c = function(fallback)
+                    fallback()
+                end,
+                i = selectPrev,
+            },
             ["<C-d>"] = cmp.mapping.scroll_docs(4),
             ["<C-u>"] = cmp.mapping.scroll_docs(-4),
             ["<C-Space>"] = cmp.mapping.complete(),
             ["<C-e>"] = cmp.mapping.close(),
-            ["<CR>"] = cmp.mapping.confirm {
-                behavior = cmp.ConfirmBehavior.Replace,
-                select = true,
-            },
-            -- Intellij-like mapping
-            ["<Tab>"] = cmp.mapping {
-                c = function()
-                    if cmp.visible() then
-                        cmp.select_next_item { behavior = cmp.SelectBehavior.Insert }
-                    else
-                        cmp.complete()
-                    end
-                end,
-                i = function(fallback)
-                    -- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
-                    if cmp.visible() then
-                        local entry = cmp.get_selected_entry()
-                        if not entry then
-                            cmp.select_next_item { behavior = cmp.SelectBehavior.Select }
-                        end
-                        cmp.confirm()
-                    else
-                        fallback()
-                    end
-                end,
-            },
-
-            ["<S-Tab>"] = cmp.mapping {
-                c = function()
-                    if cmp.visible() then
-                        cmp.select_prev_item { behavior = cmp.SelectBehavior.Insert }
-                    else
-                        cmp.complete()
-                    end
-                end,
-            },
+            ["<CR>"] = function(fallback)
+                if cmp.get_selected_entry() then
+                    cmp.confirm {
+                        behavior = cmp.ConfirmBehavior.Replace,
+                        select = true,
+                    }
+                elseif cmp.visible() then
+                    cmp.close()
+                else
+                    fallback()
+                end
+            end,
+            ["<Tab>"] = cmp.mapping(selectNext, { "c", "i" }),
+            ["<S-Tab>"] = cmp.mapping(selectPrev, { "c", "i" }),
         },
         sources = cmp.config.sources({
             { name = "nvim_lsp" },
