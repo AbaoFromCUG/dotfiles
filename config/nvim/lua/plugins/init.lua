@@ -7,8 +7,9 @@ vim.cmd [[packadd packer.nvim]]
 return require("packer").startup(function(use)
     -- base plugin
     use "wbthomason/packer.nvim"
-    use { "nvim-lua/plenary.nvim" }
+    use "nvim-lua/plenary.nvim"
     use "nvim-lua/popup.nvim"
+    use "skywind3000/asyncrun.vim"
 
     -- theme & color
     use { "projekt0n/github-nvim-theme", config = require "plugins.theme" }
@@ -18,6 +19,12 @@ return require("packer").startup(function(use)
             require("colorizer").setup()
         end,
     }
+    -- icon
+    use "kyazdani42/nvim-web-devicons"
+
+    -- tab line
+    use { "akinsho/bufferline.nvim",config=require"plugins.bufferline"}
+
     -- status line
     use { "hoob3rt/lualine.nvim", config = require "plugins.lualine" }
 
@@ -43,10 +50,12 @@ return require("packer").startup(function(use)
     -- session
     use { "Shatur/neovim-session-manager", config = require "plugins.session" }
 
-    -- icon
-    use "kyazdani42/nvim-web-devicons"
     -- fileexplor
     use { "kyazdani42/nvim-tree.lua", config = require "plugins.filetree" }
+
+    -- dashboard
+    use { "glepnir/dashboard-nvim", config = require "plugins.dashboard" }
+
     -- treesitter
     use {
         "nvim-treesitter/nvim-treesitter",
@@ -54,47 +63,45 @@ return require("packer").startup(function(use)
         config = require "plugins.treesitter",
     }
 
-    -- debug
+    -- debugger
     use { "mfussenegger/nvim-dap", config = require "plugins.dap" }
     use { "rcarriga/nvim-dap-ui", config = require "plugins.dapui" }
     use { "theHamsta/nvim-dap-virtual-text" }
 
     -- cmake
-    use "skywind3000/asyncrun.vim"
     use { "Shatur/neovim-cmake", config = require "plugins.cmake" }
 
     -- project
     use { "windwp/nvim-projectconfig", config = require "plugins.projectconfig" }
 
-    -- dashboard
-    use { "glepnir/dashboard-nvim", config = require "plugins.dashboard" }
-
-    -- editor
-    use { "windwp/nvim-autopairs", config = require "plugins.autopairs" }
-
-    -- lsp
+    --[[
+    --       Neovim language server protocol
+    --]]
     use { "neovim/nvim-lspconfig", config = require "plugins.lspconfig" }
     use { "williamboman/nvim-lsp-installer", config = require "plugins.lspinstall" }
-
-    -- lsp completion engine
+    --[[
+    --       LSP server source
+    --]]
+    use { "jose-elias-alvarez/null-ls.nvim", config = require "plugins.null-ls" }
+    --[[
+    --       LSP completion
+    --]]
+    -- completion engine
     use { "hrsh7th/nvim-cmp", config = require "plugins.cmp" } -- Autocompletion plugin
-    -- source for builtin lsp
+    -- completion source
     use { "hrsh7th/cmp-nvim-lsp" }
-    -- snippets source
     use { "hrsh7th/cmp-buffer" }
     use { "hrsh7th/cmp-path" }
     use { "hrsh7th/cmp-cmdline" }
     use { "ray-x/cmp-treesitter" }
-    use {
-        "SirVer/ultisnips",
-        requires = {
-            { "honza/vim-snippets", rtp = "." },
-        },
-    }
-    use "quangnguyen30192/cmp-nvim-ultisnips"
-    use { "onsails/lspkind-nvim", config = require "plugins.lspkind" }
-    use { "folke/trouble.nvim", config = require "plugins.trouble" }
+    -- snippets
+    use { "quangnguyen30192/cmp-nvim-ultisnips" }
+    use { "SirVer/ultisnips" }
+    use { "honza/vim-snippets", rtp = "." }
+    -- autopair
+    use { "windwp/nvim-autopairs", config = require "plugins.autopairs" }
+    -- pictograms for lsp
+    use { "onsails/lspkind-nvim" }
 
-    -- formatter
-    use { "jose-elias-alvarez/null-ls.nvim", config = require "plugins.null-ls" }
+    use { "folke/trouble.nvim", config = require "plugins.trouble" }
 end)

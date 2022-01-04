@@ -13,6 +13,7 @@ vim.opt.relativenumber = true
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
 vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
 -- code indent
 vim.opt.autoindent = true
