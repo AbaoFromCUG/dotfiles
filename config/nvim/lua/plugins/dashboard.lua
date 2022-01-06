@@ -19,7 +19,7 @@ return function()
     -- vim.g.dashboard_preview_file_height = 6
     -- vim.g.dashboard_preview_file_width = 56
 
-    vim.g.dashboard_custom_footer = { "🦋neovim loaded " .. plugin_count.." plugins"  }
+    vim.g.dashboard_custom_footer = { "🦋neovim loaded " .. plugin_count .. " plugins" }
     local function format_desc(name, shortcut)
         return { string.format("%-50s%10s", name, shortcut) }
     end
@@ -61,4 +61,19 @@ return function()
             end,
         },
     }
+    local opts = {
+        noremap = true,
+    }
+    local bind = function(key, command)
+        vim.api.nvim_set_keymap("n", "<Leader>" .. key, ":" .. command .. "<CR>", opts)
+    end
+    bind("ss", "SaveSession")
+    bind("fs", "Telescope sessions")
+    bind("ff", "Telescope find_files")
+    bind("fh", "Telescope oldfiles")
+    bind("fc", "Telescope colorscheme")
+    bind("fw", "Telescope live_grep")
+    bind("fm", "Telescope marks")
+    bind("nf", "DashboardNewFile")
+    bind("fp", "Telescope project")
 end
