@@ -29,6 +29,14 @@
     ~/.config/lazygit/config.yml:
       path: config/lazygit/config.yml
       if: '[ `uname -s` = Linux ]'
+    # i3
+    ~/.config/i3/:
+      glob: true
+      path: config/i3/*
+      if: '[ `uname -s` = Linux ]'
+    ~/.config/i3status/config:
+      path: config/i3status/config
+      if: '[ `uname -s` = Linux ]'
 - shell:
     - [
         cd ~ && rm -rf .tmux && git clone https://github.com/gpakosz/.tmux.git && ln -s -f .tmux/.tmux.conf,
