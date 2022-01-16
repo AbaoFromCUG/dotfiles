@@ -5,7 +5,7 @@ return function()
         sources = {
             null_ls.builtins.formatting.stylua.with {
                 condition = function(utils)
-                    return utils.root_has_file "stylua.toml" or utils.root_has_file ".stylua.toml"
+                    return utils.root_has_file { "stylua.toml", ".stylua.toml" }
                 end,
             },
             null_ls.builtins.formatting.cmake_format,

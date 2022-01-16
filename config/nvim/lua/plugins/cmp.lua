@@ -2,9 +2,6 @@ return function()
     local cmp = require "cmp"
     local cmp_ultisnips_mappings = require "cmp_nvim_ultisnips.mappings"
     local lspkind = require "lspkind"
-    local t = function(str)
-        return vim.api.nvim_replace_termcodes(str, true, true, true)
-    end
     local selectNext = function(fallback)
         if cmp.visible() then
             cmp.select_next_item { behavior = cmp.SelectBehavior.Insert }

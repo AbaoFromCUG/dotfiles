@@ -23,7 +23,7 @@ return require("packer").startup(function(use)
     use "kyazdani42/nvim-web-devicons"
 
     -- tab line
-    use { "akinsho/bufferline.nvim",config=require"plugins.bufferline"}
+    use { "akinsho/bufferline.nvim", config = require "plugins.bufferline" }
 
     -- status line
     use { "hoob3rt/lualine.nvim", config = require "plugins.lualine" }
@@ -41,6 +41,7 @@ return require("packer").startup(function(use)
 
     -- telescope
     use { "nvim-telescope/telescope.nvim", config = require "plugins.telescope" }
+    use { "nvim-telescope/telescope-ui-select.nvim" }
     use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
     use { "nvim-telescope/telescope-hop.nvim" }
     use { "nvim-telescope/telescope-project.nvim" }

@@ -14,7 +14,7 @@ return function()
         -- Height of the opened quickfix.
         quickfix_height = 10,
         -- DAP configuration. By default configured to work with `lldb-vscode`.
-        dap_configuration = { type = 'lldb', request = 'launch' },
+        dap_configuration = { type = "lldb", request = "launch" },
         -- Command to run after starting DAP session.
         -- You can set it to `false` if you don't want to open anything or `require('dapui').open` if you are using https://github.com/rcarriga/nvim-dap-ui
         dap_open_command = require("dap").repl.open,
