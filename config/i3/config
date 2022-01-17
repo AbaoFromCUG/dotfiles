@@ -218,7 +218,7 @@ bar {
 
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec_always --no-startup-id fcitx
-exec_always --no-startup-id /opt/v2ray-desktop/v2ray-desktop
+exec_always --no-startup-id across
 
 
 # Tim Wechat

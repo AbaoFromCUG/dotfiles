@@ -25,7 +25,7 @@ return function()
     end
     vim.g.dashboard_custom_section = {
         project_list = {
-            description = format_desc("📦Open Project", "SPC p l"),
+            description = format_desc("📦Open Project", "SPC f p"),
             command = function()
                 telescope.extensions.project.project {}
             end,
