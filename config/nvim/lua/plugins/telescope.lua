@@ -17,7 +17,7 @@ return function()
                 i = {
                     -- IMPORTANT
                     -- either hot-reloaded or `function(prompt_bufnr) telescope.extensions.hop.hop end`
-                    ["<C-h>"] =telescope.extensions.hop.hop, -- hop.hop_toggle_selection
+                    ["<C-h>"] = telescope.extensions.hop.hop, -- hop.hop_toggle_selection
                     -- custom hop loop to multi selects and sending selected entries to quickfix list
                     ["<C-l>"] = function(prompt_bufnr)
                         local opts = {

@@ -1,6 +1,9 @@
 return function()
+    local feedkey = function(key, mode)
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+    end
+
     local cmp = require "cmp"
-    local cmp_ultisnips_mappings = require "cmp_nvim_ultisnips.mappings"
     local lspkind = require "lspkind"
     local selectNext = function(fallback)
         if cmp.visible() then
@@ -16,6 +19,24 @@ return function()
             fallback()
         end
     end
+    local selectNextOrSnippet = function(fallback)
+        if cmp.visible() and cmp.get_active_entry() then
+            cmp.select_next_item { behavior = cmp.SelectBehavior.Insert }
+        elseif vim.fn["vsnip#available"](1) == 1 then
+            feedkey("<Plug>(vsnip-expand-or-jump)", "")
+        else
+            fallback()
+        end
+    end
+    local selectPrevOrSnippet = function(fallback)
+        if cmp.visible() or cmp.get_active_entry() then
+            cmp.select_prev_item { behavior = cmp.SelectBehavior.Insert }
+        elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+            feedkey("<Plug>(vsnip-jump-prev)", "")
+        else
+            fallback()
+        end
+    end
     local doNothing = function(fallback)
         fallback()
     end
@@ -23,10 +44,9 @@ return function()
         completion = { completeopt = "menu,menuone,noselect" },
         snippet = {
             expand = function(args)
-                vim.fn["UltiSnips#Anon"](args.body)
+                vim.fn["vsnip#anonymous"](args.body)
             end,
         },
-
         mapping = {
             ["<C-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
             ["<C-p>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
@@ -56,41 +76,13 @@ return function()
             end,
             ["<Tab>"] = cmp.mapping {
                 c = selectNext,
-                i = function(fallback)
-                    if cmp.visible() and cmp.get_active_entry() then
-                        cmp.select_next_item { behavior = cmp.SelectBehavior.Insert }
-                    elseif vim.fn["UltiSnips#CanJumpForwards"]() == 1 then
-                        cmp_ultisnips_mappings.compose({ "jump_forwards" })(fallback)
-                    else
-                        fallback()
-                    end
-                end,
-                s = function(fallback)
-                    if vim.fn["UltiSnips#CanJumpForwards"]() == 1 then
-                        cmp_ultisnips_mappings.compose({ "jump_forwards" })(fallback)
-                    else
-                        fallback()
-                    end
-                end,
+                i = selectNextOrSnippet,
+                s = selectNextOrSnippet,
             },
             ["<S-Tab>"] = cmp.mapping {
                 c = selectPrev,
-                i = function(fallback)
-                    if cmp.visible() and cmp.get_active_entry() then
-                        cmp.select_prev_item { behavior = cmp.SelectBehavior.Insert }
-                    elseif vim.fn["UltiSnips#CanJumpBackwards"]() == 1 then
-                        cmp_ultisnips_mappings.jump_backwards(fallback)
-                    else
-                        fallback()
-                    end
-                end,
-                s = function(fallback)
-                    if vim.fn["UltiSnips#CanJumpBackwards"]() == 1 then
-                        cmp_ultisnips_mappings.jump_backwards(fallback)
-                    else
-                        fallback()
-                    end
-                end,
+                i = selectPrevOrSnippet,
+                s = selectPrevOrSnippet,
             },
         },
         sources = cmp.config.sources({
@@ -99,7 +91,7 @@ return function()
             { name = "path" },
             { name = "comdline" },
             { name = "treesitter" },
-            { name = "ultisnips" },
+            { name = "vsnip" },
         }, {
             { name = "buffer" },
         }),
@@ -107,11 +99,12 @@ return function()
             format = lspkind.cmp_format {
                 with_text = true,
                 menu = {
-                    buffer = "[Buffer]",
-                    nvim_lsp = "[LSP]",
-                    nvim_lua = "[Lua]",
-                    latex_symbols = "[Latex]",
-                    ultisnips = "[Ultisnips]",
+                    nvim_lsp = "[lsp]",
+                    buffer = "[buffer]",
+                    path = "[path]",
+                    nvim_lua = "[lua]",
+                    latex_symbols = "[latex]",
+                    vsnip = "[vsnip]",
                 },
             },
         },
@@ -131,12 +124,4 @@ return function()
             { name = "cmdline" },
         }),
     })
-    -- you need setup cmp first put this after cmp.setup()
-    -- require("nvim-autopairs.completion.cmp").setup({
-    --   map_cr = true, --  map <CR> on insert mode
-    --   map_complete = true, -- it will auto insert `(` after select function or method item
-    --   auto_select = true -- automatically select the first item
-    -- })
-    -- local cmp_autopairs = require "nvim-autopairs.completion.cmp"
-    -- cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done { map_char = { tex = "" } })
 end

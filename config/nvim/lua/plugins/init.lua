@@ -11,14 +11,15 @@ return require("packer").startup(function(use)
     use "nvim-lua/popup.nvim"
     use "skywind3000/asyncrun.vim"
 
+    --[[
+    --  Editor UI
+    --]]
+
     -- theme & color
     use { "projekt0n/github-nvim-theme", config = require "plugins.theme" }
-    use {
-        "norcalli/nvim-colorizer.lua",
-        config = function()
-            require("colorizer").setup()
-        end,
-    }
+
+    -- color text colorizer, e.g. #612208
+    use { "norcalli/nvim-colorizer.lua", config = require("colorizer").setup() }
     -- icon
     use "kyazdani42/nvim-web-devicons"
 
@@ -27,6 +28,13 @@ return require("packer").startup(function(use)
 
     -- status line
     use { "hoob3rt/lualine.nvim", config = require "plugins.lualine" }
+    use { "arkav/lualine-lsp-progress" }
+    use { "SmiteshP/nvim-gps", config = require "plugins.gps" }
+
+    use { "lukas-reineke/indent-blankline.nvim", config = require "plugins.indent_blankline" }
+
+    -- git
+    use { "lewis6991/gitsigns.nvim", config = require "plugins.gitsigns" }
 
     -- terminal
     use { "akinsho/nvim-toggleterm.lua", config = require "plugins.toggleterm" }
@@ -38,6 +46,9 @@ return require("packer").startup(function(use)
             vim.fn["firenvim#install"](0)
         end,
     }
+
+    -- which key
+    use { "folke/which-key.nvim", config = require "plugins.which-key" }
 
     -- telescope
     use { "nvim-telescope/telescope.nvim", config = require "plugins.telescope" }
@@ -96,13 +107,16 @@ return require("packer").startup(function(use)
     use { "hrsh7th/cmp-cmdline" }
     use { "ray-x/cmp-treesitter" }
     -- snippets
-    use { "quangnguyen30192/cmp-nvim-ultisnips" }
-    use { "SirVer/ultisnips" }
-    use { "honza/vim-snippets", rtp = "." }
+    use { "hrsh7th/cmp-vsnip" }
+    use { "hrsh7th/vim-vsnip" }
+    use { "rafamadriz/friendly-snippets" }
+
+    use { "ray-x/lsp_signature.nvim" ,config = require"plugins.lsp_signature"}
+
     -- autopair
     use { "windwp/nvim-autopairs", config = require "plugins.autopairs" }
     -- pictograms for lsp
     use { "onsails/lspkind-nvim" }
-
+    -- diagnostic
     use { "folke/trouble.nvim", config = require "plugins.trouble" }
 end)

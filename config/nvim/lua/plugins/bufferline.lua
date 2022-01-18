@@ -15,6 +15,12 @@ return function()
                 },
             },
             separator_style = "slant",
+            custom_filter = function (buf_number, buf_numbers)
+                if vim.bo[buf_number].filetype == "dap-repl" then
+                    return false
+                end
+                return true
+            end
         },
     }
 end

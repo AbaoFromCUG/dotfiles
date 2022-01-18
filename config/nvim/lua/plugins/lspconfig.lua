@@ -1,7 +1,9 @@
 return function()
     -- local nvim_lsp = require('lspconfig')
     -- reference https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+    local lsp_signature = require "lsp_signature"
     local on_attach = function(client, bufnr)
+        lsp_signature.on_attach()
         local function buf_set_keymap(...)
             vim.api.nvim_buf_set_keymap(bufnr, ...)
         end

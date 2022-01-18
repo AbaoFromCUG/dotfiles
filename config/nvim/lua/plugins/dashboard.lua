@@ -67,7 +67,7 @@ return function()
     local bind = function(key, command)
         vim.api.nvim_set_keymap("n", "<Leader>" .. key, ":" .. command .. "<CR>", opts)
     end
-    bind("ss", "SaveSession")
+    bind("ss", "SessionSave")
     bind("fs", "Telescope sessions")
     bind("ff", "Telescope find_files")
     bind("fh", "Telescope oldfiles")
