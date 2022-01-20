@@ -19,7 +19,7 @@ return require("packer").startup(function(use)
     use { "projekt0n/github-nvim-theme", config = require "plugins.theme" }
 
     -- color text colorizer, e.g. #612208
-    use { "norcalli/nvim-colorizer.lua", config = require("colorizer").setup() }
+    use { "norcalli/nvim-colorizer.lua", config = require "plugins.colorizer" }
     -- icon
     use "kyazdani42/nvim-web-devicons"
 
@@ -111,7 +111,7 @@ return require("packer").startup(function(use)
     use { "hrsh7th/vim-vsnip" }
     use { "rafamadriz/friendly-snippets" }
 
-    use { "ray-x/lsp_signature.nvim" ,config = require"plugins.lsp_signature"}
+    use { "ray-x/lsp_signature.nvim", config = require "plugins.lsp_signature" }
 
     -- autopair
     use { "windwp/nvim-autopairs", config = require "plugins.autopairs" }
@@ -119,4 +119,9 @@ return require("packer").startup(function(use)
     use { "onsails/lspkind-nvim" }
     -- diagnostic
     use { "folke/trouble.nvim", config = require "plugins.trouble" }
+
+    --[[
+    --      Editor 
+    --]]
+    use { "nvim-orgmode/orgmode", config = require "plugins.orgmode" }
 end)

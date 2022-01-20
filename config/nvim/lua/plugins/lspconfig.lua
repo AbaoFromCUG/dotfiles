@@ -1,7 +1,7 @@
 return function()
     -- local nvim_lsp = require('lspconfig')
     -- reference https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-    local lsp_signature = require "lsp_signature"
+    local lsp_signature = require("lsp_signature")
     local on_attach = function(client, bufnr)
         lsp_signature.on_attach()
         local function buf_set_keymap(...)
@@ -35,7 +35,7 @@ return function()
         buf_set_keymap("n", "<space>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
         buf_set_keymap("n", "<M-C-l>", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
     end
-    local cmp_nvim_lsp = require "cmp_nvim_lsp"
+    local cmp_nvim_lsp = require("cmp_nvim_lsp")
     -- config that activates keymaps and enables snippet support
     local function make_config()
         local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -52,7 +52,9 @@ return function()
     for _, server in pairs(servers) do
         local config = make_config()
         if server.name == "sumneko_lua" then
-            config.settings = require "lsp.lua.settings"
+            require("lsp.sumneko_lua")(config)
+        elseif server.name == "clangd" then
+            require("lsp.clangd")(config)
         end
         server:setup(config)
     end
