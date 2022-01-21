@@ -30,7 +30,7 @@ return function()
         autopairs = {
             enable = true,
         },
-        matchip = { enable = true },
+        matchup = { enable = true },
         rainbow = {
             enable = true,
             extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
