@@ -4,8 +4,7 @@ return function()
     -- 0 by default, this option shows indent markers when folders are open
     vim.g.nvim_tree_indent_markers = 1
     -- 0 by default, will enable file highlight for git attributes (can be used without the icons).
-    vim.g.nvim_tree_git_hl = 1
-    -- 0 by default, will enable folder and file icon highlight for opened files/directories.
+    vim.g.nvim_tree_git_hl = 1 -- 0 by default, will enable folder and file icon highlight for opened files/directories.
     vim.g.nvim_tree_highlight_opened_files = 1
     --This is the default. See :help filename-modifiers for more options
     vim.g.nvim_tree_root_folder_modifier = ":~"
@@ -81,11 +80,6 @@ return function()
         },
     }
 
-    local opts = { noremap = true }
-    vim.api.nvim_set_keymap("n", "<C-n>", ":NvimTreeToggle<CR>", opts)
-    vim.api.nvim_set_keymap("n", "<leader>r", ":NvimTreeRefresh<CR>", opts)
-    vim.api.nvim_set_keymap('n', '<leader>n', ":NvimTreeFindFile<CR>", opts)
-
     -- following options are the default
     -- each of these are documented in `:help nvim-tree.OPTION_NAME`
     require("nvim-tree").setup {
@@ -147,4 +141,8 @@ return function()
             require_confirm = true,
         },
     }
+    local opts = { noremap = true }
+    vim.api.nvim_set_keymap("n", "<C-b>", ":NvimTreeToggle<CR>", opts)
+    vim.api.nvim_set_keymap("n", "<C-k>r", ":NvimTreeRefresh<CR>", opts)
+    vim.api.nvim_set_keymap("n", "<C-k>f", ":NvimTreeFindFile<CR>", opts)
 end

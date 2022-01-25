@@ -72,7 +72,7 @@ return require("packer").startup(function(use)
     use { "ray-x/cmp-treesitter" }
     -- snippets
     use { "hrsh7th/cmp-vsnip" }
-    use { "hrsh7th/vim-vsnip" }
+    use { "hrsh7th/vim-vsnip", config = require("plugins.snippet")}
     use { "rafamadriz/friendly-snippets" }
     -- show signature
     use { "ray-x/lsp_signature.nvim", config = require "plugins.lsp_signature" }
