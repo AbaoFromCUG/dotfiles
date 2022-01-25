@@ -1,5 +1,8 @@
 
 return function()
+    local opts = { noremap = true }
+    vim.api.nvim_set_keymap("n", "<C-t><C-t>", ":exec v:count1 . ToggleTerm<CR>", opts)
+    vim.api.nvim_set_keymap("t", "<C-t><C-t>", ":exec v:count1 . ToggleTerm<CR>", opts)
   require('toggleterm').setup({
     -- size can be a number or function which is passed the current terminal
     size = 15,

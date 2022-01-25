@@ -84,7 +84,7 @@ return function()
     local opts = { noremap = true }
     vim.api.nvim_set_keymap("n", "<C-n>", ":NvimTreeToggle<CR>", opts)
     vim.api.nvim_set_keymap("n", "<leader>r", ":NvimTreeRefresh<CR>", opts)
-    -- vim.api.nvim_set_keymap('n', '<leader>n', ":NvimTreeFindFile<CR>", opts)
+    vim.api.nvim_set_keymap('n', '<leader>n', ":NvimTreeFindFile<CR>", opts)
 
     -- following options are the default
     -- each of these are documented in `:help nvim-tree.OPTION_NAME`
