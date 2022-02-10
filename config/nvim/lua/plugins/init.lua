@@ -72,7 +72,7 @@ return require("packer").startup(function(use)
     use { "ray-x/cmp-treesitter" }
     -- snippets
     use { "hrsh7th/cmp-vsnip" }
-    use { "hrsh7th/vim-vsnip", config = require("plugins.snippet")}
+    use { "hrsh7th/vim-vsnip", config = require "plugins.snippet" }
     use { "rafamadriz/friendly-snippets" }
     -- show signature
     use { "ray-x/lsp_signature.nvim", config = require "plugins.lsp_signature" }
@@ -91,7 +91,6 @@ return require("packer").startup(function(use)
     --      Editor
     --]]
     use { "windwp/nvim-autopairs", config = require "plugins.autopairs" }
-    use { "nvim-orgmode/orgmode", config = require "plugins.orgmode" }
     --[[
     --      Tool
     --]]
@@ -106,6 +105,7 @@ return require("packer").startup(function(use)
     use { "folke/which-key.nvim", config = require "plugins.which-key" }
     use { "kyazdani42/nvim-tree.lua", config = require "plugins.filetree" }
     use { "glepnir/dashboard-nvim", config = require "plugins.dashboard" }
+    use { "iamcco/markdown-preview.nvim", config = require "plugins.markdown" }
 
     --[[
     --      Project manager

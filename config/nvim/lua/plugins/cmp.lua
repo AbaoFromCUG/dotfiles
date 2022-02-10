@@ -92,7 +92,6 @@ return function()
             { name = "comdline" },
             { name = "treesitter" },
             { name = "vsnip" },
-            { name = "orgmode" },
         }, {
             { name = "buffer" },
         }),
