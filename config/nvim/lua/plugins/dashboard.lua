@@ -2,7 +2,7 @@ return function()
     local telescope = require "telescope"
     local builtin = require "telescope.builtin"
     local fn = vim.fn
-    local install_path = fn.stdpath "data" .. "/site/pack/*/start/"
+    local install_path = fn.stdpath "data" .. "/site/pack/*/*/"
     local plugin_count = #fn.split(fn.globpath(install_path, "*"), "\n")
     vim.g.dashboard_default_executive = "telescope"
     vim.g.dashboard_custom_header = {

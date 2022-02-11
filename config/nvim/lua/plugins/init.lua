@@ -105,7 +105,12 @@ return require("packer").startup(function(use)
     use { "folke/which-key.nvim", config = require "plugins.which-key" }
     use { "kyazdani42/nvim-tree.lua", config = require "plugins.filetree" }
     use { "glepnir/dashboard-nvim", config = require "plugins.dashboard" }
-    use { "iamcco/markdown-preview.nvim", config = require "plugins.markdown" }
+    use {
+        "iamcco/markdown-preview.nvim",
+        config = require "plugins.markdown",
+        run = "cd app && npm install && ./install.sh",
+        ft = { "markdown" },
+    }
 
     --[[
     --      Project manager
