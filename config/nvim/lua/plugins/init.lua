@@ -40,7 +40,8 @@ return require("packer").startup(function(use)
     use { "nvim-telescope/telescope-symbols.nvim" }
 
     -- session
-    use { "Shatur/neovim-session-manager", config = require "plugins.session" }
+    use { "rmagatti/auto-session" }
+    use { "rmagatti/session-lens", config = require "plugins.session" }
 
     --[[
     --      Treesitter
