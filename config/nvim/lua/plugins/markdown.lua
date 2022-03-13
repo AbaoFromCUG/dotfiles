@@ -1,5 +1,4 @@
 return function()
-    print("markdown")
     local opts = { noremap = true }
     vim.api.nvim_set_keymap("n", "<C-m>p", "<Plug>MarkdownPreview<CR>", opts)
     vim.api.nvim_set_keymap("n", "<C-m>r", "<Plug>MarkdownPreviewToggle<CR>", opts)

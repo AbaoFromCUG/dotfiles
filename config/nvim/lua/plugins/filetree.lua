@@ -1,6 +1,4 @@
 return function()
-    -- 0 by default, closes the tree when you open a file
-    vim.g.nvim_tree_quit_on_open = 1
     -- 0 by default, this option shows indent markers when folders are open
     vim.g.nvim_tree_indent_markers = 1
     -- 0 by default, will enable file highlight for git attributes (can be used without the icons).
@@ -12,9 +10,6 @@ return function()
     vim.g.nvim_tree_add_trailing = 1
     -- 0 by default, compact folders that only contain a single folder into one node in the file tree
     vim.g.nvim_tree_group_empty = 1
-    -- 0 by default, will disable the window picker.
-    vim.g.nvim_tree_disable_window_picker = 1
-    -- one space by default, used for rendering the space between the icon and the filename. Use with caution, it could break rendering if you set an empty string depending on your font.
     vim.g.nvim_tree_icon_padding = " "
     -- defaults to ' ➛ '. used as a separator between symlinks' source and target.
     -- vim.g.nvim_tree_symlink_arrow = " >> "
@@ -25,16 +20,6 @@ return function()
     --1000 by default, control how often the tree can be refreshed, 1000 means the tree can be refresh once per 1000ms.
     vim.g.nvim_tree_refresh_wait = 500
 
-    vim.g.nvim_tree_window_picker_exclude = {
-        filetype = {
-            "notify",
-            "packer",
-            "qf",
-        },
-        buftype = {
-            "terminal",
-        },
-    }
     -- Dictionary of buffer option names mapped to a list of option values that
     -- indicates to the window picker that the buffer's window should not be
     -- selectable.
@@ -91,6 +76,26 @@ return function()
         open_on_tab = true,
         hijack_cursor = false,
         update_cwd = false,
+        actions = {
+            open_file = {
+                -- 0 by default, will disable the window picker.
+                enable = 1,
+                -- 0 by default, closes the tree when you open a file
+                quit_on_open = 0,
+                window_picker = {
+                    exclude = {
+                        filetype = {
+                            "notify",
+                            "packer",
+                            "qf",
+                        },
+                        buftype = {
+                            "terminal",
+                        },
+                    },
+                },
+            },
+        },
         update_to_buf_dir = {
             enable = true,
             auto_open = true,
