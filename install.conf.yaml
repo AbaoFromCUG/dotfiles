@@ -30,9 +30,8 @@
       path: config/lazygit/config.yml
       if: '[ `uname -s` = Linux ]'
     # i3
-    ~/.config/i3/:
-      glob: true
-      path: config/i3/*
+    ~/.config/i3/config:
+      path: config/i3/config
       if: '[ `uname -s` = Linux ]'
     ~/.config/i3status/config:
       path: config/i3status/config
@@ -41,12 +40,4 @@
     - [
         cd ~ && rm -rf .tmux && git clone https://github.com/gpakosz/.tmux.git && ln -s -f .tmux/.tmux.conf,
         Installing oh-my-tmux,
-      ]
-    - [
-        rm -rf ~/.local/share/nvim/site/pack/packer && git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim,
-        Installing Packer,
-      ]
-    - [
-        nvim --headless -u NONE -c 'autocmd User PackerComplete quitall' -c 'lua require("plugins")' -c 'lua require("packer").sync()',
-        Installing Neovim plugins,
       ]

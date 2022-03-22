@@ -1,4 +1,5 @@
 return function()
+    require("nvim-treesitter.install").prefer_git = true
     require("nvim-treesitter.configs").setup {
         autotag = {
             enable = true,
@@ -12,7 +13,7 @@ return function()
                 "xml",
             },
         },
-        ensure_installed = { "lua", "python", "javascript", "json", "cpp", "cmake", "c", "java", "org" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+        ensure_installed = { "lua", "python", "javascript", "json", "cpp", "cmake", "c", "java" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
         ignore_install = { "haskell" }, -- List of parsers to ignore installing
         highlight = {
             enable = true, -- false will disable the whole extension
