@@ -72,7 +72,6 @@ return function()
         hijack_netrw = true,
         open_on_setup = false,
         ignore_ft_on_setup = {},
-        auto_close = true,
         open_on_tab = true,
         hijack_cursor = false,
         update_cwd = false,
@@ -152,4 +151,5 @@ return function()
     vim.api.nvim_set_keymap("n", "<C-b>", ":NvimTreeToggle<CR>", opts)
     vim.api.nvim_set_keymap("n", "<C-k>r", ":NvimTreeRefresh<CR>", opts)
     vim.api.nvim_set_keymap("n", "<C-k>f", ":NvimTreeFindFile<CR>", opts)
+    vim.api.nvim_command "autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif"
 end
