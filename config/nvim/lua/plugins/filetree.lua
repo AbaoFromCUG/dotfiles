@@ -1,6 +1,6 @@
 return function()
     -- 0 by default, this option shows indent markers when folders are open
-    vim.g.nvim_tree_indent_markers = 1
+    -- vim.g.nvim_tree_indent_markers = 1
     -- 0 by default, will enable file highlight for git attributes (can be used without the icons).
     vim.g.nvim_tree_git_hl = 1 -- 0 by default, will enable folder and file icon highlight for opened files/directories.
     vim.g.nvim_tree_highlight_opened_files = 1
@@ -78,10 +78,7 @@ return function()
         update_cwd = false,
         actions = {
             open_file = {
-                -- 0 by default, will disable the window picker.
-                enable = 1,
-                -- 0 by default, closes the tree when you open a file
-                quit_on_open = 0,
+                quit_on_open = false,
                 window_picker = {
                     exclude = {
                         filetype = {
@@ -95,6 +92,11 @@ return function()
                     },
                 },
             },
+        },
+        renderer = {
+            indent_markers = {
+                enable = true
+            }
         },
         update_to_buf_dir = {
             enable = true,
