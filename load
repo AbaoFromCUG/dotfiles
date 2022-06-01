@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+if ! command -v yay >/dev/null 2>&1
+then
+    echo "yay is not exists"
+    exit 1
+fi
+
+echo "update package info"
+yay -Syuu
+all_packages=$(cat yay.lock)
+yay -S --needed "$all_packages"
+

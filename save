@@ -1,0 +1,5 @@
+#/usr/bin/env sh
+
+echo "save package info to yay.lock"
+yay -Qetq |grep -v xorg > yay.lock
+

@@ -19,19 +19,19 @@ return function()
     -- vim.g.dashboard_preview_file_height = 6
     -- vim.g.dashboard_preview_file_width = 56
 
-    vim.g.dashboard_custom_footer = { "🦋neovim loaded " .. plugin_count .. " plugins" }
+    vim.g.dashboard_custom_footer = { "🚀 neovim loaded " .. plugin_count .. " plugins" }
     local function format_desc(name, shortcut)
         return { string.format("%-50s%10s", name, shortcut) }
     end
     vim.g.dashboard_custom_section = {
         project_list = {
-            description = format_desc("📦Open Project", "SPC f p"),
+            description = format_desc("📦 Open Project", "SPC f p"),
             command = function()
                 telescope.extensions.project.project {}
             end,
         },
         session_list = {
-            description = format_desc("💻Restore session", "SPC s l"),
+            description = format_desc("💻 Restore session", "SPC s l"),
             command = function()
                 telescope.extensions.sessions.sessions {}
             end,
@@ -43,19 +43,19 @@ return function()
             end,
         },
         find_history = {
-            description = format_desc("⏰Recently opend files", "SPC f h"),
+            description = format_desc("⏰ Recently opend files", "SPC f h"),
             command = function()
                 builtin.oldfiles {}
             end,
         },
         find_word = {
-            description = format_desc("🔠Find words", "SPC f w"),
+            description = format_desc("🔠 Find words", "SPC f w"),
             command = function()
                 builtin.live_grep {}
             end,
         },
         marks_list = {
-            description = format_desc("📌Find marks", "SPC f m"),
+            description = format_desc("📌 Find marks", "SPC f m"),
             command = function()
                 builtin.marks {}
             end,

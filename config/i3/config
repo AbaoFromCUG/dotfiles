@@ -217,9 +217,9 @@ bar {
 
 
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-exec_always --no-startup-id fcitx
-exec_always --no-startup-id across
-
+exec --no-startup-id fcitx
+exec --no-startup-id /opt/across-x86_64-glibc-2.31-0.1.3.AppImage
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 
 # Tim Wechat
 for_window [class="Wine"] floating enable border none
@@ -234,7 +234,7 @@ exec_always --no-startup-id feh --bg-scale "/home/abao/Pictures/wallpapers/natur
 exec --no-startup-id xset dpms 300 360 420
 
 # i3lock
-bindsym $mod+p exec /home/abao/.config/i3/i3lock-fancy-multimonitor/lock -b=0x8
+bindsym $mod+p exec i3lock-fancy-multimonitor -b=0x8
 
 # mpd service
 exec_always --no-startup-id mpd
@@ -281,3 +281,5 @@ for_window [class="Xfburn"] floating enable
 for_window [title="win0"] floating enable
 for_window [title="Popup-*"] floating enable
 for_window [title="微信"] floating enable
+# lark view images
+for_window [title="图片"] floating enable

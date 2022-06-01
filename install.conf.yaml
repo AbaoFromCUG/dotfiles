@@ -30,11 +30,20 @@
       path: config/lazygit/config.yml
       if: '[ `uname -s` = Linux ]'
     # i3
-    ~/.config/i3/config:
-      path: config/i3/config
+    ~/.config/i3:
+      path: config/i3
       if: '[ `uname -s` = Linux ]'
-    ~/.config/i3status/config:
-      path: config/i3status/config
+    ~/.config/i3status:
+      path: config/i3status
+      if: '[ `uname -s` = Linux ]'
+    ~/.config/polybar:
+      path: config/polybar
+      if: '[ `uname -s` = Linux ]'
+    ~/.config/rofi:
+      path: config/rofi
+      if: '[ `uname -s` = Linux ]'
+    ~/.config/mpd/mpd.conf:
+      path: config/mpd/mpd.conf
       if: '[ `uname -s` = Linux ]'
 - shell:
     - [
