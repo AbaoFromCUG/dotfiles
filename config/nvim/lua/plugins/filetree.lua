@@ -1,4 +1,32 @@
 return function()
+    local builtin = require "telescope.builtin"
+
+    local find_file = function(node)
+        builtin.find_files {
+            search_dirs = { node.absolute_path },
+        }
+    end
+    local find_word = function(node)
+        builtin.live_grep {
+            search_dirs = { node.absolute_path },
+        }
+    end
+
+    local mappings = {
+        { key = "?", action = "toggle_help" },
+        { key = { "<CR>", "o", "<2-LeftMouse>" }, action = "edit" },
+        { key = "y", action = "copy_path" },
+        { key = "Y", action = "copy_name" },
+
+        { key = "a", action = "create" },
+        { key = "d", action = "trash" },
+        { key = "r", action = "rename" },
+        { key = "x", action = "cut" },
+        { key = "p", action = "paste" },
+        { key = "ff", action = "find file", action_cb = find_file },
+        { key = "fw", action = "find string", action_cb = find_word },
+    }
+
     require("nvim-tree").setup {
         disable_netrw = true,
         hijack_netrw = true,
@@ -100,6 +128,10 @@ return function()
             dotfiles = false,
             custom = {},
         },
+        filesystem_watchers = {
+            enable = true,
+            interval = 1000,
+        },
         git = {
             enable = true,
             ignore = true,
@@ -112,8 +144,8 @@ return function()
             side = "left",
             auto_resize = false,
             mappings = {
-                custom_only = false,
-                list = {},
+                custom_only = true,
+                list = mappings,
             },
             number = false,
             relativenumber = false,
@@ -126,7 +158,6 @@ return function()
     }
     local opts = { noremap = true }
     vim.api.nvim_set_keymap("n", "<C-b>", ":NvimTreeToggle<CR>", opts)
-    vim.api.nvim_set_keymap("n", "<C-k>r", ":NvimTreeRefresh<CR>", opts)
     vim.api.nvim_set_keymap("n", "<C-k>f", ":NvimTreeFindFile<CR>", opts)
     vim.api.nvim_command "autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif"
 end

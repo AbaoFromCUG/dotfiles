@@ -10,6 +10,7 @@ return function()
     local telescope = require "telescope"
     local actions = require "telescope._extensions.hop.actions"
     telescope.setup {
+        prompt_prefix ="",
         defaults = {
             -- Default configuration for telescope goes here:
             -- config_key = value,
@@ -65,10 +66,11 @@ return function()
             },
         },
     }
-    telescope.load_extension "project"
     telescope.load_extension "fzf"
     telescope.load_extension "hop"
+    telescope.load_extension "project"
     telescope.load_extension "dap"
+    telescope.load_extension "frecency"
 
     local opts = {
         noremap = true

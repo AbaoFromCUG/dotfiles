@@ -18,7 +18,7 @@ py3status {
 order += "sysdata cpu_info"
 sysdata cpu_info {
     format = "CPU [\?color=cpu_used_percent {cpu_used_percent:.1f}%]"
-    # format += "[\?color=cpu_used_percent {cpu_temp}°C]"
+    format += " [\?color=cpu_used_percent {cpu_temp}°C]"
     thresholds = [(0, "good"), (60, "degraded"), (80, "bad")]
 }
 

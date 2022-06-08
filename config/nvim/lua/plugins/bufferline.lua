@@ -1,17 +1,36 @@
 return function()
     local bufferline = require "bufferline"
     -- stylua: ignore start
-    local support_type = {
-        "markdown",
-        "lua", "vim", "cpp", "c", "java", "javascript", "json",
-        "python", "typescript", "cmake", "xml", "sh", "rust",
-        "yaml", "toml", "org", ""
+    local blacklist_filetypes = {
+        "dashboard"
     }
     -- stylua: ignore end
     local opts = { noremap = true }
     vim.api.nvim_set_keymap("n", "<S-l>", "<cmd>BufferLineCycleNext<CR>", opts)
     vim.api.nvim_set_keymap("n", "<S-h>", "<cmd>BufferLineCyclePrev<CR>", opts)
-    vim.api.nvim_set_keymap("n", "<Leader><S-x>", "<cmd>BufferLinePickClose<CR>", opts)
+    vim.api.nvim_set_keymap("n", "<C-k>o", "", {
+        noremap = true,
+        callback = function()
+            vim.api.nvim_command "BufferLineCloseLeft"
+            vim.api.nvim_command "BufferLineCloseRight"
+        end,
+        desc = "Close Other tabs",
+    })
+    vim.api.nvim_set_keymap("n", "<C-k>i", "", {
+        noremap = true,
+        callback = function()
+            vim.api.nvim_command "BufferLineCloseLeft"
+        end,
+        desc = "Close Left tabs",
+    })
+
+    vim.api.nvim_set_keymap("n", "<C-k>i", "", {
+        noremap = true,
+        callback = function()
+            vim.api.nvim_command "BufferLineCloseRight"
+        end,
+        desc = "Close Right tabs",
+    })
     bufferline.setup {
         options = {
             close_command = "bdelete! %d",
@@ -26,13 +45,18 @@ return function()
             separator_style = "slant",
             custom_filter = function(buf_number, buf_numbers)
                 local filetype = vim.bo[buf_number].filetype
-                for _, value in ipairs(support_type) do
+                for _, value in ipairs(blacklist_filetypes) do
                     if filetype == value then
-                        return true
+                        return false
                     end
                 end
-                return false
+                return true
             end,
+        },
+        groups = {
+            options = {
+                toggle_hidden_on_enter = true,
+            },
         },
     }
 end

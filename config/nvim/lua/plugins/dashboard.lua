@@ -18,6 +18,7 @@ return function()
     -- vim.g.dashboard_preview_file = vim.fn.stdpath "config" .. "/logo.cat"
     -- vim.g.dashboard_preview_file_height = 6
     -- vim.g.dashboard_preview_file_width = 56
+    vim.g.dashboard_enable_session = 0
 
     vim.g.dashboard_custom_footer = { "🚀 neovim loaded " .. plugin_count .. " plugins" }
     local function format_desc(name, shortcut)
@@ -31,9 +32,9 @@ return function()
             end,
         },
         session_list = {
-            description = format_desc("💻 Restore session", "SPC s l"),
+            description = format_desc("💻 Restore session", "SPC f s"),
             command = function()
-                telescope.extensions.sessions.sessions {}
+                vim.api.nvim_command("Telescope session-lens search_session")
             end,
         },
         find_file = {
@@ -67,8 +68,8 @@ return function()
     local bind = function(key, command)
         vim.api.nvim_set_keymap("n", "<Leader>" .. key, ":" .. command .. "<CR>", opts)
     end
-    bind("ss", "SessionSave")
-    bind("fs", "Telescope sessions")
+    bind("ss", "SaveSession")
+    bind("fs", "Telescope session-lens search_session")
     bind("ff", "Telescope find_files")
     bind("fh", "Telescope oldfiles")
     bind("fc", "Telescope colorscheme")

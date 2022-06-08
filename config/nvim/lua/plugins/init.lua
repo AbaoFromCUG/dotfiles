@@ -10,6 +10,7 @@ return require("packer").startup(function(use)
     use "nvim-lua/plenary.nvim"
     use "nvim-lua/popup.nvim"
     use "skywind3000/asyncrun.vim"
+    use "tami5/sqlite.lua"
     --[[
     --      UI & Theme
     --]]
@@ -38,6 +39,7 @@ return require("packer").startup(function(use)
     use { "nvim-telescope/telescope-project.nvim" }
     use { "nvim-telescope/telescope-dap.nvim" }
     use { "nvim-telescope/telescope-symbols.nvim" }
+    use { "nvim-telescope/telescope-frecency.nvim" }
 
     -- session
     use { "rmagatti/auto-session" }
@@ -112,6 +114,13 @@ return require("packer").startup(function(use)
         run = "cd app && npm install && ./install.sh",
         ft = { "markdown" },
     }
+    use {
+        "petertriho/nvim-scrollbar",
+        config = function()
+            require("scrollbar").setup()
+        end,
+    }
+    use { "rcarriga/nvim-notify", config = require "plugins.notify" }
 
     --[[
     --      Project manager
