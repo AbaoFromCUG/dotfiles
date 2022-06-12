@@ -1,15 +1,32 @@
 # Py3status config
 # It is important that this file is edited as UTF-8.
-# The following line should contain a sharp s:
-# ß
+# 
 # If the above line is not correctly displayed, fix your editor first!
 
 general {
     colors = true
     interval = 5
-    color_good = "#2AA198"
-    color_bad = "#586E75"
-    color_degraded = "#DC322F"
+    color_good='#8c9440'
+    color_degraded='#d4de61'
+    color_prebad='#C45500'
+    color_bad='#a54242'
+
+    color_color0=  '#282a2e'
+    color_color1=  '#a54242'
+    color_color2=  '#5f819d'
+    color_color3=  '#d4de61'
+    color_color4=  '#8c9440'
+    color_color5=  '#85678f'
+    color_color6=  '#5e8d87'
+    color_color7=  '#707880'
+    color_color8=  '#373b41'
+    color_color9=  '#cc6666'
+    color_color10= '#81a2be'
+    color_color11= '#f0c674'
+    color_color12= '#b5bd68'
+    color_color13= '#b294bb'
+    color_color14= '#8abeb7'
+    color_color15= '#c5c8c6'
 }
 
 py3status {
@@ -17,36 +34,26 @@ py3status {
 
 order += "sysdata cpu_info"
 sysdata cpu_info {
-    format = "CPU [\?color=cpu_used_percent {cpu_used_percent:.1f}%]"
+    format = " [\?color=cpu_used_percent {cpu_used_percent:.1f}%]"
+
     format += " [\?color=cpu_used_percent {cpu_temp}°C]"
-    thresholds = [(0, "good"), (60, "degraded"), (80, "bad")]
+    thresholds = [(0, "good"), (30, "degraded"), (55, "prebad"), (75, "bad")]
 }
 
 order += "nvidia_smi gpu_info"
 nvidia_smi gpu_info {
-    format_gpu = "GPU [\?color=memory.used_percent {memory.used} {memory.used_unit}"
+    format_gpu = " [\?color=memory.used_percent {memory.used} {memory.used_unit}"
     format_gpu += " {memory.used_percent:.1f}%]"
     format_gpu += " [\?color=temperature.gpu {temperature.gpu}°C] "
+    thresholds = [(0, "good"), (50, "degraded"), (75, "prebad"), (90, "bad")]
 }
 
-order += "group memory_info"
-group memory_info {
-    cycle = 10
-    format = "Memory {output}"
-    conky memory_usage {
-        format = "[\?color=lightskyblue {mem}/{memmax}] "
-        thresholds = [
-            (0, "darkgray"), (0.001, "good"), (50, "degraded"),
-            (75, "orange"), (85, "bad")
-        ]
-    }
-    conky memory_percent {
-        format = "[\?color=memperc {memperc}%]"
-        thresholds = [
-            (0, "darkgray"), (0.001, "good"), (50, "degraded"),
-            (75, "orange"), (85, "bad")
-        ]
-    }
+order += "conky memory_info"
+conky memory_info {
+    format = " [\?color=memperc {mem}/{memmax}] "
+    format += "[\?color=memperc {memperc}%]"
+    thresholds = [(0, "good"), (30, "degraded"), (55, "prebad"), (75, "bad")]
+    config = {'short_units': True}
 }
 
 load {
@@ -57,34 +64,29 @@ load {
 
 order += "group filesystem_info"
 group filesystem_info {
-    cycle = 10
-    format = "{output} {button}"
-    format_button_closed = "+"
-    format_button_open = "-"
     conky fs_home {
-        format = "Home [\?color=violet {fs_used /home}/{fs_size /home} {fs_used_perc /home}%] "
+        format = " [\?color=fs_used_perc./home {fs_used /home}/{fs_size /home} "
+        format += "{fs_used_perc /home}% {diskio /dev/nvme0n1p6}] "
+        thresholds = [(0, "good"), (30, "degraded"), (55, "prebad"), (75, "bad")]
+        config = {'short_units': True}
     }
     conky fs_root {
-        format = "Root [\?color=violet {fs_used /}/{fs_size /}] "
-        format += "[\?color=violet {fs_used_perc /}%] "
+        format = " [\?color=fs_used_perc./ {fs_used /}/{fs_size /} "
+        format += "{fs_used_perc /}% {diskio /dev/nvme0n1p6}]"
+        thresholds = [(0, "good"), (30, "degraded"), (55, "prebad"), (75, "bad")]
+        config = {'short_units': True}
+    }
+    conky fs_f {
+        format = " [\?color=fs_used_perc./mnt/f {fs_used /mnt/f}/{fs_size /mnt/f} "
+        format += "{fs_used_perc /mnt/f}% {diskio /dev/sda4}]"
+        thresholds = [(0, "good"), (30, "degraded"), (55, "prebad"), (75, "bad")]
+        config = {'short_units': True}
     }
 }
 
-order += "group network"
-group network {
-    format = "{output} {button} "
-    netdata info {
-        format = "{nic} [\?color=down {down}↓ {up}↑]"
-        # nic = enp34s0
-        nic = wlp37s0
-    }
-
-    networkmanager ip {
-        # bash nmcli
-        format = "{format_device}"
-        format_device = "{general_device} [\?color=#DC322F {ip4_address1}]"
-    }
+order += "netdata network"
+netdata network {
+    format = "[\?color=down {down}Kb↓{up}Kb↑]"
+    thresholds = [(0, "good"), (500, "degraded"), (1000, "prebad"), (2000, "bad")]
+    nic = wlp37s0
 }
-
-
-

@@ -1,4 +1,3 @@
-local home_dir = vim.loop.os_homedir()
 
 vim.opt.filetype = "on"
 vim.opt.expandtab = true
@@ -24,6 +23,11 @@ vim.opt.smartindent = true
 vim.opt.langmenu = "zh_CN.UTR-8"
 vim.opt.helplang = "cn"
 vim.opt.encoding = "utf8"
+
+
+-- theme
+vim.opt.background = "dark" -- or "light" for light mode
+vim.cmd([[colorscheme zephyr]])
 
 -- Plugin config
 local fn = vim.fn

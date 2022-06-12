@@ -1,67 +1,93 @@
 return function()
+    local db = require "dashboard"
     local telescope = require "telescope"
     local builtin = require "telescope.builtin"
     local fn = vim.fn
     local install_path = fn.stdpath "data" .. "/site/pack/*/*/"
     local plugin_count = #fn.split(fn.globpath(install_path, "*"), "\n")
     vim.g.dashboard_default_executive = "telescope"
-    vim.g.dashboard_custom_header = {
+
+    local empty_line = [[]]
+    local header = {
+        empty_line,
+        empty_line,
         "███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗",
         "████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║",
         "██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║",
         "██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║",
         "██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║",
         "╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝",
+        empty_line,
+        empty_line,
+        empty_line,
     }
-    -- vim.g.dashboard_preview_command = "cat"
-    -- vim.g.dashboard_preview_pipeline = "lolcat"
-    -- vim.g.dashboard_preview_file = vim.fn.stdpath "config" .. "/logo.cat"
-    -- vim.g.dashboard_preview_file_height = 6
-    -- vim.g.dashboard_preview_file_width = 56
-    vim.g.dashboard_enable_session = 0
+    db.custom_header = header
 
-    vim.g.dashboard_custom_footer = { "🚀 neovim loaded " .. plugin_count .. " plugins" }
-    local function format_desc(name, shortcut)
-        return { string.format("%-50s%10s", name, shortcut) }
+    -- db.preview_command = "cat |lolcat -F 0.3"
+    -- db.preview_file_path = vim.fn.stdpath "config" .. "/logo.cat"
+    -- db.preview_file_height = 6
+    -- db.preview_file_width = 56
+
+    local function format_desc(name)
+        return string.format(" %-50s", name)
     end
-    vim.g.dashboard_custom_section = {
-        project_list = {
-            description = format_desc("📦 Open Project", "SPC f p"),
-            command = function()
+
+    db.custom_center = {
+        {
+            icon = "📦",
+            desc = format_desc "Open Project",
+            action = function()
                 telescope.extensions.project.project {}
             end,
+            shortcut = "SPC f p",
         },
-        session_list = {
-            description = format_desc("💻 Restore session", "SPC f s"),
-            command = function()
-                vim.api.nvim_command("Telescope session-lens search_session")
+        {
+            icon = "💻",
+            desc = format_desc "Restore session",
+            action = function()
+                vim.api.nvim_command "Telescope session-lens search_session"
             end,
+            shortcut = "SPC f s",
         },
-        find_file = {
-            description = format_desc("📄Find File", "SPC f f"),
-            command = function()
+        {
+            icon = "📄",
+            desc = format_desc "Find File",
+            action = function()
                 builtin.find_files {}
             end,
+            shortcut = "SPC f f",
         },
-        find_history = {
-            description = format_desc("⏰ Recently opend files", "SPC f h"),
-            command = function()
+        {
+            icon = "⏰",
+            desc = format_desc "Recently opend files",
+            action = function()
                 builtin.oldfiles {}
             end,
+            shortcut = "SPC f h",
         },
-        find_word = {
-            description = format_desc("🔠 Find words", "SPC f w"),
-            command = function()
+        {
+            icon = "🔠",
+            desc = format_desc "Find words",
+            action = function()
                 builtin.live_grep {}
             end,
+            shortcut = "SPC f w",
         },
-        marks_list = {
-            description = format_desc("📌 Find marks", "SPC f m"),
-            command = function()
+        {
+            icon = "📌",
+            desc = format_desc "Find marks",
+            action = function()
                 builtin.marks {}
             end,
+            shortcut = "SPC f m",
         },
     }
+    db.custom_footer = {
+        empty_line,
+        empty_line,
+        "🚀 neovim loaded " .. plugin_count .. " plugins",
+    }
+
     local opts = {
         noremap = true,
     }

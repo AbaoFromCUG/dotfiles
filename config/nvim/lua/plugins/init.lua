@@ -11,15 +11,18 @@ return require("packer").startup(function(use)
     use "nvim-lua/popup.nvim"
     use "skywind3000/asyncrun.vim"
     use "tami5/sqlite.lua"
+    use "kyazdani42/nvim-web-devicons"
     --[[
     --      UI & Theme
     --]]
     -- theme & color
-    use { "projekt0n/github-nvim-theme", config = require "plugins.theme" }
-    -- color text colorizer, e.g. #612208
+    use { "glepnir/zephyr-nvim" }
+    use { "bluz71/vim-nightfly-guicolors" }
+    use { "ellisonleao/gruvbox.nvim" }
+    -- color text colorizer, e.g. #612208 Red
     use { "norcalli/nvim-colorizer.lua", config = require "plugins.colorizer" }
-    -- icon
-    use "kyazdani42/nvim-web-devicons"
+    use { "xiyaowong/nvim-transparent", config = require "plugins.transparent" }
+
     -- tab line
     use { "akinsho/bufferline.nvim", config = require "plugins.bufferline" }
     -- status line
@@ -94,6 +97,7 @@ return require("packer").startup(function(use)
     --      Editor
     --]]
     use { "windwp/nvim-autopairs", config = require "plugins.autopairs" }
+    use { "numToStr/Comment.nvim", config = require"plugins.comment" }
     --[[
     --      Tool
     --]]

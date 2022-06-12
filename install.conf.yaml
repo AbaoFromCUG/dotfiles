@@ -16,35 +16,9 @@
       glob: true
       path: home/*
       prefix: "."
-    # nvim
-    ~/.config/nvim/:
+    ~/.config:
       glob: true
-      path: config/nvim/*
-    # alacritty
-    ~/.config/alacritty/alacritty.yml: config/alacritty/alacritty.yml
-    # lazygit
-    ~/Library/Application Support/lazygit/config.yml:
-      path: config/lazygit/config.yml
-      if: '[ `uname -s` = Darwin ]'
-    ~/.config/lazygit/config.yml:
-      path: config/lazygit/config.yml
-      if: '[ `uname -s` = Linux ]'
-    # i3
-    ~/.config/i3:
-      path: config/i3
-      if: '[ `uname -s` = Linux ]'
-    ~/.config/i3status:
-      path: config/i3status
-      if: '[ `uname -s` = Linux ]'
-    ~/.config/polybar:
-      path: config/polybar
-      if: '[ `uname -s` = Linux ]'
-    ~/.config/rofi:
-      path: config/rofi
-      if: '[ `uname -s` = Linux ]'
-    ~/.config/mpd/mpd.conf:
-      path: config/mpd/mpd.conf
-      if: '[ `uname -s` = Linux ]'
+      path: config/*
 - shell:
     - [
         cd ~ && rm -rf .tmux && git clone https://github.com/gpakosz/.tmux.git && ln -s -f .tmux/.tmux.conf,

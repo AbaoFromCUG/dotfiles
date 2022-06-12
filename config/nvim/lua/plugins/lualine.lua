@@ -1,5 +1,14 @@
 return function()
     local gps = require "nvim-gps"
+    local function tab_spaces()
+        local tabstop = vim.api.nvim_get_option "tabstop"
+        if vim.opt.expandtab then
+            return "Spaces:" .. tabstop
+        else
+            return "Tab Size" .. tabstop
+        end
+    end
+
     require("lualine").setup {
         options = {
             icons_enabled = true,
@@ -12,9 +21,9 @@ return function()
             lualine_a = { "mode" },
             lualine_b = { "branch", "diff" },
             lualine_c = { "filename", { gps.get_location, cond = gps.is_available } },
-            lualine_x = { "lsp_progress", "diagnostics", "encoding", "fileformat", "filetype" },
-            lualine_y = { "progress" },
-            lualine_z = { "location" },
+            lualine_x = { "lsp_progress", "diagnostics" },
+            lualine_y = { tab_spaces, "encoding", "fileformat", "filetype" },
+            lualine_z = { "progress", "location" },
         },
         inactive_sections = {
             lualine_a = {},
@@ -24,7 +33,6 @@ return function()
             lualine_y = {},
             lualine_z = {},
         },
-        tabline = {},
         extensions = {},
     }
 end

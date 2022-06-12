@@ -14,22 +14,16 @@ return function()
             vim.api.nvim_command "BufferLineCloseLeft"
             vim.api.nvim_command "BufferLineCloseRight"
         end,
-        desc = "Close Other tabs",
+        desc = "Close other tabs",
     })
-    vim.api.nvim_set_keymap("n", "<C-k>i", "", {
+    vim.api.nvim_set_keymap("n", "<C-k>i", "<cmd>BufferLineCloseLeft<CR>", {
         noremap = true,
-        callback = function()
-            vim.api.nvim_command "BufferLineCloseLeft"
-        end,
-        desc = "Close Left tabs",
+        desc = "Close left tabs"
     })
 
-    vim.api.nvim_set_keymap("n", "<C-k>i", "", {
+    vim.api.nvim_set_keymap("n", "<C-k>p", "<cmd>BufferLineCloseRight<CR>", {
         noremap = true,
-        callback = function()
-            vim.api.nvim_command "BufferLineCloseRight"
-        end,
-        desc = "Close Right tabs",
+        desc = "Close right tabs"
     })
     bufferline.setup {
         options = {
