@@ -1,4 +1,3 @@
-
 vim.opt.filetype = "on"
 vim.opt.expandtab = true
 vim.opt.number = true
@@ -24,17 +23,12 @@ vim.opt.langmenu = "zh_CN.UTR-8"
 vim.opt.helplang = "cn"
 vim.opt.encoding = "utf8"
 
-
--- theme
-vim.opt.background = "dark" -- or "light" for light mode
-vim.cmd([[colorscheme zephyr]])
-
--- Plugin config
+-- Packer Bootstrapping
 local fn = vim.fn
 local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
     fn.system { "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path }
+    vim.cmd [[packadd packer.nvim]]
 end
 
 require "plugins"
-

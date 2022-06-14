@@ -20,7 +20,22 @@
       glob: true
       path: config/*
 - shell:
-    - [
-        cd ~ && rm -rf .tmux && git clone https://github.com/gpakosz/.tmux.git && ln -s -f .tmux/.tmux.conf,
-        Installing oh-my-tmux,
-      ]
+  -
+    command: >+
+      if [ ! -d ~/.tmux ] || [ ! -f ~/.tmux.conf ]; then
+        if [[ -f ~/.tmux.conf ]]; then
+          mv ~/.tmux.conf /tmp/tmux.conf.bak
+        fi
+        rm -rf ~/.tmux.conf
+        git clone https://github.com/gpakosz/.tmux.git ~/.tmux
+        ln -s -f ~/.tmux/.tmux.conf ~/.tmux.conf
+      else
+        cd ~/.tmux
+        git pull
+      fi
+    description: Install&update oh-my-tmux
+    quiet: true
+  -
+    command: nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+    description: Update neovim plugin(a few minutes)
+    quiet: true

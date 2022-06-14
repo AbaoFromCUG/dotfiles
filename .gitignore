@@ -1,3 +1,5 @@
 packer_compiled.lua
 *backup*/
 */__pycache__/
+
+config/lazygit/state.yml

@@ -1,7 +1,3 @@
--- This file can be loaded by calling `lua require('plugins')` from your init.vim
--- Only required if you have packer configured as `opt`
-vim.cmd [[packadd packer.nvim]]
-
 return require("packer").startup(function(use)
     --[[
     --      Basic
@@ -16,7 +12,7 @@ return require("packer").startup(function(use)
     --      UI & Theme
     --]]
     -- theme & color
-    use { "glepnir/zephyr-nvim" }
+    use { "glepnir/zephyr-nvim", config = require "plugins.theme" }
     use { "bluz71/vim-nightfly-guicolors" }
     use { "ellisonleao/gruvbox.nvim" }
     -- color text colorizer, e.g. #612208 Red
@@ -97,7 +93,7 @@ return require("packer").startup(function(use)
     --      Editor
     --]]
     use { "windwp/nvim-autopairs", config = require "plugins.autopairs" }
-    use { "numToStr/Comment.nvim", config = require"plugins.comment" }
+    use { "numToStr/Comment.nvim", config = require "plugins.comment" }
     --[[
     --      Tool
     --]]
