@@ -228,7 +228,7 @@ exec_always --no-startup-id /usr/lib/gsd-xsettings
 
 # background and terminal transparency
 exec picom -b &
-exec_always --no-startup-id feh --bg-scale "/home/abao/Pictures/wallpapers/nature-3058859.jpg"
+exec_always --no-startup-id feh --bg-scale "~/Pictures/wallpapers/nature-3058859.jpg"
 
 # screen timeout
 exec --no-startup-id xset dpms 300 360 420
