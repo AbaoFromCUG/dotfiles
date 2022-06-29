@@ -41,6 +41,7 @@ return function()
         actions = {
             open_file = {
                 quit_on_open = false,
+                resize_window = true,
                 window_picker = {
                     exclude = {
                         filetype = {
@@ -102,7 +103,7 @@ return function()
                 enable = true,
             },
         },
-        update_to_buf_dir = {
+        hijack_directories = {
             enable = true,
             auto_open = true,
         },
@@ -142,7 +143,6 @@ return function()
             height = 30,
             hide_root_folder = true,
             side = "left",
-            auto_resize = false,
             mappings = {
                 custom_only = true,
                 list = mappings,
