@@ -22,6 +22,15 @@
 - shell:
   -
     command: >+
+      if [ ! -d ~/Pictures/wallpapers/ ]; then
+        mkdir ~/Pictures/wallpapers/ -p
+        wget https://gitlab.manjaro.org/artwork/wallpapers/wallpapers-2018/-/raw/master/nature-3058859.jpg -O ~/Pictures/wallpapers/nature-3058859.jpg
+        wget https://gitlab.manjaro.org/artwork/wallpapers/wallpapers-2018/-/raw/master/nature-3181144.jpg -O ~/Pictures/wallpapers/nature-3181144.jpg
+      fi
+    description: Download wallpapers
+    quiet: true
+  -
+    command: >+
       if [ ! -d ~/.tmux ] || [ ! -f ~/.tmux.conf ]; then
         if [[ -f ~/.tmux.conf ]]; then
           mv ~/.tmux.conf /tmp/tmux.conf.bak

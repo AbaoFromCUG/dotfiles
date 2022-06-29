@@ -228,7 +228,7 @@ exec_always --no-startup-id /usr/lib/gsd-xsettings
 
 # background and terminal transparency
 exec picom -b &
-exec_always --no-startup-id feh --bg-scale "~/Pictures/wallpapers/nature-3058859.jpg"
+exec_always --no-startup-id feh --bg-scale ~/Pictures/wallpapers/nature-3058859.jpg
 
 # screen timeout
 exec --no-startup-id xset dpms 300 360 420
@@ -285,3 +285,4 @@ for_window [title="^微信$"] floating enable border pixel 1
 for_window [title="^WeChat$"] floating enable border pixel 1
 # lark view images
 for_window [title="^图片$"] floating enable border pixel 1
+for_window [title="Icalingua++$"] floating enable border pixel 1
