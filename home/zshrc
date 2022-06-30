@@ -81,4 +81,4 @@ function docker_ip() {
 alias vim=nvim
 alias s='neofetch|lolcat'
 alias y='trans :zh'
-alias yy='trans :zh -p'
+alias yy='trans :zh --speak'

@@ -174,7 +174,6 @@ mode "resize" {
     # bindsym Down resize grow height 10 px or 10 ppt
     # bindsym Up resize shrink height 10 px or 10 ppt
     # bindsym Right resize grow width 10 px or 10 ppt
-    bindsym h resize
 
     # back to normal: Enter or Escape or $mod+r
     bindsym Return mode "default"
@@ -285,4 +284,4 @@ for_window [title="^微信$"] floating enable border pixel 1
 for_window [title="^WeChat$"] floating enable border pixel 1
 # lark view images
 for_window [title="^图片$"] floating enable border pixel 1
-for_window [title="Icalingua++$"] floating enable border pixel 1
+for_window [instance="^icalingua$"] floating enable border pixel 1
