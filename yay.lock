@@ -13,8 +13,8 @@ feishu-bin
 go
 gperf
 grub
-i3lock-fancy-multimonitor
 icalingua++
+iw
 lazygit
 lldb
 lolcat
@@ -42,6 +42,7 @@ shfmt
 teamviewer
 tmux
 unrar
+unzip
 visual-studio-code-bin
 vmware-workstation
 wechat-uos
