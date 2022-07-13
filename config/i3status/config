@@ -88,5 +88,4 @@ order += "netdata network"
 netdata network {
     format = "[\?color=down {down}Kb↓{up}Kb↑]"
     thresholds = [(0, "good"), (500, "degraded"), (1000, "prebad"), (2000, "bad")]
-    nic = wlp37s0
 }

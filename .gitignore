@@ -3,3 +3,4 @@ packer_compiled.lua
 */__pycache__/
 
 config/lazygit/state.yml
+config/ncmpcpp/error.log
