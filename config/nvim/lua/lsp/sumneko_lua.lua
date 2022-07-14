@@ -17,6 +17,10 @@ return function(config)
             telemetry = {
                 enable = false,
             },
+            -- Use stylua which is provided by null-ls
+            format = {
+                enable = true
+            }
         },
     }
 end

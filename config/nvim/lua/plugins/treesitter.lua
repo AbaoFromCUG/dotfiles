@@ -1,5 +1,6 @@
 return function()
     vim.opt.foldmethod = "expr"
+    vim.opt.foldlevel = 3
     vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
     vim.opt.foldminlines = 3
     vim.opt.foldnestmax = 5
@@ -27,7 +28,18 @@ return function()
                 "xml",
             },
         },
-        ensure_installed = { "lua", "python", "javascript", "json", "cpp", "cmake", "c", "java" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+        -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+        ensure_installed = {
+            "lua",
+            "python",
+            "javascript",
+            "json",
+            "cpp",
+            "cmake",
+            "c",
+            "java",
+            "norg",
+        },
         ignore_install = { "haskell" }, -- List of parsers to ignore installing
         highlight = {
             enable = true, -- false will disable the whole extension

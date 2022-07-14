@@ -1,4 +1,4 @@
-return require("packer").startup(function(use)
+return require "packer".startup(function(use)
     --[[
     --      Basic
     --]]
@@ -13,12 +13,10 @@ return require("packer").startup(function(use)
     --]]
     -- theme & color
     use { "glepnir/zephyr-nvim", config = require "plugins.theme" }
-    use { "bluz71/vim-nightfly-guicolors" }
     use { "ellisonleao/gruvbox.nvim" }
     -- color text colorizer, e.g. #612208 Red
     use { "norcalli/nvim-colorizer.lua", config = require "plugins.colorizer" }
     use { "xiyaowong/nvim-transparent", config = require "plugins.transparent" }
-
     -- tab line
     use { "akinsho/bufferline.nvim", config = require "plugins.bufferline" }
     -- status line
@@ -109,15 +107,13 @@ return require("packer").startup(function(use)
     use { "kyazdani42/nvim-tree.lua", config = require "plugins.filetree" }
     use { "glepnir/dashboard-nvim", config = require "plugins.dashboard" }
     use {
-        "iamcco/markdown-preview.nvim",
-        config = require "plugins.markdown",
-        run = "cd app && npm install && ./install.sh",
-        ft = { "markdown" },
+        "nvim-neorg/neorg",
+        config = require "plugins.neorg",
     }
     use {
         "petertriho/nvim-scrollbar",
         config = function()
-            require("scrollbar").setup()
+            require "scrollbar".setup()
         end,
     }
     use { "rcarriga/nvim-notify", config = require "plugins.notify" }
