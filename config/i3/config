@@ -197,7 +197,7 @@ bar {
 
     #bindsym button4 nop
     #bindsym button5 nop
-    font pango: Hack, Font Awesome 6 Free Regular 8
+    font pango: DejaVu Sans, Font Awesome 6 Free Regular 8
     strip_workspace_numbers no
     workspace_buttons no
     colors {
@@ -213,10 +213,10 @@ bar {
 }
 
 
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+exec --no-startup-id $HOME/.config/polybar/launch.sh
 exec --no-startup-id fcitx
-exec --no-startup-id /opt/across-x86_64-glibc-2.31-0.1.3.AppImage
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+exec --no-startup-id across
+exec_always --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 
 # Tim Wechat
 for_window [class="Wine"] floating enable border none
@@ -225,16 +225,17 @@ exec_always --no-startup-id /usr/lib/gsd-xsettings
 
 # background and terminal transparency
 exec picom -b &
-exec_always --no-startup-id feh --bg-scale ~/Pictures/wallpapers/nature-3058859.jpg
+exec --no-startup-id feh --bg-scale ~/Pictures/wallpapers/nature-3058859.jpg
 
 # screen timeout
 exec --no-startup-id xset dpms 300 360 420
 
 # i3lock
-bindsym $mod+p exec bash -c "convert ~/Pictures/wallpapers/nature-3181144.jpg RGB:- | i3lock --raw 3840x2160:rgb -f --image /dev/stdin"
+set $screen_resolution $(xdpyinfo | grep dimensions | cut -d' ' -f7)
+bindsym $mod+p exec bash -c "convert ~/Pictures/wallpapers/nature-3181144.jpg -gravity Center -extent $screen_resolution RGB:- | i3lock --raw $screen_resolution:rgb -f --image /dev/stdin > /tmp/i3_log"
 
 # mpd service
-exec_always --no-startup-id mpd
+exec --no-startup-id mpd
 
 # hide/unhide i3status bar
 exec bar mode toggle
