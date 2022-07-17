@@ -88,19 +88,4 @@ return function()
         "🚀 neovim loaded " .. plugin_count .. " plugins",
     }
 
-    local opts = {
-        noremap = true,
-    }
-    local bind = function(key, command)
-        vim.api.nvim_set_keymap("n", "<Leader>" .. key, ":" .. command .. "<CR>", opts)
-    end
-    bind("ss", "SaveSession")
-    bind("fs", "Telescope session-lens search_session")
-    bind("ff", "Telescope find_files")
-    bind("fh", "Telescope oldfiles")
-    bind("fc", "Telescope colorscheme")
-    bind("fw", "Telescope live_grep")
-    bind("fm", "Telescope marks")
-    bind("nf", "DashboardNewFile")
-    bind("fp", "Telescope project")
 end

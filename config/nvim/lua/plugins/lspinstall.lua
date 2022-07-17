@@ -2,6 +2,12 @@ return function()
     local lsp_installer = require "nvim-lsp-installer"
 
     lsp_installer.settings {
+        ensure_installed = {
+            'clangd',
+            'cmake',
+            'tsserver',
+            'sumneko_lua'
+        },
         ui = {
             icons = {
                 server_installed = "✓",

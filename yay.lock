@@ -1,5 +1,6 @@
 across
 adobe-source-han-sans-cn-fonts
+adobe-source-han-serif-cn-fonts
 alacritty
 arandr
 awesome-terminal-fonts
@@ -8,6 +9,7 @@ cmake
 cmake-format
 conky
 cudnn
+docker
 fcitx-sogoupinyin
 feishu-bin
 go
@@ -28,17 +30,21 @@ neovim
 nerd-fonts-complete
 network-manager-applet
 nvidia
+nvidia-container-toolkit
+opendesktop-fonts
 pavucontrol-qt
 picom
 pkgfile
 polkit-gnome
 polybar
 py3status
-ranger
+ranger-git
 ripgrep
+rtl8821cu-morrownr-dkms-git
 sddm
 shellcheck
 shfmt
+shutter
 teamviewer
 tmux
 ttf-font-awesome

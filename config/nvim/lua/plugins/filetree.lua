@@ -156,8 +156,4 @@ return function()
             require_confirm = true,
         },
     }
-    local opts = { noremap = true }
-    vim.api.nvim_set_keymap("n", "<C-b>", ":NvimTreeToggle<CR>", opts)
-    vim.api.nvim_set_keymap("n", "<C-k>f", ":NvimTreeFindFile<CR>", opts)
-    vim.api.nvim_command "autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif"
 end

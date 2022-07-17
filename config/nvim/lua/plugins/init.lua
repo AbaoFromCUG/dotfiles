@@ -60,8 +60,6 @@ return require "packer".startup(function(use)
     --]]
     use { "neovim/nvim-lspconfig", config = require "plugins.lspconfig" }
     use { "williamboman/nvim-lsp-installer", config = require "plugins.lspinstall" }
-    -- null-ls: out-of-the-box functionality lsp source
-    use { "jose-elias-alvarez/null-ls.nvim", config = require "plugins.null-ls" }
     -- completion engine
     use { "hrsh7th/nvim-cmp", config = require "plugins.cmp" } -- Autocompletion plugin
     -- completion source

@@ -71,10 +71,4 @@ return function()
     telescope.load_extension "project"
     telescope.load_extension "dap"
     telescope.load_extension "frecency"
-
-    local opts = {
-        noremap = true
-    }
-    vim.api.nvim_set_keymap('n', "<C-k>m", ":Telescope filetypes<CR>", opts)
-    vim.api.nvim_set_keymap('n', "<C-p>", ":Telescope<CR>", opts)
 end
