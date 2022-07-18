@@ -5,3 +5,4 @@ vmap <leader>y "+y
 nnoremap <leader>p "+p
 
 
+nnoremap <expr> <CR> {-> v:hlsearch ? ":nohl\<CR>" : "\<CR>"}()
