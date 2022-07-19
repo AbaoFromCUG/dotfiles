@@ -131,7 +131,7 @@ return function()
         },
         filesystem_watchers = {
             enable = true,
-            interval = 1000,
+            debounce_delay = 1000,
         },
         git = {
             enable = true,

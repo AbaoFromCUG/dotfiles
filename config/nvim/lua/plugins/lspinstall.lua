@@ -6,7 +6,9 @@ return function()
             'clangd',
             'cmake',
             'tsserver',
-            'sumneko_lua'
+            'sumneko_lua',
+            'vimls',
+            'bashls',
         },
         ui = {
             icons = {

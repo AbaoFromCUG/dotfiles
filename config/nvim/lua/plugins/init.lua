@@ -38,9 +38,6 @@ return require "packer".startup(function(use)
     use { "nvim-telescope/telescope-symbols.nvim" }
     use { "nvim-telescope/telescope-frecency.nvim" }
 
-    -- session
-    use { "rmagatti/auto-session" }
-    use { "rmagatti/session-lens", config = require "plugins.session" }
 
     --[[
     --      Treesitter
@@ -90,9 +87,6 @@ return require "packer".startup(function(use)
     --]]
     use { "windwp/nvim-autopairs", config = require "plugins.autopairs" }
     use { "numToStr/Comment.nvim", config = require "plugins.comment" }
-    --[[
-    --      Tool
-    --]]
     use { "lewis6991/gitsigns.nvim", config = require "plugins.gitsigns" }
     use { "akinsho/nvim-toggleterm.lua", config = require "plugins.toggleterm" }
     use {
@@ -104,10 +98,7 @@ return require "packer".startup(function(use)
     use { "folke/which-key.nvim", config = require "plugins.which-key" }
     use { "kyazdani42/nvim-tree.lua", config = require "plugins.filetree" }
     use { "glepnir/dashboard-nvim", config = require "plugins.dashboard" }
-    use {
-        "nvim-neorg/neorg",
-        config = require "plugins.neorg",
-    }
+
     use {
         "petertriho/nvim-scrollbar",
         config = function()
@@ -116,11 +107,32 @@ return require "packer".startup(function(use)
     }
     use { "rcarriga/nvim-notify", config = require "plugins.notify" }
 
+    use { "Pocco81/TrueZen.nvim" }
+
     --[[
-    --      Project manager
+    --      Project & Session
     --]]
     -- cmake
     use { "Shatur/neovim-cmake", config = require "plugins.cmake" }
     -- project
     use { "windwp/nvim-projectconfig", config = require "plugins.projectconfig" }
+
+    -- session
+    use { "rmagatti/auto-session" }
+    use { "rmagatti/session-lens", config = require "plugins.session" }
+
+    --[[
+    --      Language specific
+    --]]
+    use {
+        "lervag/vimtex",
+        config = require "plugins.latex",
+    }
+    use {
+        "iamcco/markdown-preview.nvim",
+        config = require("plugins.markdown"),
+        run = "cd app && npm install",
+        setup = function() vim.g.mkdp_filetypes = { "markdown" } end,
+        ft = { "markdown" },
+    }
 end)
