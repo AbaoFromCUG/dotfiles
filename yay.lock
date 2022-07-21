@@ -12,6 +12,7 @@ cudnn
 docker
 fcitx-sogoupinyin
 feishu-bin
+gimp
 go
 gperf
 grub
@@ -38,9 +39,8 @@ pkgfile
 polkit-gnome
 polybar
 py3status
-ranger-git
+ranger
 ripgrep
-rtl8821cu-morrownr-dkms-git
 sddm
 shellcheck
 shfmt
