@@ -213,7 +213,7 @@ bar {
 }
 
 
-exec --no-startup-id $HOME/.config/polybar/launch.sh
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec --no-startup-id fcitx
 exec --no-startup-id across
 exec_always --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
@@ -229,6 +229,8 @@ exec --no-startup-id feh --bg-scale ~/Pictures/wallpapers/nature-3058859.jpg
 
 # screen timeout
 exec --no-startup-id xset dpms 300 360 420
+
+exec_always --no-startup-id libinput-gestures-setup restart
 
 # i3lock
 set $screen_resolution $(xdpyinfo | grep dimensions | cut -d' ' -f7)
