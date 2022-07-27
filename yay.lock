@@ -13,6 +13,7 @@ docker
 fcitx-sogoupinyin
 feishu-bin
 gimp
+flameshot
 go
 gperf
 grub
@@ -44,7 +45,7 @@ ripgrep
 sddm
 shellcheck
 shfmt
-shutter
+stylua
 teamviewer
 tmux
 ttf-font-awesome
