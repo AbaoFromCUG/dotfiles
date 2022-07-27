@@ -1,5 +1,6 @@
 return function()
-    -- local nvim_lsp = require('lspconfig')
+    local lspconfig = require('lspconfig')
+    local mason_lspconfig = require("mason-lspconfig")
     -- reference https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
     local lsp_signature = require("lsp_signature")
     local on_attach = function(client, bufnr)
@@ -7,9 +8,11 @@ return function()
         local function buf_set_keymap(...)
             vim.api.nvim_buf_set_keymap(bufnr, ...)
         end
+
         local function buf_set_option(...)
             vim.api.nvim_buf_set_option(bufnr, ...)
         end
+
         -- Enable completion triggered by <c-x><c-o>
         buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
@@ -47,15 +50,15 @@ return function()
         }
     end
 
-    local servers = require("nvim-lsp-installer").get_installed_servers()
+    local servers = mason_lspconfig.get_installed_servers()
 
-    for _, server in pairs(servers) do
+    for _, server_name in ipairs(servers) do
+        local server = lspconfig[server_name]
         local config = make_config()
-        if server.name == "sumneko_lua" then
-            require("lsp.sumneko_lua")(config)
-        elseif server.name == "clangd" then
-            require("lsp.clangd")(config)
+        local success, hook = pcall(require, "lsp." .. server_name)
+        if success then
+            hook(config)
         end
-        server:setup(config)
+        server.setup(config)
     end
 end

@@ -27,5 +27,5 @@ My dotfiles for Neovim, zsh, tmux, optimized for ArchLinux. Managed with [Dotbot
 - [lazygit](https://github.com/jesseduffield/lazygit) the least painful way to
   use Git
 
-- almoust the only screenshot tool [shutter](https://shutter-project.org/)
+- almoust the only screenshot tool [flameshot](https://flameshot.org/)
 

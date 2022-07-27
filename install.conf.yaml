@@ -2,8 +2,6 @@
     link:
       create: true
       relink: true
-
-# remove dead symlinks
 - clean:
     ~/:
       force: true
@@ -11,7 +9,6 @@
       recursive: true
 
 - link:
-    # home
     ~/:
       glob: true
       path: home/*
@@ -19,6 +16,10 @@
     ~/.config:
       glob: true
       path: config/*
+- yay:
+  - xorg
+  - xorg-apps
+  - i3
 - shell:
   -
     command: >+
@@ -48,3 +49,4 @@
     command: nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
     description: Update neovim plugin(a few minutes)
     quiet: true
+

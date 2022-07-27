@@ -56,7 +56,6 @@ return require "packer".startup(function(use)
     --       Language server protocol
     --]]
     use { "neovim/nvim-lspconfig", config = require "plugins.lspconfig" }
-    use { "williamboman/nvim-lsp-installer", config = require "plugins.lspinstall" }
     -- completion engine
     use { "hrsh7th/nvim-cmp", config = require "plugins.cmp" } -- Autocompletion plugin
     -- completion source
@@ -82,6 +81,13 @@ return require "packer".startup(function(use)
     use { "mfussenegger/nvim-dap", config = require "plugins.dap" }
     use { "rcarriga/nvim-dap-ui", config = require "plugins.dapui" }
     use { "theHamsta/nvim-dap-virtual-text" }
+
+    --[[
+   --       Mason 
+   --]]
+    use { "williamboman/mason.nvim", config = require("plugins.mason") }
+    use { "williamboman/mason-lspconfig.nvim" }
+
     --[[
     --      Editor
     --]]
