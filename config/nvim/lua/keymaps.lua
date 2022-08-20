@@ -4,6 +4,8 @@ local dap = require("dap")
 local function run()
     if dap.session() then
         vim.cmd("DapContinue")
+    else
+        vim.cmd("CMake build_and_run")
     end
 end
 
@@ -48,7 +50,18 @@ wk.register {
         r = { run, "run" },
         n = { step_over, "step over" },
         N = { step_into, "step into" },
-        p = { breakpoint, "toggle breakpoint"}
+        p = { breakpoint, "toggle breakpoint" },
+        b = { "<cmd>NvimTreeToggle<cr>", "toggle explorer" },
+        f = { "<cmd>NvimTreeFindFile<cr>", "focus in explorer" },
+
+        l = { "<cmd>BufferLineCycleNext<cr>", "focus right tab" },
+        h = { "<cmd>BufferLineCyclePrev<cr>", "focus left tab" },
+        o = { function()
+            vim.cmd "BufferLineCloseLeft"
+            vim.cmd "BufferLineCloseRight"
+        end, "close other tabs" }
     },
     ["<C-b>"] = { "<cmd>NvimTreeToggle<cr>", "toggle explorer" },
+    ["<S-l>"] = { "<cmd>BufferLineCycleNext<cr>", "focus right tab" },
+    ["<S-h>"] = { "<cmd>BufferLineCyclePrev<cr>", "focus left tab" }
 }

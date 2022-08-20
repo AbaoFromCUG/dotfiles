@@ -22,7 +22,7 @@ return require "packer".startup(function(use)
     -- status line
     use { "hoob3rt/lualine.nvim", config = require "plugins.lualine" }
     use { "arkav/lualine-lsp-progress" }
-    use { "SmiteshP/nvim-gps", config = require "plugins.gps" }
+    use { "SmiteshP/nvim-navic", config = require "plugins.code-navigation" }
     -- indent
     use { "lukas-reineke/indent-blankline.nvim", config = require "plugins.indent_blankline" }
 
@@ -130,10 +130,6 @@ return require "packer".startup(function(use)
     --[[
     --      Language specific
     --]]
-    use {
-        "lervag/vimtex",
-        config = require "plugins.latex",
-    }
     use {
         "iamcco/markdown-preview.nvim",
         config = require("plugins.markdown"),

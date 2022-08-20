@@ -18,10 +18,14 @@ vim.opt.autoindent = true
 vim.opt.cindent = true
 vim.opt.smartindent = true
 
--- encodeing
+-- encoding
 vim.opt.langmenu = "zh_CN.UTR-8"
 vim.opt.helplang = "cn"
 vim.opt.encoding = "utf8"
+
+
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
 
 -- Packer Bootstrapping
 local fn = vim.fn

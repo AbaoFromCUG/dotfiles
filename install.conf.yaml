@@ -46,6 +46,14 @@
     description: Install&update oh-my-tmux
     quiet: true
   -
+    command: >+
+      if [ ! -d ~/.local/mpd/playlists ]; then
+        mkdir ~/.local/mpd/playlists -p
+        touch ~/.local/mpd/{database,log,pid,state,sticker.sql}
+      fi
+    description: "Config music player daemon"
+    quiet: true
+  -
     command: nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
     description: Update neovim plugin(a few minutes)
     quiet: true

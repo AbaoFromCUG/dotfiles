@@ -2,9 +2,12 @@ return function()
     local lspconfig = require('lspconfig')
     local mason_lspconfig = require("mason-lspconfig")
     -- reference https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-    local lsp_signature = require("lsp_signature")
+
+    local code_navigation = require("nvim-navic")
+
     local on_attach = function(client, bufnr)
-        lsp_signature.on_attach()
+        code_navigation.attach(client, bufnr)
+
         local function buf_set_keymap(...)
             vim.api.nvim_buf_set_keymap(bufnr, ...)
         end

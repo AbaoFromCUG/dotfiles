@@ -1,11 +1,11 @@
 return function()
-    local gps = require "nvim-gps"
+    local code_navigation = require "nvim-navic"
     local function tab_spaces()
         local tabstop = vim.api.nvim_get_option "tabstop"
         if vim.opt.expandtab then
-            return "Spaces:" .. tabstop
+            return "spaces:" .. tabstop
         else
-            return "Tab Size" .. tabstop
+            return "tab size" .. tabstop
         end
     end
 
@@ -20,7 +20,7 @@ return function()
         sections = {
             lualine_a = { "mode" },
             lualine_b = { "branch", "diff" },
-            lualine_c = { "filename", { gps.get_location, cond = gps.is_available } },
+            lualine_c = { "filename", { code_navigation.get_location, cond = code_navigation.is_available } },
             lualine_x = { "lsp_progress", "diagnostics" },
             lualine_y = { tab_spaces, "encoding", "fileformat", "filetype" },
             lualine_z = { "progress", "location" },
