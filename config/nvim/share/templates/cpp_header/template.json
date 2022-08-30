@@ -1,0 +1,17 @@
+{
+    "author": "Abao Zhang",
+    "name": "C++ header",
+    "options": [
+        {
+            "id": "file_name",
+            "name": "header file name",
+            "default_value": "header.h"
+        }
+    ],
+    "output_files": [
+        {
+            "from": "header_h.templ",
+            "to": "%{file_name}"
+        }
+    ]
+}

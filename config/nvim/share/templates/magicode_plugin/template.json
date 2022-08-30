@@ -1,0 +1,25 @@
+{
+    "author": "Abao Zhang",
+    "name": "Magicode plugin",
+    "options": [
+        {
+            "id": "plugin_name",
+            "name": "plugin name",
+            "default_value": "CustomPlugin"
+        }
+    ],
+    "output_files": [
+        {
+            "from": "CMakeLists_txt.templ",
+            "to": "%{plugin_name}/CMakeLists.txt"
+        },
+        {
+            "from": "plugin_h.templ",
+            "to": "%{plugin_name}/%{plugin_name}.h"
+        },
+        {
+            "from": "plugin_cpp.templ",
+            "to": "%{plugin_name}/%{plugin_name}.cpp"
+        }
+    ]
+}

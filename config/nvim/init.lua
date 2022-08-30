@@ -36,4 +36,4 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 require "plugins"
-require "keymaps"
+require "keymaps.global"

@@ -87,6 +87,7 @@ return require "packer".startup(function(use)
    --]]
     use { "williamboman/mason.nvim", config = require("plugins.mason") }
     use { "williamboman/mason-lspconfig.nvim" }
+    use { "jose-elias-alvarez/null-ls.nvim", config = require("plugins.null-ls") }
 
     --[[
     --      Editor
@@ -103,6 +104,7 @@ return require "packer".startup(function(use)
     }
     use { "folke/which-key.nvim", config = require "plugins.which-key" }
     use { "kyazdani42/nvim-tree.lua", config = require "plugins.filetree" }
+    use { "simrat39/symbols-outline.nvim", config = require("plugins.outline") }
     use { "glepnir/dashboard-nvim", config = require "plugins.dashboard" }
 
     use {

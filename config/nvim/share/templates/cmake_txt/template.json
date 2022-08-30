@@ -1,0 +1,10 @@
+{
+    "author": "Abao Zhang",
+    "name": "CMake CMakeLists.txt",
+    "output_files": [
+        {
+            "from": "CMakeLists_txt.templ",
+            "to": "CMakeLists.txt"
+        }
+    ]
+}

@@ -1,29 +1,4 @@
 local wk = require("which-key")
-local dap = require("dap")
-
-local function run()
-    if dap.session() then
-        vim.cmd("DapContinue")
-    else
-        vim.cmd("CMake build_and_run")
-    end
-end
-
-local function step_over()
-    if dap.session() then
-        vim.api.cmd("DapStepOver")
-    end
-end
-
-local function step_into()
-    if dap.session() then
-        vim.api.cmd("DapStepInto")
-    end
-end
-
-local function breakpoint()
-    vim.cmd("DapToggleBreakpoint")
-end
 
 wk.register {
     ["<leader>"] = {
@@ -44,22 +19,28 @@ wk.register {
             m = { "<cmd>Telescope filetypes<cr>", "languages" },
             c = { "<cmd>Telescope colorscheme<cr>", "colorscheme" },
         },
+        v = {
+            name = "view",
+            b = { "<cmd>NvimTreeToggle<cr>", "toggle explorer" },
+            f = { "<cmd>NvimTreeFindFile<cr>", "focus in explorer" },
+            l = { "<cmd>BufferLineCycleNext<cr>", "focus right tab" },
+            h = { "<cmd>BufferLineCyclePrev<cr>", "focus left tab" },
+            o = { function()
+                vim.cmd "BufferLineCloseLeft"
+                vim.cmd "BufferLineCloseRight"
+            end, "close other tabs" }
+
+        }
     },
     ["<space>"] = {
         name = "super space",
-        r = { run, "run" },
-        n = { step_over, "step over" },
-        N = { step_into, "step into" },
-        p = { breakpoint, "toggle breakpoint" },
-        b = { "<cmd>NvimTreeToggle<cr>", "toggle explorer" },
-        f = { "<cmd>NvimTreeFindFile<cr>", "focus in explorer" },
-
-        l = { "<cmd>BufferLineCycleNext<cr>", "focus right tab" },
-        h = { "<cmd>BufferLineCyclePrev<cr>", "focus left tab" },
-        o = { function()
-            vim.cmd "BufferLineCloseLeft"
-            vim.cmd "BufferLineCloseRight"
-        end, "close other tabs" }
+        c = {
+            name = "cmake config",
+            b = { "<cmd>CMake build<cr>", "select cmake target" },
+            c = { "<cmd>CMake configure<cr>", "cmake configure" },
+            r = { "<cmd>CMake build_and_debug<cr>", "cmake debug" },
+            s = { "<cmd>CMake select_target<cr>", "select cmake target" },
+        }
     },
     ["<C-b>"] = { "<cmd>NvimTreeToggle<cr>", "toggle explorer" },
     ["<S-l>"] = { "<cmd>BufferLineCycleNext<cr>", "focus right tab" },

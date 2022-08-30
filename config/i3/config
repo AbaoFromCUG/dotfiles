@@ -289,3 +289,4 @@ for_window [title="^WeChat$"] floating enable border pixel 1
 # lark view images
 for_window [title="^图片$"] floating enable border pixel 1
 for_window [instance="^icalingua$"] floating enable border pixel 1
+for_window [title="^Abao-TestFlag$"] floating enable border pixel 1

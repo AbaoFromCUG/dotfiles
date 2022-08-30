@@ -1,19 +1,27 @@
 return function()
 
     -- stylua: ignore start
-    local keys = {"a", "s", "d", "f", "g", "h", "j", "k", "l", ";",
-                  "q", "w", "e", "r", "t", "y", "u", "i", "o", "p",
-                  "A", "S", "D", "F", "G", "H", "J", "K", "L", ":",
-                  "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", }
+    local keys = { "a", "s", "d", "f", "g", "h", "j", "k", "l", ";",
+        "q", "w", "e", "r", "t", "y", "u", "i", "o", "p",
+        "A", "S", "D", "F", "G", "H", "J", "K", "L", ":",
+        "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", }
     -- stylua: ignore end
 
     local telescope = require "telescope"
     local actions = require "telescope._extensions.hop.actions"
     telescope.setup {
-        prompt_prefix ="",
         defaults = {
+            prompt_prefix = "",
             -- Default configuration for telescope goes here:
             -- config_key = value,
+            --
+            layout_config = {
+                horizontal = {
+                    preview_cutoff = 60
+                }
+                -- other layout configuration here
+            },
+            layout_strategy = 'flex',
             mappings = {
                 i = {
                     -- IMPORTANT

@@ -39,6 +39,7 @@ return function()
             "c",
             "java",
             "norg",
+            "qmljs",
         },
         ignore_install = { "haskell" }, -- List of parsers to ignore installing
         highlight = {

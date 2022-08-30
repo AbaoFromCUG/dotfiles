@@ -1,0 +1,21 @@
+{
+    "author": "Abao Zhang",
+    "name": "Magicode library",
+    "options": [
+        {
+            "id": "library_name",
+            "name": "library name",
+            "default_value": "utils"
+        }
+    ],
+    "output_files": [
+        {
+            "from": "CMakeLists_txt.templ",
+            "to": "%{library_name}/CMakeLists.txt"
+        },
+        {
+            "from": "library_global_h.templ",
+            "to": "%{library_name}/%{library_name}_global.h"
+        }
+    ]
+}

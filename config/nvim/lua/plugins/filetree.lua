@@ -1,5 +1,7 @@
 return function()
     local builtin = require "telescope.builtin"
+    local file_templates = require("file_templates")
+    local Path = require("plenary.path")
 
     local find_file = function(node)
         builtin.find_files {
@@ -12,6 +14,16 @@ return function()
         }
     end
 
+    local create_template = function(node)
+        local path = Path:new(node.absolute_path)
+        if (path:is_file()) then
+            file_templates.create(path:parent():absolute())
+        else
+            file_templates.create(path:absolute())
+        end
+
+    end
+
     local mappings = {
         { key = "?", action = "toggle_help" },
         { key = { "<CR>", "o", "<2-LeftMouse>" }, action = "edit" },
@@ -19,6 +31,7 @@ return function()
         { key = "Y", action = "copy_name" },
 
         { key = "a", action = "create" },
+        { key = "A", action = "create from template", action_cb = create_template },
         { key = "d", action = "trash" },
         { key = "r", action = "rename" },
         { key = "x", action = "cut" },
