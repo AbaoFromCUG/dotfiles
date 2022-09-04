@@ -10,3 +10,6 @@ indent_style = space
 indent_size = 4
 tab_width = 4
 call_arg_parentheses = remove_table_only
+quote_style = single
+call_arg_parentheses = remove
+align_table_field_to_first_field = true

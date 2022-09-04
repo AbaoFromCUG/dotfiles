@@ -1,0 +1,10 @@
+{
+    "author": "Abao Zhang",
+    "name": "Launch configurations(.neovim/launch.json)",
+    "output_files": [
+        {
+            "from": "launch_json.templ",
+            "to": "launch.json"
+        }
+    ]
+}

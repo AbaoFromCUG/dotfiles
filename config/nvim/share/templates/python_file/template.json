@@ -1,16 +1,16 @@
 {
     "author": "Abao Zhang",
-    "name": "CMake .cmake file",
+    "name": "Python file",
     "options": [
         {
             "id": "file_name",
             "name": "file_name",
-            "default_value": "FindXXX.cmake"
+            "default_value": "main.py"
         }
     ],
     "output_files": [
         {
-            "from": "default_cmake.templ",
+            "from": "sample_py.templ",
             "to": "%{file_name}"
         }
     ]

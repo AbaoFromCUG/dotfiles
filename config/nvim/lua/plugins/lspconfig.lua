@@ -1,10 +1,11 @@
+require('language_server.qmlls')
 return function()
     local lspconfig = require('lspconfig')
-    local lspkeymap_register = require("keymaps.lspbuffer")
-    local mason_lspconfig = require("mason-lspconfig")
+    local lspkeymap_register = require('keymaps.lspbuffer')
+    local mason_lspconfig = require('mason-lspconfig')
     -- reference https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 
-    local code_navigation = require("nvim-navic")
+    local code_navigation = require('nvim-navic')
 
     local on_attach = function(client, bufnr)
         code_navigation.attach(client, bufnr)
@@ -14,12 +15,12 @@ return function()
         end
 
         -- Enable completion triggered by <c-x><c-o>
-        buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
+        buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
         -- Mappings.
         lspkeymap_register(bufnr)
     end
-    local cmp_nvim_lsp = require("cmp_nvim_lsp")
+    local cmp_nvim_lsp = require('cmp_nvim_lsp')
     -- config that activates keymaps and enables snippet support
     local function make_config()
         local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -32,11 +33,11 @@ return function()
     end
 
     local servers = mason_lspconfig.get_installed_servers()
-    table.insert(servers, "qml_lsp")
+    table.insert(servers, 'qmlls')
     for _, server_name in ipairs(servers) do
         local server = lspconfig[server_name]
         local config = make_config()
-        local success, hook = pcall(require, "lsp." .. server_name)
+        local success, hook = pcall(require, 'language.' .. server_name)
         if success then
             hook(config)
         end

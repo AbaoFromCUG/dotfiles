@@ -1,17 +1,17 @@
 return function()
 
     -- stylua: ignore start
-    local keys = { "a", "s", "d", "f", "g", "h", "j", "k", "l", ";",
-        "q", "w", "e", "r", "t", "y", "u", "i", "o", "p",
-        "A", "S", "D", "F", "G", "H", "J", "K", "L", ":",
-        "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", }
+    local keys = { 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';',
+                   'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
+                   'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':',
+                   'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', }
     -- stylua: ignore end
 
-    local telescope = require "telescope"
-    local actions = require "telescope._extensions.hop.actions"
+    local telescope = require 'telescope'
+    local actions = require 'telescope._extensions.hop.actions'
     telescope.setup {
         defaults = {
-            prompt_prefix = "",
+            prompt_prefix = '',
             -- Default configuration for telescope goes here:
             -- config_key = value,
             --
@@ -26,9 +26,9 @@ return function()
                 i = {
                     -- IMPORTANT
                     -- either hot-reloaded or `function(prompt_bufnr) telescope.extensions.hop.hop end`
-                    ["<C-h>"] = telescope.extensions.hop.hop, -- hop.hop_toggle_selection
+                    ['<C-h>'] = telescope.extensions.hop.hop, -- hop.hop_toggle_selection
                     -- custom hop loop to multi selects and sending selected entries to quickfix list
-                    ["<C-l>"] = function(prompt_bufnr)
+                    ['<C-l>'] = function(prompt_bufnr)
                         local opts = {
                             callback = actions.toggle_selection,
                             loop_callback = actions.send_selected_to_qflist,
@@ -52,7 +52,7 @@ return function()
                 fuzzy = true, -- false will only do exact matching
                 override_generic_sorter = true, -- override the generic sorter
                 override_file_sorter = true, -- override the file sorter
-                case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+                case_mode = 'smart_case', -- or "ignore_case" or "respect_case"
                 -- the default case_mode is "smart_case"
             },
             hop = {
@@ -60,9 +60,9 @@ return function()
                 keys = keys,
                 -- Highlight groups to link to signs and lines; the below configuration refers to demo
                 -- sign_hl typically only defines foreground to possibly be combined with line_hl
-                sign_hl = { "WarningMsg", "Title" },
+                sign_hl = { 'WarningMsg', 'Title' },
                 -- optional, typically a table of two highlight groups that are alternated between
-                line_hl = { "CursorLine", "Normal" },
+                line_hl = { 'CursorLine', 'Normal' },
                 -- options specific to `hop_loop`
                 -- true temporarily disables Telescope selection highlighting
                 clear_selection_hl = false,
@@ -74,9 +74,9 @@ return function()
             },
         },
     }
-    telescope.load_extension "fzf"
-    telescope.load_extension "hop"
-    telescope.load_extension "project"
-    telescope.load_extension "dap"
-    telescope.load_extension "frecency"
+    telescope.load_extension 'fzf'
+    telescope.load_extension 'hop'
+    telescope.load_extension 'project'
+    telescope.load_extension 'dap'
+    telescope.load_extension 'frecency'
 end

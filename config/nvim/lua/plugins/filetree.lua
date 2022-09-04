@@ -2,6 +2,8 @@ return function()
     local builtin = require "telescope.builtin"
     local file_templates = require("file_templates")
     local Path = require("plenary.path")
+    local tasks = require("tasks")
+    local nvim_tree = require("nvim-tree")
 
     local find_file = function(node)
         builtin.find_files {
@@ -40,7 +42,7 @@ return function()
         { key = "fw", action = "find string", action_cb = find_word },
     }
 
-    require("nvim-tree").setup {
+    nvim_tree.setup {
         disable_netrw = true,
         hijack_netrw = true,
         open_on_setup = false,
@@ -169,4 +171,11 @@ return function()
             require_confirm = true,
         },
     }
+
+    local function restore_nvim_tree()
+        nvim_tree.change_dir(vim.fn.getcwd())
+        vim.cmd("NvimTreeRefresh")
+    end
+
+    tasks:register_prerestore_task("restore_nvim_tree", restore_nvim_tree)
 end

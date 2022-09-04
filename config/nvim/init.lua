@@ -23,9 +23,13 @@ vim.opt.langmenu = "zh_CN.UTR-8"
 vim.opt.helplang = "cn"
 vim.opt.encoding = "utf8"
 
+vim.opt.laststatus = 3
+
+vim.opt.swapfile = false
 
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
+
 
 -- Packer Bootstrapping
 local fn = vim.fn
@@ -35,5 +39,12 @@ if fn.empty(fn.glob(install_path)) > 0 then
     vim.cmd [[packadd packer.nvim]]
 end
 
+_G.pprint = function(...)
+    vim.notify(vim.inspect(...))
+end
+
 require "plugins"
 require "keymaps.global"
+require("launcher")
+require("file_templates")
+require("launcher")
