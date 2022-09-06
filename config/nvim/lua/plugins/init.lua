@@ -14,8 +14,8 @@ return require 'packer'.startup(function(use)
     -- theme & color
     use { 'glepnir/zephyr-nvim', config = require 'plugins.theme' }
     use { 'ellisonleao/gruvbox.nvim' }
-    -- color text colorizer, e.g. #612208 Red
-    use { 'norcalli/nvim-colorizer.lua', config = require 'plugins.colorizer' }
+    -- color text colorizer, e.g. #5F9EA0 Aqua #91f
+    use { 'NvChad/nvim-colorizer.lua', config = require 'plugins.colorizer' }
     use { 'xiyaowong/nvim-transparent', config = require 'plugins.transparent' }
     -- tab line
     use { 'akinsho/bufferline.nvim', config = require 'plugins.bufferline' }
@@ -118,23 +118,11 @@ return require 'packer'.startup(function(use)
     --[[
     --      Project & Session
     --]]
-    -- cmake
     use { 'Shatur/neovim-cmake', config = require 'plugins.cmake' }
-    -- project
-    use { 'windwp/nvim-projectconfig', config = require 'plugins.projectconfig' }
-
-    -- session
-    use { '/home/abao/Documents/auto-session' }
-    use { 'rmagatti/session-lens', config = require 'plugins.session' }
+    use { 'AbaoFromCUG/auto-session', config = require('plugins.session') }
 
     --[[
     --      Language specific
     --]]
-    use {
-        'iamcco/markdown-preview.nvim',
-        config = require('plugins.markdown'),
-        run = 'cd app && npm install',
-        setup = function() vim.g.mkdp_filetypes = { 'markdown' } end,
-        ft = { 'markdown' },
-    }
+    use { 'AckslD/nvim-FeMaco.lua', ft = { 'markdown' }, config = require('plugins.markdown') }
 end)
