@@ -16,7 +16,6 @@ return require 'packer'.startup(function(use)
     use { 'ellisonleao/gruvbox.nvim' }
     -- color text colorizer, e.g. #5F9EA0 Aqua #91f
     use { 'NvChad/nvim-colorizer.lua', config = require 'plugins.colorizer' }
-    use { 'xiyaowong/nvim-transparent', config = require 'plugins.transparent' }
     -- tab line
     use { 'akinsho/bufferline.nvim', config = require 'plugins.bufferline' }
     -- status line
@@ -31,8 +30,7 @@ return require 'packer'.startup(function(use)
         end,
     }
     use { 'rcarriga/nvim-notify', config = require 'plugins.notify' }
-    use { 'stevearc/dressing.nvim', config = require('plugins.dressing') }
-
+    use { 'stevearc/dressing.nvim', config = require 'plugins.dressing' }
 
     use { 'nvim-telescope/telescope.nvim', config = require 'plugins.telescope' }
     use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
@@ -85,15 +83,15 @@ return require 'packer'.startup(function(use)
     use { 'rcarriga/nvim-dap-ui', config = require 'plugins.dapui' }
     use { 'theHamsta/nvim-dap-virtual-text' }
     use { 'Weissle/persistent-breakpoints.nvim', config = function()
-              require('persistent-breakpoints').setup()
+              require 'persistent-breakpoints'.setup()
           end }
 
     --[[
    --       Mason 
    --]]
-    use { 'williamboman/mason.nvim', config = require('plugins.mason') }
+    use { 'williamboman/mason.nvim', config = require 'plugins.mason' }
     use { 'williamboman/mason-lspconfig.nvim' }
-    use { 'jose-elias-alvarez/null-ls.nvim', config = require('plugins.null-ls') }
+    use { 'jose-elias-alvarez/null-ls.nvim', config = require 'plugins.null-ls' }
 
     --[[
     --      Editor
@@ -110,19 +108,17 @@ return require 'packer'.startup(function(use)
     }
     use { 'folke/which-key.nvim', config = require 'plugins.which-key' }
     use { 'kyazdani42/nvim-tree.lua', config = require 'plugins.filetree' }
-    use { 'simrat39/symbols-outline.nvim', config = require('plugins.outline') }
+    use { 'simrat39/symbols-outline.nvim', config = require 'plugins.outline' }
     use { 'glepnir/dashboard-nvim', config = require 'plugins.dashboard' }
-
-    use { 'Pocco81/TrueZen.nvim' }
 
     --[[
     --      Project & Session
     --]]
     use { 'Shatur/neovim-cmake', config = require 'plugins.cmake' }
-    use { 'AbaoFromCUG/auto-session', config = require('plugins.session') }
+    use { 'rmagatti/auto-session', config = require 'plugins.session' }
 
     --[[
     --      Language specific
     --]]
-    use { 'AckslD/nvim-FeMaco.lua', ft = { 'markdown' }, config = require('plugins.markdown') }
+    use { 'AckslD/nvim-FeMaco.lua', ft = { 'markdown' }, config = require 'plugins.markdown' }
 end)

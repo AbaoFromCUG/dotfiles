@@ -2,7 +2,7 @@ local which_key = require 'which-key'
 
 return function(bufno)
     which_key.register({
-        f = { '<cmd>lua vim.lsp.buf.formatting()<cr>', 'format' },
+        f = { '<cmd>lua vim.lsp.buf.format()<cr>', 'format' },
         g = {
             name = 'jump',
             d = { '<cmd>lua vim.lsp.buf.definition()<cr>', 'jump to definition' },

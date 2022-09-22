@@ -5,8 +5,11 @@ return function()
     vim.opt.foldminlines = 3
     vim.opt.foldnestmax = 5
 
-    require('nvim-treesitter.install').prefer_git = true
-    require('nvim-treesitter.configs').setup {
+    require 'nvim-treesitter.install'.prefer_git = true
+    require 'nvim-treesitter.configs'.setup {
+        indent = {
+            enable = true
+        },
         incremental_selection = {
             enable = true,
             keymaps = {

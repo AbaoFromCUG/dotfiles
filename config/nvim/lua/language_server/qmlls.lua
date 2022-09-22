@@ -1,11 +1,11 @@
 local configs = require 'lspconfig.configs'
 local util = require 'lspconfig.util'
-local null_ls = require('null-ls')
-local methods = require('null-ls.methods')
-local helpers = require('null-ls.helpers')
+local null_ls = require 'null-ls'
+local methods = require 'null-ls.methods'
+local helpers = require 'null-ls.helpers'
 
 local root_files = {
-    'compile_commands.json',
+    '.qmlls.ini',
     '*.qmlproject',
     '*.pro',
 }
@@ -14,7 +14,7 @@ local root_files = {
 if not configs.qmlls then
     configs.qmlls = {
         default_config = {
-            cmd = { '/usr/lib/qt6/bin/qmlls', '-v' },
+            cmd = { 'qmlls' },
             filetypes = { 'qml', 'qmljs' },
             root_dir = function(fname)
                 return util.root_pattern(unpack(root_files))(fname) or util.find_git_ancestor(fname)

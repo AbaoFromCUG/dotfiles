@@ -18,5 +18,6 @@ return function()
         -- Command to run after starting DAP session.
         -- You can set it to `false` if you don't want to open anything or `require('dapui').open` if you are using https://github.com/rcarriga/nvim-dap-ui
         dap_open_command = require("dap").repl.open,
+        copy_compile_commands = false,
     }
 end

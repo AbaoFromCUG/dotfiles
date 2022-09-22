@@ -1,31 +1,31 @@
 local M = {}
 
 local fn = vim.fn
-local dap = require("dap")
-local Path = require("plenary.path")
-local fake_vscode = require("dap.ext.vscode")
+local dap = require 'dap'
+local Path = require 'plenary.path'
+local fake_vscode = require 'dap.ext.vscode'
 
 
 M.current_launch_conf = nil
 
 local format_config = function(item)
     if item then
-        return string.format("%s (%s)", item.name, item.type)
+        return string.format('%s (%s)', item.name, item.type)
     end
-    return "(Empty)"
+    return '(Empty)'
 end
 
 function M.refresh_launcher()
     -- clear raw configuration
     dap.configurations = {}
-    local launch_filepath = Path:new(fn.getcwd()):joinpath(".neovim/launch.json"):absolute()
+    local launch_filepath = Path:new(fn.getcwd()):joinpath '.neovim/launch.json':absolute()
     fake_vscode.load_launchjs(launch_filepath)
     -- just check name to ensure unique
     local named_config = {}
     for _, subconfigs in pairs(dap.configurations) do
         for _, item in ipairs(subconfigs) do
             if named_config[item.name] then
-                vim.notify("name is not unique", vim.log.levels.ERROR)
+                vim.notify('name is not unique', vim.log.levels.ERROR)
                 return
             end
             named_config[item.name] = item
@@ -63,16 +63,16 @@ function M.select_by_name(name)
             end
         end
     end
-    vim.notify(string.format("no name (%s) launch", name))
+    vim.notify(string.format('no name (%s) launch', name))
 end
 
 function M.launch_or_continue()
-    if not M.current_launch_conf then
-        vim.notify("not selected launch, please edit launch.json or refresh", vim.log.levels.WARN)
-    elseif not dap.session then
+    if dap.session() then
+        dap.continue()
+    elseif M.current_launch_conf then
         dap.run(M.current_launch_conf)
     else
-        dap.continue()
+        vim.notify('not selected launch, please edit launch.json or refresh', vim.log.levels.WARN)
     end
 end
 

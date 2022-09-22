@@ -1,7 +1,6 @@
-local wk = require('which-key')
-local launcher = require('launcher')
-local dap = require('dap')
-
+local wk = require 'which-key'
+local launcher = require 'launcher'
+local dap = require 'dap'
 
 vim.api.nvim_set_keymap('n', ';', '<C-w>', { noremap = true })
 
@@ -39,6 +38,7 @@ wk.register {
     },
     ['<space>'] = {
         name = 'super space',
+        s = { '<cmd>w<cr>', 'write' },
         c = {
             name = 'cmake config',
             b = { '<cmd>CMake build<cr>', 'select cmake target' },
@@ -54,6 +54,7 @@ wk.register {
             b = { dap.toggle_breakpoint, 'toggle breakpoint' },
             i = { dap.step_into, 'step into' },
             o = { dap.step_over, 'step over' },
+            l = { launcher.refresh_launcher, 'refresh config' },
         }
     },
     ['<F5>'] = { launcher.launch_or_continue, 'debug' },

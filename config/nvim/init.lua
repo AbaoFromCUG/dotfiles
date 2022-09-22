@@ -7,6 +7,7 @@ vim.opt.cursorline = true
 vim.opt.hidden = true
 vim.opt.termguicolors = true
 vim.opt.relativenumber = true
+vim.opt.linebreak = true
 
 vim.opt.hlsearch = true
 vim.opt.incsearch = true

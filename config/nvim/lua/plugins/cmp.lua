@@ -1,68 +1,34 @@
 return function()
+
+    local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
+    local lspkind = require 'lspkind'
+    local cmp = require 'cmp'
+    assert(cmp)
+
     local feedkey = function(key, mode)
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
     end
 
-    local cmp = require "cmp"
-    local lspkind = require "lspkind"
-    local selectNext = function(fallback)
-        if cmp.visible() then
-            cmp.select_next_item { behavior = cmp.SelectBehavior.Insert }
-        else
-            fallback()
-        end
-    end
-    local selectPrev = function(fallback)
-        if cmp.visible() then
-            cmp.select_prev_item { behavior = cmp.SelectBehavior.Insert }
-        else
-            fallback()
-        end
-    end
-    local selectNextOrSnippet = function(fallback)
-        if cmp.visible() and cmp.get_active_entry() then
-            cmp.select_next_item { behavior = cmp.SelectBehavior.Insert }
-        elseif vim.fn["vsnip#available"](1) == 1 then
-            feedkey("<Plug>(vsnip-jump-next)", "")
-        else
-            fallback()
-        end
-    end
-    local selectPrevOrSnippet = function(fallback)
-        if cmp.visible() and cmp.get_active_entry() then
-            cmp.select_prev_item { behavior = cmp.SelectBehavior.Insert }
-        elseif vim.fn["vsnip#jumpable"](-1) == 1 then
-            feedkey("<Plug>(vsnip-jump-prev)", "")
-        else
-            fallback()
-        end
-    end
-    local doNothing = function(fallback)
-        fallback()
+    local has_words_before = function()
+        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match '%s' == nil
     end
     cmp.setup {
-        completion = { completeopt = "menu,menuone,noselect" },
+        completion = { completeopt = 'menu,menuone,noselect' },
         snippet = {
             expand = function(args)
-                vim.fn["vsnip#anonymous"](args.body)
+                vim.fn['vsnip#anonymous'](args.body)
             end,
         },
         mapping = {
-            ["<C-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
-            ["<C-p>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
-            ["<Down>"] = cmp.mapping {
-                c = doNothing,
-                i = selectNext,
-            },
-            ["<Up>"] = cmp.mapping {
-                c = doNothing,
-                i = selectPrev,
-            },
-            ["<C-d>"] = cmp.mapping.scroll_docs(4),
-            ["<C-u>"] = cmp.mapping.scroll_docs(-4),
-            ["<C-Space>"] = cmp.mapping.complete(),
-            ["<C-e>"] = cmp.mapping.close(),
-            ["<CR>"] = function(fallback)
+            ['<C-n>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
+            ['<C-p>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
+            ['<Down>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
+            ['<Up>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
+            ['<C-d>'] = cmp.mapping.scroll_docs(4),
+            ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+            ['<C-e>'] = cmp.mapping.close(),
+            ['<CR>'] = function(fallback)
                 if cmp.get_selected_entry() then
                     cmp.confirm {
                         behavior = cmp.ConfirmBehavior.Replace,
@@ -74,54 +40,68 @@ return function()
                     fallback()
                 end
             end,
-            ["<Tab>"] = cmp.mapping {
-                c = selectNext,
-                i = selectNextOrSnippet,
-                s = selectNextOrSnippet,
-            },
-            ["<S-Tab>"] = cmp.mapping {
-                c = selectPrev,
-                i = selectPrevOrSnippet,
-                s = selectPrevOrSnippet,
-            },
+            ['<Tab>'] = cmp.mapping(function(fallback)
+                if cmp.visible() then
+                    cmp.select_next_item()
+                elseif vim.fn['vsnip#available'](1) == 1 then
+                    feedkey('<Plug>(vsnip-expand-or-jump)', '')
+                elseif has_words_before() then
+                    cmp.complete()
+                else
+                    -- The fallback function sends a already mapped key.
+                    -- In this case, it's probably `<Tab>`.
+                    fallback()
+                end
+            end, { 'i', 's', 'c' }),
+            ['<S-Tab>'] = cmp.mapping(function()
+                if cmp.visible() then
+                    cmp.select_prev_item()
+                elseif vim.fn['vsnip#jumpable'](-1) == 1 then
+                    feedkey('<Plug>(vsnip-jump-prev)', '')
+                end
+            end, { 'i', 's', 'c' }),
         },
         sources = cmp.config.sources({
-            { name = "nvim_lsp" },
-            { name = "buffer" },
-            { name = "path" },
-            { name = "comdline" },
-            { name = "treesitter" },
-            { name = "vsnip" },
+            { name = 'nvim_lsp' },
+            { name = 'buffer' },
+            { name = 'path' },
+            { name = 'comdline' },
+            { name = 'treesitter' },
+            { name = 'vsnip' },
         }, {
-            { name = "buffer" },
+            { name = 'buffer' },
         }),
         formatting = {
             format = lspkind.cmp_format {
                 with_text = true,
                 menu = {
-                    nvim_lsp = "[lsp]",
-                    buffer = "[buffer]",
-                    path = "[path]",
-                    nvim_lua = "[lua]",
-                    latex_symbols = "[latex]",
-                    vsnip = "[vsnip]",
+                    nvim_lsp = '[lsp]',
+                    buffer = '[buffer]',
+                    path = '[path]',
+                    nvim_lua = '[lua]',
+                    latex_symbols = '[latex]',
+                    vsnip = '[vsnip]',
                 },
             },
         },
     }
     -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-    cmp.setup.cmdline("/", {
+    cmp.setup.cmdline('/', {
         sources = {
-            { name = "buffer" },
+            { name = 'buffer' },
         },
     })
 
     -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-    cmp.setup.cmdline(":", {
+    cmp.setup.cmdline(':', {
         sources = cmp.config.sources({
-            { name = "path" },
+            { name = 'path' },
         }, {
-            { name = "cmdline" },
+            { name = 'cmdline' },
         }),
     })
+    cmp.event:on(
+        'confirm_done',
+        cmp_autopairs.on_confirm_done()
+    )
 end

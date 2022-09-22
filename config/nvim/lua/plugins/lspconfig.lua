@@ -3,6 +3,10 @@ return function()
     local lspconfig = require('lspconfig')
     local lspkeymap_register = require('keymaps.lspbuffer')
     local mason_lspconfig = require('mason-lspconfig')
+    local tasks = require("tasks")
+    -- tasks:register_postrestore_task("restart_all_lsp", function ()
+        -- vim.cmd("LspRestart all")
+    -- end)
     -- reference https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 
     local code_navigation = require('nvim-navic')

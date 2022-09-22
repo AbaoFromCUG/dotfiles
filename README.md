@@ -12,6 +12,8 @@ My dotfiles for Neovim, zsh, tmux, optimized for ArchLinux. Managed with [Dotbot
 
 * [rofi](https://github.com/davatorium/rofi) an application launcher, with [spotlight theme](https://github.com/lr-tech/rofi-themes-collection)
 
+* [pipewire](https://wiki.archlinux.org/title/PipeWire) for multimedia framework, support pulseaudio/JACK/ALSA-based applications
+
 ## Terminal
 
 - I use [Alacritty](https://github.com/alacritty/alacritty) as terminal
@@ -28,4 +30,5 @@ My dotfiles for Neovim, zsh, tmux, optimized for ArchLinux. Managed with [Dotbot
   use Git
 
 - almoust the only screenshot tool [flameshot](https://flameshot.org/)
+
 
