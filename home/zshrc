@@ -41,7 +41,6 @@ zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-autosuggestions
 zinit wait lucid atload"zicompinit; zicdreplay" blockf for \
     zsh-users/zsh-completions
-zinit light soimort/translate-shell
 
 # theme
 zinit ice depth=1;
@@ -73,12 +72,7 @@ fi
 
 # End Env Manager
 
-
 function docker_ip() {
     sudo docker inspect --format '{{ .NetworkSettings.IPAddress  }}' $1
 }
 
-alias vim=nvim
-alias s='neofetch|lolcat'
-alias y='trans :zh'
-alias yy='trans :zh --speak'

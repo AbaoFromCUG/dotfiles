@@ -1,7 +1,7 @@
 local M = {}
 
-local Path = require('plenary.path')
-local a = require('plenary.async')
+local Path = require 'plenary.path'
+local a = require 'plenary.async'
 local fn = vim.fn
 local uv = vim.loop
 
@@ -26,7 +26,7 @@ local function load_template_config(config_path)
 end
 
 local builtin_config = {
-    user_name = fn.expand('$USERNAME')
+    user_name = fn.expand '$USERNAME'
 }
 
 M.template_configs = {}
@@ -63,7 +63,7 @@ local function choice_options(config)
 end
 
 local function refresh_templates()
-    local config_root = Path:new(fn.stdpath('config'))
+    local config_root = Path:new(fn.stdpath 'config')
     local templates_root = config_root:joinpath('share', 'templates')
     local template_list = fn.split(fn.globpath(templates_root:absolute() .. '/*/', 'template.json'), '\n')
     for _, config_path in pairs(template_list) do
@@ -82,13 +82,13 @@ local function expand_config_variables(options, str)
     for key, value in pairs(options) do
         bad_local = bad_local .. 'local ' .. key .. "='" .. value .. "';"
     end
-    for matched in str:gmatch('%%{.-}') do
-        local lua_expr = matched:match('%%{lua (.-)}')
+    for matched in str:gmatch '%%{.-}' do
+        local lua_expr = matched:match '%%{lua (.-)}'
         if lua_expr then
             local result = loadstring(bad_local .. 'return ' .. lua_expr)()
             str = str_replace(str, matched, result)
         else
-            local key = matched:match('%%{(.-)}')
+            local key = matched:match '%%{(.-)}'
             if options[key] then
                 str = str_replace(str, matched, options[key])
             end

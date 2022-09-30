@@ -27,6 +27,9 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- bash -c "convert ~/Pictur
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
+# translator
+exec --no-startup-id crow
+
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
@@ -290,3 +293,5 @@ for_window [title="^WeChat$"] floating enable border pixel 1
 for_window [title="^图片$"] floating enable border pixel 1
 for_window [instance="^icalingua$"] floating enable border pixel 1
 for_window [title="^Abao-TestFlag$"] floating enable border pixel 1
+for_window [class="^Crow Translate$"] floating enable border pixel 1
+

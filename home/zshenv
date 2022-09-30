@@ -1,0 +1,5 @@
+alias vim=nvim
+alias y="https_proxy=http://127.0.0.1:8889 crow -t zh-CN "
+alias yy="https_proxy=http://127.0.0.1:8889 crow -u -t zh-CN "
+
+export PATH=$PATH:$HOME/.cargo/bin
