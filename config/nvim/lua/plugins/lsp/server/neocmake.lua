@@ -11,5 +11,4 @@ if not configs.neocmake then
             single_file_support = true, -- suggested
         }
     }
-    nvim_lsp.neocmake.setup {}
 end

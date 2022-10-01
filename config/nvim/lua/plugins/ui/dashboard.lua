@@ -5,14 +5,14 @@ return function()
     local install_path = fn.stdpath 'data' .. '/site/pack/*/*/'
     local plugin_count = #fn.split(fn.globpath(install_path, '*'), '\n')
 
-    db.custom_header = {
-        '███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗',
-        '████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║',
-        '██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║',
-        '██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║',
-        '██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║',
-        '╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝',
-    }
+    -- db.preview_command = 'catimg -H 20 -r 2'
+    -- db.preview_file_path = fn.stdpath 'config' .. '/share/nvim.png'
+    db.preview_command = 'cat'
+    db.preview_file_path = fn.stdpath 'config' .. '/share/nvim.cat'
+    db.preview_file_width = 20
+    db.preview_file_height = 10
+    db.header_pad = 0
+    db.center_pad = 0
     local function format_desc(name)
         return string.format(' %-50s', name)
     end

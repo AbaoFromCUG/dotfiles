@@ -1,7 +1,6 @@
 return function()
     local lspconfig = require 'lspconfig'
     local lspkeymap_register = require 'keymap.lspbuffer'
-    local mason_lspconfig = require 'mason-lspconfig'
     -- reference https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 
     local code_navigation = require 'nvim-navic'
@@ -31,9 +30,18 @@ return function()
         }
     end
 
-    local servers = mason_lspconfig.get_installed_servers()
-    table.insert(servers, 'qmlls')
-    table.insert(servers, 'cmake')
+    local servers = {
+        'clangd',
+        'sumneko_lua',
+        'pyright',
+        'neocmake',
+        'vimls',
+        'bashls',
+        'qmlls',
+        'jsonls',
+        'yamlls',
+        'tsserver',
+    }
     for _, server_name in ipairs(servers) do
         local server = lspconfig[server_name]
         local config = make_config()

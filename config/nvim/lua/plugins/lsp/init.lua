@@ -4,7 +4,7 @@ local M = {}
 
 function M.load_custom_server()
     require 'plugins.lsp.server.qmlls'
-    require 'plugins.lsp.server.cmake'
+    require 'plugins.lsp.server.neocmake'
 end
 
 M.load_custom_server()
