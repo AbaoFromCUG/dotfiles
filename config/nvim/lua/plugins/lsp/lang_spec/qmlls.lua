@@ -8,6 +8,7 @@ return function(config)
 
     for _, qmldir_file in ipairs(fn.split(fn.globpath(build_path:absolute(), '**/*/qmldir'), '\n')) do
         local path = Path:new(qmldir_file)
+        path = path:parent()
         while path:absolute() ~= build_path:absolute() do
             local qmlmoule_dir = path:absolute()
             if not qml_build_dirs[qmlmoule_dir] then
