@@ -2,6 +2,15 @@ return function(config)
     local ProjectConfig = require 'cmake.project_config'
     local Path = require 'plenary.path'
     local fn = vim.fn;
+    local qmlls_paths = vim.split(fn.globpath('/opt/Qt/', '*/*/bin/qmlls'), '\n')
+    local qmlls_path
+    if #qmlls_paths > 0 then
+        qmlls_path = qmlls_paths[#qmlls_paths]
+    else
+        qmlls_path = '/usr/lib/qt6/bin/qmlls'
+    end
+
+
     local project = ProjectConfig.new()
     local build_path = project:get_build_dir()
     local qml_build_dirs = {}
@@ -21,7 +30,7 @@ return function(config)
     end
 
     config.cmd = {
-        '/opt/Qt/6.4.0/gcc_64/bin/qmlls',
+        qmlls_path,
         '-v',
         '--log-file', vim.fn.stdpath 'cache' .. '/qmlls.log',
     }

@@ -15,6 +15,7 @@ vim.opt.hlsearch = true
 vim.opt.incsearch = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
+vim.opt.magic = false
 
 -- code indent
 vim.opt.autoindent = true
@@ -22,7 +23,7 @@ vim.opt.cindent = true
 vim.opt.smartindent = true
 
 -- encoding
-vim.opt.langmenu = 'zh_CN.UTR-8'
+vim.opt.langmenu = 'zh_CN.UTF-8'
 vim.opt.helplang = 'cn'
 vim.opt.encoding = 'utf8'
 

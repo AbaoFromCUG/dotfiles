@@ -1,0 +1,79 @@
+yay:
+  groups:
+    - base-devel
+    - xorg
+  ignore:
+    - intel-ucode
+    - nvidia-470xx-dkms
+  packages:
+    # system applications
+    - base
+    - grub
+    - i3-wm
+    - i3lock
+    - picom
+    - polybar
+    - sddm
+    - exfat-utils
+    - network-manager-applet
+    - bluez-utils
+    - blueman
+    - libinput-gestures
+    - arandr
+    - mpd
+    - ncmpcpp
+    - pulseaudio-control
+    - pavucontrol
+    - conky
+    - polkit-gnome
+    - rofi
+    - yay
+    - xclip
+    # system extra tools
+    - fcitx-sogoupinyin
+    - microsoft-edge-stable-bin
+    - crow-translate
+    - wps-office
+    - icalingua++
+    - qv2ray-static-nightly-bin
+    # basic tool
+    - wget
+    - zsh
+    - tmux
+    - unzip
+    - unrar
+    - alacritty
+    - neovim
+    - ranger
+    - lazygit
+    - ripgrep
+    # develop tools
+    - cmake
+    - rust
+    - go
+    # daily tool
+    - shutter
+    - flameshot
+    - gimp
+    # fonts
+    - nerd-fonts-complete
+    - noto-fonts-emoji
+    - adobe-source-han-serif-cn-fonts
+    - adobe-source-han-sans-cn-fonts
+    - ttf-font-awesome
+    - awesome-terminal-fonts
+    - opendesktop-fonts
+    # misc
+    - pkgfile
+    - lolcat
+    - neofetch
+    - glow
+    - zathura
+    - lsof
+npm:
+  - neovim
+pip:
+  - pynvim
+  - py3status
+cargo:
+  - neocmakelsp
