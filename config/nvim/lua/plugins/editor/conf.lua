@@ -17,14 +17,11 @@ function M.mason_lspconfig()
         ensure_installed = {
             'clangd',
             'tsserver',
-            'lua-language-server',
+            'sumneko_lua',
             'vimls',
             'bashls',
             'yamlls',
             'pyright',
-            'autopep8',
-            'bash-language-server',
-            'xmlformatter',
         }
     }
 end

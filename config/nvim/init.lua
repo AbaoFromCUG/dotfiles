@@ -29,6 +29,7 @@ vim.opt.encoding = 'utf8'
 
 vim.opt.laststatus = 3
 vim.opt.swapfile = false
+vim.opt.sessionoptions = { 'blank', 'buffers', 'curdir', 'folds', 'help', 'tabpages', 'winsize', 'winpos', 'terminal' }
 
 
 vim.g.loaded_perl_provider = 0

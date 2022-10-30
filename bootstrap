@@ -92,7 +92,7 @@ def check_yay(info):
             echo_packages.append(package)
 
     if len(echo_packages) > 0:
-        print("local Linux install package explicitly, but not register in `packages.yaml")
+        print("local Linux install package explicitly, but not register in `packages.yaml`")
         print(f"please check: {' '.join(echo_packages)}")
 
 

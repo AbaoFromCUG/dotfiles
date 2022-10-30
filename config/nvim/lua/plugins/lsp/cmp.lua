@@ -1,9 +1,7 @@
 return function()
-
     local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
     local lspkind = require 'lspkind'
     local cmp = require 'cmp'
-    assert(cmp)
 
     local feedkey = function(key, mode)
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)

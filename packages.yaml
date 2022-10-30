@@ -13,6 +13,7 @@ yay:
     - i3lock
     - picom
     - polybar
+    - py3status
     - sddm
     - exfat-utils
     - network-manager-applet
@@ -31,11 +32,16 @@ yay:
     - xclip
     # system extra tools
     - fcitx-sogoupinyin
-    - microsoft-edge-stable-bin
+    - brave-bin
     - crow-translate
     - wps-office
     - icalingua++
-    - qv2ray-static-nightly-bin
+    - clash
+    - traceroute
+    - feishu-bin
+    - wireshark-qt
+    - vlc
+    - hexchat
     # basic tool
     - wget
     - zsh
@@ -44,13 +50,14 @@ yay:
     - unrar
     - alacritty
     - neovim
-    - ranger
+    - ranger-git
     - lazygit
     - ripgrep
     # develop tools
     - cmake
     - rust
     - go
+    - cmake-format
     # daily tool
     - shutter
     - flameshot
@@ -74,6 +81,5 @@ npm:
   - neovim
 pip:
   - pynvim
-  - py3status
 cargo:
   - neocmakelsp

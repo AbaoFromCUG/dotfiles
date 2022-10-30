@@ -16,7 +16,7 @@ return function()
                 'filename', 'diff', { launcher.current_display_name, cond = launcher.is_available }
             },
             lualine_c = { { code_navigation.get_location, cond = code_navigation.is_available } },
-            lualine_x = { 'lsp_progress', 'diagnostics' },
+            lualine_x = { 'diagnostics' },
             lualine_y = { 'encoding', 'fileformat', 'filetype' },
             lualine_z = { 'progress', 'location' },
         },

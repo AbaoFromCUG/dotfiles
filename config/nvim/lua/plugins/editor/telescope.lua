@@ -2,16 +2,16 @@ return function()
 
     -- stylua: ignore start
     local keys = { 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';',
-                   'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
-                   'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':',
-                   'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', }
+        'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
+        'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':',
+        'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', }
     -- stylua: ignore end
 
     local telescope = require 'telescope'
     local actions = require 'telescope._extensions.hop.actions'
     telescope.setup {
         defaults = {
-            prompt_prefix = '',
+            prompt_prefix = '🤡',
             -- Default configuration for telescope goes here:
             -- config_key = value,
             --
@@ -78,4 +78,5 @@ return function()
     telescope.load_extension 'hop'
     telescope.load_extension 'dap'
     telescope.load_extension 'frecency'
+    telescope.load_extension 'noice'
 end

@@ -10,12 +10,11 @@ function M.load_plugins(use)
     use { 'akinsho/bufferline.nvim', config = require 'plugins.ui.bufferline' }
     -- status line
     use { 'hoob3rt/lualine.nvim', config = require 'plugins.ui.lualine' }
-    use { 'arkav/lualine-lsp-progress' }
     use { 'SmiteshP/nvim-navic', config = conf.code_navigation }
     use { 'lukas-reineke/indent-blankline.nvim', config = require 'plugins.ui.indent_blankline' }
-    use { 'petertriho/nvim-scrollbar', config = conf.scrollbar }
-    use { 'rcarriga/nvim-notify', config = conf.notify }
-    use { 'stevearc/dressing.nvim', config = conf.dressing }
+    use { 'rcarriga/nvim-notify' }
+    use { 'folke/noice.nvim', config = conf.noice }
+    use { 'MunifTanjim/nui.nvim' }
 
     use { 'kyazdani42/nvim-tree.lua', config = require 'plugins.ui.filetree' }
     use { 'simrat39/symbols-outline.nvim', config = conf.symbols_outline }

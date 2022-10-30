@@ -2,12 +2,6 @@ local conf = require 'plugins.lsp.conf'
 
 local M = {}
 
-function M.load_custom_server()
-    require 'plugins.lsp.server.qmlls'
-    require 'plugins.lsp.server.neocmake'
-end
-
-M.load_custom_server()
 
 function M.load_plugins(use)
     use { 'neovim/nvim-lspconfig', config = require 'plugins.lsp.lspconfig' }

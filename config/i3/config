@@ -23,6 +23,9 @@ font pango:DejaVuSansMono Nerd Font Mono 8
 # screen before suspend. Use loginctl lock-session to lock your screen.
 exec --no-startup-id xss-lock --transfer-sleep-lock -- bash -c "convert ~/Pictures/wallpapers/nature-3181144.jpg RGB:- | i3lock --raw 3840x2160:rgb --image /dev/stdin"
 
+# map CapsLocks to VoidSymbol
+exec --no-startup-id setxkbmap -option caps:none
+
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
@@ -221,7 +224,7 @@ bar {
 
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec --no-startup-id fcitx
-exec --no-startup-id across
+exec --no-startup-id clash
 exec_always --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 
 # Tim Wechat
@@ -239,8 +242,7 @@ exec --no-startup-id xset dpms 300 360 420
 exec_always --no-startup-id libinput-gestures-setup restart
 
 # i3lock
-set $screen_resolution $(xdpyinfo | grep dimensions | cut -d' ' -f7)
-bindsym $mod+p exec bash -c "convert ~/Pictures/wallpapers/nature-3181144.jpg -resize $screen_resolution^ -gravity Center -extent $screen_resolution RGB:- | i3lock --raw $screen_resolution:rgb -f --image /dev/stdin > /tmp/i3_log"
+bindsym $mod+p exec zsh -c "lock_screen"
 
 # mpd service
 exec --no-startup-id mpd
@@ -257,41 +259,8 @@ bindsym $mod+m bar mode toggle
 focus_follows_mouse no
 
 # Open specific applications in floating mode
-#for_window [title="alsamixer"] floating enable border pixel 1
-for_window [class="calamares"] floating enable border normal
-for_window [class="Clipgrab"] floating enable
-for_window [title="File Transfer*"] floating enable
-for_window [class="Galculator"] floating enable border pixel 1
-for_window [class="GParted"] floating enable border normal
-for_window [title="i3_help"] floating enable sticky enable border normal
-for_window [class="Lightdm-settings"] floating enable
-for_window [class="Lxappearance"] floating enable sticky enable border normal
-for_window [class="Manjaro-hello"] floating enable
-for_window [class="Manjaro Settings Manager"] floating enable border normal
-for_window [title="MuseScore: Play Panel"] floating enable
-for_window [class="Nitrogen"] floating enable sticky enable border normal
-for_window [class="Oblogout"] fullscreen enable
-for_window [class="octopi"] floating enable
-for_window [title="About Pale Moon"] floating enable
-for_window [class="Pamac-manager"] floating enable
-for_window [class="Pavucontrol"] floating enable
-for_window [class="qt5ct"] floating enable sticky enable border normal
-for_window [class="Qtconfig-qt4"] floating enable sticky enable border normal
-for_window [class="Simple-scan"] floating enable border normal
-for_window [class="(?i)System-config-printer.py"] floating enable border normal
-for_window [class="Skype"] floating enable border normal
-for_window [class="Timeset-gui"] floating enable border normal
-for_window [class="(?i)virtualbox"] floating enable border normal
-for_window [class="Xfburn"] floating enable
-#for_window [class=".*"] border pixel 0
-for_window [title="win0"] floating enable
-
-
-for_window [title="^微信$"] floating enable border pixel 1
-for_window [title="^WeChat$"] floating enable border pixel 1
-# lark view images
-for_window [title="^图片$"] floating enable border pixel 1
-for_window [instance="^icalingua$"] floating enable border pixel 1
-for_window [title="^Abao-TestFlag$"] floating enable border pixel 1
-for_window [class="^Crow Translate$"] floating enable border pixel 1
+for_window [instance="^icalingua$"] floating enable, border normal
+for_window [title="^Abao-TestFlag$"] floating enable, border normal
+for_window [class="^Crow Translate$"] floating enable, border normal
+for_window [class="^Pavucontrol$"] floating enable, move absolute center, resize set 200px
 

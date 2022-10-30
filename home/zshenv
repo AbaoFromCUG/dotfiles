@@ -1,6 +1,6 @@
 alias vim=nvim
-alias y="https_proxy=http://127.0.0.1:8889 crow -t zh-CN "
-alias yy="https_proxy=http://127.0.0.1:8889 crow -u -t zh-CN "
+alias y="https_proxy=http://127.0.0.1:8888 crow -t zh-CN "
+alias yy="https_proxy=http://127.0.0.1:8888 crow -u -t zh-CN "
 
 # Env Manager
 if [[ -d $HOME/.pyenv ]]; then
@@ -22,3 +22,13 @@ fi
 # End Env Manager
 
 export PATH=$PATH:$HOME/.cargo/bin
+export EDITOR=nvim
+
+
+
+# simple command
+function lock_screen() {
+    wallpaper="$HOME/Pictures/wallpapers/nature-3181144.jpg"
+    screen_resolution=$(xdpyinfo | grep dimensions | cut -d' ' -f7)
+    convert $wallpaper -resize $screen_resolution^ -gravity Center -extent $screen_resolution RGB:- | i3lock --raw ${screen_resolution}:rgb -f --image /dev/stdin
+}

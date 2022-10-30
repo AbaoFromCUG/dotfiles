@@ -4,8 +4,8 @@
           {
               "type": "python",
               "request": "launch",
-              "name": "Launch",
-              "program": "${workspaceFolder}/bootstrp"
+              "name": "bootstrap",
+              "program": "${workspaceFolder}/bootstrap"
           }
       ]
 }

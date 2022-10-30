@@ -3,6 +3,9 @@ return function()
     local lspkeymap_register = require 'keymap.lspbuffer'
     -- reference https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 
+    require 'plugins.lsp.server.qmlls'
+    require 'plugins.lsp.server.neocmake'
+
     local code_navigation = require 'nvim-navic'
 
     local on_attach = function(client, bufnr)
@@ -21,8 +24,7 @@ return function()
     local cmp_nvim_lsp = require 'cmp_nvim_lsp'
     -- config that activates keymaps and enables snippet support
     local function make_config()
-        local capabilities = vim.lsp.protocol.make_client_capabilities()
-        capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
+        local capabilities = cmp_nvim_lsp.default_capabilities()
         return {
             capabilities = capabilities,
             -- map buffer local keybindings when the language server attaches

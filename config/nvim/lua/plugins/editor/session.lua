@@ -24,7 +24,6 @@ return function()
 
     tasks:register_presave_task('close_all_floating_wins', close_all_floating_wins)
 
-    vim.o.sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal'
 
     -- need change auto-sesion hook to register
     require 'auto-session'.setup {
