@@ -17,7 +17,6 @@ function M.code_navigation()
     vim.g.navic_silence = true
 end
 
-
 function M.symbols_outline()
     require 'symbols-outline'.setup {
         auto_preview = true
@@ -25,7 +24,13 @@ function M.symbols_outline()
 end
 
 function M.noice()
-    require 'noice'.setup()
+    require 'noice'.setup {
+        lsp = {
+            signature = {
+                enabled = false
+            }
+        }
+    }
 end
 
 return M

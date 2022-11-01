@@ -1,4 +1,5 @@
 alias vim=nvim
+alias s='neofetch|lolcat'
 alias y="https_proxy=http://127.0.0.1:8888 crow -t zh-CN "
 alias yy="https_proxy=http://127.0.0.1:8888 crow -u -t zh-CN "
 
@@ -30,5 +31,5 @@ export EDITOR=nvim
 function lock_screen() {
     wallpaper="$HOME/Pictures/wallpapers/nature-3181144.jpg"
     screen_resolution=$(xdpyinfo | grep dimensions | cut -d' ' -f7)
-    convert $wallpaper -resize $screen_resolution^ -gravity Center -extent $screen_resolution RGB:- | i3lock --raw ${screen_resolution}:rgb -f --image /dev/stdin
+    convert $wallpaper -resize "$screen_resolution^" -gravity Center -extent $screen_resolution RGB:- | i3lock --raw ${screen_resolution}:rgb -f --image /dev/stdin
 }

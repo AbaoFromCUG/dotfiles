@@ -7,6 +7,7 @@ return function()
 
     require 'nvim-treesitter.install'.prefer_git = true
     require 'nvim-treesitter.configs'.setup {
+        parser_install_dir = vim.fn.stdpath 'data' .. '/ts-parser/',
         indent = {
             enable = true
         },
@@ -42,6 +43,7 @@ return function()
             'cmake',
             'java',
             'qmljs',
+            'bash',
             'json',
             'markdown',
             'norg',

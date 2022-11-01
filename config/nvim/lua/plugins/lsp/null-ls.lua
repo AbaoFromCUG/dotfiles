@@ -31,6 +31,7 @@ return function()
             qmlformat,
             null_ls.builtins.formatting.autopep8,
             null_ls.builtins.formatting.cmake_format,
+            null_ls.builtins.formatting.shfmt,
             null_ls.builtins.formatting.yamlfmt,
         },
     }

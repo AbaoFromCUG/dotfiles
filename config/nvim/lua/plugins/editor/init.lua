@@ -27,6 +27,7 @@ function M.load_plugins(use)
     --]]
     use { 'williamboman/mason.nvim', config = conf.mason }
     use { 'williamboman/mason-lspconfig.nvim', config = conf.mason_lspconfig }
+    use {"jayp0521/mason-null-ls.nvim",config=conf.mason_null_ls}
 
     use { 'windwp/nvim-autopairs', config = conf.autopairs }
     use { 'numToStr/Comment.nvim', config = require 'plugins.editor.comment' }

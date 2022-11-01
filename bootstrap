@@ -101,16 +101,17 @@ def check_npm(info):
         return
 
     need_packages = info
-    cmd = [NPM_BIN, "list", "--location=global", "--json"]
+    cmd = [NPM_BIN, "list", "--global", "--json"]
     p = subprocess.run(cmd, stdout=subprocess.PIPE)
     output = json.loads(p.stdout.decode())
-    installed_packages = set([pkg for pkg in output["dependencies"]])
+
+    installed_packages = set([pkg for pkg in output.get("dependencies", [])])
     need_install = []
     for package in need_packages:
         if package not in installed_packages:
             need_install.append(package)
     if len(need_install) > 0:
-        cmd = [NPM_BIN, "install", '--location=global', *need_install]
+        cmd = [NPM_BIN, "install", '--global', *need_install]
         print(f"> {' '.join(cmd)}")
         subprocess.run(cmd)
 

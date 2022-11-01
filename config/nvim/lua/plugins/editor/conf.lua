@@ -26,6 +26,16 @@ function M.mason_lspconfig()
     }
 end
 
+function M.mason_null_ls()
+    require 'mason-null-ls'.setup {
+        ensure_installed = {
+            'autopep8',
+            'shfmt',
+            'yamlfmt',
+        }
+    }
+end
+
 function M.autopairs()
     local npairs = require 'nvim-autopairs'
     npairs.setup {

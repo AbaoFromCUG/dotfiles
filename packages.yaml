@@ -4,7 +4,9 @@ yay:
     - xorg
   ignore:
     - intel-ucode
+    - amd-ucode
     - nvidia-470xx-dkms
+    - nvidia
   packages:
     # system applications
     - base
@@ -58,6 +60,7 @@ yay:
     - rust
     - go
     - cmake-format
+    - ninja
     # daily tool
     - shutter
     - flameshot
