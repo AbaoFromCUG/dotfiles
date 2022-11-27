@@ -10,25 +10,11 @@ return function()
         qmlformat_path = '/usr/lib/qt6/bin/qmlformat'
     end
 
-    local qmlformat = {
-        name = 'qmlformat',
-        meta = {
-            url = 'https://doc.qt.io/qt-6/qtquick-tools-and-utilities.html',
-            description = 'Formats QML files according to the QML Coding Conventions.'
-        },
-        method = { methods.internal.FORMATTING },
-        filetypes = { 'qml', 'qmljs' },
-        generator = helpers.formatter_factory {
-            command = qmlformat_path,
-            args = { '--inplace', '$FILENAME' },
-            to_temp_file = true,
-        },
-    }
-
 
     null_ls.setup {
         sources = {
-            qmlformat,
+            null_ls.builtins.diagnostics.qmllint,
+            null_ls.builtins.formatting.qmlformat,
             null_ls.builtins.formatting.autopep8,
             null_ls.builtins.formatting.cmake_format,
             null_ls.builtins.formatting.shfmt,

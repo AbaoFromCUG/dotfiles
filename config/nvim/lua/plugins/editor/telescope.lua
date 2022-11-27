@@ -78,5 +78,4 @@ return function()
     telescope.load_extension 'hop'
     telescope.load_extension 'dap'
     telescope.load_extension 'frecency'
-    telescope.load_extension 'noice'
 end

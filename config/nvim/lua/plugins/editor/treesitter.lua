@@ -5,9 +5,14 @@ return function()
     vim.opt.foldminlines = 3
     vim.opt.foldnestmax = 5
 
+    local ft_to_parser = require 'nvim-treesitter.parsers'.filetype_to_parsername
+    ft_to_parser.qml = 'qmljs'
+
     require 'nvim-treesitter.install'.prefer_git = true
+    local parser_path = vim.fn.stdpath 'data' .. '/ts-parsers'
+    vim.opt.runtimepath:append(parser_path)
     require 'nvim-treesitter.configs'.setup {
-        parser_install_dir = vim.fn.stdpath 'data' .. '/ts-parser/',
+        parser_install_dir = parser_path,
         indent = {
             enable = true
         },

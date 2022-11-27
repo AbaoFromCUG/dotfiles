@@ -51,7 +51,7 @@ zinit light romkatv/powerlevel10k
 # End of Zinit configure
 
 # Enable 256 color to make auto-suggestions look nice
-export TERM="screen-256color"
+# export TERM="screen-256color"
 
 function docker_ip() {
     sudo docker inspect --format '{{ .NetworkSettings.IPAddress  }}' "$1"
@@ -66,7 +66,7 @@ function clash_update() {
     url=$1
     secret=$2
     config_file="$HOME/.config/clash/config.yaml"
-    wget "$url" --no-check-certificate -O "$config_file" 
+    wget "$url" -O "$config_file" --no-check-certificate
     sed -i '/^#/d' "$config_file"
     sed -i 's/^port:.*$/mixed-port: 8888/g' "$config_file"
     sed -i 's/^log-level: silent$/log-level: info/g' "$config_file"

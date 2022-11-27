@@ -1,7 +1,10 @@
 return function()
     local dap = require 'dap'
     local dapui = require 'dapui'
+
+    local nvim_tree = require 'nvim-tree.api'
     dap.listeners.after.event_initialized['dapui_config'] = function()
+        nvim_tree.tree.close()
         dapui.open {}
     end
     dap.listeners.before.event_terminated['dapui_config'] = function()
@@ -19,7 +22,19 @@ return function()
             remove = 'd',
             edit = 'e',
             repl = 'r',
+            toggle = 't',
         },
+        element_mappings = {
+            stacks = {
+                open = '<CR>',
+                toggle = 'o',
+            },
+            breakpoints = {
+                open = '<CR>',
+                toggle = 'o',
+            }
+        },
+        expand_lines = true,
         layouts = {
             {
                 -- open_on_start = true,
@@ -39,9 +54,28 @@ return function()
             },
             {
                 -- open_on_start = true,
-                elements = { 'repl' },
+                elements = {
+                    'repl',
+                    'console',
+                },
                 size = 10,
                 position = 'bottom', -- Can be "left", "right", "top", "bottom"
+            },
+        },
+        controls = {
+            -- Requires Neovim nightly (or 0.8 when released)
+            enabled = true,
+            -- Display controls in this element
+            element = 'repl',
+            icons = {
+                pause = '',
+                play = '',
+                step_into = '',
+                step_over = '',
+                step_out = '',
+                step_back = '',
+                run_last = '',
+                terminate = '',
             },
         },
         floating = {

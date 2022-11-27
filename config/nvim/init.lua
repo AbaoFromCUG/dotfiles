@@ -35,10 +35,4 @@ vim.opt.sessionoptions = { 'blank', 'buffers', 'curdir', 'folds', 'help', 'tabpa
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 
-
-_G.pprint = function(...)
-    vim.notify(vim.inspect(...))
-end
-
-
 require 'plugins'

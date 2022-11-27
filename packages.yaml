@@ -52,7 +52,6 @@ yay:
     - unrar
     - alacritty
     - neovim
-    - ranger-git
     - lazygit
     - ripgrep
     # develop tools

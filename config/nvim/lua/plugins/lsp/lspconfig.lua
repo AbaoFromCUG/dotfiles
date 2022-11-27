@@ -3,7 +3,6 @@ return function()
     local lspkeymap_register = require 'keymap.lspbuffer'
     -- reference https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 
-    require 'plugins.lsp.server.qmlls'
     require 'plugins.lsp.server.neocmake'
 
     local code_navigation = require 'nvim-navic'

@@ -38,4 +38,7 @@ return function(config)
         table.insert(config.cmd, '--build-dir')
         table.insert(config.cmd, path)
     end
+    config.filetypes = {
+        'qml'
+    }
 end

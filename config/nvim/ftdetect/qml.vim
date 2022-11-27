@@ -1,1 +1,1 @@
-autocmd BufRead,BufNewFile *.qml set filetype=qmljs
+autocmd BufRead,BufNewFile *.qml set filetype=qml

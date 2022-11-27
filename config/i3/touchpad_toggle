@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+touchpadId=$(xinput | sed -nre "/Touchpad/s/.*id=([0-9]*).*/\1/p")
+currentState=$(xinput list-props "$touchpadId" | grep "Device Enabled" | grep -o "[01]$")
+
+echo "$touchpadId"
+if [ "$currentState" -eq 1 ]; then
+	xinput disable "$touchpadId"
+else
+	xinput enable "$touchpadId"
+fi

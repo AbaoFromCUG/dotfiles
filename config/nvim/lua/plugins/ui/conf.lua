@@ -27,9 +27,9 @@ function M.noice()
     require 'noice'.setup {
         lsp = {
             signature = {
-                enabled = false
+                enabled = false,
             }
-        }
+        },
     }
 end
 

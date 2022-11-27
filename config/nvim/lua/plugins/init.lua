@@ -9,7 +9,12 @@ end
 
 local packer = require 'packer'
 packer.init {
-    max_jobs = 10
+    max_jobs = 10,
+    display = {
+        open_fn = function()
+            return require 'packer.util'.float { border = 'single' }
+        end
+    },
 }
 
 packer.startup(function(use)

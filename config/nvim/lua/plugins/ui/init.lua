@@ -13,7 +13,6 @@ function M.load_plugins(use)
     use { 'SmiteshP/nvim-navic', config = conf.code_navigation }
     use { 'lukas-reineke/indent-blankline.nvim', config = require 'plugins.ui.indent_blankline' }
     use { 'rcarriga/nvim-notify' }
-    use { 'folke/noice.nvim', config = conf.noice }
     use { 'MunifTanjim/nui.nvim' }
 
     use { 'kyazdani42/nvim-tree.lua', config = require 'plugins.ui.filetree' }
