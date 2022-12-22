@@ -3,8 +3,8 @@ local conf = require 'plugins.ui.conf'
 local M = {}
 
 function M.load_plugins(use)
-    use { 'glepnir/zephyr-nvim', config = conf.theme }
-    use { 'ellisonleao/gruvbox.nvim' }
+    use { 'catppuccin/nvim', config = conf.theme }
+    use { 'EdenEast/nightfox.nvim', config = conf.theme }
     -- color text colorizer, e.g. #5F9EA0 Aqua #91f
     use { 'NvChad/nvim-colorizer.lua', config = conf.colorizer }
     use { 'akinsho/bufferline.nvim', config = require 'plugins.ui.bufferline' }
@@ -14,6 +14,8 @@ function M.load_plugins(use)
     use { 'lukas-reineke/indent-blankline.nvim', config = require 'plugins.ui.indent_blankline' }
     use { 'rcarriga/nvim-notify' }
     use { 'MunifTanjim/nui.nvim' }
+    use { 'stevearc/dressing.nvim', config = conf.dressing }
+
 
     use { 'kyazdani42/nvim-tree.lua', config = require 'plugins.ui.filetree' }
     use { 'simrat39/symbols-outline.nvim', config = conf.symbols_outline }

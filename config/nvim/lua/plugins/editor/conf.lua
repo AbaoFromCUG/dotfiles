@@ -63,4 +63,9 @@ function M.zen_mode()
     }
 end
 
+function M.hop()
+    local hop = require 'hop'
+    hop.setup { keys = 'etovxqpdygfblzhckisuran' }
+end
+
 return M

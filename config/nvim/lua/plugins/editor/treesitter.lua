@@ -1,9 +1,7 @@
 return function()
     vim.opt.foldmethod = 'expr'
-    vim.opt.foldlevel = 3
     vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-    vim.opt.foldminlines = 3
-    vim.opt.foldnestmax = 5
+    vim.opt.foldenable = false
 
     local ft_to_parser = require 'nvim-treesitter.parsers'.filetype_to_parsername
     ft_to_parser.qml = 'qmljs'
@@ -25,18 +23,6 @@ return function()
                 node_decremental = 'grm',
             },
         },
-        autotag = {
-            enable = true,
-            filetypes = {
-                'html',
-                'javascript',
-                'javascriptreact',
-                'typescriptreact',
-                'svelte',
-                'vue',
-                'xml',
-            },
-        },
         -- one of "all", "maintained" (parsers with maintainers), or a list of languages
         ensure_installed = {
             'lua',
@@ -52,8 +38,8 @@ return function()
             'json',
             'markdown',
             'norg',
+            'html'
         },
-        ignore_install = { 'haskell' }, -- List of parsers to ignore installing
         highlight = {
             enable = true, -- false will disable the whole extension
             disable = {}, -- list of language that will be disabled
@@ -97,9 +83,13 @@ return function()
                     ['af'] = '@function.outer',
                     ['if'] = '@function.inner',
                     ['ac'] = '@class.outer',
-                    ['ic'] = '@class.inner',
+                    -- You can optionally set descriptions to the mappings (used in the desc parameter of
+                    -- nvim_buf_set_keymap) which plugins like which-key display
+                    ['ic'] = { query = '@class.inner', desc = 'Select inner part of a class region' },
                 },
             },
+
+            include_surrounding_whitespace = true,
         },
     }
 end

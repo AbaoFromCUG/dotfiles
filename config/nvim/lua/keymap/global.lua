@@ -12,8 +12,7 @@ wk.register {
         f = {
             name = 'find',
             f = { '<cmd>Telescope find_files<cr>', 'find files' },
-            h = { '<cmd>Telescope oldfiles<cr>', 'recent file' },
-            w = { '<cmd>Telescope live_grep<cr>', 'find word' },
+            h = { '<cmd>Telescope oldfiles<cr>', 'recent file' }, w = { '<cmd>Telescope live_grep<cr>', 'find word' },
             m = { '<cmd>Telescope marks<cr>', 'open mark' },
             s = { '<cmd>Autosession search<cr>', 'open session' },
         },
@@ -33,9 +32,9 @@ wk.register {
             l = { '<cmd>BufferLineCycleNext<cr>', 'focus right tab' },
             h = { '<cmd>BufferLineCyclePrev<cr>', 'focus left tab' },
             o = { function()
-                      vim.cmd 'BufferLineCloseLeft'
-                      vim.cmd 'BufferLineCloseRight'
-                  end, 'close other tabs' }
+                vim.cmd 'BufferLineCloseLeft'
+                vim.cmd 'BufferLineCloseRight'
+            end, 'close other tabs' }
         },
         y = { '"+y', 'yank to system clipboard' },
         p = { '"+p', 'put from system clipboard' },
@@ -68,19 +67,21 @@ wk.register {
             i = { dap.step_into, 'step into' },
             o = { dap.step_over, 'step over' },
             l = { launcher.refresh_launcher, 'refresh config' },
-        }
+        },
+        f = { vim.lsp.buf.format, 'format' },
     },
+
     ['<F5>'] = { launcher.launch_or_continue, 'debug' },
     ['<F6>'] = { dap.terminate, 'termnate' },
     ['<F9>'] = { '<cmd>PBToggleBreakpoint<cr>', 'toggle breakpoint' },
     ['<F11>'] = { dap.step_into, 'step into' },
     ['<F12>'] = { dap.step_over, 'step over' },
 
-
     ['<C-b>'] = { '<cmd>NvimTreeToggle<cr>', 'toggle explorer' },
     ['<S-l>'] = { '<cmd>BufferLineCycleNext<cr>', 'focus right tab' },
     ['<S-h>'] = { '<cmd>BufferLineCyclePrev<cr>', 'focus left tab' },
-    ['<C-w>Q'] = { '<cmd>qall<cr>', 'Quit all' }
+    ['<C-w>Q'] = { '<cmd>qall<cr>', 'Quit all' },
+    ['f'] = { '<cmd>HopWord<cr>', 'Hop word' },
 }
 
 wk.register({

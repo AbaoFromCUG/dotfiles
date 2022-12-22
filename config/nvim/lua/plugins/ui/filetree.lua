@@ -49,7 +49,6 @@ return function()
         ignore_ft_on_setup = {},
         -- open_on_tab = true,
         hijack_cursor = false,
-        create_in_closed_folder = true,
         respect_buf_cwd = true,
         sync_root_with_cwd = true,
         actions = {

@@ -13,6 +13,12 @@ return function()
         command = 'lldb-vscode', -- adjust as needed
         name = 'lldb',
     }
+    dap.adapters.gdb = {
+        id = 'cppdbg',
+        type = 'executable',
+        command = 'OpenDebugAD7',
+    }
+
     dap.adapters.python = {
         type = 'executable',
         command = 'python',
