@@ -2,7 +2,7 @@ return function(config)
     local ProjectConfig = require 'cmake.project_config'
     local Path = require 'plenary.path'
     local fn = vim.fn;
-    local qmlls_paths = vim.split(fn.globpath('/opt/Qt/', '*/*/bin/qmlls'), '\n')
+    local qmlls_paths = vim.split(fn.globpath('/opt/Qt/', '*/*/bin/qmlls'), '\n', {})
     local qmlls_path
     if #qmlls_paths > 0 then
         qmlls_path = qmlls_paths[#qmlls_paths]

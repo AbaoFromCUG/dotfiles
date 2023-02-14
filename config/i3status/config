@@ -48,10 +48,10 @@ nvidia_smi gpu_info {
     thresholds = [(0, "good"), (50, "degraded"), (75, "prebad"), (90, "bad")]
 }
 
-order += "conky memory_info"
-conky memory_info {
-    format = " [\?color=memperc {mem}/{memmax}] "
-    format += "[\?color=memperc {memperc}%]"
+order += "sysdata memory_info"
+sysdata memory_info {
+    format = " [\?color=mem_used_percent {mem_used}/{mem_total}{mem_total_unit}] "
+    format += "[\?color=mem_used_percent {mem_used_percent}%]"
     thresholds = [(0, "good"), (30, "degraded"), (55, "prebad"), (75, "bad")]
     config = {'short_units': True}
 }
@@ -64,23 +64,18 @@ load {
 
 order += "group filesystem_info"
 group filesystem_info {
-    conky fs_home {
-        format = " [\?color=fs_used_perc./home {fs_used /home}/{fs_size /home} "
-        format += "{fs_used_perc /home}% {diskio /dev/nvme0n1p6}] "
+    diskdata fs_home {
+        disk = "/dev/nvme0n1p6"
+        format = " [\?color=used_percent {used}/{total_space}"
+        format += "{used_percent}% {total}] "
         thresholds = [(0, "good"), (30, "degraded"), (55, "prebad"), (75, "bad")]
         config = {'short_units': True}
     }
-    conky fs_root {
-        format = " [\?color=fs_used_perc./ {fs_used /}/{fs_size /} "
-        format += "{fs_used_perc /}% {diskio /dev/nvme0n1p6}]"
+    diskdata fs_root {
+        disk = "/dev/nvme0n1p5"
+        format = " [\?color=used_percent {used}/{total_space} "
+        format += "{used_percent}% {total}] "
         thresholds = [(0, "good"), (30, "degraded"), (55, "prebad"), (75, "bad")]
-        config = {'short_units': True}
-    }
-    conky fs_f {
-        format = " [\?color=fs_used_perc./mnt/f {fs_used /mnt/f}/{fs_size /mnt/f} "
-        format += "{fs_used_perc /mnt/f}% {diskio /dev/sda4}]"
-        thresholds = [(0, "good"), (30, "degraded"), (55, "prebad"), (75, "bad")]
-        config = {'short_units': True}
     }
 }
 

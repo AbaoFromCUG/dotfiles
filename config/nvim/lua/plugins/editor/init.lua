@@ -29,6 +29,9 @@ function M.load_plugins(use)
     use { 'williamboman/mason.nvim', config = conf.mason }
     use { 'williamboman/mason-lspconfig.nvim', config = conf.mason_lspconfig }
     use { 'jayp0521/mason-null-ls.nvim', config = conf.mason_null_ls }
+    use {'jay-babu/mason-nvim-dap.nvim', config = conf.mason_dap}
+
+    use { 'j-hui/fidget.nvim', config = conf.fidget }
 
     use { 'lewis6991/gitsigns.nvim', config = conf.gitsigns }
     use { 'akinsho/nvim-toggleterm.lua', config = require 'plugins.editor.toggleterm' }
@@ -45,6 +48,7 @@ function M.load_plugins(use)
     --      Project & Session
     --]]
     use { 'rmagatti/auto-session', config = require 'plugins.editor.session' }
+    use { '/home/abao/Documents/async-runner.nvim' }
 
 end
 

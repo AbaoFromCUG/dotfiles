@@ -266,4 +266,5 @@ for_window [instance="^icalingua$"] floating enable, border normal
 for_window [title="^Abao-TestFlag$"] floating enable, border normal
 for_window [class="^Crow Translate$"] floating enable, border normal
 for_window [class="^Pavucontrol$"] floating enable, move absolute center, resize set 200px
+for_window [title="^Android Emulator -"] floating enable, border 0
 

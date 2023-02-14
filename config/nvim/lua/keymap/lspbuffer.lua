@@ -14,7 +14,9 @@ return function(bufno)
             gD = { vim.lsp.buf.declaration, 'jump to declaration' },
             gi = { vim.lsp.buf.implementation, 'list implementations' },
             gr = { vim.lsp.buf.references, 'list references' },
-        }
+        },
+        K = { vim.lsp.buf.hover, 'symbol info' },
+
     }, {
         buffer = bufno,
         silent = false,

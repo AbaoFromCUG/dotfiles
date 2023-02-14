@@ -22,6 +22,7 @@ function M.mason_lspconfig()
             'bashls',
             'yamlls',
             'pyright',
+            'jsonls',
         }
     }
 end
@@ -34,6 +35,17 @@ function M.mason_null_ls()
             'yamlfmt',
         }
     }
+end
+
+function M.mason_dap()
+    require 'mason-nvim-dap'.setup {
+        ensure_installed = { 'python', 'cpptools', 'codelldb' }
+    }
+
+end
+
+function M.fidget()
+    require 'fidget'.setup {}
 end
 
 function M.autopairs()

@@ -4,7 +4,6 @@ local M = {}
 
 
 function M.load_plugins(use)
-    use { 'neovim/nvim-lspconfig', config = require 'plugins.lsp.lspconfig' }
     -- completion engine
     use { 'hrsh7th/nvim-cmp', config = require 'plugins.lsp.cmp' }
     -- completion source
@@ -26,7 +25,9 @@ function M.load_plugins(use)
     use { 'folke/trouble.nvim', config = require 'plugins.lsp.trouble' }
 
     use { 'jose-elias-alvarez/null-ls.nvim', config = require 'plugins.lsp.null-ls' }
+    use { 'folke/neodev.nvim', config = conf.neodev }
 
+    use { 'neovim/nvim-lspconfig', config = require 'plugins.lsp.lspconfig' }
 end
 
 return M

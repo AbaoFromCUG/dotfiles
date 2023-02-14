@@ -29,6 +29,9 @@ return function(config)
             format = {
                 enable = true
             },
+            completion = {
+                callSnippet = 'Replace'
+            },
         },
     }
 end

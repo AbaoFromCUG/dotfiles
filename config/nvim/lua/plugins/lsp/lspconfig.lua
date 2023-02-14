@@ -33,7 +33,7 @@ return function()
 
     local servers = {
         'clangd',
-        'sumneko_lua',
+        'lua_ls',
         'pyright',
         'neocmake',
         'vimls',

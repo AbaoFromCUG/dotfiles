@@ -7,6 +7,9 @@ yay:
     - amd-ucode
     - nvidia-470xx-dkms
     - nvidia
+    - nvidia-container-toolkit
+    - vmware-workstation
+    - wechat-uos
   packages:
     # system applications
     - base
