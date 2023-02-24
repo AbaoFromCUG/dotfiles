@@ -15,5 +15,4 @@ function M.neodev()
     require 'neodev'.setup()
 
 end
-
 return M

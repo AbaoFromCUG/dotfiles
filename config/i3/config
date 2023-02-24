@@ -19,10 +19,6 @@ font pango:DejaVuSansMono Nerd Font Mono 8
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
 
-# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
-# screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- bash -c "convert ~/Pictures/wallpapers/nature-3181144.jpg RGB:- | i3lock --raw 3840x2160:rgb --image /dev/stdin"
-
 # map CapsLocks to VoidSymbol
 exec --no-startup-id setxkbmap -option caps:none
 

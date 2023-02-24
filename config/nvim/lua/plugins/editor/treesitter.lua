@@ -38,7 +38,9 @@ return function()
             'json',
             'markdown',
             'norg',
-            'html'
+            'html',
+            'css',
+            'vue',
         },
         highlight = {
             enable = true, -- false will disable the whole extension

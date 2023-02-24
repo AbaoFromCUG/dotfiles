@@ -1,48 +1,5 @@
 local M = {}
 
-function M.mason()
-    require 'mason'.setup {
-        ui = {
-            icons = {
-                package_installed = '✓',
-                package_pending = '➜',
-                package_uninstalled = '✗'
-            }
-        }
-    }
-end
-
-function M.mason_lspconfig()
-    require 'mason-lspconfig'.setup {
-        ensure_installed = {
-            'clangd',
-            'tsserver',
-            'sumneko_lua',
-            'vimls',
-            'bashls',
-            'yamlls',
-            'pyright',
-            'jsonls',
-        }
-    }
-end
-
-function M.mason_null_ls()
-    require 'mason-null-ls'.setup {
-        ensure_installed = {
-            'autopep8',
-            'shfmt',
-            'yamlfmt',
-        }
-    }
-end
-
-function M.mason_dap()
-    require 'mason-nvim-dap'.setup {
-        ensure_installed = { 'python', 'cpptools', 'codelldb' }
-    }
-
-end
 
 function M.fidget()
     require 'fidget'.setup {}

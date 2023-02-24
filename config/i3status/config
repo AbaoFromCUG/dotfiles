@@ -34,7 +34,7 @@ py3status {
 
 order += "sysdata cpu_info"
 sysdata cpu_info {
-    format = " [\?color=cpu_used_percent {cpu_used_percent:.1f}%]"
+    format = " 👼[\?color=cpu_used_percent {cpu_used_percent:.1f}%]"
 
     format += " [\?color=cpu_used_percent {cpu_temp}°C]"
     thresholds = [(0, "good"), (30, "degraded"), (55, "prebad"), (75, "bad")]
@@ -42,7 +42,7 @@ sysdata cpu_info {
 
 order += "nvidia_smi gpu_info"
 nvidia_smi gpu_info {
-    format_gpu = " [\?color=memory.used_percent {memory.used} {memory.used_unit}"
+    format_gpu = "👺[\?color=memory.used_percent {memory.used} {memory.used_unit}"
     format_gpu += " {memory.used_percent:.1f}%]"
     format_gpu += " [\?color=temperature.gpu {temperature.gpu}°C] "
     thresholds = [(0, "good"), (50, "degraded"), (75, "prebad"), (90, "bad")]
@@ -50,30 +50,24 @@ nvidia_smi gpu_info {
 
 order += "sysdata memory_info"
 sysdata memory_info {
-    format = " [\?color=mem_used_percent {mem_used}/{mem_total}{mem_total_unit}] "
+    format = " 🤯[\?color=mem_used_percent {mem_used}/{mem_total}{mem_total_unit}] "
     format += "[\?color=mem_used_percent {mem_used_percent}%]"
     thresholds = [(0, "good"), (30, "degraded"), (55, "prebad"), (75, "bad")]
     config = {'short_units': True}
-}
-
-load {
-    format = " load %1min "
-    #format = "[ load: %1min, %5min, %15min ]"
-    # max_threshold = 0.3
 }
 
 order += "group filesystem_info"
 group filesystem_info {
     diskdata fs_home {
         disk = "/dev/nvme0n1p6"
-        format = " [\?color=used_percent {used}/{total_space}"
+        format = "🏠[\?color=used_percent {used}/{total_space}"
         format += "{used_percent}% {total}] "
         thresholds = [(0, "good"), (30, "degraded"), (55, "prebad"), (75, "bad")]
         config = {'short_units': True}
     }
     diskdata fs_root {
         disk = "/dev/nvme0n1p5"
-        format = " [\?color=used_percent {used}/{total_space} "
+        format = "🖥️[\?color=used_percent {used}/{total_space} "
         format += "{used_percent}% {total}] "
         thresholds = [(0, "good"), (30, "degraded"), (55, "prebad"), (75, "bad")]
     }
@@ -81,6 +75,6 @@ group filesystem_info {
 
 order += "netdata network"
 netdata network {
-    format = "[\?color=down {down}Kb↓{up}Kb↑]"
+    format = "👾[\?color=down {down}Kb↓{up}Kb↑]"
     thresholds = [(0, "good"), (500, "degraded"), (1000, "prebad"), (2000, "bad")]
 }

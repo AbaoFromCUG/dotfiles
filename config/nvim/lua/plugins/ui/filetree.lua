@@ -29,7 +29,7 @@ return function()
     local mappings = {
         { key = '?', action = 'toggle_help' },
         { key = { '<CR>', 'o', '<2-LeftMouse>' }, action = 'edit' },
-        { key = 'y', action = 'copy_path' },
+        { key = 'y', action = 'copy' },
         { key = 'Y', action = 'copy_name' },
         { key = 'I', action = 'toggle_git_ignored' },
         { key = 'a', action = 'create' },
@@ -40,17 +40,18 @@ return function()
         { key = 'p', action = 'paste' },
         { key = 'ff', action = 'find file', action_cb = find_file },
         { key = 'fw', action = 'find string', action_cb = find_word },
+        { key = '<Space>', action = 'mark' },
     }
 
     nvim_tree.setup {
         disable_netrw = true,
-        hijack_netrw = true,
         open_on_setup = false,
         ignore_ft_on_setup = {},
         -- open_on_tab = true,
         hijack_cursor = false,
         respect_buf_cwd = true,
         sync_root_with_cwd = true,
+        remove_keymaps = false,
         actions = {
             open_file = {
                 quit_on_open = false,
