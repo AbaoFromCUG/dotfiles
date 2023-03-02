@@ -1,9 +1,7 @@
 local M = {}
 
 local fn = vim.fn
-local dap = require 'dap'
 local Path = require 'plenary.path'
-local fake_vscode = require 'dap.ext.vscode'
 
 
 M.current_launch_conf = nil
@@ -16,6 +14,8 @@ local format_config = function(item)
 end
 
 function M.refresh_launcher()
+    local dap = require 'dap'
+    local fake_vscode = require 'dap.ext.vscode'
     -- clear raw configuration
     dap.configurations = {}
     local launch_filepath = Path:new(fn.getcwd()):joinpath '.neovim/launch.json':absolute()
@@ -31,10 +31,10 @@ function M.refresh_launcher()
             named_config[item.name] = item
         end
     end
-
 end
 
 function M.select_launch_conf()
+    local dap = require 'dap'
     local extend_configurations = {}
     for _, subconfigs in pairs(dap.configurations) do
         for _, item in ipairs(subconfigs) do
@@ -82,6 +82,7 @@ function M.current_display_name()
 end
 
 function M.is_available()
+    local dap = require 'dap'
     return not vim.tbl_isempty(dap.configurations)
 end
 

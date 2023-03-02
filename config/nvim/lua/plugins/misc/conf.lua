@@ -1,14 +1,9 @@
 local M = {}
 
-function M.femaco()
-    require 'femaco'.setup()
-end
 
-function M.glow()
-    require 'glow'.setup {
-        style = 'dark',
-        width = 120, -- your override config
-    }
+function M.tex()
+    vim.g.vimtex_view_method = 'zathura'
+
 end
 
 return M

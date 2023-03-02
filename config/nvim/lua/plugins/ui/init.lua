@@ -1,25 +1,35 @@
 local conf = require 'plugins.ui.conf'
 
-local M = {}
 
-function M.load_plugins(use)
-    use { 'catppuccin/nvim', config = conf.theme }
-    use { 'EdenEast/nightfox.nvim', config = conf.theme }
+return {
+    -- { 'catppuccin/nvim',                     config = conf.theme,                           name = 'catppuccin', },
+    {
+        'EdenEast/nightfox.nvim',
+        lazy = false,
+        priority = 1000,
+        config = conf.theme,
+    },
     -- color text colorizer, e.g. #5F9EA0 Aqua #91f
-    use { 'NvChad/nvim-colorizer.lua', config = conf.colorizer }
-    use { 'akinsho/bufferline.nvim', config = require 'plugins.ui.bufferline' }
+    { 'NvChad/nvim-colorizer.lua',           config = true },
+    { 'akinsho/bufferline.nvim',             config = require 'plugins.ui.bufferline' },
     -- status line
-    use { 'hoob3rt/lualine.nvim', config = require 'plugins.ui.lualine' }
-    use { 'SmiteshP/nvim-navic', config = conf.code_navigation }
-    use { 'lukas-reineke/indent-blankline.nvim', config = require 'plugins.ui.indent_blankline' }
-    use { 'rcarriga/nvim-notify' }
-    use { 'MunifTanjim/nui.nvim' }
-    use { 'stevearc/dressing.nvim', config = conf.dressing }
-
-
-    use { 'kyazdani42/nvim-tree.lua', config = require 'plugins.ui.filetree' }
-    use { 'simrat39/symbols-outline.nvim', config = conf.symbols_outline }
-    use { 'glepnir/dashboard-nvim', config = require 'plugins.ui.dashboard' }
-end
-
-return M
+    { 'hoob3rt/lualine.nvim',                config = require 'plugins.ui.lualine' },
+    { 'SmiteshP/nvim-navic',                 config = conf.code_navigation },
+    { 'lukas-reineke/indent-blankline.nvim', config = require 'plugins.ui.indent_blankline' },
+    { 'rcarriga/nvim-notify' },
+    { 'MunifTanjim/nui.nvim' },
+    {
+        'stevearc/dressing.nvim',
+        event = 'VeryLazy',
+        config = conf.dressing
+    },
+    { 'kyazdani42/nvim-tree.lua',      config = require 'plugins.ui.filetree' },
+    { 'simrat39/symbols-outline.nvim', config = conf.symbols_outline },
+    {
+        'glepnir/dashboard-nvim',
+        event = 'VimEnter',
+        config = require 'plugins.ui.dashboard',
+        -- config = true,
+        dependencies = { 'nvim-tree/nvim-web-devicons' }
+    }
+}

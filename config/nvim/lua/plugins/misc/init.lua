@@ -1,15 +1,16 @@
 local conf = require 'plugins.misc.conf'
 
-local M = {}
-
-function M.load_plugins(use)
-    use { 'Shatur/neovim-cmake', config = require 'plugins.misc.cmake' }
+return {
+    { 'Shatur/neovim-cmake',    config = require 'plugins.misc.cmake' },
     --[[
     --      Language specific
     --]]
-    use { 'ellisonleao/glow.nvim', ft = 'markdown', config = conf.glow }
-    use { 'AckslD/nvim-FeMaco.lua', ft = 'markdown', config = conf.femaco }
-    use { 'nvim-neorg/neorg', ft = 'norg', config = require 'plugins.misc.neorg' }
-end
-
-return M
+    {
+        'ellisonleao/glow.nvim',
+        ft = 'markdown',
+        opts = { style = 'dark', width = 120, }
+    },
+    { 'AckslD/nvim-FeMaco.lua', config = true,                         ft = 'markdown' },
+    { 'nvim-neorg/neorg',       config = require 'plugins.misc.neorg', ft = 'norg' },
+    { 'lervag/vimtex',          config = conf.tex,                     ft = 'tex' },
+}

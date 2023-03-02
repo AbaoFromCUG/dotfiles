@@ -41,6 +41,7 @@ return function()
             'html',
             'css',
             'vue',
+            'latex',
         },
         highlight = {
             enable = true, -- false will disable the whole extension

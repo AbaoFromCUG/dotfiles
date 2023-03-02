@@ -7,58 +7,61 @@
       force: true
     ~/.config:
       recursive: true
-
 - link:
     ~/:
       glob: true
       path: home/*
       prefix: "."
+    ~/.config/clash/clash_update:
+      path: config/clash/clash_update
     ~/.config:
       glob: true
       path: config/*
+      exclude: [config/clash]
 - shell:
-  -
-    command: >+
-      if [ ! -d ~/Pictures/wallpapers/ ]; then
-        mkdir ~/Pictures/wallpapers/ -p
-        wget https://gitlab.manjaro.org/artwork/wallpapers/wallpapers-2018/-/raw/master/nature-3058859.jpg -O ~/Pictures/wallpapers/nature-3058859.jpg
-        wget https://gitlab.manjaro.org/artwork/wallpapers/wallpapers-2018/-/raw/master/nature-3181144.jpg -O ~/Pictures/wallpapers/nature-3181144.jpg
-      fi
-    description: Download wallpapers
-    quiet: true
-  -
-    command: >+
-      if [ ! -d ~/.pyenv ]; then
-        git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-        cd ~/.pyenv && src/configure && make -C src
-      fi
-    description: Install pyenv
-    quiet: true
-  -
-    command: >+
-      if [ ! -d ~/.tmux ] || [ ! -f ~/.tmux.conf ]; then
-        if [[ -f ~/.tmux.conf ]]; then
-          mv ~/.tmux.conf /tmp/tmux.conf.bak
+    - command: >
+        if [ ! -d ~/Pictures/wallpapers/ ]; then
+          mkdir ~/Pictures/wallpapers/ -p
+          wget https://gitlab.manjaro.org/artwork/wallpapers/wallpapers-2018/-/raw/master/nature-3058859.jpg -O ~/Pictures/wallpapers/nature-3058859.jpg
+          wget https://gitlab.manjaro.org/artwork/wallpapers/wallpapers-2018/-/raw/master/nature-3181144.jpg -O ~/Pictures/wallpapers/nature-3181144.jpg
         fi
-        rm -rf ~/.tmux.conf
-        git clone https://github.com/gpakosz/.tmux.git ~/.tmux
-        ln -s -f ~/.tmux/.tmux.conf ~/.tmux.conf
-      else
-        cd ~/.tmux
-        git pull
-      fi
-    description: Install&update oh-my-tmux
-    quiet: true
-  -
-    command: >+
-      if [ ! -d ~/.local/mpd/playlists ]; then
-        mkdir ~/.local/mpd/playlists -p
-        touch ~/.local/mpd/{database,log,pid,state,sticker.sql}
-      fi
-    description: "Config music player daemon"
-    quiet: true
-  -
-    command: nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
-    description: Update neovim plugin(a few minutes)
-    quiet: true
 
+      description: Download wallpapers
+      quiet: true
+    - command: >
+        if [ ! -d ~/.pyenv ]; then
+
+          git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+          cd ~/.pyenv && src/configure && make -C src
+        fi
+
+      description: Install pyenv
+      quiet: true
+    - command: >
+        if [ ! -d ~/.tmux ] || [ ! -f ~/.tmux.conf ]; then
+
+          if [[ -f ~/.tmux.conf ]]; then
+            mv ~/.tmux.conf /tmp/tmux.conf.bak
+          fi
+          rm -rf ~/.tmux.conf
+          git clone https://github.com/gpakosz/.tmux.git ~/.tmux
+          ln -s -f ~/.tmux/.tmux.conf ~/.tmux.conf
+        else
+
+          cd ~/.tmux
+          git pull
+        fi
+
+      description: Install&update oh-my-tmux
+      quiet: true
+    - command: >
+        if [ ! -d ~/.local/mpd/playlists ]; then
+          mkdir ~/.local/mpd/playlists -p
+          touch ~/.local/mpd/{database,log,pid,state,sticker.sql}
+        fi
+
+      description: "Config music player daemon"
+      quiet: true
+    - command: nvim --headless "+Lazy! restore" +qa
+      description: Restore neovim plugin
+      quiet: true

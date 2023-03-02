@@ -1,46 +1,48 @@
 local conf = require 'plugins.editor.conf'
 
-local M = {}
-
-function M.load_plugins(use)
-    use { 'nvim-telescope/telescope.nvim', config = require 'plugins.editor.telescope' }
-    use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-    use { 'nvim-telescope/telescope-dap.nvim' }
-    use { 'nvim-telescope/telescope-symbols.nvim' }
-    use { 'nvim-telescope/telescope-frecency.nvim' }
+return {
+    {
+        'nvim-telescope/telescope.nvim',
+        dependencies = { 'nvim-lua/plenary.nvim' },
+        config = require 'plugins.editor.telescope'
+    },
+    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+    { 'nvim-telescope/telescope-dap.nvim' },
+    { 'nvim-telescope/telescope-symbols.nvim' },
+    { 'nvim-telescope/telescope-frecency.nvim' },
     --[[
     --      Treesitter
     --]]
-    use {
+    {
         'nvim-treesitter/nvim-treesitter',
-        run = ':TSUpdate',
+        build = ':TSUpdate',
         config = require 'plugins.editor.treesitter',
-    }
-    use { 'andymass/vim-matchup' }
-    use { 'p00f/nvim-ts-rainbow' }
-    use { 'nvim-treesitter/nvim-treesitter-refactor' }
-    use { 'nvim-treesitter/nvim-treesitter-textobjects' }
-    use { 'windwp/nvim-autopairs', config = conf.autopairs }
-    use { 'numToStr/Comment.nvim', config = require 'plugins.editor.comment' }
-
-    use { 'j-hui/fidget.nvim', config = conf.fidget }
-    use { 'yaocccc/nvim-foldsign', event = 'CursorHold', config = 'require("nvim-foldsign").setup()' }
-
-    use { 'lewis6991/gitsigns.nvim', config = conf.gitsigns }
-    use { 'akinsho/nvim-toggleterm.lua', config = require 'plugins.editor.toggleterm' }
-    use {
+    },
+    { 'andymass/vim-matchup' },
+    { 'p00f/nvim-ts-rainbow' },
+    { 'nvim-treesitter/nvim-treesitter-refactor' },
+    { 'nvim-treesitter/nvim-treesitter-textobjects' },
+    { 'windwp/nvim-autopairs',                      config = conf.autopairs },
+    { 'numToStr/Comment.nvim',                      config = require 'plugins.editor.comment' },
+    { 'j-hui/fidget.nvim',                          config = conf.fidget },
+    { 'yaocccc/nvim-foldsign',                      event = 'CursorHold',                        config = 'require("nvim-foldsign").setup()' },
+    { 'lewis6991/gitsigns.nvim',                    config = conf.gitsigns },
+    { 'akinsho/nvim-toggleterm.lua',                config = require 'plugins.editor.toggleterm' },
+    {
         'glacambre/firenvim',
-        run = function()
+        build = function()
             vim.fn['firenvim#install'](0)
         end,
-    }
-    use { 'Pocco81/true-zen.nvim', config = conf.zen_mode }
-    use { 'phaazon/hop.nvim', config = conf.hop }
+    },
+    { 'Pocco81/true-zen.nvim', config = conf.zen_mode },
+    { 'phaazon/hop.nvim',      config = conf.hop },
 
     --[[
     --      Project & Session
     --]]
-    use { 'rmagatti/auto-session', config = require 'plugins.editor.session' }
-end
-
-return M
+    {
+        'rmagatti/auto-session',
+        priority = 10000,
+        config = require 'plugins.editor.session'
+    },
+}

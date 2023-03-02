@@ -2,10 +2,7 @@ local M = {}
 function M.theme()
     -- theme
     vim.cmd [[colorscheme nightfox]]
-end
-
-function M.colorizer()
-    require 'colorizer'.setup {}
+    -- vim.cmd [[colorscheme catppuccin]]
 end
 
 function M.code_navigation()
