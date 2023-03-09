@@ -1,17 +1,5 @@
 local M = {}
 
-
-function M.fidget()
-    require 'fidget'.setup {}
-end
-
-function M.autopairs()
-    local npairs = require 'nvim-autopairs'
-    npairs.setup {
-        check_ts = true,
-    }
-end
-
 function M.gitsigns()
     local gitsigns = require 'gitsigns'
     gitsigns.setup {

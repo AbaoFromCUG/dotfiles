@@ -27,7 +27,7 @@ return {
     -- diagnostic list
     { 'folke/trouble.nvim',              config = require 'plugins.lsp.trouble' },
     { 'jose-elias-alvarez/null-ls.nvim', config = require 'plugins.lsp.null-ls' },
-    { 'folke/neodev.nvim',               config = conf.neodev },
+    { 'folke/neodev.nvim',               config = true },
 
     { 'neovim/nvim-lspconfig',           config = require 'plugins.lsp.lspconfig' },
 }

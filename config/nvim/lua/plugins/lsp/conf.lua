@@ -11,8 +11,4 @@ function M.signature()
     }
 end
 
-function M.neodev()
-    require 'neodev'.setup()
-
-end
 return M

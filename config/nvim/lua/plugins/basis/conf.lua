@@ -27,6 +27,7 @@ function M.mason_lspconfig()
             'cssls',
             'tsserver',
             'volar',
+            'texlab',
         },
         automatic_installation = true,
     }

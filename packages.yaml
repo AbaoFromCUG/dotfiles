@@ -2,6 +2,7 @@ yay:
   groups:
     - base-devel
     - xorg
+    - texlive-most
   ignore:
     - intel-ucode
     - amd-ucode
@@ -10,6 +11,10 @@ yay:
     - nvidia-container-toolkit
     - vmware-workstation
     - wechat-uos
+    - qmk
+    - cudnn
+    - docker
+    - mariadb
   packages:
     # system applications
     - base
@@ -21,52 +26,56 @@ yay:
     - py3status
     - sddm
     - exfat-utils
-    - network-manager-applet
-    - bluez-utils
-    - blueman
+    - xautolock
     - libinput-gestures
     - arandr
-    - mpd
-    - ncmpcpp
-    - pulseaudio-control
-    - pavucontrol
     - conky
     - polkit-gnome
     - rofi
     - yay
     - xclip
-    # system extra tools
     - fcitx-sogoupinyin
-    - brave-bin
-    - crow-translate
-    - wps-office
-    - icalingua++
-    - clash
+    # network
+    - network-manager-applet
+    - bluez-utils
+    - blueman
+    - lsof
     - traceroute
-    - feishu-bin
+    - clash
     - wireshark-qt
-    - vlc
-    - hexchat
-    # basic tool
     - wget
+    - curl
+    # audio and media
+    - mpd
+    - ncmpcpp
+    - pulseaudio-control
+    - pavucontrol
+    - vlc
+    # basic tool
     - zsh
     - tmux
     - unzip
     - unrar
+    - p7zip
     - alacritty
-    - neovim
     - lazygit
-    - ripgrep
-    # develop tools
+    - lf
+    # lanauage and compiler
     - cmake
+    - ninja
+    - assimp
+    - eigen
+    - pyenv
     - rust
     - go
+    - texlive-langchinese
+    # editor
+    - android-studio
+    - neovim-git
     - cmake-format
-    - ninja
-    # daily tool
-    - shutter
-    - flameshot
-    - gimp
+    - ripgrep
+    - glow
+    - blender
     # fonts
     - nerd-fonts-complete
     - noto-fonts-emoji
@@ -75,13 +84,24 @@ yay:
     - ttf-font-awesome
     - awesome-terminal-fonts
     - opendesktop-fonts
+    # desktop apps
+    - brave-bin
+    - crow-translate
+    - wps-office
+    - icalingua++
+    - feishu-bin
+    - hexchat
+    - flameshot
+    - gimp
+    - telegram-desktop
+    - qbittorrent
+    - krita
+    - baidupcs-go
     # misc
     - pkgfile
     - lolcat
     - neofetch
-    - glow
     - zathura
-    - lsof
 npm:
   - neovim
 pip:

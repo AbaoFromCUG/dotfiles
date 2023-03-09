@@ -1,8 +1,31 @@
 local conf = require 'plugins.ui.conf'
 
+local function dressing()
+    require 'dressing'.setup {
+    }
+end
+
+
+local function statuscol()
+    -- consult https://github.com/luukvbaal/statuscol.nvim/issues/27
+    -- this will fix fold numbers
+    local builtin = require 'statuscol.builtin'
+    require 'statuscol'.setup {
+        relculright = true,
+        segments = {
+            { text = { '%s' },                       click = 'v:lua.ScSa' },
+            { text = { builtin.lnumfunc },           click = 'v:lua.ScLa', },
+            { text = { ' ', builtin.foldfunc, ' ' }, click = 'v:lua.ScFa' },
+        }
+    }
+end
+
+local function notify()
+    vim.notify = require 'notify'
+end
+
 
 return {
-    -- { 'catppuccin/nvim',                     config = conf.theme,                           name = 'catppuccin', },
     {
         'EdenEast/nightfox.nvim',
         lazy = false,
@@ -16,13 +39,16 @@ return {
     { 'hoob3rt/lualine.nvim',                config = require 'plugins.ui.lualine' },
     { 'SmiteshP/nvim-navic',                 config = conf.code_navigation },
     { 'lukas-reineke/indent-blankline.nvim', config = require 'plugins.ui.indent_blankline' },
-    { 'rcarriga/nvim-notify' },
+    { 'rcarriga/nvim-notify',                config = notify },
     { 'MunifTanjim/nui.nvim' },
     {
         'stevearc/dressing.nvim',
         event = 'VeryLazy',
-        config = conf.dressing
+        config = dressing
     },
+    -- status column
+    { 'luukvbaal/statuscol.nvim',      config = statuscol },
+
     { 'kyazdani42/nvim-tree.lua',      config = require 'plugins.ui.filetree' },
     { 'simrat39/symbols-outline.nvim', config = conf.symbols_outline },
     {

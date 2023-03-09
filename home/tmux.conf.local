@@ -364,6 +364,8 @@ bind j select-pane -D  # move down
 bind k select-pane -U  # move up
 bind l select-pane -R  # move right
 
+bind e new-window -n "edit dotfiles" sh -c 'cd ~/.dotfiles && nvim && tmux display "edit complete"'
+
 # -- tpm -----------------------------------------------------------------------
 
 # while I don't use tpm myself, many people requested official support so here

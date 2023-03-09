@@ -1,14 +1,15 @@
 return function()
-    vim.opt.foldmethod = 'expr'
-    vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-    vim.opt.foldenable = false
+    -- consult nvim-ufo
+    -- vim.opt.foldmethod = 'expr'
+    -- vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+    -- vim.opt.foldenable = false
 
-    local ft_to_parser = require 'nvim-treesitter.parsers'.filetype_to_parsername
-    ft_to_parser.qml = 'qmljs'
+    vim.treesitter.language.register('qmljs', 'qml')
 
     require 'nvim-treesitter.install'.prefer_git = true
     local parser_path = vim.fn.stdpath 'data' .. '/ts-parsers'
     vim.opt.runtimepath:append(parser_path)
+
     require 'nvim-treesitter.configs'.setup {
         parser_install_dir = parser_path,
         indent = {
@@ -25,6 +26,7 @@ return function()
         },
         -- one of "all", "maintained" (parsers with maintainers), or a list of languages
         ensure_installed = {
+            'vim',
             'lua',
             'python',
             'javascript',
@@ -37,15 +39,16 @@ return function()
             'bash',
             'json',
             'markdown',
+            'markdown_inline',
             'norg',
             'html',
             'css',
             'vue',
             'latex',
+            'regex',
         },
         highlight = {
             enable = true, -- false will disable the whole extension
-            disable = {}, -- list of language that will be disabled
         },
         autopairs = {
             enable = true,
@@ -83,15 +86,14 @@ return function()
                 lookahead = true,
                 keymaps = {
                     -- You can use the capture groups defined in textobjects.scm
-                    ['af'] = '@function.outer',
-                    ['if'] = '@function.inner',
-                    ['ac'] = '@class.outer',
+                        ['af'] = '@function.outer',
+                        ['if'] = '@function.inner',
+                        ['ac'] = '@class.outer',
                     -- You can optionally set descriptions to the mappings (used in the desc parameter of
                     -- nvim_buf_set_keymap) which plugins like which-key display
-                    ['ic'] = { query = '@class.inner', desc = 'Select inner part of a class region' },
+                        ['ic'] = { query = '@class.inner', desc = 'Select inner part of a class region' },
                 },
             },
-
             include_surrounding_whitespace = true,
         },
     }

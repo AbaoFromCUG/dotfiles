@@ -6,11 +6,11 @@ local Path = require 'plenary.path'
 
 M.current_launch_conf = nil
 
-local format_config = function(item)
+local function format_config(item)
     if item then
         return string.format('%s (%s)', item.name, item.type)
     end
-    return '(Empty)'
+    return ''
 end
 
 function M.refresh_launcher()
@@ -55,6 +55,7 @@ function M.select_launch_conf()
 end
 
 function M.select_by_name(name)
+    local dap = require 'dap'
     for _, subconfigs in pairs(dap.configurations) do
         for _, item in ipairs(subconfigs) do
             if item.name == name then
@@ -67,6 +68,7 @@ function M.select_by_name(name)
 end
 
 function M.launch_or_continue()
+    local dap = require 'dap'
     if dap.session() then
         dap.continue()
     elseif M.current_launch_conf then

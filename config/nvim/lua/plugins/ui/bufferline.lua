@@ -2,12 +2,13 @@ return function()
     local bufferline = require 'bufferline'
     -- stylua: ignore start
     local blacklist_filetypes = {
-        'dashboard'
+        'dashboard',
+        'checkhealth',
+        'qf',
     }
     -- stylua: ignore end
     bufferline.setup {
         options = {
-            close_command = 'bdelete! %d',
             offsets = {
                 {
                     filetype = 'NvimTree',

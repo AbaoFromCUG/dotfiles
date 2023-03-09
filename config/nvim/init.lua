@@ -8,7 +8,6 @@ vim.opt.hidden = true
 vim.opt.termguicolors = true
 vim.opt.relativenumber = true
 vim.opt.linebreak = true
-vim.opt.foldlevel = 10
 vim.opt.list = true
 
 vim.opt.hlsearch = true

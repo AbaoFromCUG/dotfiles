@@ -2,18 +2,18 @@ return function()
     local dap = require 'dap'
     local dapui = require 'dapui'
 
-    local nvim_tree = require 'nvim-tree.api'
     dap.listeners.after.event_initialized['dapui_config'] = function()
+        local nvim_tree = require 'nvim-tree.api'
         nvim_tree.tree.close()
-        dapui.open {}
+        dapui.open()
     end
     dap.listeners.before.event_terminated['dapui_config'] = function()
-        vim.notify("terminate")
-        dapui.close {}
+        vim.notify 'terminate'
+        dapui.close()
     end
     dap.listeners.before.event_exited['dapui_config'] = function()
-        vim.notify("event exit")
-        dapui.close {}
+        vim.notify 'event exit'
+        dapui.close()
     end
     dapui.setup {
         icons = { expanded = '▾', collapsed = '▸' },
@@ -48,8 +48,8 @@ return function()
                         size = 0.25, -- Can be float or integer > 1
                     },
                     { id = 'breakpoints', size = 0.25 },
-                    { id = 'stacks', size = 0.25 },
-                    { id = 'watches', size = 00.25 },
+                    { id = 'stacks',      size = 0.25 },
+                    { id = 'watches',     size = 00.25 },
                 },
                 size = 40,
                 position = 'left', -- Can be "left", "right", "top", "bottom"
@@ -82,7 +82,7 @@ return function()
         },
         floating = {
             max_height = nil, -- These can be integers or a float between 0 and 1.
-            max_width = nil, -- Floats will be treated as percentage of your screen.
+            max_width = nil,  -- Floats will be treated as percentage of your screen.
             mappings = { close = { 'q', '<Esc>' } },
         },
         windows = { indent = 1 },
