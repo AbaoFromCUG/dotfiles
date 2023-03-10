@@ -8,7 +8,7 @@ vim.api.nvim_set_keymap('n', '<cr>', '{-> v:hlsearch ? ":nohl<CR>" : "<CR>"}()',
 vim.api.nvim_set_keymap('n', ';', '<C-w>', { noremap = true })
 
 wk.register {
-        ['<leader>'] = {
+    ['<leader>'] = {
         f = {
             name = 'find',
             f = { '<cmd>Telescope find_files<cr>', 'find files' },
@@ -21,7 +21,7 @@ wk.register {
             name = 'create',
             f = { '<cmd>DashboardNewFile<cr>', 'new file' },
         },
-            [','] = {
+        [','] = {
             name = 'settings',
             m = { '<cmd>Telescope filetypes<cr>', 'languages' },
             c = { '<cmd>Telescope colorscheme<cr>', 'colorscheme' },
@@ -49,7 +49,7 @@ wk.register {
             M = { require 'ufo'.closeAllFolds, 'Close All Folds' },
         }
     },
-        ['<space>'] = {
+    ['<space>'] = {
         name = 'super space',
         s = { '<cmd>w<cr>', 'write' },
         t = { trans.trans_cursor_word, 'translate' },
@@ -73,23 +73,23 @@ wk.register {
         f = { vim.lsp.buf.format, 'format' },
     },
 
-        ['<F5>'] = { launcher.launch_or_continue, 'debug' },
-        ['<F6>'] = { dap.terminate, 'termnate' },
-        ['<F9>'] = { '<cmd>PBToggleBreakpoint<cr>', 'toggle breakpoint' },
-        ['<F11>'] = { dap.step_into, 'step into' },
-        ['<F12>'] = { dap.step_over, 'step over' },
+    ['<F5>'] = { launcher.launch_or_continue, 'debug' },
+    ['<F6>'] = { dap.terminate, 'termnate' },
+    ['<F9>'] = { '<cmd>PBToggleBreakpoint<cr>', 'toggle breakpoint' },
+    ['<F11>'] = { dap.step_into, 'step into' },
+    ['<F12>'] = { dap.step_over, 'step over' },
 
-        ['<C-b>'] = { '<cmd>NvimTreeToggle<cr>', 'toggle explorer' },
-        ['<S-l>'] = { '<cmd>BufferLineCycleNext<cr>', 'focus right tab' },
-        ['<S-h>'] = { '<cmd>BufferLineCyclePrev<cr>', 'focus left tab' },
-        ['<C-w>Q'] = { '<cmd>qall<cr>', 'Quit all' },
-        ['f'] = { '<cmd>HopWord<cr>', 'Hop word' },
+    ['<C-b>'] = { '<cmd>NvimTreeToggle<cr>', 'toggle explorer' },
+    ['<S-l>'] = { '<cmd>BufferLineCycleNext<cr>', 'focus right tab' },
+    ['<S-h>'] = { '<cmd>BufferLineCyclePrev<cr>', 'focus left tab' },
+    ['<C-w>Q'] = { '<cmd>qall<cr>', 'Quit all' },
+    ['f'] = { '<cmd>HopWord<cr>', 'Hop word' },
 }
 
 vim.keymap.set({ 'n', 'x' }, '<leader>sr', function() require 'ssr'.open() end)
 
 wk.register({
-        ['<leader>'] = {
+    ['<leader>'] = {
         z = {
             name = 'zen mode',
             n = { ":'<,'>TZNarrow<CR>", 'toogle zen mode' }

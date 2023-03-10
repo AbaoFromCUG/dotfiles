@@ -1,4 +1,4 @@
-alias vim=nvim-qt
+alias vim=nvim
 alias s='neofetch|lolcat'
 alias y="https_proxy=http://127.0.0.1:8888 crow -t zh-CN "
 alias yy="https_proxy=http://127.0.0.1:8888 crow -u -t zh-CN "
@@ -24,4 +24,4 @@ fi
 
 export PATH="$PATH:$(go env GOBIN):$(go env GOPATH)/bin"
 export PATH=$PATH:$HOME/.cargo/bin
-export EDITOR=nvim-qt
+export EDITOR=nvim

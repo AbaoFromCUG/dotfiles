@@ -1,27 +1,39 @@
-local conf = require 'plugins.lsp.conf'
+local function luasnip()
+    local snippet_path = vim.fn.stdpath 'config' .. '/snippets'
+    require 'luasnip.loaders.from_vscode'.lazy_load { paths = { snippet_path } }
+    require 'luasnip.loaders.from_vscode'.lazy_load()
+end
+
+local function signature()
+    local lsp_signature = require 'lsp_signature'
+    lsp_signature.setup {
+        floating_window_above_cur_line = false,
+    }
+end
 
 return {
     -- completion engine
     {
         'hrsh7th/nvim-cmp',
         event = 'InsertEnter',
-        dependencies = {
-            'hrsh7th/cmp-buffer',
-            'hrsh7th/cmp-nvim-lsp',
-            'hrsh7th/cmp-buffer',
-            'hrsh7th/cmp-path',
-            'hrsh7th/cmp-cmdline',
-            'ray-x/cmp-treesitter',
-            'paopaol/cmp-doxygen',
-            'hrsh7th/cmp-vsnip',
-        },
         config = require 'plugins.lsp.cmp'
     },
-    -- completion source
-    { 'hrsh7th/vim-vsnip',               config = conf.snippet },
-    { 'rafamadriz/friendly-snippets' },
+    {
+        'L3MON4D3/LuaSnip',
+        build = 'make install_jsregexp',
+        config = luasnip
+    },
+    'saadparwaiz1/cmp_luasnip',
+    'rafamadriz/friendly-snippets',
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-cmdline',
+    'ray-x/cmp-treesitter',
+    'paopaol/cmp-doxygen',
     -- show signature
-    { 'ray-x/lsp_signature.nvim',        config = conf.signature },
+    { 'ray-x/lsp_signature.nvim',        config = signature },
     -- pictograms for lsp
     { 'onsails/lspkind-nvim' },
     -- diagnostic list

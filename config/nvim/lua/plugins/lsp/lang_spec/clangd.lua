@@ -9,5 +9,4 @@ return function(config)
         '--clang-tidy',
         '--compile-commands-dir=' .. project:get_build_dir():absolute(),
     }
-
 end

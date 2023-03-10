@@ -1,9 +1,9 @@
 return function()
     local filetype_exclude = {
-            'startify', 'dashboard', 'dotooagenda', 'log', 'fugitive',
-            'gitcommit', 'packer', 'vimwiki', 'markdown', 'txt',
-            'vista', 'help', 'todoist', 'NvimTree', 'peekaboo', 'git',
-            'TelescopePrompt', 'undotree', 'flutterToolsOutline', '' -- for all buffers without a file type
+        'startify', 'dashboard', 'dotooagenda', 'log', 'fugitive',
+        'gitcommit', 'packer', 'vimwiki', 'markdown', 'txt',
+        'vista', 'help', 'todoist', 'NvimTree', 'peekaboo', 'git',
+        'TelescopePrompt', 'undotree', 'flutterToolsOutline', ''     -- for all buffers without a file type
     }
     local indent_blankline = require 'indent_blankline'
     indent_blankline.setup {

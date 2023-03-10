@@ -16,7 +16,6 @@ return function(bufno)
             gr = { vim.lsp.buf.references, 'list references' },
         },
         K = { vim.lsp.buf.hover, 'symbol info' },
-
     }, {
         buffer = bufno,
         silent = false,

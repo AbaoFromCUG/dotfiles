@@ -54,7 +54,6 @@ local variable_map = {
         end
         return '/'
     end,
-
     env = function(name)
         return vim.env[name]
     end,
