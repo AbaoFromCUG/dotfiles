@@ -25,7 +25,7 @@ return function()
     end
     local servers = mason_lspconfig.get_installed_servers()
     table.insert(servers, 'qmlls')
-    for i, server_name in pairs(servers) do
+    for _, server_name in pairs(servers) do
         local server = lspconfig[server_name]
         local config = make_config()
         local module_name = 'plugins.lsp.lang_spec.' .. server_name

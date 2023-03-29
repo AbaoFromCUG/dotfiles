@@ -1,6 +1,4 @@
 return function()
-    vim.g.toggleterm_terminal_mapping = 'C-t'
-
     local opts = { noremap = true }
     vim.api.nvim_set_keymap('n', '<C-t>', "<Cmd>exec v:count1 . 'ToggleTerm'<CR>", opts)
     --vim.api.nvim_set_keymap("i", "<C-t><Esc>", "<Cmd>exec v:count1 . 'ToggleTerm'<CR>", opts)

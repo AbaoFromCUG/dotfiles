@@ -46,6 +46,7 @@ return {
         event = 'VeryLazy',
         config = dressing
     },
+    { 'cpea2506/relative-toggle.nvim', },
     -- status column
     { 'luukvbaal/statuscol.nvim',      config = statuscol },
 

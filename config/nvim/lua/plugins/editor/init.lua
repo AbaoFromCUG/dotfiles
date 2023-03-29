@@ -9,9 +9,54 @@ local function ufo()
     vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 
     require 'ufo'.setup {
-        provider_selector = function(bufnr, filetype, buftype)
+        provider_selector = function()
             return { 'treesitter', 'indent' }
         end,
+    }
+end
+
+
+local function flatten()
+    require 'flatten'.setup {
+        callbacks = {
+            pre_open = function()
+                -- Close toggleterm when an external open request is received
+                require 'toggleterm'.toggle(0)
+            end,
+            post_open = function(bufnr, winnr, ft)
+                if ft == 'gitcommit' then
+                    -- If the file is a git commit, create one-shot autocmd to delete it on write
+                    -- If you just want the toggleable terminal integration, ignore this bit and only use the
+                    -- code in the else block
+                    vim.api.nvim_create_autocmd(
+                        'BufWritePost',
+                        {
+                            buffer = bufnr,
+                            once = true,
+                            callback = function()
+                                -- This is a bit of a hack, but if you run bufdelete immediately
+                                -- the shell can occasionally freeze
+                                vim.defer_fn(
+                                    function()
+                                        vim.api.nvim_buf_delete(bufnr, {})
+                                    end,
+                                    50
+                                )
+                            end
+                        }
+                    )
+                else
+                    -- If it's a normal file, then reopen the terminal, then switch back to the newly opened window
+                    -- This gives the appearance of the window opening independently of the terminal
+                    require 'toggleterm'.toggle(0)
+                    vim.api.nvim_set_current_win(winnr)
+                end
+            end,
+            block_end = function()
+                -- After blocking ends (for a git commit, etc), reopen the terminal
+                require 'toggleterm'.toggle(0)
+            end
+        }
     }
 end
 
@@ -70,18 +115,19 @@ return {
     },
 
     -- comment
-    { 'numToStr/Comment.nvim',   config = require 'plugins.editor.comment' },
+    { 'numToStr/Comment.nvim',   config = true },
 
     -- git
     { 'lewis6991/gitsigns.nvim', config = conf.gitsigns },
-    {
-        'sindrets/diffview.nvim',
-        dependencies = 'nvim-lua/plenary.nvim',
-        config = true,
-    },
+    -- {
+    --     'sindrets/diffview.nvim',
+    --     dependencies = 'nvim-lua/plenary.nvim',
+    --     config = true,
+    -- },
 
     -- terminal
     { 'akinsho/nvim-toggleterm.lua', config = require 'plugins.editor.toggleterm' },
+    { 'willothy/flatten.nvim',       config = flatten },
     {
         'glacambre/firenvim',
         build = function()
@@ -90,10 +136,10 @@ return {
     },
 
     -- zen mode
-    { 'Pocco81/true-zen.nvim',       config = conf.zen_mode },
+    { 'Pocco81/true-zen.nvim', config = conf.zen_mode },
 
     -- jump anywhere
-    { 'phaazon/hop.nvim',            config = conf.hop },
+    { 'phaazon/hop.nvim',      config = conf.hop },
 
     -- session
     {
