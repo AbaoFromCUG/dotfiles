@@ -14,27 +14,31 @@ yay:
     - qmk
     - cudnn
     - docker
+    - docker-compose
     - mariadb
   packages:
-    # system applications
+    # system basis
     - base
     - grub
+    - pkgconf
+    - yay
+    - fakeroot
+    - exfat-utils
+    - autoconf
+    # desktop environment
+    - sddm
     - i3-wm
     - i3lock
     - picom
-    - polybar
-    - py3status
-    - sddm
-    - exfat-utils
     - xautolock
-    - libinput-gestures
-    - arandr
-    - conky
     - polkit-gnome
     - rofi
-    - yay
-    - xclip
+    - libinput-gestures
+    - polybar
+    - py3status
+    - conky
     - fcitx-sogoupinyin
+    - xclip
     # network
     - network-manager-applet
     - bluez-utils
@@ -66,6 +70,7 @@ yay:
     - assimp
     - eigen
     - pyenv
+    - pyenv-virtualenv
     - rust
     - go
     - texlive-langchinese
@@ -87,7 +92,7 @@ yay:
     # desktop apps
     - brave-bin
     - crow-translate
-    - wps-office
+    - wps-office-cn
     - icalingua++
     - feishu-bin
     - hexchat
