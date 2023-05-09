@@ -1,0 +1,24 @@
+README.md
+LICENSE
+bootstrap
+config
+home
+home/vsnip
+home/xprofile
+install
+install.conf.yaml
+packages.yaml
+script
+vimium.rc
+
+{{ if eq .chezmoi.os "darwin" -}}
+# macOS .bashrc contents
+{{ else if eq .chezmoi.os "linux" }}
+# ArchLinux
+{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+# WSL-specific code
+{{   end }}
+{{ else }}
+
+{{ end }}
+
