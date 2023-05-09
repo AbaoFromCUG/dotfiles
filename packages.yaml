@@ -107,6 +107,17 @@ yay:
     - lolcat
     - neofetch
     - zathura
+winget:
+  - Neovim.Neovim
+  - Kitware.CMake
+  - CoreyButler.NVMforWindows
+  - BlenderFoundation.Blender
+  - Fndroid.ClashForWindows
+  - Anaconda.Anaconda3
+  - Git.Git
+  - Brave.Brave
+  - Microsoft.WindowsTerminal
+  - GnuWin32.Make
 npm:
   - neovim
 pip:

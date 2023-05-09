@@ -20,7 +20,8 @@ return {
     },
     {
         'L3MON4D3/LuaSnip',
-        build = 'make install_jsregexp',
+        -- windows don't support luajit
+        -- build = 'make install_jsregexp',
         config = luasnip
     },
     'saadparwaiz1/cmp_luasnip',
