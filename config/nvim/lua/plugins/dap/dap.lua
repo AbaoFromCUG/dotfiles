@@ -8,17 +8,11 @@ return function()
     vim.fn.sign_define('DapBreakpointRejected', { text = '⚪', texthl = '', linehl = '', numhl = '' })
     vim.fn.sign_define('DapBreakpointRejected', { text = '❓', texthl = '', linehl = '', numhl = '' })
 
-    dap.adapters.lldb = {
+    dap.adapters.cppdbg = {
+        id = cppdbg,
         type = 'executable',
-        command = 'lldb-vscode', -- adjust as needed
-        name = 'lldb',
+        command = 'OpenDebugAD7', -- adjust as needed
     }
-    dap.adapters.gdb = {
-        id = 'cppdbg',
-        type = 'executable',
-        command = 'OpenDebugAD7',
-    }
-
     dap.adapters.python = {
         type = 'executable',
         command = 'python',

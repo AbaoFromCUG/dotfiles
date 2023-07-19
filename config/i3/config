@@ -223,20 +223,13 @@ bar {
 
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec --no-startup-id fcitx
-exec --no-startup-id clash
+exec --no-startup-id cfw
 exec_always --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 
-# Tim Wechat
-for_window [class="Wine"] floating enable border none
-for_window [class="wechat_web_devtools"] floating enable border none
-exec_always --no-startup-id /usr/lib/gsd-xsettings
 
 # background and terminal transparency
 exec picom -b &
 exec --no-startup-id feh --bg-scale ~/Pictures/wallpapers/nature-3058859.jpg
-
-# screen timeout
-exec --no-startup-id xset dpms 300 360 420
 
 exec_always --no-startup-id libinput-gestures-setup restart
 
@@ -250,10 +243,6 @@ exec --no-startup-id mpd
 exec bar mode toggle
 bindsym $mod+m bar mode toggle
 
-# i3 gaps
-# gaps inner 10
-# gaps outer 5
-
 # without focus window when mouse hover
 focus_follows_mouse no
 
@@ -261,6 +250,7 @@ focus_follows_mouse no
 for_window [instance="^icalingua$"] floating enable, border normal
 for_window [title="^Abao-TestFlag$"] floating enable, border normal
 for_window [class="^Crow Translate$"] floating enable, border normal
-for_window [class="^Pavucontrol$"] floating enable, move absolute center, resize set 200px
+for_window [class="^Pavucontrol$"] floating enable, border normal, move absolute center, resize set 200px
+for_window [class="^Blueman-manager$"] floating enable, border normal, move absolute center, resize set 200px
 for_window [title="^Android Emulator -"] floating enable, border 0
 

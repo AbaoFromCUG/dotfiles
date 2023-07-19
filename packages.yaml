@@ -1,8 +1,6 @@
 yay:
   groups:
-    - base-devel
     - xorg
-    - texlive-most
   ignore:
     - intel-ucode
     - amd-ucode
@@ -19,6 +17,7 @@ yay:
   packages:
     # system basis
     - base
+    - base-devel
     - grub
     - pkgconf
     - yay
@@ -37,6 +36,7 @@ yay:
     - polybar
     - py3status
     - conky
+    - feh
     - fcitx-sogoupinyin
     - xclip
     # network
@@ -45,7 +45,7 @@ yay:
     - blueman
     - lsof
     - traceroute
-    - clash
+    - clash-for-windows-bin
     - wireshark-qt
     - wget
     - curl
@@ -71,18 +71,19 @@ yay:
     - eigen
     - pyenv
     - pyenv-virtualenv
+    - nvm
     - rust
     - go
     - texlive-langchinese
     # editor
     - android-studio
-    - neovim-git
+    - neovim
     - cmake-format
     - ripgrep
     - glow
     - blender
     # fonts
-    - nerd-fonts-complete
+    - ttf-hack-nerd
     - noto-fonts-emoji
     - adobe-source-han-serif-cn-fonts
     - adobe-source-han-sans-cn-fonts

@@ -1,0 +1,3 @@
+map <leader>y "+y
+map <leader>p "+p
+nmap <Space>s :w<CR>

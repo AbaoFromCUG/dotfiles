@@ -45,7 +45,8 @@ end
 
 function M.mason_dap()
     require 'mason-nvim-dap'.setup {
-        ensure_installed = { 'python', 'cpptools', 'codelldb' }
+        ensure_installed = { 'python', 'cppdbg' },
+        automatic_installation = true,
     }
 end
 

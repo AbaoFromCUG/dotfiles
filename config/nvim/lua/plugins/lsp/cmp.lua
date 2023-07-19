@@ -9,6 +9,7 @@ return function()
         return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match '%s' == nil
     end
     cmp.setup {
+        preselect = cmp.PreselectMode.None,
         completion = { completeopt = 'menu,menuone,noselect' },
         snippet = {
             expand = function(args)
@@ -16,8 +17,6 @@ return function()
             end,
         },
         mapping = {
-            ['<C-n>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
-            ['<C-p>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
             ['<Down>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
             ['<Up>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
             ['<C-d>'] = cmp.mapping.scroll_docs(4),
@@ -43,8 +42,6 @@ return function()
                 elseif has_words_before() then
                     cmp.complete()
                 else
-                    -- The fallback function sends a already mapped key.
-                    -- n this case, it's probably `<Tab>`.
                     fallback()
                 end
             end, { 'i', 's', 'c' }),
@@ -53,6 +50,8 @@ return function()
                     cmp.select_prev_item()
                 elseif luasnip.jumpable(-1) then
                     luasnip.jump(-1)
+                else
+                    fallback()
                 end
             end, { 'i', 's', 'c' }),
         },

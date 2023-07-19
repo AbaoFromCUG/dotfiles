@@ -12,8 +12,13 @@ fi
 
 if [[ -d $HOME/.nvm ]]; then
 	export NVM_DIR="$HOME/.nvm"
-	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-	# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+	export NVM_HOME="$HOME/.nvm"
+	if [[ -d /usr/share/nvm ]]; then
+		export NVM_HOME="/usr/share/nvm"
+	fi
+	[ -s "$NVM_HOME/nvm.sh" ] && \. "$NVM_HOME/nvm.sh" # This loads nvm
+	[ -s "$NVM_HOME/install-nvm-exe" ] && \. "$NVM_HOME/install-nvm-exe"
+
 fi
 
 if [[ -d $HOME/.rvm ]]; then
@@ -23,5 +28,10 @@ fi
 # End Env Manager
 
 export PATH="$PATH:$(go env GOBIN):$(go env GOPATH)/bin"
+export GO111MODULE=on
+export GOPROXY=https://goproxy.cn
+
 export PATH=$PATH:$HOME/.cargo/bin
 export EDITOR=nvim
+
+export EMSCRIPTEN=/usr/lib/emscripten

@@ -33,6 +33,7 @@ return function()
             'typescript',
             'c',
             'cpp',
+            'rust',
             'cmake',
             'java',
             'qmljs',
@@ -45,7 +46,6 @@ return function()
             'css',
             'vue',
             'latex',
-            'regex',
         },
         highlight = {
             enable = true, -- false will disable the whole extension

@@ -1,4 +1,24 @@
-local conf = require 'plugins.ui.conf'
+local function theme()
+    -- theme
+    if vim.g.vscode then
+    else
+        vim.cmd [[colorscheme nightfox]]
+    end
+end
+
+local function code_navigation()
+    require 'nvim-navic'.setup {
+        highlight = true,
+        depth_limit = 3
+    }
+    vim.g.navic_silence = true
+end
+
+local function symbols_outline()
+    require 'symbols-outline'.setup {
+        auto_preview = true
+    }
+end
 
 local function dressing()
     require 'dressing'.setup {
@@ -30,14 +50,14 @@ return {
         'EdenEast/nightfox.nvim',
         lazy = false,
         priority = 1000,
-        config = conf.theme,
+        config = theme,
     },
     -- color text colorizer, e.g. #5F9EA0 Aqua #91f
     { 'NvChad/nvim-colorizer.lua',           config = true },
     { 'akinsho/bufferline.nvim',             config = require 'plugins.ui.bufferline' },
     -- status line
     { 'hoob3rt/lualine.nvim',                config = require 'plugins.ui.lualine' },
-    { 'SmiteshP/nvim-navic',                 config = conf.code_navigation },
+    { 'SmiteshP/nvim-navic',                 config = code_navigation },
     { 'lukas-reineke/indent-blankline.nvim', config = require 'plugins.ui.indent_blankline' },
     { 'rcarriga/nvim-notify',                config = notify },
     { 'MunifTanjim/nui.nvim' },
@@ -50,8 +70,9 @@ return {
     -- status column
     { 'luukvbaal/statuscol.nvim',      config = statuscol },
 
+    { 'j-hui/fidget.nvim',             config = true,                         tag = 'legacy' },
     { 'kyazdani42/nvim-tree.lua',      config = require 'plugins.ui.filetree' },
-    { 'simrat39/symbols-outline.nvim', config = conf.symbols_outline },
+    { 'simrat39/symbols-outline.nvim', config = symbols_outline },
     {
         'glepnir/dashboard-nvim',
         event = 'VimEnter',

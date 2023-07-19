@@ -66,7 +66,11 @@ return {
         dependencies = { 'nvim-lua/plenary.nvim' },
         config = require 'plugins.editor.telescope'
     },
-    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
+    {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        build =
+        'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'
+    },
     { 'nvim-telescope/telescope-dap.nvim' },
     { 'nvim-telescope/telescope-symbols.nvim' },
     { 'nvim-telescope/telescope-frecency.nvim' },
@@ -105,7 +109,7 @@ return {
     },
 
     -- search and replace
-    { 'cshuaimin/ssr.nvim',      config = true },
+    { 'cshuaimin/ssr.nvim',          config = true },
 
     -- annotation gen
     {
@@ -115,10 +119,10 @@ return {
     },
 
     -- comment
-    { 'numToStr/Comment.nvim',   config = true },
+    { 'numToStr/Comment.nvim',       config = true },
 
     -- git
-    { 'lewis6991/gitsigns.nvim', config = conf.gitsigns },
+    { 'lewis6991/gitsigns.nvim',     config = conf.gitsigns },
     -- {
     --     'sindrets/diffview.nvim',
     --     dependencies = 'nvim-lua/plenary.nvim',
@@ -134,6 +138,7 @@ return {
             vim.fnk 'firenvim#install' (0)
         end,
     },
+
 
     -- zen mode
     { 'Pocco81/true-zen.nvim', config = conf.zen_mode },

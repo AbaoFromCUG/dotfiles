@@ -59,14 +59,14 @@ sysdata memory_info {
 order += "group filesystem_info"
 group filesystem_info {
     diskdata fs_home {
-        disk = "/dev/nvme0n1p6"
+        disk = "/dev/nvme0n1p4"
         format = "🏠[\?color=used_percent {used}/{total_space}"
         format += "{used_percent}% {total}] "
         thresholds = [(0, "good"), (30, "degraded"), (55, "prebad"), (75, "bad")]
         config = {'short_units': True}
     }
     diskdata fs_root {
-        disk = "/dev/nvme0n1p5"
+        disk = "/dev/nvme0n1p3"
         format = "🖥️[\?color=used_percent {used}/{total_space} "
         format += "{used_percent}% {total}] "
         thresholds = [(0, "good"), (30, "degraded"), (55, "prebad"), (75, "bad")]
