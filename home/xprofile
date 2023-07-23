@@ -3,7 +3,3 @@ export QT_IM_MODULE=fcitx
 export XMODIFIERS="@im=fcitx"
 
 
-xautolock -detectsleep \
-          -notify  300 -notifier "xset dpms force off" \
-          -time     10 -locker   "~/.config/i3/lock_screen" \
-          -killtime 20 -killer   "systemctl suspend" &

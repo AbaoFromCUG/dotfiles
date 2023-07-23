@@ -27,6 +27,8 @@ fi
 
 # End Env Manager
 
+
+export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$(go env GOBIN):$(go env GOPATH)/bin"
 export GO111MODULE=on
 export GOPROXY=https://goproxy.cn
