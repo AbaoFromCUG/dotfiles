@@ -18,6 +18,7 @@
       glob: true
       path: config/*
       exclude: [config/clash]
+    ~/.local/bin/waybar_launcher: local/bin/waybar_launcher
 - shell:
     - command: >
         if [ ! -d ~/Pictures/wallpapers/ ]; then

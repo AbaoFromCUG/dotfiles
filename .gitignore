@@ -5,3 +5,7 @@ config/nvim/plugin/packer_compiled.lua
 config/lazygit/state.yml
 config/ncmpcpp/error.log
 config/mpd/netease
+config/mpd/log
+config/mpd/sticker.sql
+config/mpd/pid
+config/mpd/database
