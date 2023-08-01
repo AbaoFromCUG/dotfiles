@@ -1,15 +1,15 @@
 return function()
-    local lspconfig = require 'lspconfig'
-    local lspkeymap_register = require 'keymap.lspbuffer'
-    local cmp_nvim_lsp = require 'cmp_nvim_lsp'
-    local code_navigation = require 'nvim-navic'
-    local mason_lspconfig = require 'mason-lspconfig'
+    local lspconfig = require("lspconfig")
+    local lspkeymap_register = require("keymap.lspbuffer")
+    local cmp_nvim_lsp = require("cmp_nvim_lsp")
+    local code_navigation = require("nvim-navic")
+    local mason_lspconfig = require("mason-lspconfig")
 
     local on_attach = function(client, bufnr)
         code_navigation.attach(client, bufnr)
 
         -- Enable completion triggered by <c-x><c-o>
-        vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+        vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
         -- Mappings.
         lspkeymap_register(bufnr)
@@ -24,12 +24,12 @@ return function()
         }
     end
     local servers = mason_lspconfig.get_installed_servers()
-    table.insert(servers, 'rust_analyzer')
+    table.insert(servers, "rust_analyzer")
     -- table.insert(servers, 'qmlls')
     for _, server_name in pairs(servers) do
         local server = lspconfig[server_name]
         local config = make_config()
-        local module_name = 'plugins.lsp.lang_spec.' .. server_name
+        local module_name = "plugins.lsp.lang_spec." .. server_name
         local success, hook = pcall(require, module_name)
         if success then
             hook(config)

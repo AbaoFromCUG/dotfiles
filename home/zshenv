@@ -1,7 +1,7 @@
 alias vim=nvim
 alias s='neofetch|lolcat'
-alias y="https_proxy=http://127.0.0.1:8888 crow -t zh-CN "
-alias yy="https_proxy=http://127.0.0.1:8888 crow -u -t zh-CN "
+alias y="https_proxy=http://127.0.0.1:8092 crow -t zh-CN "
+alias yy="https_proxy=http://127.0.0.1:8092 crow -u -t zh-CN "
 
 # Env Manager
 if [[ -d $HOME/.pyenv ]]; then
@@ -27,7 +27,6 @@ fi
 
 # End Env Manager
 
-
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/usr/lib/emscripten"
 export PATH="$PATH:$(go env GOBIN):$(go env GOPATH)/bin"
@@ -38,3 +37,12 @@ export PATH=$PATH:$HOME/.cargo/bin
 export EDITOR=nvim
 
 export EMSCRIPTEN=/usr/lib/emscripten
+
+# hyprland spec
+export QT_QPA_PLATFORM=wayland
+export GDK_BACKEND="wayland,x11"
+export XCURSOR_SIZE=24
+export LIBVA_DRIVER_NAME=nvidia
+export XDG_SESSION_TYPE=wayland
+export __GLX_VENDOR_LIBRARY_NAME=nvidia
+export WLR_NO_HARDWARE_CURSORS=1

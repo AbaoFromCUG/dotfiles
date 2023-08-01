@@ -28,11 +28,6 @@ window#waybar.hidden {
     font-size: 18px;
 }
 
-#workspaces button.persistent {
-    color: #7c818c;
-    font-size: 12px;
-}
-
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
 #workspaces button:hover {
     transition: none;
@@ -43,8 +38,22 @@ window#waybar.hidden {
     background: #7c818c;
 }
 
-#workspaces button.focused {
-    color: white;
+#workspaces button.active {
+    color: #90EE90;
+}
+
+#workspaces button.urgent {
+    animation-name: blink-urgent;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes blink-urgent {
+    to {
+        color: #bd2c40;
+    }
 }
 
 #submap {
@@ -231,11 +240,4 @@ window#waybar.hidden {
     color: #ffffff;
     background: #383c4a;
 
-}
-
-@keyframes blink {
-    to {
-        background-color: #ffffff;
-        color: #000000;
-    }
 }

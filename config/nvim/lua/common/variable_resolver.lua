@@ -1,5 +1,5 @@
-local utils = require 'common.utils'
-local commands = require 'common.commands'
+local utils = require("common.utils")
+local commands = require("common.commands")
 
 local M = {}
 
@@ -11,31 +11,31 @@ local variable_map = {
         return vim.lsp.buf.list_workspace_folders()[0]
     end,
     workspaceFolderBasename = function()
-        return vim.fn.fnamemodify(vim.lsp.buf.list_workspace_folders()[0], ':t')
+        return vim.fn.fnamemodify(vim.lsp.buf.list_workspace_folders()[0], ":t")
     end,
     file = function()
-        return vim.fn.expand '%:p'
+        return vim.fn.expand("%:p")
     end,
     fileWorkspaceFolder = function()
         -- TODO
     end,
     relativeFile = function()
-        return vim.fn.expand '%:.'
+        return vim.fn.expand("%:.")
     end,
     relativeFileDirName = function()
-        return vim.fn.fnamemodify(vim.fn.expand '%:.:h', ':r')
+        return vim.fn.fnamemodify(vim.fn.expand("%:.:h"), ":r")
     end,
     fileBasename = function()
-        return vim.fn.expand '%:t'
+        return vim.fn.expand("%:t")
     end,
     fileBasenameNoExtension = function()
-        return vim.fn.fnamemodify(vim.fn.expand '%:t', ':r')
+        return vim.fn.fnamemodify(vim.fn.expand("%:t"), ":r")
     end,
     fileDirname = function()
-        return vim.fn.expand '%:p:h'
+        return vim.fn.expand("%:p:h")
     end,
     fileExtname = function()
-        return vim.fn.expand '%:e'
+        return vim.fn.expand("%:e")
     end,
     cwd = vim.fn.getcwd,
     lineNumber = vim.api.nvim_get_current_line,
@@ -49,10 +49,10 @@ local variable_map = {
         ---TODO
     end,
     pathSeparator = function()
-        if vim.fn.has 'win32' then
-            return '\\'
+        if vim.fn.has("win32") then
+            return "\\"
         end
-        return '/'
+        return "/"
     end,
     env = function(name)
         return vim.env[name]
@@ -61,10 +61,9 @@ local variable_map = {
     variable = vim.api.nvim_get_var,
 }
 
-
 ---@param variable string
 function M.evaluateSingleVariable(variable)
-    local parts = vim.split(variable, ':')
+    local parts = vim.split(variable, ":")
     local argument = nil
     if #parts > 1 then
         variable = parts[0]
@@ -72,7 +71,7 @@ function M.evaluateSingleVariable(variable)
     end
 
     local handle = variable_map[variable] or commands.get_command(variable)
-    if type(handle) == 'function' then
+    if type(handle) == "function" then
         return handle(argument)
     end
     return handle

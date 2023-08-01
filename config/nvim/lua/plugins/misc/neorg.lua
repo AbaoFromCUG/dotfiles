@@ -1,41 +1,37 @@
 return function()
-    require 'neorg'.setup {
+    require("neorg").setup({
         load = {
-            ['core.defaults'] = {},
-            ['core.norg.dirman'] = {
+            ["core.defaults"] = {},
+            ["core.norg.dirman"] = {
                 config = {
                     workspaces = {
-                        notes = '~/Notes',
+                        notes = "~/Notes",
                     },
                     autochdir = true,
-                    index = 'index.norg',
-                }
+                    index = "index.norg",
+                },
             },
-            ['core.norg.completion'] = { config = { engine = 'nvim-cmp' } },
-            ['core.norg.concealer'] = {},
-            ['core.norg.journal'] = {
+            ["core.norg.completion"] = { config = { engine = "nvim-cmp" } },
+            ["core.norg.concealer"] = {},
+            ["core.norg.journal"] = {
+                config = {},
+            },
+            ["core.gtd.base"] = {
                 config = {
-                }
+                    workspace = "notes",
+                },
             },
-            ['core.gtd.base'] = {
+            ["core.norg.qol.toc"] = {
                 config = {
-                    workspace = 'notes'
-                }
-
+                    toc_split_placement = "right",
+                },
             },
-            ['core.norg.qol.toc'] = {
+            ["core.presenter"] = {
                 config = {
-                    toc_split_placement = 'right'
-                }
+                    zen_mode = "truezen",
+                },
             },
-            ['core.presenter'] = {
-                config = {
-                    zen_mode = 'truezen'
-                }
-            },
-            ['core.export'] = {
-
-            },
-        }
-    }
+            ["core.export"] = {},
+        },
+    })
 end

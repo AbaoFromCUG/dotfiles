@@ -1,128 +1,120 @@
-local conf = require 'plugins.editor.conf'
-
+local conf = require("plugins.editor.conf")
 
 local function ufo()
-    vim.o.foldcolumn = '1' -- '0' is not bad
+    vim.o.foldcolumn = "1" -- '0' is not bad
     vim.o.foldlevel = 99
     vim.o.foldlevelstart = 99
     vim.o.foldenable = true
     vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 
-    require 'ufo'.setup {
+    require("ufo").setup({
         provider_selector = function()
-            return { 'treesitter', 'indent' }
+            return { "treesitter", "indent" }
         end,
-    }
+    })
 end
 
-
 local function flatten()
-    require 'flatten'.setup {
+    require("flatten").setup({
         callbacks = {
             pre_open = function()
                 -- Close toggleterm when an external open request is received
-                require 'toggleterm'.toggle(0)
+                require("toggleterm").toggle(0)
             end,
             post_open = function(bufnr, winnr, ft)
-                if ft == 'gitcommit' then
+                if ft == "gitcommit" then
                     -- If the file is a git commit, create one-shot autocmd to delete it on write
                     -- If you just want the toggleable terminal integration, ignore this bit and only use the
                     -- code in the else block
-                    vim.api.nvim_create_autocmd(
-                        'BufWritePost',
-                        {
-                            buffer = bufnr,
-                            once = true,
-                            callback = function()
-                                -- This is a bit of a hack, but if you run bufdelete immediately
-                                -- the shell can occasionally freeze
-                                vim.defer_fn(
-                                    function()
-                                        vim.api.nvim_buf_delete(bufnr, {})
-                                    end,
-                                    50
-                                )
-                            end
-                        }
-                    )
+                    vim.api.nvim_create_autocmd("BufWritePost", {
+                        buffer = bufnr,
+                        once = true,
+                        callback = function()
+                            -- This is a bit of a hack, but if you run bufdelete immediately
+                            -- the shell can occasionally freeze
+                            vim.defer_fn(function()
+                                vim.api.nvim_buf_delete(bufnr, {})
+                            end, 50)
+                        end,
+                    })
                 else
                     -- If it's a normal file, then reopen the terminal, then switch back to the newly opened window
                     -- This gives the appearance of the window opening independently of the terminal
-                    require 'toggleterm'.toggle(0)
+                    require("toggleterm").toggle(0)
                     vim.api.nvim_set_current_win(winnr)
                 end
             end,
             block_end = function()
                 -- After blocking ends (for a git commit, etc), reopen the terminal
-                require 'toggleterm'.toggle(0)
-            end
-        }
-    }
+                require("toggleterm").toggle(0)
+            end,
+        },
+    })
 end
 
 return {
     {
-        'nvim-telescope/telescope.nvim',
-        dependencies = { 'nvim-lua/plenary.nvim' },
-        config = require 'plugins.editor.telescope'
+        "nvim-telescope/telescope.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        config = require("plugins.editor.telescope"),
     },
     {
-        'nvim-telescope/telescope-fzf-native.nvim',
-        build =
-        'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'
+        "nvim-telescope/telescope-fzf-native.nvim",
+        build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
     },
-    { 'nvim-telescope/telescope-dap.nvim' },
-    { 'nvim-telescope/telescope-symbols.nvim' },
-    { 'nvim-telescope/telescope-frecency.nvim' },
+    { "nvim-telescope/telescope-dap.nvim" },
+    { "nvim-telescope/telescope-symbols.nvim" },
+    { "nvim-telescope/telescope-frecency.nvim" },
 
     -- treesitter highlight
     {
-        'nvim-treesitter/nvim-treesitter',
-        build = ':TSUpdate',
-        config = require 'plugins.editor.treesitter',
+        "nvim-treesitter/nvim-treesitter",
+        build = ":TSUpdate",
+        config = require("plugins.editor.treesitter"),
     },
-    { 'andymass/vim-matchup' },
-    { 'p00f/nvim-ts-rainbow' },
-    { 'nvim-treesitter/nvim-treesitter-refactor' },
-    { 'nvim-treesitter/nvim-treesitter-textobjects' },
+    { "andymass/vim-matchup" },
+    { "p00f/nvim-ts-rainbow" },
+    { "nvim-treesitter/nvim-treesitter-refactor" },
+    { "nvim-treesitter/nvim-treesitter-textobjects" },
     {
-        'windwp/nvim-autopairs',
+        "windwp/nvim-autopairs",
+        event = "InsertEnter",
         opts = {
             check_ts = true,
-        }
+        },
     },
     -- fold
     {
-        'kevinhwang91/nvim-ufo',
-        dependencies = 'kevinhwang91/promise-async',
+        "kevinhwang91/nvim-ufo",
+        dependencies = "kevinhwang91/promise-async",
         config = ufo,
     },
 
     -- surround edit
     {
-        'kylechui/nvim-surround',
+        "kylechui/nvim-surround",
         dependencies = {
-            'nvim-treesitter/nvim-treesitter',
-            'nvim-treesitter/nvim-treesitter-textobjects',
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-treesitter/nvim-treesitter-textobjects",
         },
-        config = true
+        config = true,
     },
 
     -- search and replace
-    { 'cshuaimin/ssr.nvim',          config = true },
+    { "cshuaimin/ssr.nvim", config = true },
 
     -- annotation gen
     {
-        'danymat/neogen',
-        dependencies = 'nvim-treesitter/nvim-treesitter',
+        "danymat/neogen",
+        dependencies = "nvim-treesitter/nvim-treesitter",
         config = true,
     },
 
     -- comment
-    { 'numToStr/Comment.nvim',       config = true },
+    { "numToStr/Comment.nvim", config = true },
 
     -- git
-    { 'lewis6991/gitsigns.nvim',     config = conf.gitsigns },
+    { "lewis6991/gitsigns.nvim", config = conf.gitsigns },
     -- {
     --     'sindrets/diffview.nvim',
     --     dependencies = 'nvim-lua/plenary.nvim',
@@ -130,26 +122,25 @@ return {
     -- },
 
     -- terminal
-    { 'akinsho/nvim-toggleterm.lua', config = require 'plugins.editor.toggleterm' },
-    { 'willothy/flatten.nvim',       config = flatten },
+    { "akinsho/nvim-toggleterm.lua", config = require("plugins.editor.terminal") },
+    { "willothy/flatten.nvim", config = flatten },
     {
-        'glacambre/firenvim',
+        "glacambre/firenvim",
         build = function()
-            vim.fnk 'firenvim#install' (0)
+            vim.fnk("firenvim#install")(0)
         end,
     },
 
-
     -- zen mode
-    { 'Pocco81/true-zen.nvim', config = conf.zen_mode },
+    { "Pocco81/true-zen.nvim", config = conf.zen_mode },
 
     -- jump anywhere
-    { 'phaazon/hop.nvim',      config = conf.hop },
+    { "phaazon/hop.nvim", config = conf.hop },
 
     -- session
     {
-        'rmagatti/auto-session',
+        "rmagatti/auto-session",
         priority = 10000,
-        config = require 'plugins.editor.session'
+        config = require("plugins.editor.session"),
     },
 }

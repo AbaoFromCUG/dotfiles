@@ -1,4 +1,6 @@
 yay:
+  groups:
+    - fcitx5-im
   ignore:
     - intel-ucode
     - amd-ucode
@@ -34,6 +36,9 @@ yay:
     - conky
     - cava
     - dunst
+    # input method
+    - fcitx5-pinyin-zhwiki
+    - fcitx5-chinese-addons
     # network
     - networkmanager
     - bluez-utils
@@ -78,10 +83,8 @@ yay:
     - glow
     - blender
     # fonts
-
     - noto-fonts
     - noto-fonts-emoji
-
     - ttf-hack-nerd
     - ttf-cascadia-code-nerd
     - adobe-source-han-serif-cn-fonts

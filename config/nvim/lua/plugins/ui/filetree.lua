@@ -1,8 +1,8 @@
 return function()
-    local tasks = require 'tasks'
-    local nvim_tree = require 'nvim-tree'
+    local tasks = require("tasks")
+    local nvim_tree = require("nvim-tree")
 
-    nvim_tree.setup {
+    nvim_tree.setup({
         disable_netrw = true,
         respect_buf_cwd = true,
         sync_root_with_cwd = true,
@@ -12,7 +12,7 @@ return function()
             },
         },
         renderer = {
-            highlight_opened_files = 'icon',
+            highlight_opened_files = "icon",
             group_empty = true,
             add_trailing = true,
             icons = {
@@ -21,7 +21,7 @@ return function()
                 },
             },
             special_files = {
-                { 'README.md', 'README', 'CMakeLists.txt', 'Makefile', 'package.json' },
+                { "README.md", "README", "CMakeLists.txt", "Makefile", "package.json" },
             },
             indent_markers = {
                 enable = true,
@@ -38,15 +38,15 @@ return function()
             adaptive_size = true,
         },
         trash = {
-            cmd = 'trash',
+            cmd = "trash",
         },
-        on_attach = require 'keymap.filetreebuf',
-    }
+        on_attach = require("keymap.filetreebuf"),
+    })
 
     local function restore_nvim_tree()
         nvim_tree.change_dir(vim.fn.getcwd())
-        vim.cmd 'NvimTreeRefresh'
+        vim.cmd("NvimTreeRefresh")
     end
 
-    tasks:register_prerestore_task('restore_nvim_tree', restore_nvim_tree)
+    tasks:register_prerestore_task("restore_nvim_tree", restore_nvim_tree)
 end

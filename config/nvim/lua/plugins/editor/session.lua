@@ -1,9 +1,9 @@
 return function()
-    local tasks = require 'tasks'
+    local tasks = require("tasks")
     local function close_all_floating_wins()
         for _, win in ipairs(vim.api.nvim_list_wins()) do
             local config = vim.api.nvim_win_get_config(win)
-            if config.relative ~= '' then
+            if config.relative ~= "" then
                 vim.api.nvim_win_close(win, false)
             end
         end
@@ -22,16 +22,15 @@ return function()
         end
     end
 
-    tasks:register_presave_task('close_all_floating_wins', close_all_floating_wins)
-
+    tasks:register_presave_task("close_all_floating_wins", close_all_floating_wins)
 
     -- need change auto-sesion hook to register
-    require 'auto-session'.setup {
-        auto_session_root_dir = vim.fn.stdpath 'data' .. '/sessions/',
+    require("auto-session").setup({
+        auto_session_root_dir = vim.fn.stdpath("data") .. "/sessions/",
         pre_save_cmds = { wrap_tasks(tasks.presave_tasks) },
         save_extra_cmds = { wrap_tasks(tasks.saveextra_tasks) },
         post_save_cmds = { wrap_tasks(tasks.postsave_tasks) },
         pre_restore_cmds = { wrap_tasks(tasks.prerestore_tasks) },
         post_restore_cmds = { wrap_tasks(tasks.postrestore_tasks) },
-    }
+    })
 end

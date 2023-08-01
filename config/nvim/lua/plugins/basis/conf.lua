@@ -1,53 +1,53 @@
 local M = {}
 
 function M.mason()
-    require 'mason'.setup {
+    require("mason").setup({
         ui = {
             icons = {
-                package_installed = '✓',
-                package_pending = '➜',
-                package_uninstalled = '✗'
-            }
-        }
-    }
+                package_installed = "✓",
+                package_pending = "➜",
+                package_uninstalled = "✗",
+            },
+        },
+    })
 end
 
 function M.mason_lspconfig()
-    require 'mason-lspconfig'.setup {
+    require("mason-lspconfig").setup({
         ensure_installed = {
-            'lua_ls',
-            'vimls',
-            'bashls',
-            'clangd',
-            'pyright',
-            'jsonls',
-            'yamlls',
-            'neocmake',
-            'html',
-            'cssls',
-            'tsserver',
-            'volar',
-            'texlab',
+            "lua_ls",
+            "vimls",
+            "bashls",
+            "clangd",
+            "pyright",
+            "jsonls",
+            "yamlls",
+            "neocmake",
+            "html",
+            "cssls",
+            "tsserver",
+            "volar",
+            "texlab",
         },
         automatic_installation = true,
-    }
+    })
 end
 
 function M.mason_null_ls()
-    require 'mason-null-ls'.setup {
+    require("mason-null-ls").setup({
         ensure_installed = {
-            'autopep8',
-            'shfmt',
-            'yamlfmt',
-        }
-    }
+            "autopep8",
+            "shfmt",
+            "yamlfmt",
+        },
+    })
 end
 
 function M.mason_dap()
-    require 'mason-nvim-dap'.setup {
-        ensure_installed = { 'python', 'cppdbg' },
+    require("mason-nvim-dap").setup({
+        ensure_installed = { "python", "cppdbg" },
         automatic_installation = true,
-    }
+    })
 end
 
 return M

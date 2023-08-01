@@ -1,8 +1,8 @@
-local util = require 'lspconfig.util'
+local util = require("lspconfig.util")
 
 local root_files = {
-    '.luarc.json',
-    '.editorconfig',
+    ".luarc.json",
+    ".editorconfig",
 }
 
 return function(config)
@@ -11,15 +11,15 @@ return function(config)
         Lua = {
             runtime = {
                 -- LuaJIT in the case of Neovim
-                version = 'LuaJIT',
+                version = "LuaJIT",
             },
             diagnostics = {
                 -- Get the language server to recognize the `vim` global
-                globals = { 'vim' },
+                globals = { "vim" },
             },
             workspace = {
                 -- Make the server aware of Neovim runtime files
-                library = vim.api.nvim_get_runtime_file('', true),
+                library = vim.api.nvim_get_runtime_file("", true),
                 checkThirdParty = false,
             },
             -- Do not send telemetry data containing a randomized but unique identifier
@@ -27,10 +27,10 @@ return function(config)
                 enable = false,
             },
             format = {
-                enable = true
+                enable = false,
             },
             completion = {
-                callSnippet = 'Replace'
+                callSnippet = "Replace",
             },
         },
     }

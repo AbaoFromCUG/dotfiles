@@ -1,8 +1,7 @@
-local wk = require 'which-key'
+local wk = require("which-key")
 
 return function(bufno)
-    wk.register({
-    }, {
+    wk.register({}, {
         buffer = bufno,
         silent = false,
     })

@@ -26,7 +26,7 @@ local M = {
     postdelete_tasks = {},
     register_postdelete_task = function(self, id, task)
         self.postdelete_tasks[id] = task
-    end
+    end,
 }
 
 return M

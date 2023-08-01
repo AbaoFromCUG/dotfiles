@@ -1,40 +1,39 @@
 return function()
-    local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
-    local lspkind = require 'lspkind'
-    local cmp = require 'cmp'
-    local luasnip = require 'luasnip'
+    local lspkind = require("lspkind")
+    local cmp = require("cmp")
+    local luasnip = require("luasnip")
 
     local has_words_before = function()
         local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match '%s' == nil
+        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
     end
-    cmp.setup {
+    cmp.setup({
         preselect = cmp.PreselectMode.None,
-        completion = { completeopt = 'menu,menuone,noselect' },
+        completion = { completeopt = "menu,menuone,noselect" },
         snippet = {
             expand = function(args)
                 luasnip.lsp_expand(args.body)
             end,
         },
         mapping = {
-            ['<Down>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
-            ['<Up>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
-            ['<C-d>'] = cmp.mapping.scroll_docs(4),
-            ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-            ['<C-e>'] = cmp.mapping.close(),
-            ['<CR>'] = function(fallback)
+            ["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+            ["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+            ["<C-d>"] = cmp.mapping.scroll_docs(4),
+            ["<C-u>"] = cmp.mapping.scroll_docs(-4),
+            ["<C-e>"] = cmp.mapping.close(),
+            ["<CR>"] = function(fallback)
                 if cmp.get_selected_entry() then
-                    cmp.confirm {
+                    cmp.confirm({
                         behavior = cmp.ConfirmBehavior.Replace,
                         select = true,
-                    }
+                    })
                 elseif cmp.visible() then
                     cmp.close()
                 else
                     fallback()
                 end
             end,
-            ['<Tab>'] = cmp.mapping(function(fallback)
+            ["<Tab>"] = cmp.mapping(function(fallback)
                 if cmp.visible() then
                     cmp.select_next_item()
                 elseif luasnip.expand_or_locally_jumpable() then
@@ -44,8 +43,8 @@ return function()
                 else
                     fallback()
                 end
-            end, { 'i', 's', 'c' }),
-            ['<S-Tab>'] = cmp.mapping(function()
+            end, { "i", "s", "c" }),
+            ["<S-Tab>"] = cmp.mapping(function(fallback)
                 if cmp.visible() then
                     cmp.select_prev_item()
                 elseif luasnip.jumpable(-1) then
@@ -53,51 +52,49 @@ return function()
                 else
                     fallback()
                 end
-            end, { 'i', 's', 'c' }),
+            end, { "i", "s", "c" }),
         },
         sources = cmp.config.sources({
-            { name = 'nvim_lsp' },
-            { name = 'buffer' },
-            { name = 'path' },
-            { name = 'comdline' },
-            { name = 'treesitter' },
-            { name = 'doxygen' },
-            { name = 'luasnip' },
+            { name = "nvim_lsp" },
+            { name = "buffer" },
+            { name = "path" },
+            { name = "comdline" },
+            { name = "treesitter" },
+            { name = "doxygen" },
+            { name = "luasnip" },
         }, {
-            { name = 'buffer' },
+            { name = "buffer" },
         }),
         formatting = {
-            format = lspkind.cmp_format {
-                mode = 'symbol_text',
+            format = lspkind.cmp_format({
+                mode = "symbol_text",
                 maxwidth = 50,
-                ellipsis_char = '...',
-            },
+                ellipsis_char = "...",
+            }),
         },
-    }
+    })
 
     -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-    cmp.setup.cmdline('/', {
+    cmp.setup.cmdline("/", {
         sources = {
-            { name = 'buffer' },
+            { name = "buffer" },
         },
     })
 
     -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-    cmp.setup.cmdline(':', {
+    cmp.setup.cmdline(":", {
         mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources({
-            { name = 'path' }
+            { name = "path" },
         }, {
             {
-                name = 'cmdline',
+                name = "cmdline",
                 option = {
-                    ignore_cmds = { 'Man', '!' }
-                }
-            }
-        })
+                    ignore_cmds = { "Man", "!" },
+                },
+            },
+        }),
     })
-    cmp.event:on(
-        'confirm_done',
-        cmp_autopairs.on_confirm_done()
-    )
+    local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+    cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 end

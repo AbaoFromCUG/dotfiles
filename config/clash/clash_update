@@ -6,7 +6,7 @@ config_file="$HOME/.config/clash/config.yaml"
 wget "$url" -O "$config_file" --no-check-certificate
 sed -i '/^#/d' "$config_file"
 sed -i "s/'0\.0\.0\.0:/'127.0.0.1:/g" "$config_file"
-sed -i 's/^port:.*$/mixed-port: 8888/g' "$config_file"
+sed -i 's/^port:.*$/mixed-port: 8092/g' "$config_file"
 sed -i 's/^log-level: silent$/log-level: info/g' "$config_file"
 sed -i "s/^secret:.*$/secret: ${secret}/g" "$config_file"
 sed -i '/^socks-port:/d' "$config_file"

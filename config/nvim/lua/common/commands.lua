@@ -1,6 +1,5 @@
 local M = {}
 
-
 local command_map = {}
 
 ---register command, support ${id:handle_args}
@@ -9,12 +8,12 @@ local command_map = {}
 ---@param opts table
 function M.register_command(id, func, opts)
     if command_map[id] ~= nil then
-        vim.notify(string.format('exist command named `%s`', id))
+        vim.notify(string.format("exist command named `%s`", id))
         return
     end
     command_map[id] = {
         func = func,
-        opts
+        opts,
     }
 end
 

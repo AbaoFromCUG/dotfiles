@@ -1,12 +1,10 @@
 return function(config)
-    local ProjectConfig = require 'cmake.project_config'
-    local project = ProjectConfig.new()
-
     -- disable clangd builtin snippets
     config.capabilities.textDocument.completion.completionItem.snippetSupport = false
-    config.cmd = {
-        'clangd',
-        '--clang-tidy',
-        '--compile-commands-dir=' .. project:get_build_dir():absolute(),
-    }
+    config.on_new_config = function(new_config, _)
+        local status, cmake = pcall(require, "cmake-tools")
+        if status then
+            cmake.clangd_on_new_config(new_config)
+        end
+    end
 end

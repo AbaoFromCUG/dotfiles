@@ -4,49 +4,50 @@ return function()
     -- vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
     -- vim.opt.foldenable = false
 
-    vim.treesitter.language.register('qmljs', 'qml')
+    vim.treesitter.language.register("qmljs", "qml")
 
-    require 'nvim-treesitter.install'.prefer_git = true
-    local parser_path = vim.fn.stdpath 'data' .. '/ts-parsers'
+    require("nvim-treesitter.install").prefer_git = true
+    local parser_path = vim.fn.stdpath("data") .. "/ts-parsers"
     vim.opt.runtimepath:append(parser_path)
 
-    require 'nvim-treesitter.configs'.setup {
-        parser_install_dir = parser_path,
-        indent = {
-            enable = true
-        },
+    require("nvim-treesitter.configs").setup({
         incremental_selection = {
             enable = true,
             keymaps = {
-                init_selection = 'gnn',
-                node_incremental = 'grn',
-                scope_incremental = 'grc',
-                node_decremental = 'grm',
+                init_selection = "gnn",
+                node_incremental = "grn",
+                scope_incremental = "grc",
+                node_decremental = "grm",
             },
         },
+        sync_install = false,
+        auto_install = true,
+        ignore_install = {},
+        parser_install_dir = parser_path,
         -- one of "all", "maintained" (parsers with maintainers), or a list of languages
         ensure_installed = {
-            'vim',
-            'lua',
-            'python',
-            'javascript',
-            'typescript',
-            'c',
-            'cpp',
-            'rust',
-            'cmake',
-            'java',
-            'qmljs',
-            'bash',
-            'json',
-            'markdown',
-            'markdown_inline',
-            'norg',
-            'html',
-            'css',
-            'vue',
-            'latex',
+            "vim",
+            "lua",
+            "python",
+            "javascript",
+            "typescript",
+            "c",
+            "cpp",
+            "rust",
+            "cmake",
+            "java",
+            "qmljs",
+            "bash",
+            "json",
+            "markdown",
+            "markdown_inline",
+            "norg",
+            "html",
+            "css",
+            "vue",
+            "latex",
         },
+        modules = {},
         highlight = {
             enable = true, -- false will disable the whole extension
         },
@@ -65,17 +66,17 @@ return function()
             smart_rename = {
                 enable = true,
                 keymaps = {
-                    smart_rename = 'grr',
+                    smart_rename = "grr",
                 },
             },
             navigation = {
                 enable = true,
                 keymaps = {
-                    goto_definition = 'gnd',
-                    list_definitions = 'gnD',
-                    list_definitions_toc = 'gO',
-                    goto_next_usage = '<a-*>',
-                    goto_previous_usage = '<a-#>',
+                    goto_definition = "gnd",
+                    list_definitions = "gnD",
+                    list_definitions_toc = "gO",
+                    goto_next_usage = "<a-*>",
+                    goto_previous_usage = "<a-#>",
                 },
             },
         },
@@ -86,15 +87,15 @@ return function()
                 lookahead = true,
                 keymaps = {
                     -- You can use the capture groups defined in textobjects.scm
-                    ['af'] = '@function.outer',
-                    ['if'] = '@function.inner',
-                    ['ac'] = '@class.outer',
+                    ["af"] = "@function.outer",
+                    ["if"] = "@function.inner",
+                    ["ac"] = "@class.outer",
                     -- You can optionally set descriptions to the mappings (used in the desc parameter of
                     -- nvim_buf_set_keymap) which plugins like which-key display
-                    ['ic'] = { query = '@class.inner', desc = 'Select inner part of a class region' },
+                    ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
                 },
             },
             include_surrounding_whitespace = true,
         },
-    }
+    })
 end

@@ -107,6 +107,7 @@
             "▇",
             "█"
         ],
+        "on-click": "playerctl -p mpd play-pause",
         "actions": {
             "on-click-right": "mode"
         }
@@ -168,8 +169,8 @@
         "format-ethernet": "🔗",
         "format-disconnected": " ", //An empty format will hide the module.
         "tooltip-format": "{ifname} via {gwaddr} ",
-        "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
-        "tooltip-format-ethernet": "{ifname} ",
+        "tooltip-format-wifi": "{essid} {bandwidthTotalBytes} ({signalStrength}%) ",
+        "tooltip-format-ethernet": "{ifname} {bandwidthTotalBytes} ",
         "tooltip-format-disconnected": "Disconnected",
         "on-click": "nm-connection-editor",
         "max-length": 50

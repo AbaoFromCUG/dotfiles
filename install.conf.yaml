@@ -19,6 +19,7 @@
       path: config/*
       exclude: [config/clash]
     ~/.local/bin/waybar_launcher: local/bin/waybar_launcher
+    ~/.local/bin/mpd_launcher: local/bin/mpd_launcher
 - shell:
     - command: >
         if [ ! -d ~/Pictures/wallpapers/ ]; then
@@ -40,7 +41,6 @@
       quiet: true
     - command: >
         if [ ! -d ~/.tmux ] || [ ! -f ~/.tmux.conf ]; then
-
           if [[ -f ~/.tmux.conf ]]; then
             mv ~/.tmux.conf /tmp/tmux.conf.bak
           fi
@@ -56,11 +56,10 @@
       description: Install&update oh-my-tmux
       quiet: true
     - command: >
-        if [ ! -d ~/.local/mpd/playlists ]; then
-          mkdir ~/.local/mpd/playlists -p
-          touch ~/.local/mpd/{database,log,pid,state,sticker.sql}
+        if [[ ! -d ~/.local/state/mpd ]]; then
+          mkdir ~/.local/state/mpd -p
+          touch /home/abao/.local/state/mpd/state
         fi
-
       description: "Config music player daemon"
       quiet: true
     - command: nvim --headless "+Lazy! restore" +qa

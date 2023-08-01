@@ -1,2 +1,1 @@
-return function(config)
-end
+return function(config) end

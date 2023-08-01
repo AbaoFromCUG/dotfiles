@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# Terminate already running bar instances
+killall -q mpd
+killall -q mpd-mpris
+killall -q playerctld
+sleep 1
+# Wait until the processes have been shut down
+while pgrep -u $UID -x mpd-mpris >/dev/null; do sleep 1; done
+while pgrep -u $UID -x mpd >/dev/null; do sleep 1; done
+while pgrep -u $UID -x playerctld >/dev/null; do sleep 1; done
+
+mpd
+playerctld daemon
+sleep 2
+echo "---" | tee -a /tmp/mpd-mpris.log
+mpd-mpris 2>&1 | tee -a /tmp/mpd-mpris.log & disown
+
+echo "MPD launched..."
