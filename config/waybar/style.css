@@ -139,21 +139,27 @@ window#waybar.hidden {
     background: #383c4a;
 }
 
-#memory {
+#cpu {
     padding-left: 16px;
     border-radius: 10px 0px 0px 10px;
     color: #ffffff;
     background: #383c4a;
 }
 
-#cpu {
+#memory {
     padding-left: 16px;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#disk {
+    padding-left: 16px;
+    padding-right: 16px;
     margin-right: 16px;
     border-radius: 0px 10px 10px 0px;
     color: #ffffff;
     background: #383c4a;
 }
-
 
 #idle_inhibitor {
     padding-left: 8px;

@@ -6,6 +6,7 @@ yay:
     - amd-ucode
     - nvidia-470xx-dkms
     - nvidia
+    - nvidia-dkms
     - nvidia-container-toolkit
     - vmware-workstation
     - wechat-uos
@@ -27,18 +28,21 @@ yay:
     # desktop environment
     - lemurs-git
     - hyprland
+    - hyprpaper
     - swaylock
+    - swayidle
     - polkit-gnome
     - wofi
     - libinput-gestures
     - nwg-bar
-    - waybar-hyprland-cava-git
+    - waybar
     - conky
     - cava
     - dunst
     # input method
     - fcitx5-pinyin-zhwiki
     - fcitx5-chinese-addons
+    - fcitx5-breeze
     # network
     - networkmanager
     - bluez-utils
@@ -55,6 +59,7 @@ yay:
     - pavucontrol
     - ario
     - vlc
+    - obs-studio
     # basic tool
     - zsh
     - tmux

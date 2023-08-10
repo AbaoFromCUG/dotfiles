@@ -28,6 +28,7 @@ function M.mason_lspconfig()
             "tsserver",
             "volar",
             "texlab",
+            "marksman",
         },
         automatic_installation = true,
     })
@@ -39,6 +40,7 @@ function M.mason_null_ls()
             "autopep8",
             "shfmt",
             "yamlfmt",
+            "stylua",
         },
     })
 end

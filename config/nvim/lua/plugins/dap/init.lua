@@ -1,6 +1,5 @@
 local function _overseer()
     require("overseer").setup({
-
         templates = { "builtin" },
         strategy = {
             "toggleterm",
@@ -33,8 +32,14 @@ local function _overseer()
 end
 
 return {
-    { "AbaoFromCUG/nvim-dap", config = require("plugins.dap.dap") },
-    -- {"mfussenegger/nvim-dap", config = require 'plugins.dap.dap' },
+    {
+        "mfussenegger/nvim-dap",
+        config = require("plugins.dap.dap"),
+    },
+    {
+        "AbaoFromCUG/integrator.nvim",
+        opts = { dap = { enabled = true } },
+    },
     {
         "rcarriga/nvim-dap-ui",
         dependencies = "nvim-dap",

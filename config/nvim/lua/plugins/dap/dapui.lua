@@ -8,11 +8,9 @@ return function()
         dapui.open()
     end
     dap.listeners.before.event_terminated["dapui_config"] = function()
-        vim.notify("terminate")
         dapui.close()
     end
     dap.listeners.before.event_exited["dapui_config"] = function()
-        vim.notify("event exit")
         dapui.close()
     end
 

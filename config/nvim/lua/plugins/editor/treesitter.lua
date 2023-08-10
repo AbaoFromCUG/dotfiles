@@ -5,6 +5,7 @@ return function()
     -- vim.opt.foldenable = false
 
     vim.treesitter.language.register("qmljs", "qml")
+    vim.treesitter.language.register("typescript", "javascript")
 
     require("nvim-treesitter.install").prefer_git = true
     local parser_path = vim.fn.stdpath("data") .. "/ts-parsers"
@@ -22,14 +23,15 @@ return function()
         },
         sync_install = false,
         auto_install = true,
-        ignore_install = {},
+        ignore_install = {
+            "javascript",
+        },
         parser_install_dir = parser_path,
         -- one of "all", "maintained" (parsers with maintainers), or a list of languages
         ensure_installed = {
             "vim",
             "lua",
             "python",
-            "javascript",
             "typescript",
             "c",
             "cpp",

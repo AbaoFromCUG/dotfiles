@@ -1,5 +1,5 @@
 local wk = require("which-key")
-local launcher = require("launcher")
+local launcher = require("integrator.launcher")
 local dap = require("dap")
 local trans = require("trans")
 
@@ -55,11 +55,11 @@ wk.register({
         t = { trans.trans_cursor_word, "translate" },
         d = {
             name = "Debugger",
-            s = { launcher.select_launch_conf, "select launch" },
+            s = { launcher.select, "select launch" },
             r = { launcher.run, "run" },
             t = { launcher.terminate, "termnate" },
             b = { launcher.build, "build" },
-            l = { launcher.refresh_launcher, "refresh config" },
+            l = { launcher.reload, "refresh config" },
         },
         f = { vim.lsp.buf.format, "format" },
     },

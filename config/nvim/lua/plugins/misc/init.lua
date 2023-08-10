@@ -22,6 +22,14 @@ local function cmake()
     })
 end
 
+local function femaco()
+    require("femaco").setup({
+        create_tmp_filepath = function(filetype)
+            return string.format("%s/.femaco_%d_%s", vim.fn.getcwd(), math.random(100, 999), filetype)
+        end,
+    })
+end
+
 return {
     { "Civitasv/cmake-tools.nvim", config = cmake },
     { "AbaoFromCUG/rust-tools.nvim" },
@@ -33,7 +41,11 @@ return {
         ft = "markdown",
         opts = { style = "dark", width = 120 },
     },
-    { "AckslD/nvim-FeMaco.lua", config = true, ft = "markdown" },
+    {
+        "AbaoFromCUG/nvim-FeMaco.lua",
+        ft = "markdown",
+        config = femaco,
+    },
     { "nvim-neorg/neorg", config = require("plugins.misc.neorg"), ft = "norg" },
     { "lervag/vimtex", config = conf.tex, ft = "tex" },
     { "rafcamlet/nvim-luapad" },

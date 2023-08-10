@@ -14,6 +14,18 @@ local function ufo()
     })
 end
 
+local function session()
+    require("session").setup({})
+    require("session").register_hook("pre_save", "close_all_floating_wins", function()
+        for _, win in ipairs(vim.api.nvim_list_wins()) do
+            local config = vim.api.nvim_win_get_config(win)
+            if config.relative ~= "" then
+                vim.api.nvim_win_close(win, false)
+            end
+        end
+    end)
+end
+
 local function flatten()
     require("flatten").setup({
         callbacks = {
@@ -107,19 +119,19 @@ return {
     {
         "danymat/neogen",
         dependencies = "nvim-treesitter/nvim-treesitter",
-        config = true,
+        opts = { snippet_engine = "luasnip" },
     },
 
     -- comment
     { "numToStr/Comment.nvim", config = true },
+    {
+        "folke/todo-comments.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        config = true,
+    },
 
     -- git
     { "lewis6991/gitsigns.nvim", config = conf.gitsigns },
-    -- {
-    --     'sindrets/diffview.nvim',
-    --     dependencies = 'nvim-lua/plenary.nvim',
-    --     config = true,
-    -- },
 
     -- terminal
     { "akinsho/nvim-toggleterm.lua", config = require("plugins.editor.terminal") },
@@ -139,8 +151,7 @@ return {
 
     -- session
     {
-        "rmagatti/auto-session",
-        priority = 10000,
-        config = require("plugins.editor.session"),
+        "AbaoFromCUG/session.nvim",
+        config = session,
     },
 }

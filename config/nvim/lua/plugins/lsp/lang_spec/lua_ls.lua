@@ -12,6 +12,10 @@ return function(config)
             runtime = {
                 -- LuaJIT in the case of Neovim
                 version = "LuaJIT",
+                pathStrict = true,
+                path = {
+                    "lua/?.lua",
+                },
             },
             diagnostics = {
                 -- Get the language server to recognize the `vim` global

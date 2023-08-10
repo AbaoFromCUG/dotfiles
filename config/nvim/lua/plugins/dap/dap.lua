@@ -1,19 +1,7 @@
-local function enrich_config_hook(config, on_config)
-    local final_config = vim.deepcopy(config)
-    local path = final_config.envFile or vim.fn.getcwd() .. "/.env"
-    local envs = require("common.env_reader")(path)
-    if final_config.env then
-        vim.tbl_extend("keep", final_config.env, envs)
-    else
-        final_config.env = envs
-    end
-    on_config(final_config)
-end
-
 return function()
     local dap = require("dap")
-    local tasks = require("tasks")
-    local launcher = require("launcher")
+    local session = require("session")
+    local launcher = require("integrator.launcher")
     local persistent_bp = require("persistent-breakpoints.api")
 
     vim.fn.sign_define("DapBreakpoint", { text = "⚫", texthl = "", linehl = "", numhl = "" })
@@ -24,25 +12,23 @@ return function()
         id = "cppdbg",
         type = "executable",
         command = "OpenDebugAD7", -- adjust as needed
-        enrich_config = enrich_config_hook,
     }
     dap.adapters.python = {
         type = "executable",
         command = "python",
         args = { "-m", "debugpy.adapter" },
-        enrich_config = enrich_config_hook,
     }
 
-    tasks:register_prerestore_task("refresh_launchjs", function()
-        launcher.refresh_launcher()
+    session.register_hook("pre_restore", "refresh_launchjs", function()
+        launcher.reload()
     end)
-    tasks:register_saveextra_task("save_selected_launch", function()
-        local current_launch = launcher.current_launch_conf
+    session.register_hook("extra_save", "save_selected_launch", function()
+        local current_launch = launcher.selected_configuration
         if current_launch then
-            return string.format("lua require('launcher').select_by_name('%s')", current_launch.name)
+            return string.format("lua require('integrator.launcher').select_by_name('%s')", current_launch.name)
         end
     end)
-    tasks:register_postrestore_task("restore_breakpoints", function()
+    session.register_hook("post_restore", "restore_breakpoints", function()
         persistent_bp.load_breakpoints()
     end)
 end
