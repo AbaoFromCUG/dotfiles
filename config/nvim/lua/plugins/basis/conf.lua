@@ -34,17 +34,6 @@ function M.mason_lspconfig()
     })
 end
 
-function M.mason_null_ls()
-    require("mason-null-ls").setup({
-        ensure_installed = {
-            "autopep8",
-            "shfmt",
-            "yamlfmt",
-            "stylua",
-        },
-    })
-end
-
 function M.mason_dap()
     require("mason-nvim-dap").setup({
         ensure_installed = { "python", "cppdbg" },

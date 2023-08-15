@@ -18,11 +18,6 @@ return {
         config = conf.mason_lspconfig,
     },
     {
-        "jayp0521/mason-null-ls.nvim",
-        dependencies = "mason.nvim",
-        config = conf.mason_null_ls,
-    },
-    {
         "jay-babu/mason-nvim-dap.nvim",
         dependencies = "mason.nvim",
         config = conf.mason_dap,

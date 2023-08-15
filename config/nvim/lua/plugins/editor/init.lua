@@ -105,13 +105,13 @@ return {
     -- surround edit
     {
         "kylechui/nvim-surround",
+        event = "VeryLazy",
         dependencies = {
             "nvim-treesitter/nvim-treesitter",
             "nvim-treesitter/nvim-treesitter-textobjects",
         },
         config = true,
     },
-
     -- search and replace
     { "cshuaimin/ssr.nvim", config = true },
 

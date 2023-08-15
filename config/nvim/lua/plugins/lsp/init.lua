@@ -39,7 +39,10 @@ return {
     { "onsails/lspkind-nvim" },
     -- diagnostic list
     { "folke/trouble.nvim", config = require("plugins.lsp.trouble") },
-    { "jose-elias-alvarez/null-ls.nvim", config = require("plugins.lsp.null-ls") },
+    {
+        "creativenull/efmls-configs-nvim",
+        dependencies = { "neovim/nvim-lspconfig" },
+    },
     { "folke/neodev.nvim", config = true },
 
     { "neovim/nvim-lspconfig", config = require("plugins.lsp.lspconfig") },

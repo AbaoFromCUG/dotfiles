@@ -38,7 +38,10 @@ return {
     },
     {
         "AbaoFromCUG/integrator.nvim",
-        opts = { dap = { enabled = true } },
+        opts = {
+            dap = { enabled = true },
+            session = { enabled = true },
+        },
     },
     {
         "rcarriga/nvim-dap-ui",
