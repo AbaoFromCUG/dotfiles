@@ -1,34 +1,35 @@
 # dotfiles
 
-My dotfiles for Neovim, zsh, tmux, optimized for ArchLinux. Managed with [Dotbot](https://github.com/anishathalye/dotbot).
+My dotfiles for Neovim, zsh,  optimized for ArchLinux. Managed with [Dotbot](https://github.com/anishathalye/dotbot).
+
+![](./screenshot.png)
+
 
 ## Desktop Environment
 
-* [i3wm](https://i3wm.org/) a dynamic tiling window manager
+* [Hyprland](https://hyprland.org/) a dynamic tiling Wayland compositor
 
-* system bar via [polybar](https://github.com/polybar/polybar), consist of systray/time/volumn... which you can control system behavior
+* system bar via [waybar](https://github.com/Alexays/Waybar/), consist of systray, time and control componnets
 
-* use [py3status](https://github.com/ultrabug/py3status) display static system info, such as cpu utilization
-
-* [rofi](https://github.com/davatorium/rofi) an application launcher, with [spotlight theme](https://github.com/lr-tech/rofi-themes-collection)
+* [wofi](https://hg.sr.ht/~scoopta/wofi), a launcher for wayland
 
 * [pipewire](https://wiki.archlinux.org/title/PipeWire) for multimedia framework, support pulseaudio/JACK/ALSA-based applications
 
+* [fcitx5], a input method framework
+
 ## Terminal
 
-- I use [Alacritty](https://github.com/alacritty/alacritty) as terminal
+- I use [Alacritty](https://github.com/alacritty/alacritty) + [Wezterm](https://wezfurlong.org/wezterm/index.html) as terminal
 
 - [zsh](https://www.zsh.org/) + [powerlevel10k](https://github.com/romkatv/powerlevel10k) as my shell
 
 - neovim on its [lastet release](https://github.com/neovim/neovim/commits/master)
 
-- [tmux](https://github.com/tmux/tmux) + [oh my tmux](https://github.com/gpakosz/.tmux) to manage sessions
 
 ## Toolbox
 
 - [lazygit](https://github.com/jesseduffield/lazygit) the least painful way to
   use Git
 
-- almoust the only screenshot tool [flameshot](https://flameshot.org/)
 
 
