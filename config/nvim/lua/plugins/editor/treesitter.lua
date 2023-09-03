@@ -1,11 +1,12 @@
 return function()
     -- consult nvim-ufo
-    -- vim.opt.foldmethod = 'expr'
-    -- vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+    vim.opt.foldmethod = 'expr'
+    vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
     -- vim.opt.foldenable = false
 
     vim.treesitter.language.register("qmljs", "qml")
     vim.treesitter.language.register("typescript", "javascript")
+    vim.treesitter.language.register("typescript", "typescriptreact")
 
     require("nvim-treesitter.install").prefer_git = true
     local parser_path = vim.fn.stdpath("data") .. "/ts-parsers"
@@ -52,6 +53,9 @@ return function()
         modules = {},
         highlight = {
             enable = true, -- false will disable the whole extension
+        },
+        indent = {
+            enable = true,
         },
         autopairs = {
             enable = true,

@@ -8,10 +8,10 @@ return function()
         dapui.open()
     end
     dap.listeners.before.event_terminated["dapui_config"] = function()
-        dapui.close()
+        dapui.close(1)
     end
     dap.listeners.before.event_exited["dapui_config"] = function()
-        dapui.close()
+        dapui.close(1)
     end
 
     dapui.setup({

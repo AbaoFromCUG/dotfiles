@@ -2,9 +2,10 @@ local wezterm = require("wezterm")
 
 local config = {
     enable_wayland = true,
-    front_end = "OpenGL",
+    window_decorations = "RESIZE",
+    front_end = "WebGpu",
     font_size = 14,
-    -- == !=  😀
+    -- => == !=  😀
     font = wezterm.font_with_fallback({
         "FiraCode Nerd Font",
     }),

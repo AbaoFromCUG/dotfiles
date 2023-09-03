@@ -134,12 +134,17 @@ return {
     { "lewis6991/gitsigns.nvim", config = conf.gitsigns },
 
     -- terminal
-    { "akinsho/nvim-toggleterm.lua", config = require("plugins.editor.terminal") },
-    { "willothy/flatten.nvim", config = flatten },
+    { "AbaoFromCUG/terminal.nvim", opts = {} },
+    {
+        "willothy/flatten.nvim",
+        config = flatten,
+        lazy = false,
+        priority = 1001,
+    },
     {
         "glacambre/firenvim",
         build = function()
-            vim.fnk("firenvim#install")(0)
+            vim.fn["firenvim#install"](0)
         end,
     },
 

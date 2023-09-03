@@ -1,6 +1,7 @@
 local function _overseer()
     require("overseer").setup({
         templates = { "builtin" },
+
         strategy = {
             "toggleterm",
             -- load your default shell before starting the task
@@ -41,6 +42,7 @@ return {
         opts = {
             dap = { enabled = true },
             session = { enabled = true },
+            settings = { enabled = true },
         },
     },
     {

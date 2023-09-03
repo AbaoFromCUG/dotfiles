@@ -1,4 +1,5 @@
 alias vim=nvim
+alias ranger=joshuto
 alias s='neofetch|lolcat'
 alias y="https_proxy=http://127.0.0.1:8092 crow -t zh-CN "
 alias yy="https_proxy=http://127.0.0.1:8092 crow -u -t zh-CN "
@@ -27,13 +28,19 @@ fi
 
 # End Env Manager
 
+export C_INCLUDE_PATH=$C_INCLUDE_PATH:$HOME/.local/include
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.local/lib
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOME/.local/lib/pkgconfig
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/usr/lib/emscripten"
-export PATH="$PATH:$(go env GOBIN):$(go env GOPATH)/bin"
-export GO111MODULE=on
-export GOPROXY=https://goproxy.cn
+if command -v go >/dev/null 2>&1; then 
+    export PATH="$PATH:$(go env GOBIN):$(go env GOPATH)/bin"
+    export GO111MODULE=on
+    export GOPROXY=https://goproxy.cn
+fi
 
 export PATH=$PATH:$HOME/.cargo/bin
+export PATH=$PATH:/opt/pot
 export EDITOR=nvim
 
 export EMSCRIPTEN=/usr/lib/emscripten

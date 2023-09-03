@@ -1,5 +1,3 @@
-local conf = require("plugins.misc.conf")
-
 local function cmake()
     -- register command
     require("cmake-tools").setup({
@@ -30,23 +28,28 @@ local function femaco()
     })
 end
 
+local function tex()
+    vim.g.vimtex_view_method = "zathura"
+end
+
 return {
-    { "Civitasv/cmake-tools.nvim", config = cmake },
+    -- {
+    --     "Civitasv/cmake-tools.nvim",
+    --     config = cmake,
+    -- },
+    { "AbaoFromCUG/cmake-tools.nvim" },
     { "AbaoFromCUG/rust-tools.nvim" },
-    --[[
-    --      Language specific
-    --]]
     {
         "ellisonleao/glow.nvim",
         ft = "markdown",
         opts = { style = "dark", width = 120 },
     },
     {
-        "AbaoFromCUG/nvim-FeMaco.lua",
+        "AckslD/nvim-FeMaco.lua",
         ft = "markdown",
         config = femaco,
     },
     { "nvim-neorg/neorg", config = require("plugins.misc.neorg"), ft = "norg" },
-    { "lervag/vimtex", config = conf.tex, ft = "tex" },
+    { "lervag/vimtex", config = tex, ft = "tex" },
     { "rafcamlet/nvim-luapad" },
 }

@@ -61,7 +61,17 @@ wk.register({
             b = { launcher.build, "build" },
             l = { launcher.reload, "refresh config" },
         },
-        f = { vim.lsp.buf.format, "format" },
+        f = {
+            function()
+                vim.lsp.buf.format({
+                    filter = function(client)
+                        return client.name ~= "tsserver"
+                    end,
+                    timeout_ms = 2000,
+                })
+            end,
+            "format",
+        },
     },
 
     ["<F5>"] = { launcher.launch_or_continue, "debug" },
@@ -83,6 +93,7 @@ end)
 wk.register({
     y = { '"+y', "yank to system clipboard" },
     p = { '"+p', "put from system clipboard" },
+    d = { '"+d', "delete to system clipboard" },
 }, { prefix = "<leader>", silent = false, mode = { "n", "v", "x" } })
 
 wk.register({

@@ -14,11 +14,11 @@ return function(config)
         tmux_keys = {
             -- pane
             {
-                key = "s",
+                key = "v",
                 action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
             },
             {
-                key = "v",
+                key = "s",
                 action = act.SplitVertical({ domain = "CurrentPaneDomain" }),
             },
             {
