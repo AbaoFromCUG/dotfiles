@@ -1,7 +1,7 @@
 return function()
     -- consult nvim-ufo
-    vim.opt.foldmethod = 'expr'
-    vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+    vim.opt.foldmethod = "expr"
+    vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
     -- vim.opt.foldenable = false
 
     vim.treesitter.language.register("qmljs", "qml")
@@ -49,6 +49,7 @@ return function()
             "css",
             "vue",
             "latex",
+            "wgsl",
         },
         modules = {},
         highlight = {

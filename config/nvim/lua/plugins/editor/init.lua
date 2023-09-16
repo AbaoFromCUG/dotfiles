@@ -31,7 +31,6 @@ local function flatten()
         callbacks = {
             pre_open = function()
                 -- Close toggleterm when an external open request is received
-                require("toggleterm").toggle(0)
             end,
             post_open = function(bufnr, winnr, ft)
                 if ft == "gitcommit" then
@@ -52,13 +51,11 @@ local function flatten()
                 else
                     -- If it's a normal file, then reopen the terminal, then switch back to the newly opened window
                     -- This gives the appearance of the window opening independently of the terminal
-                    require("toggleterm").toggle(0)
                     vim.api.nvim_set_current_win(winnr)
                 end
             end,
             block_end = function()
                 -- After blocking ends (for a git commit, etc), reopen the terminal
-                require("toggleterm").toggle(0)
             end,
         },
     })
@@ -134,7 +131,7 @@ return {
     { "lewis6991/gitsigns.nvim", config = conf.gitsigns },
 
     -- terminal
-    { "AbaoFromCUG/terminal.nvim", opts = {} },
+    { "AbaoFromCUG/terminal.nvim",dev = true, opts = {} },
     {
         "willothy/flatten.nvim",
         config = flatten,
