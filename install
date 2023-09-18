@@ -2,12 +2,6 @@
 
 set -e
 
-if command -v git >/dev/null 2>&1; then 
-  rm -rf ~/AppData/Local/nvim
-  cp -r ./config/nvim ~/AppData/Local/
-  exit
-fi
-
 CONFIG="install.conf.yaml"
 DOTBOT_DIR="dotbot"
 

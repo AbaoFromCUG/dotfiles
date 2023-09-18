@@ -12,14 +12,14 @@
       glob: true
       path: home/*
       prefix: "."
-    ~/.config/clash/clash_update:
-      path: config/clash/clash_update
+      if: '[ `uname` = "Linux" ]'
     ~/.config:
       glob: true
       path: config/*
-      exclude: [config/clash]
-    ~/.local/bin/waybar_launcher: local/bin/waybar_launcher
-    ~/.local/bin/mpd_launcher: local/bin/mpd_launcher
+      if: '[[ `uname` = "Linux" ]]'
+    ~/AppData/Local/nvim:
+      path: config/nvim
+      if: '[ `uname` != "Linux" ]'
 - shell:
     - command: >
         if [ ! -d ~/Pictures/wallpapers/ ]; then

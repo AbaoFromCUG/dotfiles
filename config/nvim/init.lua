@@ -33,6 +33,11 @@ vim.opt.sessionoptions = { "blank", "buffers", "curdir", "folds", "help", "tabpa
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 
+if vim.loop.os_uname().sysname == "Windows_NT" then
+    -- for mason.nvim
+    vim.g.python3_host_prog = vim.fn.exepath("python")
+end
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 if not vim.loop.fs_stat(lazypath) then

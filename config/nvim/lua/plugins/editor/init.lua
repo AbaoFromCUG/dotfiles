@@ -131,7 +131,7 @@ return {
     { "lewis6991/gitsigns.nvim", config = conf.gitsigns },
 
     -- terminal
-    { "AbaoFromCUG/terminal.nvim",dev = true, opts = {} },
+    { "AbaoFromCUG/terminal.nvim" },
     {
         "willothy/flatten.nvim",
         config = flatten,
