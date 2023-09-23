@@ -18,7 +18,7 @@ return function()
                     icon = "📦",
                     desc = format_desc("Restore session"),
                     action = function()
-                        vim.api.nvim_command("Autosession search")
+                        vim.api.nvim_command("Session open")
                     end,
                     key = "s",
                     keymap = "SPC f s",

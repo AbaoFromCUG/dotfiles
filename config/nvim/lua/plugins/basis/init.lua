@@ -26,6 +26,7 @@ local function mason_lspconfig()
             "volar",
             "texlab",
             "marksman",
+            "efm",
         },
         automatic_installation = true,
     })

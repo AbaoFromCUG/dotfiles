@@ -8,5 +8,15 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
         if success then
             handle(0)
         end
+
+        local console_fts = {
+            "PlenaryTestPopup",
+        }
+        for _, t in ipairs(console_fts) do
+            if ft == t then
+                require("keymap.consolebuf")(0)
+                break
+            end
+        end
     end,
 })

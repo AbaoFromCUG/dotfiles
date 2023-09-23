@@ -39,6 +39,7 @@ return {
     -- },
     { "AbaoFromCUG/cmake-tools.nvim" },
     { "AbaoFromCUG/rust-tools.nvim" },
+    { "Saecki/crates.nvim", opts = {} },
     {
         "ellisonleao/glow.nvim",
         ft = "markdown",

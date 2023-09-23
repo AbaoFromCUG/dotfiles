@@ -11,7 +11,7 @@ return function(config)
                 require("efmls-configs.formatters.stylua"),
             },
             python = {
-                require("efmls-configs.formatters.autopep8"),
+                require("efmls-configs.formatters.ruff"),
             },
             cpp = {
                 require("efmls-configs.linters.clang_tidy"),

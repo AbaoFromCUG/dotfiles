@@ -10,3 +10,5 @@ config/mpd/sticker.sql
 config/mpd/pid
 config/mpd/database
 config/mpd/playlists
+
+config/nvim/lazy-lock.json

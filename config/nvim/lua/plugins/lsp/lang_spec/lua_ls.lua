@@ -1,4 +1,14 @@
 return function(config)
+    local Path = require("plenary.path")
+
+    local vim_lib = {}
+    for index, value in ipairs(vim.api.nvim_get_runtime_file("", true)) do
+        local path = Path:new(vim_lib[index], "lua")
+        if path:is_dir() then
+            table.insert(vim_lib, tostring(path))
+        end
+    end
+
     config.settings = {
         Lua = {
             runtime = {
@@ -6,8 +16,8 @@ return function(config)
                 version = "LuaJIT",
                 pathStrict = true,
                 path = {
-                    "lua/?.lua",
                     "?.lua",
+                    "?/init.lua",
                 },
             },
             diagnostics = {
@@ -22,7 +32,7 @@ return function(config)
             },
             -- Make the server aware of Neovim runtime files
             workspace = {
-                library = vim.api.nvim_get_runtime_file("", true),
+                library = vim_lib,
                 -- library = { vim.env.VIMRUNTIME },
                 checkThirdParty = false,
             },

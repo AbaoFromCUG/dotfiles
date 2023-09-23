@@ -62,6 +62,7 @@ return function()
             { name = "treesitter" },
             { name = "doxygen" },
             { name = "luasnip" },
+            { name = "crakes.nvim" },
         }, {
             { name = "buffer" },
         }),

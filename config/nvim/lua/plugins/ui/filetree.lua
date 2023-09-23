@@ -1,36 +1,24 @@
 return function()
-    local nvim_tree = require("nvim-tree")
+    local tree = require("nvim-tree")
+    local tree_actions = require("nvim-tree.actions")
+    local tree_api = require("nvim-tree.api")
 
-    nvim_tree.setup({
+    tree.setup({
         disable_netrw = true,
         respect_buf_cwd = true,
         sync_root_with_cwd = true,
-        actions = {
-            open_file = {
-                resize_window = true,
-            },
-        },
         renderer = {
-            highlight_opened_files = "icon",
+            highlight_opened_files = "all",
             group_empty = true,
-            add_trailing = true,
             icons = {
                 show = {
                     folder_arrow = false,
                 },
             },
-            special_files = {
-                { "README.md", "README", "CMakeLists.txt", "Makefile", "package.json" },
-            },
+            special_files = { "README.md", "README", "CMakeLists.txt", "Cargo.toml", "Makefile", "package.json" },
             indent_markers = {
                 enable = true,
             },
-        },
-        diagnostics = {
-            enable = true,
-        },
-        update_focused_file = {
-            enable = true,
         },
         view = {
             centralize_selection = true,
@@ -42,8 +30,11 @@ return function()
         on_attach = require("keymap.filetreebuf"),
     })
 
-    require("session").register_hook("pre_restore", "restore_nvim_tree", function()
-        nvim_tree.change_dir(vim.fn.getcwd())
-        vim.cmd("NvimTreeRefresh")
+    require("session").register_hook("post_restore", "restore_nvim_tree", function()
+        tree_api.tree.change_root(vim.fn.getcwd())
+        tree_api.tree.reload()
+    end)
+    require("session").register_hook("pre_save", "close_nvim_tree", function()
+        tree_api.tree.close()
     end)
 end

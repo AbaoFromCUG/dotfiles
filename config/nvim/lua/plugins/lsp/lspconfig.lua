@@ -1,6 +1,6 @@
 return function()
     local lspconfig = require("lspconfig")
-    local lspkeymap_register = require("keymap.lspbuffer")
+    local lspkeymap_register = require("keymap.lspbuf")
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
     local code_navigation = require("nvim-navic")
     local mason_lspconfig = require("mason-lspconfig")

@@ -14,7 +14,7 @@ wk.register({
             h = { "<cmd>Telescope oldfiles<cr>", "recent file" },
             w = { "<cmd>Telescope live_grep<cr>", "find word" },
             m = { "<cmd>Telescope marks<cr>", "open mark" },
-            s = { "<cmd>Autosession search<cr>", "open session" },
+            s = { "<cmd>Session open<cr>", "open session" },
         },
         c = {
             name = "create",
