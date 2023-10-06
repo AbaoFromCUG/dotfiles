@@ -48,6 +48,9 @@ return {
     {
         "neovim/nvim-lspconfig",
         config = require("plugins.lsp.lspconfig"),
-        dependencies = { "folke/neodev.nvim" },
+        dependencies = {
+            "neodev.nvim",
+            "rust-tools.nvim",
+        },
     },
 }

@@ -14,6 +14,7 @@ local function mason_lspconfig()
     require("mason-lspconfig").setup({
         ensure_installed = {
             "lua_ls",
+            "pyright",
             "vimls",
             "bashls",
             "clangd",
@@ -22,11 +23,12 @@ local function mason_lspconfig()
             "neocmake",
             "html",
             "cssls",
-            "tsserver",
+            -- "tsserver",
             "volar",
             "texlab",
             "marksman",
             "efm",
+            "taplo",
         },
         automatic_installation = true,
     })

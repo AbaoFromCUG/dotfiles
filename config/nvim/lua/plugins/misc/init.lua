@@ -33,12 +33,12 @@ local function tex()
 end
 
 return {
-    -- {
-    --     "Civitasv/cmake-tools.nvim",
-    --     config = cmake,
-    -- },
-    { "AbaoFromCUG/cmake-tools.nvim" },
-    { "AbaoFromCUG/rust-tools.nvim" },
+    { "AbaoFromCUG/cmake-tools.nvim", dev = true },
+    {
+        "AbaoFromCUG/rust-tools.nvim",
+        dev = true,
+        opts = {},
+    },
     { "Saecki/crates.nvim", opts = {} },
     {
         "ellisonleao/glow.nvim",

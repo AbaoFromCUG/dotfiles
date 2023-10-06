@@ -14,6 +14,44 @@ local function code_navigation()
     vim.g.navic_silence = true
 end
 
+local function blankline()
+    local filetype_exclude = {
+        "startify",
+        "dashboard",
+        "dotooagenda",
+        "log",
+        "fugitive",
+        "gitcommit",
+        "packer",
+        "vimwiki",
+        "markdown",
+        "txt",
+        "vista",
+        "help",
+        "todoist",
+        "NvimTree",
+        "peekaboo",
+        "git",
+        "TelescopePrompt",
+        "undotree",
+        "flutterToolsOutline",
+        "", -- for all buffers without a file type
+    }
+    local indent_blankline = require("ibl")
+    indent_blankline.setup({
+        scope = {
+            show_start = false,
+        },
+        exclude = {
+            filetypes = filetype_exclude,
+            buftypes = {
+                "terminal",
+                "nofile",
+            },
+        },
+    })
+end
+
 local function symbols_outline()
     require("symbols-outline").setup({
         auto_preview = true,
@@ -59,7 +97,7 @@ return {
     -- status line
     { "hoob3rt/lualine.nvim", config = require("plugins.ui.lualine") },
     { "SmiteshP/nvim-navic", config = code_navigation },
-    { "lukas-reineke/indent-blankline.nvim", config = require("plugins.ui.indent_blankline") },
+    { "lukas-reineke/indent-blankline.nvim", config = blankline },
     { "rcarriga/nvim-notify", config = notify },
     { "MunifTanjim/nui.nvim" },
     {

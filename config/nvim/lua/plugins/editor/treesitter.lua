@@ -42,6 +42,7 @@ return function()
             "qmljs",
             "bash",
             "json",
+            "jsonc",
             "markdown",
             "markdown_inline",
             "norg",

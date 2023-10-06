@@ -60,13 +60,14 @@
             "▇",
             "█"
         ],
-        "on-click": "playerctl -p mpd play-pause",
+        "on-click": "playerctl play-pause",
         "actions": {
             "on-click-right": "mode"
         }
     },
     "mpris": {
-        "format": "{title} {player_icon} ",
+        // "format": "{title} {player_icon} ",
+        "format": "{player_icon} ",
         "format-paused": "{title} {player_icon} ",
         "format-stopped": "{title} {player_icon} ",
         "player-icons": {

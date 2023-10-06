@@ -20,6 +20,10 @@ return function()
                 enable = true,
             },
         },
+        update_focused_file = {
+            enable = true
+
+        },
         view = {
             centralize_selection = true,
             adaptive_size = true,
