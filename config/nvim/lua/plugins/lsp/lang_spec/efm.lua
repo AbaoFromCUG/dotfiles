@@ -1,6 +1,6 @@
 return function(config)
     config.init_options = { documentFormatting = true }
-    local front_end = {
+    local eslint_d = {
         require("efmls-configs.formatters.eslint_d"),
         require("efmls-configs.linters.eslint_d"),
     }
@@ -25,9 +25,11 @@ return function(config)
             zsh = {
                 require("efmls-configs.formatters.shfmt"),
             },
-            typescript = front_end,
-            typescriptreact = front_end,
-            javascript = front_end,
+            vue = eslint_d,
+            typescript = eslint_d,
+            typescriptreact = eslint_d,
+            javascript = eslint_d,
+            css = eslint_d,
         },
     }
 end

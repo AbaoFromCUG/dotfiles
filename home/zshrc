@@ -62,3 +62,11 @@ function yay() {
     PYENV_VERSION=system /usr/bin/yay "${@}"
 }
 
+
+# pnpm
+export PNPM_HOME="$HOME/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

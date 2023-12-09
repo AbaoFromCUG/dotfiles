@@ -6,6 +6,7 @@ return function()
 
     vim.treesitter.language.register("qmljs", "qml")
     vim.treesitter.language.register("typescript", "javascript")
+    vim.treesitter.language.register("typescript", "javascriptreact")
     vim.treesitter.language.register("typescript", "typescriptreact")
 
     require("nvim-treesitter.install").prefer_git = true

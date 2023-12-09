@@ -41,6 +41,7 @@ local function blankline()
     indent_blankline.setup({
         scope = {
             show_start = false,
+            show_end = false,
         },
         exclude = {
             filetypes = filetype_exclude,

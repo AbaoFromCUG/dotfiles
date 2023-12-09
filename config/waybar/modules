@@ -109,7 +109,7 @@
         "format": "{icon}",
         "format-muted": "🔇",
         "format-icons": {
-            // "headphone": "🎧",
+            "headphone": "🎧",
             "headset": "🎧",
             "default": [
                 "🔉",

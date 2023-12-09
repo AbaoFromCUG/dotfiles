@@ -1,9 +1,9 @@
 alias vim=nvim
-alias npm=pnpm
 alias ranger=joshuto
 alias s='neofetch|lolcat'
-alias y="https_proxy=http://127.0.0.1:8092 crow -t zh-CN "
-alias yy="https_proxy=http://127.0.0.1:8092 crow -u -t zh-CN "
+function yy() {
+    curl "127.0.0.1:60828/translate" -d $1
+}
 
 # Env Manager
 if [[ -d $HOME/.pyenv ]]; then

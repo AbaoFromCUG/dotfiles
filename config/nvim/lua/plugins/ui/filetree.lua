@@ -1,6 +1,5 @@
 return function()
     local tree = require("nvim-tree")
-    local tree_actions = require("nvim-tree.actions")
     local tree_api = require("nvim-tree.api")
 
     tree.setup({
@@ -21,8 +20,7 @@ return function()
             },
         },
         update_focused_file = {
-            enable = true
-
+            enable = true,
         },
         view = {
             centralize_selection = true,
