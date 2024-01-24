@@ -1,6 +1,6 @@
 # indicator
 # no-unlock-indicator
-# daemonize
+daemonize
 indicator-caps-lock
 # datestr=%A
 image=$HOME/Pictures/wallpapers/risinggale.jpg

@@ -1,0 +1,72 @@
+[bell]
+animation = "EaseOutExpo"
+
+[cursor]
+blink_interval = 500
+
+[cursor.style]
+blinking = "Always"
+shape = "Beam"
+
+[env]
+TERM = "xterm-256color"
+
+
+[font]
+size = 14.0
+
+[font.normal]
+family = "FiraCode Nerd Font"
+style = "Regular"
+
+[font.bold]
+family = "FiraCode Nerd Font"
+style = "Bold"
+
+[font.bold_italic]
+family = "FiraCode Nerd Font"
+style = "Bold Italic"
+
+[font.italic]
+family = "FiraCode Nerd Font"
+style = "Italic"
+
+
+[scrolling]
+history = 100000
+
+[shell]
+args = ["--login", "-c", "tmux attach || tmux new -s main"]
+program = "/bin/zsh"
+
+[window]
+dynamic_title = true
+opacity = 0.88
+
+# snazzy
+# Default colors
+[colors.primary]
+background = '#282a36'
+foreground = '#eff0eb'
+
+# Normal colors
+[colors.normal]
+black   = '#282a36'
+red     = '#ff5c57'
+green   = '#5af78e'
+yellow  = '#f3f99d'
+blue    = '#57c7ff'
+magenta = '#ff6ac1'
+cyan    = '#9aedfe'
+white   = '#f1f1f0'
+
+# Bright colors
+[colors.bright]
+black   = '#686868'
+red     = '#ff5c57'
+green   = '#5af78e'
+yellow  = '#f3f99d'
+blue    = '#57c7ff'
+magenta = '#ff6ac1'
+cyan    = '#9aedfe'
+white   = '#f1f1f0'

@@ -116,7 +116,6 @@ return {
         config = true,
     },
     -- search and replace
-    { "cshuaimin/ssr.nvim", config = true },
 
     -- annotation gen
     {

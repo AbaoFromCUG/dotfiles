@@ -7,7 +7,6 @@ return function()
     end
 
     local plugin_count = require("lazy").stats().count
-    local version = vim.version()
 
     require("dashboard").setup({
         -- config
@@ -62,7 +61,8 @@ return function()
             },
             footer = {
                 string.format("🛸 loaded %d plugins", plugin_count),
-                string.format("🔖%d.%d.%d", version.major, version.minor, version.patch),
+                tostring(vim.version())
+
             },
         },
         preview = {

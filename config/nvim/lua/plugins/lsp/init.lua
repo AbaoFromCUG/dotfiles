@@ -11,6 +11,24 @@ local function signature()
     })
 end
 
+local function none_ls()
+    local null_ls = require("null-ls")
+    null_ls.setup({
+        debug = true,
+        sources = {
+            null_ls.builtins.code_actions.eslint_d,
+            null_ls.builtins.code_actions.shellcheck,
+
+            null_ls.builtins.diagnostics.eslint_d,
+            null_ls.builtins.diagnostics.ruff,
+
+            null_ls.builtins.formatting.eslint_d,
+            null_ls.builtins.formatting.ruff,
+            null_ls.builtins.formatting.stylua,
+        },
+    })
+end
+
 return {
     -- completion engine
     {
@@ -40,8 +58,8 @@ return {
     -- diagnostic list
     { "folke/trouble.nvim", config = require("plugins.lsp.trouble") },
     {
-        "creativenull/efmls-configs-nvim",
-        dependencies = { "neovim/nvim-lspconfig" },
+        "nvimtools/none-ls.nvim",
+        config = none_ls,
     },
     { "folke/neodev.nvim", opts = {} },
 

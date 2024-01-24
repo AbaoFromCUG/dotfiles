@@ -3,7 +3,7 @@ return function(config)
 
     local vim_lib = {}
     for index, value in ipairs(vim.api.nvim_get_runtime_file("", true)) do
-        local path = Path:new(vim_lib[index], "lua")
+        local path = Path:new(value, "lua")
         if path:is_dir() then
             table.insert(vim_lib, tostring(path))
         end

@@ -51,6 +51,14 @@ return {
         config = femaco,
     },
     { "nvim-neorg/neorg", config = require("plugins.misc.neorg"), ft = "norg" },
+    {
+        "SUSTech-data/neopyter",
+        opts = {
+            auto_attach = true,
+            rpc_client = "async",
+        },
+    },
     { "lervag/vimtex", config = tex, ft = "tex" },
     { "rafcamlet/nvim-luapad" },
+    { "sindrets/diffview.nvim" },
 }

@@ -15,11 +15,7 @@ vim.opt.incsearch = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.magic = false
-
--- code indent
--- vim.opt.autoindent = true
--- vim.opt.cindent = true
--- vim.opt.smartindent = true
+vim.opt.spell = true
 
 -- encoding
 vim.opt.langmenu = "zh_CN.UTF-8"
@@ -28,7 +24,7 @@ vim.opt.encoding = "utf8"
 
 vim.opt.laststatus = 3
 vim.opt.swapfile = false
-vim.opt.sessionoptions = { "blank", "buffers", "curdir", "folds", "help", "tabpages", "winsize", "winpos", "terminal" }
+vim.opt.sessionoptions = { "buffers", "curdir", "folds", "winsize", "winpos", "terminal" }
 
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0

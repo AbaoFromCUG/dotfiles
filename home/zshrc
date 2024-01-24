@@ -27,46 +27,49 @@ zinit snippet OMZL::history.zsh
 zinit snippet OMZL::key-bindings.zsh
 zinit snippet OMZL::git.zsh
 zinit snippet OMZL::grep.zsh
-zinit snippet OMZL::theme-and-appearance.zsh
-
-zinit snippet OMZP::git
 zinit snippet OMZP::python
 zinit snippet OMZP::command-not-found
-# zinit snippet OMZP::vi-mode
 # alias la,ll
 zinit snippet OMZP::common-aliases
 
 # some plugins
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-autosuggestions
-zinit wait lucid atload"zicompinit; zicdreplay" blockf for \
-    zsh-users/zsh-completions
 
 # theme
 zinit ice depth=1;
 zinit light romkatv/powerlevel10k
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# End of Zinit configure
+eval "$(zoxide init zsh)"
 
-# Enable 256 color to make auto-suggestions look nice
-# export TERM="screen-256color"
+# Env Manager
+if [[ -d $HOME/.pyenv ]]; then
+	export PYENV_ROOT="$HOME/.pyenv"
+	command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+	eval "$(pyenv init -)"
+fi
 
-function docker_ip() {
-    sudo docker inspect --format '{{ .NetworkSettings.IPAddress  }}' "$1"
-}
+if [[ -d $HOME/.nvm ]]; then
+	# export NVM_DIR="$HOME/.nvm"
+	export NVM_HOME="$HOME/.nvm"
+	if [[ -d /usr/share/nvm ]]; then
+		export NVM_HOME="/usr/share/nvm"
+	fi
+	[ -s "$NVM_HOME/init-nvm.sh" ] && \. "$NVM_HOME/init-nvm.sh"
+
+fi
+
+if [[ -d $HOME/.rvm ]]; then
+	source $HOME/.rvm/scripts/rvm
+fi
+
+# End Env Manager
 
 function yay() {
     # avoid install python package to pyenv python site
     PYENV_VERSION=system /usr/bin/yay "${@}"
 }
 
-
-# pnpm
-export PNPM_HOME="$HOME/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end

@@ -1,3 +1,4 @@
+// vim: filetype=jsonc
 [
     {
         "layer": "top", // Waybar at top layer
@@ -12,7 +13,6 @@
         ],
         "modules-center": [
             "clock",
-            "cava",
             "mpris",
         ],
         "modules-right": [
@@ -30,7 +30,7 @@
         "hyprland/workspaces": {
             "format": "{icon}",
             "on-click": "activate",
-            "persistent_workspaces": {
+            "persistent-workspaces": {
                 "1": [],
                 "2": [],
                 "3": [],
@@ -62,14 +62,13 @@
         ],
         "modules-center": [
             "clock",
-            "cava",
             "mpris",
         ],
         "modules-right": [],
         "hyprland/workspaces": {
             "format": "{icon}",
             "on-click": "activate",
-            "persistent_workspaces": {
+            "persistent-workspaces": {
                 "6": [],
                 "7": [],
                 "8": []

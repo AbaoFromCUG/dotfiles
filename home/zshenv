@@ -5,36 +5,11 @@ function yy() {
     curl "127.0.0.1:60828/translate" -d $1
 }
 
-# Env Manager
-if [[ -d $HOME/.pyenv ]]; then
-	export PYENV_ROOT="$HOME/.pyenv"
-	command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-	eval "$(pyenv init -)"
-fi
-
-if [[ -d $HOME/.nvm ]]; then
-	export NVM_DIR="$HOME/.nvm"
-	export NVM_HOME="$HOME/.nvm"
-	if [[ -d /usr/share/nvm ]]; then
-		export NVM_HOME="/usr/share/nvm"
-	fi
-	[ -s "$NVM_HOME/nvm.sh" ] && \. "$NVM_HOME/nvm.sh" # This loads nvm
-	[ -s "$NVM_HOME/install-nvm-exe" ] && \. "$NVM_HOME/install-nvm-exe"
-
-fi
-
-if [[ -d $HOME/.rvm ]]; then
-	source $HOME/.rvm/scripts/rvm
-fi
-
-# End Env Manager
-
 export C_INCLUDE_PATH=$C_INCLUDE_PATH:$HOME/.local/include
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.local/lib
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOME/.local/lib/pkgconfig
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/usr/lib/emscripten"
-
 if command -v go >/dev/null 2>&1; then
 	export PATH="$PATH:$(go env GOBIN):$(go env GOPATH)/bin"
 	export GO112MODULE=on
@@ -48,13 +23,11 @@ export EDITOR=nvim
 
 export EMSCRIPTEN=/usr/lib/emscripten
 
-# hyprland spec
-export QT_QPA_PLATFORM=wayland
-export GDK_BACKEND="wayland,x11"
-export XCURSOR_SIZE=24
-export LIBVA_DRIVER_NAME=nvidia
-export XDG_SESSION_TYPE=wayland
-export __GLX_VENDOR_LIBRARY_NAME=nvidia
-export WLR_NO_HARDWARE_CURSORS=1
+# pnpm
+export PNPM_HOME="$HOME/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
 
-export RUSTFLAGS=--cfg=web_sys_unstable_apis

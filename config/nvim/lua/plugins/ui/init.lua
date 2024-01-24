@@ -1,7 +1,6 @@
 local function theme()
     -- theme
-    if vim.g.vscode then
-    else
+    if not vim.g.vscode then
         vim.cmd([[colorscheme nightfox]])
     end
 end
@@ -112,7 +111,7 @@ return {
     -- lsp progress
     { "j-hui/fidget.nvim", tag = "legacy", config = true },
     {
-        "kyazdani42/nvim-tree.lua",
+        "nvim-tree/nvim-tree.lua",
         lazy = false,
         dependencies = {
             "nvim-tree/nvim-web-devicons",

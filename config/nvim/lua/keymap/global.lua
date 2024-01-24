@@ -17,8 +17,8 @@ wk.register({
             s = { "<cmd>Session open<cr>", "open session" },
         },
         c = {
-            name = "create",
-            f = { "<cmd>DashboardNewFile<cr>", "new file" },
+            name = "generate",
+            a = { "<cmd>Neogen<cr>", "generate annotation" },
         },
         [","] = {
             name = "settings",
@@ -40,13 +40,11 @@ wk.register({
             },
         },
         z = {
-            name = "zen or fold",
+            name = "zen",
             n = { "<cmd>TZNarrow<cr>", "toggle narrow mode" },
             f = { "<cmd>TZFocus<cr>", "toggle focus mode" },
             m = { "<cmd>TZMinimalist<cr>", "toggle minimalist mode" },
             a = { "<cmd>TZAtaraxis<cr>", "toggle ataraxis mode" },
-            R = { require("ufo").openAllFolds, "Open All Folds" },
-            M = { require("ufo").closeAllFolds, "Close All Folds" },
         },
     },
     ["<space>"] = {
@@ -67,7 +65,6 @@ wk.register({
                     filter = function(client)
                         return client.name ~= "tsserver"
                     end,
-                    timeout_ms = 2000,
                 })
             end,
             "format",

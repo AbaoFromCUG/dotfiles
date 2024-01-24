@@ -1,12 +1,10 @@
 return function()
     local bufferline = require("bufferline")
-    -- stylua: ignore start
     local blacklist_filetypes = {
-        'dashboard',
-        'checkhealth',
-        'qf',
+        "dashboard",
+        "checkhealth",
+        "qf",
     }
-    -- stylua: ignore end
     bufferline.setup({
         options = {
             offsets = {

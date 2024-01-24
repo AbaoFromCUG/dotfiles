@@ -1,3 +1,4 @@
+// vim: filetype=jsonc
 {
     //***************************
     //*  Modules configuration  *
@@ -42,32 +43,8 @@
             "on-scroll-down": "shift_down"
         }
     },
-    "cava": {
-        "framerate": 30,
-        "autosens": 1,
-        "bars": 12,
-        "method": "pipewire",
-        "bar_delimiter": 0,
-        "monstercat": true,
-        "input_delay": 1,
-        "format-icons": [
-            "▁",
-            "▂",
-            "▃",
-            "▄",
-            "▅",
-            "▆",
-            "▇",
-            "█"
-        ],
-        "on-click": "playerctl play-pause",
-        "actions": {
-            "on-click-right": "mode"
-        }
-    },
     "mpris": {
-        // "format": "{title} {player_icon} ",
-        "format": "{player_icon} ",
+        "format": "{title} {player_icon}",
         "format-paused": "{title} {player_icon} ",
         "format-stopped": "{title} {player_icon} ",
         "player-icons": {
@@ -75,12 +52,7 @@
             "mpd": "🎵",
             "brave": "🌐",
         },
-        "status-icons": {
-            "paused": "<span color='red'>▶ </span>",
-            "playing": "<span color='red'>⏸️ </span>",
-            "stopped": "<span color='red'> ⏹️ </span>",
-        },
-        "on-right-click": "ario",
+        "on-click-right": "ario",
     },
     "cpu": {
         "interval": 10,

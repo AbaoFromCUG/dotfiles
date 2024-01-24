@@ -8,13 +8,6 @@ yay:
     - nvidia
     - nvidia-dkms
     - nvidia-container-toolkit
-    - vmware-workstation
-    - wechat-uos
-    - qmk
-    - cudnn
-    - docker
-    - docker-compose
-    - mariadb
   packages:
     # system basis
     - base
@@ -25,10 +18,14 @@ yay:
     - fakeroot
     - exfat-utils
     - autoconf
+    - man-db
+    - parted
+    - archlinuxcn-keyring
     # desktop environment
     - lemurs-git
     - hyprland
     - hyprpaper
+    - hyprpicker
     - swaylock
     - swayidle
     - polkit-gnome
@@ -52,24 +49,21 @@ yay:
     - clash-for-windows-bin
     - wget
     - curl
-    # audio and media
-    - mpd
-    - mpd-mpris
-    - playerctl
-    - pavucontrol
-    - ario
-    - vlc
-    - obs-studio
+    - openbsd-netcat
     # basic tool
     - zsh
     - tmux
     - unzip
     - unrar
     - p7zip
-    - alacritty
+    - kitty
     - lazygit
     - lf
-    # lanauage and compiler
+    - joshuto
+    - zoxide
+    - docker
+    - docker-compose
+    # language and compiler
     - cmake
     - ninja
     - assimp
@@ -88,33 +82,45 @@ yay:
     - glow
     - blender
     # fonts
-    - noto-fonts
     - noto-fonts-emoji
     - ttf-hack-nerd
     - ttf-cascadia-code-nerd
     - adobe-source-han-serif-cn-fonts
     - adobe-source-han-sans-cn-fonts
-    - ttf-font-awesome
-    - awesome-terminal-fonts
-    - opendesktop-fonts
+    - ttf-humor-sans
+    - ttf-firacode-nerd
     # desktop apps
-    - brave-bin
-    - crow-translate
-    - wps-office-cn
+    - firefox
+    - wps-office
     - feishu-bin
     - hexchat
     - slurp
-    - grim
+    - grimblast-git
+    - ksnip
     - gimp
     - telegram-desktop
     - qbittorrent
     - krita
-    - baidupcs-go
+    - zotero-beta-bin
+    - linuxqq
+    # audio and media
+    - mpd
+    - mpd-mpris
+    - playerctl
+    - pavucontrol
+    - ario
+    - vlc
+    - obs-studio
+    - wlrobs-hg
+    - amberol
     # misc
     - pkgfile
     - lolcat
     - neofetch
     - zathura
+    - papirus-icon-theme
+    - vial-appimage
+    - rustdesk
 winget:
   - Neovim.Neovim
   - Kitware.CMake
