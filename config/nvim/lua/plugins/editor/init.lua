@@ -91,6 +91,7 @@ return {
     { "p00f/nvim-ts-rainbow" },
     { "nvim-treesitter/nvim-treesitter-refactor" },
     { "nvim-treesitter/nvim-treesitter-textobjects" },
+    -- autopairs
     {
         "windwp/nvim-autopairs",
         event = "InsertEnter",
@@ -104,7 +105,6 @@ return {
         dependencies = "kevinhwang91/promise-async",
         config = ufo,
     },
-
     -- surround edit
     {
         "kylechui/nvim-surround",
@@ -115,8 +115,6 @@ return {
         },
         config = true,
     },
-    -- search and replace
-
     -- annotation gen
     {
         "danymat/neogen",
@@ -135,6 +133,7 @@ return {
 
     -- git
     { "lewis6991/gitsigns.nvim", config = conf.gitsigns },
+    { "sindrets/diffview.nvim" },
 
     -- terminal
     { "AbaoFromCUG/terminal.nvim" },
@@ -144,11 +143,11 @@ return {
         lazy = false,
         priority = 1001,
     },
+    -- keymap
     {
-        "glacambre/firenvim",
-        build = function()
-            vim.fn["firenvim#install"](0)
-        end,
+        "folke/which-key.nvim",
+        lazy = true,
+        config = true,
     },
 
     -- zen mode
@@ -157,7 +156,7 @@ return {
     -- jump anywhere
     { "phaazon/hop.nvim", config = conf.hop },
 
-    -- session
+    -- session & project
     {
         "AbaoFromCUG/session.nvim",
         dev = true,

@@ -1,3 +1,52 @@
+local function mason()
+    require("mason").setup({
+        ui = {
+            icons = {
+                package_installed = "✓",
+                package_pending = "➜",
+                package_uninstalled = "✗",
+            },
+        },
+    })
+end
+
+local function mason_lspconfig()
+    require("mason-lspconfig").setup({
+        ensure_installed = {
+            "lua_ls",
+            "pyright",
+            "vimls",
+            "bashls",
+            "clangd",
+            "jsonls",
+            "yamlls",
+            "neocmake",
+            "html",
+            "cssls",
+            "tsserver",
+            "volar",
+            "texlab",
+            "marksman",
+            "taplo",
+        },
+        automatic_installation = true,
+    })
+end
+
+local function mason_dap()
+    require("mason-nvim-dap").setup({
+        ensure_installed = { "python", "cppdbg" },
+        automatic_installation = true,
+    })
+end
+
+local function mason_null_ls()
+    require("mason-null-ls").setup({
+        ensure_installed = {},
+        automatic_installation = true,
+    })
+end
+
 local function cmake()
     -- register command
     require("cmake-tools").setup({
@@ -33,6 +82,27 @@ local function tex()
 end
 
 return {
+    -- installer
+    { "williamboman/mason.nvim", config = mason },
+    {
+        "williamboman/mason-lspconfig.nvim",
+        dependencies = "mason.nvim",
+        config = mason_lspconfig,
+    },
+    {
+        "jay-babu/mason-nvim-dap.nvim",
+        dependencies = "mason.nvim",
+        config = mason_dap,
+    },
+    {
+        "jay-babu/mason-null-ls.nvim",
+        event = { "BufReadPre", "BufNewFile" },
+        dependencies = {
+            "williamboman/mason.nvim",
+            "nvimtools/none-ls.nvim",
+        },
+        config = mason_null_ls,
+    },
     { "AbaoFromCUG/cmake-tools.nvim", dev = true },
     {
         "AbaoFromCUG/rust-tools.nvim",
@@ -60,5 +130,10 @@ return {
     },
     { "lervag/vimtex", config = tex, ft = "tex" },
     { "rafcamlet/nvim-luapad" },
-    { "sindrets/diffview.nvim" },
+    {
+        "glacambre/firenvim",
+        build = function()
+            vim.fn["firenvim#install"](0)
+        end,
+    },
 }

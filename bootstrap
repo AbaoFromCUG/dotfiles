@@ -46,15 +46,14 @@ def pacman(flags: list) -> dict:
     data = p.communicate()
     return {
         "returncode": p.returncode,
-        "stdout": data[0].rstrip(b'\n').decode(),
-        "stderr": data[1].rstrip(b'\n').decode()
+        "stdout": data[0].rstrip(b"\n").decode(),
+        "stderr": data[1].rstrip(b"\n").decode(),
     }
 
 
 def current_installed():
     current = pacman(["-Q"])
-    installed_packages = [name.split(" ")[0]
-                          for name in current["stdout"].split("\n")]
+    installed_packages = [name.split(" ")[0] for name in current["stdout"].split("\n")]
 
     return set(installed_packages)
 
@@ -65,7 +64,7 @@ def check_yay(info):
     installed_packages = current_installed()
     ignore_packages = set(info["ignore"])
     need_packages = []
-    for group in info["groups"]:
+    for group in info.get("groups", []):
         own_packages = get_group_packages(group)
         if own_packages:
             need_packages.extend(own_packages)
@@ -78,13 +77,12 @@ def check_yay(info):
             need_install.append(package)
 
     if len(need_install) > 0:
-        cmd = [PACMAN_BIN, '--noconfirm', '-S', *need_install]
+        cmd = [PACMAN_BIN, "--noconfirm", "-S", *need_install]
         print(f"> {' '.join(cmd)}")
         subprocess.run(cmd)
 
     output = pacman(["-Qet"])["stdout"]
-    explicit_packages = set([name.split(" ")[0]
-                            for name in output.split("\n")])
+    explicit_packages = set([name.split(" ")[0] for name in output.split("\n")])
     installed_packages = current_installed()
     echo_packages = []
     for package in explicit_packages:
@@ -92,7 +90,9 @@ def check_yay(info):
             echo_packages.append(package)
 
     if len(echo_packages) > 0:
-        print("local Linux install package explicitly, but not register in `packages.yaml`")
+        print(
+            "local Linux install package explicitly, but not register in `packages.yaml`"
+        )
         print(f"please check: {' '.join(echo_packages)}")
 
 
@@ -111,7 +111,7 @@ def check_npm(info):
         if package not in installed_packages:
             need_install.append(package)
     if len(need_install) > 0:
-        cmd = [NPM_BIN, "install", '--global', *need_install]
+        cmd = [NPM_BIN, "install", "--global", *need_install]
         print(f"> {' '.join(cmd)}")
         subprocess.run(cmd)
 
@@ -140,12 +140,16 @@ def check_cargo(info):
         return
 
     need_packages = info
-    p = subprocess.run([CARGO_BIN, "install", "--list"],
-                       stdout=subprocess.PIPE)
+    p = subprocess.run([CARGO_BIN, "install", "--list"], stdout=subprocess.PIPE)
     output = p.stdout.decode()
 
-    installed_packages = set([pkg.split(" ")[0]
-                             for pkg in output.split("\n") if len(pkg) > 0 and pkg[0] != " "])
+    installed_packages = set(
+        [
+            pkg.split(" ")[0]
+            for pkg in output.split("\n")
+            if len(pkg) > 0 and pkg[0] != " "
+        ]
+    )
     need_install = []
     for package in need_packages:
         if package not in installed_packages:
@@ -159,8 +163,8 @@ def check_cargo(info):
 if __name__ == "__main__":
     with open("packages.yaml") as file:
         info = yaml.load(file, yaml.Loader)
-        check_yay(info['yay'])
-        check_npm(info['npm'])
-        check_pip(info['pip'])
-        check_cargo(info['cargo'])
+        check_yay(info["yay"])
+        check_npm(info["npm"])
+        check_pip(info["pip"])
+        check_cargo(info["cargo"])
     pass

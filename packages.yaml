@@ -1,6 +1,4 @@
 yay:
-  groups:
-    - fcitx5-im
   ignore:
     - intel-ucode
     - amd-ucode
@@ -37,6 +35,8 @@ yay:
     - cava
     - dunst
     # input method
+    - fcitx5-configtool
+    - fcitx5-gtk
     - fcitx5-pinyin-zhwiki
     - fcitx5-chinese-addons
     - fcitx5-breeze
@@ -77,7 +77,6 @@ yay:
     - android-studio
     - neovim
     - visual-studio-code-bin
-    - cmake-format
     - ripgrep
     - glow
     - blender
