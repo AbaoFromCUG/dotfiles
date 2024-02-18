@@ -1,5 +1,3 @@
-local conf = require("plugins.editor.conf")
-
 local function ufo()
     vim.o.foldcolumn = "1" -- '0' is not bad
     vim.o.foldlevel = 99
@@ -14,6 +12,27 @@ local function ufo()
     })
 end
 
+local function gitsigns()
+     require("gitsigns").setup({
+        current_line_blame = true,
+        current_line_blame_opts = {
+            virt_text = true,
+            virt_text_pos = "eol",
+            delay = 100,
+            ignore_whitespace = false,
+        },
+    })
+end
+
+local function zen_mode()
+    local truezen = require("true-zen")
+    truezen.setup({})
+end
+
+local function hop()
+    require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
+end
+
 local function session()
     require("session").setup({})
     require("session").register_hook("pre_save", "close_all_floating_wins", function()
@@ -24,41 +43,6 @@ local function session()
             end
         end
     end)
-end
-
-local function flatten()
-    require("flatten").setup({
-        callbacks = {
-            pre_open = function()
-                -- Close toggleterm when an external open request is received
-            end,
-            post_open = function(bufnr, winnr, ft)
-                if ft == "gitcommit" then
-                    -- If the file is a git commit, create one-shot autocmd to delete it on write
-                    -- If you just want the toggleable terminal integration, ignore this bit and only use the
-                    -- code in the else block
-                    vim.api.nvim_create_autocmd("BufWritePost", {
-                        buffer = bufnr,
-                        once = true,
-                        callback = function()
-                            -- This is a bit of a hack, but if you run bufdelete immediately
-                            -- the shell can occasionally freeze
-                            vim.defer_fn(function()
-                                vim.api.nvim_buf_delete(bufnr, {})
-                            end, 50)
-                        end,
-                    })
-                else
-                    -- If it's a normal file, then reopen the terminal, then switch back to the newly opened window
-                    -- This gives the appearance of the window opening independently of the terminal
-                    vim.api.nvim_set_current_win(winnr)
-                end
-            end,
-            block_end = function()
-                -- After blocking ends (for a git commit, etc), reopen the terminal
-            end,
-        },
-    })
 end
 
 local function comment()
@@ -132,17 +116,10 @@ return {
     },
 
     -- git
-    { "lewis6991/gitsigns.nvim", config = conf.gitsigns },
+    { "lewis6991/gitsigns.nvim", config = gitsigns },
     { "sindrets/diffview.nvim" },
-
     -- terminal
     { "AbaoFromCUG/terminal.nvim" },
-    {
-        "willothy/flatten.nvim",
-        config = flatten,
-        lazy = false,
-        priority = 1001,
-    },
     -- keymap
     {
         "folke/which-key.nvim",
@@ -151,10 +128,10 @@ return {
     },
 
     -- zen mode
-    { "Pocco81/true-zen.nvim", config = conf.zen_mode },
+    { "Pocco81/true-zen.nvim", config = zen_mode },
 
     -- jump anywhere
-    { "phaazon/hop.nvim", config = conf.hop },
+    { "phaazon/hop.nvim", config = hop },
 
     -- session & project
     {

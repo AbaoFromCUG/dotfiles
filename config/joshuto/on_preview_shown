@@ -8,8 +8,6 @@ PREVIEW_HEIGHT="$5"		# Height of the preview pane (number of fitting characters)
 
 TMP_FILE="$HOME/.cache/joshuto/thumbcache.png"
 
-PREVIEW_Y_COORD=$(($PREVIEW_Y_COORD+1))
-
 mimetype=$(file --mime-type -Lb "$FILE_PATH")
 
 function image {
@@ -19,13 +17,23 @@ function image {
 
 	kitty +kitten icat \
 		--transfer-mode=file \
-		--place "${PREVIEW_WIDTH}x${PREVIEW_HEIGHT}@${PREVIEW_X_COORD}x${PREVIEW_Y_COORD}" \
+		--place "$2x$3@$4x$5" \
 		"$1" 2>/dev/null
+}
+
+function video {
+    ffmpegthumbnailer -i "$1" -o "${TMP_FILE}" -s 0 2>/dev/null
+    image "${TMP_FILE}"
 }
 
 case "$mimetype" in
 	image/*)
-		image "${FILE_PATH}"
+        y_offset=1
+        y=$(( ${PREVIEW_Y_COORD} + $y_offset ))
+		image "${FILE_PATH}" "${PREVIEW_WIDTH}" "${PREVIEW_HEIGHT}" "${PREVIEW_X_COORD}" "${y}"
+		;;
+	video/*)
+		video "${FILE_PATH}"
 		;;
 	*)
 		kitty +kitten icat \

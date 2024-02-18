@@ -116,6 +116,15 @@ return {
         opts = { style = "dark", width = 120 },
     },
     {
+        "iamcco/markdown-preview.nvim",
+        ft = "markdown",
+        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+        ft = { "markdown" },
+        build = function()
+            vim.fn["mkdp#util#install"]()
+        end,
+    },
+    {
         "AckslD/nvim-FeMaco.lua",
         ft = "markdown",
         config = femaco,
@@ -123,6 +132,7 @@ return {
     { "nvim-neorg/neorg", config = require("plugins.misc.neorg"), ft = "norg" },
     {
         "SUSTech-data/neopyter",
+        dev = true,
         opts = {
             auto_attach = true,
             rpc_client = "async",

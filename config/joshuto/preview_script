@@ -194,8 +194,8 @@ handle_mime() {
             ## Image
         image/*)
             ## Preview as text conversion
-            dimension="Size `exiftool "${FILE_PATH}" | grep '^Image Size' | awk '{print $4}'`"
-            echo $dimension
+            dimension="Size $(identify "${FILE_PATH}" | awk '{print $3}')"
+            echo "$dimension"
             exit 0 ;;
 
             ## Video and audio
