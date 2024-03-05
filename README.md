@@ -1,6 +1,6 @@
 # dotfiles
 
-My dotfiles for Neovim, zsh,  optimized for ArchLinux. Managed with [Dotbot](https://github.com/anishathalye/dotbot).
+My dotfiles for Neovim, zsh,  optimized for ArchLinux and WSL. Managed with [Dotbot](https://github.com/anishathalye/dotbot).
 
 ![](./screenshot.png)
 

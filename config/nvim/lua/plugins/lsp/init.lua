@@ -16,14 +16,6 @@ local function none_ls()
     null_ls.setup({
         debug = true,
         sources = {
-            null_ls.builtins.code_actions.eslint_d,
-            null_ls.builtins.code_actions.shellcheck,
-
-            null_ls.builtins.diagnostics.eslint_d,
-            null_ls.builtins.diagnostics.ruff,
-
-            null_ls.builtins.formatting.eslint_d,
-            null_ls.builtins.formatting.ruff,
             null_ls.builtins.formatting.stylua,
         },
     })

@@ -43,7 +43,21 @@ zinit light romkatv/powerlevel10k
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+export MICROSOFT_UNAME=$(uname -a | grep -i microsoft)
+export IS_WSL=$( [ ! -z "$MICROSOFT_UNAME" ] && echo "1" || echo "0" )
+
+if [[ "$IS_WSL" == "1" ]]; then
+  __git_prompt_git() {
+    if wslpath -w . | grep -q '\\wsl'; then
+      git --no-optional-locks $@
+    else
+      git.exe --no-optional-locks $@
+    fi
+  }
+fi
+
 eval "$(zoxide init zsh)"
+
 
 # Env Manager
 if [[ -d $HOME/.pyenv ]]; then
@@ -53,12 +67,12 @@ if [[ -d $HOME/.pyenv ]]; then
 fi
 
 if [[ -d $HOME/.nvm ]]; then
-	# export NVM_DIR="$HOME/.nvm"
 	export NVM_HOME="$HOME/.nvm"
 	if [[ -d /usr/share/nvm ]]; then
 		export NVM_HOME="/usr/share/nvm"
 	fi
-	[ -s "$NVM_HOME/init-nvm.sh" ] && \. "$NVM_HOME/init-nvm.sh"
+    echo "Hello"
+	[ -s "$NVM_HOME/nvm.sh" ] && \. "$NVM_HOME/nvm.sh"
 
 fi
 
@@ -72,4 +86,5 @@ function yay() {
     # avoid install python package to pyenv python site
     PYENV_VERSION=system /usr/bin/yay "${@}"
 }
+
 

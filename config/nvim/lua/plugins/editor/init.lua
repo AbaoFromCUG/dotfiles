@@ -136,7 +136,6 @@ return {
     -- session & project
     {
         "AbaoFromCUG/session.nvim",
-        dev = true,
         config = session,
     },
 }

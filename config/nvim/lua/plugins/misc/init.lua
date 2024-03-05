@@ -103,10 +103,11 @@ return {
         },
         config = mason_null_ls,
     },
-    { "AbaoFromCUG/cmake-tools.nvim", dev = true },
+    { 
+        "AbaoFromCUG/cmake-tools.nvim", 
+    },
     {
         "AbaoFromCUG/rust-tools.nvim",
-        dev = true,
         opts = {},
     },
     { "Saecki/crates.nvim", opts = {} },
@@ -132,7 +133,6 @@ return {
     { "nvim-neorg/neorg", config = require("plugins.misc.neorg"), ft = "norg" },
     {
         "SUSTech-data/neopyter",
-        dev = true,
         opts = {
             auto_attach = true,
             rpc_client = "async",
