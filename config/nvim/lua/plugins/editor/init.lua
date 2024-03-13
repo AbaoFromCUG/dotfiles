@@ -13,7 +13,7 @@ local function ufo()
 end
 
 local function gitsigns()
-     require("gitsigns").setup({
+    require("gitsigns").setup({
         current_line_blame = true,
         current_line_blame_opts = {
             virt_text = true,
@@ -65,14 +65,13 @@ return {
     { "nvim-telescope/telescope-symbols.nvim" },
     { "nvim-telescope/telescope-frecency.nvim" },
 
-    -- treesitter highlight
+    -- tree-sitter highlight
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
         config = require("plugins.editor.treesitter"),
     },
-    { "andymass/vim-matchup" },
-    { "p00f/nvim-ts-rainbow" },
+    { "andymass/vim-matchup", opts = {} },
     { "nvim-treesitter/nvim-treesitter-refactor" },
     { "nvim-treesitter/nvim-treesitter-textobjects" },
     -- autopairs
@@ -83,6 +82,7 @@ return {
             check_ts = true,
         },
     },
+    "windwp/nvim-ts-autotag",
     -- fold
     {
         "kevinhwang91/nvim-ufo",

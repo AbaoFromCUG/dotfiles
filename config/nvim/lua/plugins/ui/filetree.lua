@@ -24,7 +24,6 @@ return function()
         },
         view = {
             centralize_selection = true,
-            adaptive_size = true,
         },
         trash = {
             cmd = "trash",

@@ -5,9 +5,8 @@ return function()
     -- vim.opt.foldenable = false
 
     vim.treesitter.language.register("qmljs", "qml")
-    vim.treesitter.language.register("typescript", "javascript")
-    vim.treesitter.language.register("typescript", "javascriptreact")
-    vim.treesitter.language.register("typescript", "typescriptreact")
+    -- vim.treesitter.language.register("typescript", "javascript")
+    -- vim.treesitter.language.register("typescript", "javascriptreact")
 
     require("nvim-treesitter.install").prefer_git = true
     local parser_path = vim.fn.stdpath("data") .. "/ts-parsers"
@@ -50,12 +49,16 @@ return function()
             "html",
             "css",
             "vue",
+            "tsx",
             "latex",
             "wgsl",
         },
         modules = {},
         highlight = {
             enable = true, -- false will disable the whole extension
+            disable = function(lang, bufnr)
+                return vim.api.nvim_buf_line_count(bufnr) > 1000
+            end,
         },
         indent = {
             enable = true,
@@ -63,11 +66,20 @@ return function()
         autopairs = {
             enable = true,
         },
-        matchup = { enable = true },
-        rainbow = {
+        autotag = {
             enable = true,
-            extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
-            -- max_file_lines = 1000, -- Do not enable for files with more than 1000 lines, int
+        },
+        matchup = {
+            enable = true,
+            filetypes = {
+                "html",
+                "xml",
+                "typescript",
+                "typescriptreact",
+                "javascript",
+                "tsx",
+                "javascriptreact",
+            },
         },
         refactor = {
             highlight_definitions = { enable = true },

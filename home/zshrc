@@ -71,7 +71,6 @@ if [[ -d $HOME/.nvm ]]; then
 	if [[ -d /usr/share/nvm ]]; then
 		export NVM_HOME="/usr/share/nvm"
 	fi
-    echo "Hello"
 	[ -s "$NVM_HOME/nvm.sh" ] && \. "$NVM_HOME/nvm.sh"
 
 fi

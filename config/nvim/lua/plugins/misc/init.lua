@@ -35,7 +35,7 @@ end
 
 local function mason_dap()
     require("mason-nvim-dap").setup({
-        ensure_installed = { "python", "cppdbg" },
+        ensure_installed = { "cppdbg" },
         automatic_installation = true,
     })
 end
@@ -146,4 +146,5 @@ return {
             vim.fn["firenvim#install"](0)
         end,
     },
+     "LunarVim/bigfile.nvim",
 }

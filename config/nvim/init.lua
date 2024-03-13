@@ -29,9 +29,20 @@ vim.opt.sessionoptions = { "buffers", "curdir", "folds", "winsize", "winpos", "t
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 
-if vim.loop.os_uname().sysname == "Windows_NT" then
+local uname = vim.loop.os_uname()
+if uname.sysname == "Windows_NT" then
     -- for mason.nvim
     vim.g.python3_host_prog = vim.fn.exepath("python")
+elseif uname.release:find("WSL") then
+    -- WSL
+    vim.system({ "/mnt/c/Windows/system32/cmd.exe", "/c", "echo", "%path%" }, { text = true }, function(obj)
+        local paths = string.gsub(obj.stdout, "C:", "/mnt/c")
+        paths = paths:gsub("\\", "/")
+        paths = paths:gsub(";", ":")
+        vim.schedule(function()
+            vim.env.PATH = vim.env.PATH .. ":" .. paths
+        end)
+    end)
 end
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
