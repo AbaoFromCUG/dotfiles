@@ -1,16 +1,33 @@
 local wk = require("which-key")
 local launcher = require("integrator.launcher")
 local dap = require("dap")
+local builtin = require("telescope.builtin")
 local trans = require("trans")
 
 vim.api.nvim_set_keymap("n", "<cr>", '{-> v:hlsearch ? ":nohl<CR>" : "<CR>"}()', { expr = true, noremap = true })
 vim.api.nvim_set_keymap("n", ";", "<C-w>", { noremap = true })
 
+local is_inside_work_tree = {}
+local function project_files()
+    local cwd = vim.uv.cwd()
+    if is_inside_work_tree[cwd] == nil then
+        vim.system({ "git", "rev-parse", "--is-inside-work-tree" }, { text = true, cwd = cwd }, function(out)
+            is_inside_work_tree[cwd] = out.code == 0
+            vim.schedule(project_files)
+        end)
+    end
+    if is_inside_work_tree[cwd] then
+        builtin.git_files()
+    else
+        builtin.find_files()
+    end
+end
+
 wk.register({
     ["<leader>"] = {
         f = {
             name = "find",
-            f = { "<cmd>Telescope find_files<cr>", "find files" },
+            f = { project_files, "find files" },
             h = { "<cmd>Telescope oldfiles<cr>", "recent file" },
             w = { "<cmd>Telescope live_grep<cr>", "find word" },
             m = { "<cmd>Telescope marks<cr>", "open mark" },

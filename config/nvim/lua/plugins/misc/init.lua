@@ -28,6 +28,8 @@ local function mason_lspconfig()
             "texlab",
             "marksman",
             "taplo",
+            "ruff_lsp",
+            "tailwindcss",
         },
         automatic_installation = true,
     })
@@ -103,8 +105,8 @@ return {
         },
         config = mason_null_ls,
     },
-    { 
-        "AbaoFromCUG/cmake-tools.nvim", 
+    {
+        "AbaoFromCUG/cmake-tools.nvim",
     },
     {
         "AbaoFromCUG/rust-tools.nvim",
@@ -146,5 +148,5 @@ return {
             vim.fn["firenvim#install"](0)
         end,
     },
-     "LunarVim/bigfile.nvim",
+    "LunarVim/bigfile.nvim",
 }

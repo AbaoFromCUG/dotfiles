@@ -14,3 +14,6 @@ call_arg_parentheses = remove
 quote_style = single
 call_arg_parentheses = remove
 align_table_field_to_first_field = true
+
+[*.{json,js}]
+indent_size = 2

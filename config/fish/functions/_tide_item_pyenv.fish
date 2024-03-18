@@ -1,5 +1,4 @@
 function _tide_item_pyenv
-    set --function tide_pyenv_icon 
     test -n "$PYENV_VERSION" ||
         test -n "$PYENV_ROOT" ||
         test -f .python-version ||
