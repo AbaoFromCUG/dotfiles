@@ -8,9 +8,13 @@ return function(config)
             table.insert(vim_lib, tostring(path))
         end
     end
+    config.on_init = function(client)
+        local path = client.workspace_folders[1].name
+        if vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc") then
+            return
+        end
 
-    config.settings = {
-        Lua = {
+        client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
             runtime = {
                 -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
                 version = "LuaJIT",
@@ -23,7 +27,7 @@ return function(config)
             diagnostics = {
                 -- Get the language server to recognize the `vim` global
                 globals = {
-                    "vim",
+                    -- "vim",
                     "describe",
                     "it",
                     "before_each",
@@ -47,6 +51,8 @@ return function(config)
                 autoRequire = true,
                 callSnippet = "Replace",
             },
-        },
-    }
+        })
+    end
+
+    config.settings = {}
 end

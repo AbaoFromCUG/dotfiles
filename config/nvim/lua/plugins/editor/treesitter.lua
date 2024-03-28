@@ -2,7 +2,7 @@ return function()
     -- consult nvim-ufo
     vim.opt.foldmethod = "expr"
     vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-    -- vim.opt.foldenable = false
+    vim.opt.foldenable = false
 
     vim.treesitter.language.register("qmljs", "qml")
     -- vim.treesitter.language.register("typescript", "javascript")
@@ -52,6 +52,7 @@ return function()
             "tsx",
             "latex",
             "wgsl",
+            "regex",
         },
         modules = {},
         highlight = {
@@ -114,6 +115,21 @@ return function()
                     -- You can optionally set descriptions to the mappings (used in the desc parameter of
                     -- nvim_buf_set_keymap) which plugins like which-key display
                     ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+                },
+            },
+            move = {
+                enable = true,
+                goto_next_start = {
+                    ["]m"] = "@function.outer",
+                    ["]]"] = { query = "@class.outer", desc = "Next class start" },
+                    ["]j"] = { query = "@cellseparator", desc = "Next cell separator" },
+                    ["]c"] = { query = "@cellcontent", desc = "Next cell content" },
+                },
+                goto_previous_start = {
+                    ["]M"] = "@function.outer",
+                    ["]["] = "@class.outer",
+                    ["[j"] = "@cellseparator",
+                    ["[c"] = { "@cellcontent" },
                 },
             },
             include_surrounding_whitespace = true,

@@ -10,5 +10,7 @@ if test -d ~/.pyenv
 end
 
 
+fish_add_path ~/.local/bin
+
 zoxide init fish |source
 pyenv init - | source

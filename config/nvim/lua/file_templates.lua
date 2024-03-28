@@ -3,7 +3,7 @@ local M = {}
 local Path = require("plenary.path")
 local a = require("plenary.async")
 local fn = vim.fn
-local uv = vim.loop
+local uv = vim.uv
 
 local function read_file(file)
     local _, fd = a.uv.fs_open(file, "r", 438)

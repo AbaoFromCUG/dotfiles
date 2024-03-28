@@ -1,6 +1,7 @@
 alias vim=nvim
 alias ranger=joshuto
 alias s='neofetch|lolcat'
+
 function yy() {
     curl "127.0.0.1:60828/translate" -d $1
 }

@@ -7,7 +7,7 @@ end
 local function signature()
     local lsp_signature = require("lsp_signature")
     lsp_signature.setup({
-        floating_window_above_cur_line = false,
+        -- floating_window_above_cur_line = false,
     })
 end
 
@@ -21,6 +21,7 @@ local function none_ls()
     })
 end
 
+---
 return {
     -- completion engine
     {
@@ -30,7 +31,7 @@ return {
     },
     {
         "L3MON4D3/LuaSnip",
-        -- windows don't support luajit
+        dependencies = { "rafamadriz/friendly-snippets" },
         build = "make install_jsregexp",
         config = luasnip,
     },
@@ -44,7 +45,11 @@ return {
     "ray-x/cmp-treesitter",
     "paopaol/cmp-doxygen",
     -- show signature
-    { "ray-x/lsp_signature.nvim", config = signature },
+    {
+        "ray-x/lsp_signature.nvim",
+        event = "VeryLazy",
+        config = signature,
+    },
     -- pictograms for lsp
     { "onsails/lspkind-nvim" },
     -- diagnostic list

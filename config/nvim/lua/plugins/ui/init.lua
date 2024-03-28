@@ -84,6 +84,27 @@ local function notify()
     vim.notify = require("notify")
 end
 
+local function noice()
+    require("noice").setup({
+        messages = {
+            enabled = false,
+        },
+        lsp = {
+            signature = {
+                enabled = false,
+            },
+            override = {
+                ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+                ["vim.lsp.util.stylize_markdown"] = true,
+                ["cmp.entry.get_documentation"] = true,
+            },
+        },
+        presets = {
+            bottom_search = true,
+        },
+    })
+end
+
 return {
     {
         "EdenEast/nightfox.nvim",
@@ -99,7 +120,15 @@ return {
     { "SmiteshP/nvim-navic", config = code_navigation },
     { "lukas-reineke/indent-blankline.nvim", config = blankline },
     { "rcarriga/nvim-notify", config = notify },
-    { "MunifTanjim/nui.nvim" },
+    {
+        "folke/noice.nvim",
+        event = "VeryLazy",
+        config = noice,
+        dependencies = {
+            "MunifTanjim/nui.nvim",
+            "rcarriga/nvim-notify",
+        },
+    },
     {
         "stevearc/dressing.nvim",
         event = "VeryLazy",
@@ -109,7 +138,8 @@ return {
     -- status column
     { "luukvbaal/statuscol.nvim", config = statuscol },
     -- lsp progress
-    { "j-hui/fidget.nvim", tag = "legacy", config = true },
+    -- { "j-hui/fidget.nvim", tag = "legacy", config = true },
+
     {
         "nvim-tree/nvim-tree.lua",
         lazy = false,
@@ -123,7 +153,6 @@ return {
         "glepnir/dashboard-nvim",
         event = "VimEnter",
         config = require("plugins.ui.dashboard"),
-        -- config = true,
         dependencies = { "nvim-tree/nvim-web-devicons" },
     },
 }
