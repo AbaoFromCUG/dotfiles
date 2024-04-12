@@ -1,4 +1,3 @@
-local Job = require("plenary.job")
 
 local M = {}
 function M.trans_cursor_word()
@@ -7,7 +6,7 @@ function M.trans_cursor_word()
         vim.fn.jobstart("yy " .. word, {
             on_stdout = function(_, data, _)
                 if data[1] and #data[1] > 0 then
-                    -- vim.notify(data[1])
+                    vim.notify(data[1])
                 end
             end,
         })

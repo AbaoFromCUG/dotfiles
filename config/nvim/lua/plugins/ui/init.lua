@@ -5,14 +5,6 @@ local function theme()
     end
 end
 
-local function code_navigation()
-    require("nvim-navic").setup({
-        highlight = true,
-        depth_limit = 3,
-    })
-    vim.g.navic_silence = true
-end
-
 local function blankline()
     local filetype_exclude = {
         "startify",
@@ -87,20 +79,41 @@ end
 local function noice()
     require("noice").setup({
         messages = {
-            enabled = false,
+            enabled = true,
+            -- view = "popup",
+            -- view_error = false,
+            -- view_warn = nil,
+            view_history = "messages",
         },
         lsp = {
             signature = {
                 enabled = false,
             },
-            override = {
-                ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-                ["vim.lsp.util.stylize_markdown"] = true,
-                ["cmp.entry.get_documentation"] = true,
+            hover = {
+                enabled = false,
             },
         },
         presets = {
             bottom_search = true,
+        },
+        -- redirect = {
+        --     view = "popup",
+        --     filter = { event = "msg_show" },
+        -- },
+        routes = {
+            {
+                filter = {
+                    event = "msg_show",
+                    any = {
+                        { find = "%d+L, %d+B" },
+                        { find = "; after #%d+" },
+                        { find = "; before #%d+" },
+                        { find = "%d fewer lines" },
+                        { find = "%d more lines" },
+                    },
+                },
+                opts = { skip = true },
+            },
         },
     })
 end
@@ -117,9 +130,16 @@ return {
     { "akinsho/bufferline.nvim", config = require("plugins.ui.bufferline") },
     -- status line
     { "hoob3rt/lualine.nvim", config = require("plugins.ui.lualine") },
-    { "SmiteshP/nvim-navic", config = code_navigation },
+    { "SmiteshP/nvim-navic", opts = {
+        lsp = {
+            auto_attach = true,
+        },
+    } },
     { "lukas-reineke/indent-blankline.nvim", config = blankline },
+    -- components
     { "rcarriga/nvim-notify", config = notify },
+    -- lsp progress
+    -- { "j-hui/fidget.nvim", tag = "legacy", config = true },
     {
         "folke/noice.nvim",
         event = "VeryLazy",
@@ -129,16 +149,10 @@ return {
             "rcarriga/nvim-notify",
         },
     },
-    {
-        "stevearc/dressing.nvim",
-        event = "VeryLazy",
-        config = dressing,
-    },
+
     { "cpea2506/relative-toggle.nvim" },
     -- status column
     { "luukvbaal/statuscol.nvim", config = statuscol },
-    -- lsp progress
-    -- { "j-hui/fidget.nvim", tag = "legacy", config = true },
 
     {
         "nvim-tree/nvim-tree.lua",
@@ -155,4 +169,7 @@ return {
         config = require("plugins.ui.dashboard"),
         dependencies = { "nvim-tree/nvim-web-devicons" },
     },
+
+    -- terminal
+    { "akinsho/toggleterm.nvim", opts = {} },
 }

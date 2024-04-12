@@ -3,7 +3,7 @@ alias ranger=joshuto
 alias s='neofetch|lolcat'
 
 function yy() {
-    curl "127.0.0.1:60828/translate" -d $1
+    curl "127.0.0.1:8093/translate" -d $1
 }
 
 export C_INCLUDE_PATH=$C_INCLUDE_PATH:$HOME/.local/include

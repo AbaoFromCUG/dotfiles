@@ -1,6 +1,6 @@
 local wk = require("which-key")
-local launcher = require("integrator.launcher")
 local dap = require("dap")
+local neotest = require("neotest")
 local builtin = require("telescope.builtin")
 local trans = require("trans")
 
@@ -10,16 +10,24 @@ vim.api.nvim_set_keymap("n", ";", "<C-w>", { noremap = true })
 local is_inside_work_tree = {}
 local function project_files()
     local cwd = vim.uv.cwd()
-    if is_inside_work_tree[cwd] == nil then
+    if cwd and is_inside_work_tree[cwd] == nil then
         vim.system({ "git", "rev-parse", "--is-inside-work-tree" }, { text = true, cwd = cwd }, function(out)
             is_inside_work_tree[cwd] = out.code == 0
             vim.schedule(project_files)
         end)
     end
     if is_inside_work_tree[cwd] then
-        builtin.git_files()
+        builtin.git_files({ use_git_root = false, show_untracked = true })
     else
         builtin.find_files()
+    end
+end
+
+local function smart_run()
+    if dap.session() then
+        dap.continue()
+    else
+        dap.run_last()
     end
 end
 
@@ -37,11 +45,7 @@ wk.register({
             name = "generate",
             a = { "<cmd>Neogen<cr>", "generate annotation" },
         },
-        [","] = {
-            name = "settings",
-            m = { "<cmd>Telescope filetypes<cr>", "languages" },
-            c = { "<cmd>Telescope colorscheme<cr>", "colorscheme" },
-        },
+        t = { trans.trans_cursor_word, "translate" },
         v = {
             name = "view",
             b = { "<cmd>NvimTreeToggle<cr>", "toggle explorer" },
@@ -63,19 +67,35 @@ wk.register({
             m = { "<cmd>TZMinimalist<cr>", "toggle minimalist mode" },
             a = { "<cmd>TZAtaraxis<cr>", "toggle ataraxis mode" },
         },
+        [","] = {
+            name = "settings",
+            m = { "<cmd>Telescope filetypes<cr>", "languages" },
+            c = { "<cmd>Telescope colorscheme<cr>", "colorscheme" },
+        },
     },
     ["<space>"] = {
         name = "super space",
-        s = { "<cmd>w<cr>", "write" },
-        t = { trans.trans_cursor_word, "translate" },
         d = {
             name = "Debugger",
-            s = { launcher.select, "select launch" },
-            r = { launcher.run, "run" },
-            t = { launcher.terminate, "termnate" },
-            b = { launcher.build, "build" },
-            l = { launcher.reload, "refresh config" },
+            r = { smart_run, "run" },
         },
+        s = { "<cmd>w<cr>", "write" },
+        t = {
+            name = "Test",
+            f = {
+                function()
+                    neotest.run.run(vim.fn.expand("%"))
+                end,
+                "test current file",
+            },
+            t = {
+                function()
+                    neotest.run.run()
+                end,
+                "test nearest case",
+            },
+        },
+
         f = {
             function()
                 vim.lsp.buf.format({
@@ -88,7 +108,7 @@ wk.register({
         },
     },
 
-    ["<F5>"] = { launcher.launch_or_continue, "debug" },
+    ["<F5>"] = { smart_run, "run" },
     ["<F6>"] = { dap.terminate, "termnate" },
     ["<F9>"] = { "<cmd>PBToggleBreakpoint<cr>", "toggle breakpoint" },
     ["<F11>"] = { dap.step_into, "step into" },
@@ -104,10 +124,13 @@ wk.register({
 vim.keymap.set({ "n", "x" }, "<leader>sr", function()
     require("ssr").open()
 end)
+
 wk.register({
     y = { '"+y', "yank to system clipboard" },
     p = { '"+p', "put from system clipboard" },
+    P = { '"+P', "put before cursor from system clipboard" },
     d = { '"+d', "delete to system clipboard" },
+    x = { '"+x', "delete char to system clipboard" },
 }, { prefix = "<leader>", silent = false, mode = { "n", "v", "x" } })
 
 wk.register({

@@ -1,3 +1,11 @@
+local function autopairs()
+    local npairs = require("nvim-autopairs")
+
+    npairs.setup({
+        check_ts = true,
+    })
+end
+
 local function ufo()
     vim.o.foldcolumn = "1" -- '0' is not bad
     vim.o.foldlevel = 99
@@ -34,7 +42,7 @@ local function hop()
 end
 
 local function session()
-    require("session").setup({})
+    require("session").setup({ silent_restore = false })
     require("session").register_hook("pre_save", "close_all_floating_wins", function()
         for _, win in ipairs(vim.api.nvim_list_wins()) do
             local config = vim.api.nvim_win_get_config(win)
@@ -46,6 +54,7 @@ local function session()
 end
 
 local function comment()
+    ---@diagnostic disable-next-line: missing-fields
     require("Comment").setup({
         pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
     })
@@ -71,16 +80,16 @@ return {
         build = ":TSUpdate",
         config = require("plugins.editor.treesitter"),
     },
-    { "andymass/vim-matchup", opts = {} },
     { "nvim-treesitter/nvim-treesitter-refactor" },
     { "nvim-treesitter/nvim-treesitter-textobjects" },
+    { "nvim-treesitter/nvim-treesitter-context", opts = { max_lines = 1 } },
+    { "andymass/vim-matchup", opts = {} },
+    { "RRethy/nvim-treesitter-endwise" },
     -- autopairs
     {
         "windwp/nvim-autopairs",
         event = "InsertEnter",
-        opts = {
-            check_ts = true,
-        },
+        opts = autopairs,
     },
     "windwp/nvim-ts-autotag",
     -- fold
@@ -97,7 +106,13 @@ return {
             "nvim-treesitter/nvim-treesitter",
             "nvim-treesitter/nvim-treesitter-textobjects",
         },
-        config = true,
+        opts = {
+            surrounds = {
+                ["("] = {
+                    add = { "(", ")" },
+                },
+            },
+        },
     },
     -- annotation gen
     {
@@ -114,16 +129,12 @@ return {
         dependencies = { "nvim-lua/plenary.nvim" },
         config = true,
     },
-
     -- git
     { "lewis6991/gitsigns.nvim", config = gitsigns },
     { "sindrets/diffview.nvim" },
-    -- terminal
-    { "AbaoFromCUG/terminal.nvim" },
     -- keymap
     {
         "folke/which-key.nvim",
-        lazy = true,
         config = true,
     },
 
@@ -137,5 +148,15 @@ return {
     {
         "AbaoFromCUG/session.nvim",
         config = session,
+    },
+
+    -- project-local config
+    {
+        "folke/neoconf.nvim",
+        config = function()
+            require("neoconf").setup({
+                -- override any of the default settings here
+            })
+        end,
     },
 }

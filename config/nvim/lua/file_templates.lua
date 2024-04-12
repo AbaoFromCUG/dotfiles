@@ -1,23 +1,24 @@
 local M = {}
 
-local Path = require("plenary.path")
-local a = require("plenary.async")
+local Path = require("pathlib")
+local nio = require("nio")
 local fn = vim.fn
-local uv = vim.uv
 
 local function read_file(file)
-    local _, fd = a.uv.fs_open(file, "r", 438)
-    local _, stat = a.uv.fs_fstat(fd)
-    local content = uv.fs_read(fd, stat.size, 0)
-    a.uv.fs_close(fd)
+    local open_err, fd = nio.uv.fs_open(file, "r", 438)
+    assert(not open_err, open_err)
+    local stat_err, stat = nio.uv.fs_fstat(fd)
+    assert(not stat_err, stat_err)
+    local _, content = nio.uv.fs_read(fd, stat.size, 0)
+    nio.uv.fs_close(fd)
     return content
 end
 
 local function write_file(path, content)
-    path = Path:new(path)
-    path:parent():mkdir({ parents = true, exist_ok = true })
-    local _, fd = a.uv.fs_open(path:absolute(), "w", 438)
-    local err, _ = a.uv.fs_write(fd, content)
+    path = Path(path)
+    path:parent():mkdir(Path.permission(""), true)
+    local _, fd = nio.uv.fs_open(path:absolute(), "w", 438)
+    local err, _ = nio.uv.fs_write(fd, content)
     assert(not err, err)
 end
 
@@ -26,22 +27,10 @@ local function load_template_config(config_path)
 end
 
 local builtin_config = {
-    user_name = fn.expand("$USERNAME"),
+    user_name = vim.fn.expand("$USERNAME"),
 }
 
 M.template_configs = {}
-
-local async_select = a.wrap(function(items, opts, callback)
-    vim.schedule_wrap(function()
-        vim.ui.select(items, opts, callback)
-    end)()
-end, 3)
-
-local async_input = a.wrap(function(opts, on_confirm)
-    vim.schedule_wrap(function()
-        vim.ui.input(opts, on_confirm)
-    end)()
-end, 2)
 
 local function choice_options(config)
     local result = {}
@@ -51,10 +40,10 @@ local function choice_options(config)
     if config.options then
         for _, option in ipairs(config.options) do
             if option.options then
-                local selected = async_select(option.options, { prompt = option.name .. ": " })
+                local selected = nio.ui.select(option.options, { prompt = option.name .. ": " })
                 result[option.id] = selected or option.default_value
             else
-                local inputed = async_input({ prompt = option.name .. ": ", default = option.default_value })
+                local inputed = nio.ui.input({ prompt = option.name .. ": ", default = option.default_value })
                 result[option.id] = inputed or option.default_value
             end
         end
@@ -64,7 +53,7 @@ end
 
 local function refresh_templates()
     local config_root = Path:new(fn.stdpath("config"))
-    local templates_root = config_root:joinpath("share", "templates")
+    local templates_root = config_root / "share" / "templates"
     local template_list = fn.split(fn.globpath(templates_root:absolute() .. "/*/", "template.json"), "\n")
     for _, config_path in pairs(template_list) do
         local config = load_template_config(config_path)
@@ -118,7 +107,7 @@ function M.create(_base_path)
         local config_path = Path:new(item.path)
         local write_tasks = {}
         for _, output in ipairs(item.config.output_files) do
-            local source_path = config_path:parent():joinpath(output.from):absolute()
+            local source_path = config_path:parent():child(output.from):absolute()
             local file_content = read_file(source_path)
             local expand_content = expand_config_variables(options, file_content)
 

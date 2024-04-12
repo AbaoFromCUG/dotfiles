@@ -81,9 +81,10 @@ return function()
                     neopyter = "[Neopyter]",
                 },
                 symbol_map = {
-                    ["Magic"] = "🪄",
-                    ["Path"] = "📁",
-                    ["Dict key"] = "🔑",
+                    ["String"]="󰉿",
+                    ["Magic"] = "",
+                    ["Path"] = "󰉋",
+                    ["Dict key"] = "󰌋",
                     ["Instance"] = "󱃻",
                     ["Statement"] = "󱇯",
                 },

@@ -6,4 +6,6 @@ return {
     "tami5/sqlite.lua",
     "nvim-tree/nvim-web-devicons",
     "MunifTanjim/nui.nvim",
+    "pysan3/pathlib.nvim",
+    "AbaoFromCUG/websocket.nvim",
 }

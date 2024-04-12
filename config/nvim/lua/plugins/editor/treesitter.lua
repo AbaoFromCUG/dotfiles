@@ -12,6 +12,8 @@ return function()
     local parser_path = vim.fn.stdpath("data") .. "/ts-parsers"
     vim.opt.runtimepath:append(parser_path)
 
+    vim.api.nvim_set_hl(0, "@attribute_ref_value.vue", { link = "@variable" })
+
     require("nvim-treesitter.configs").setup({
         incremental_selection = {
             enable = true,
@@ -68,6 +70,9 @@ return function()
             enable = true,
         },
         autotag = {
+            enable = true,
+        },
+        endwise = {
             enable = true,
         },
         matchup = {

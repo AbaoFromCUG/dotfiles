@@ -23,8 +23,8 @@ local function mason_lspconfig()
             "neocmake",
             "html",
             "cssls",
-            "tsserver",
-            "volar",
+            -- "tsserver",
+            -- "volar",
             "texlab",
             "marksman",
             "taplo",
@@ -166,14 +166,24 @@ return {
     },
     {
         "nvim-neorg/neorg",
+        cmd = { "Neorg" },
         version = "v7.0.0",
         config = neorg,
     },
     {
         "SUSTech-data/neopyter",
+        -- branch="abao/websocket2",
+        dev=true,
+        cmd = { "Neopyter" },
+        ft = { "python" },
+        lazy = true,
         opts = {
             remote_address = "127.0.0.1:9001",
             auto_attach = true,
+            -- rpc_client = "websocket_server",
+            on_attach = function(buf)
+                require("keymap.notebookbuf")(buf)
+            end,
             highlight = {
                 enable = true,
                 shortsighted = false,
@@ -192,10 +202,6 @@ return {
     {
         "luckasRanarison/tailwind-tools.nvim",
         dependencies = { "nvim-treesitter/nvim-treesitter" },
-        opts = {
-            conceal = {
-                enabled = true,
-            },
-        },
+        opts = {},
     },
 }
