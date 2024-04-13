@@ -31,6 +31,14 @@ local function smart_run()
     end
 end
 
+local function smart_format()
+    vim.lsp.buf.format({
+        filter = function(client)
+            return client.name ~= "typescript-tools"
+        end,
+    })
+end
+
 wk.register({
     ["<leader>"] = {
         f = {
@@ -96,16 +104,7 @@ wk.register({
             },
         },
 
-        f = {
-            function()
-                vim.lsp.buf.format({
-                    filter = function(client)
-                        return client.name ~= "tsserver"
-                    end,
-                })
-            end,
-            "format",
-        },
+        f = { smart_format, "format" },
     },
 
     ["<F5>"] = { smart_run, "run" },

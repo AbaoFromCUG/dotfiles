@@ -11,21 +11,17 @@ yay:
     - base
     - base-devel
     - grub
-    - pkgconf
     - yay
-    - fakeroot
     - exfat-utils
-    - autoconf
     - man-db
-    - parted
-    - archlinuxcn-keyring
     # desktop environment
     - lemurs-git
     - hyprland
     - hyprpaper
     - hyprpicker
-    - swaylock
-    - swayidle
+    - hypridle
+    - hyprlock
+    - xdg-desktop-portal-hyprland
     - polkit-gnome
     - wofi
     - libinput-gestures
@@ -34,9 +30,11 @@ yay:
     - conky
     - cava
     - dunst
+    - wl-clipboard
     # input method
     - fcitx5-configtool
     - fcitx5-gtk
+    - fcitx5-qt
     - fcitx5-pinyin-zhwiki
     - fcitx5-chinese-addons
     - fcitx5-breeze
@@ -63,6 +61,10 @@ yay:
     - zoxide
     - docker
     - docker-compose
+    # screenshort
+    - slurp
+    - grimblast-git
+    - ksnip
     # language and compiler
     - cmake
     - ninja
@@ -74,12 +76,9 @@ yay:
     - rustup
     - go
     # editor
-    - android-studio
-    - neovim
-    - visual-studio-code-bin
+    - neovim-git
     - ripgrep
     - glow
-    - blender
     # fonts
     - noto-fonts-emoji
     - ttf-hack-nerd
@@ -92,25 +91,19 @@ yay:
     - firefox
     - wps-office
     - feishu-bin
-    - hexchat
-    - slurp
-    - grimblast-git
-    - ksnip
     - gimp
     - telegram-desktop
-    - qbittorrent
     - krita
     - zotero-beta-bin
     - linuxqq
     # audio and media
+    - pipewire-pulse
     - mpd
     - mpd-mpris
     - playerctl
     - pavucontrol
     - ario
     - vlc
-    - obs-studio
-    - wlrobs-hg
     - amberol
     # misc
     - pkgfile
@@ -119,7 +112,6 @@ yay:
     - zathura
     - papirus-icon-theme
     - vial-appimage
-    - rustdesk
 winget:
   - Neovim.Neovim
   - Kitware.CMake
@@ -133,6 +125,7 @@ winget:
   - GnuWin32.Make
 npm:
   - neovim
+  - "@vue/typescript-plugin"
 pip:
   - pynvim
 cargo:

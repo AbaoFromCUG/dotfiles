@@ -1,11 +1,10 @@
-// vim: filetype=jsonc
 [
     {
-        "layer": "top", // Waybar at top layer
+        "layer": "top",
         "output": "DP-1",
         "margin": "5 10 0 10",
         "include": [
-            "~/.config/waybar/modules"
+            "~/.config/waybar/modules.jsonc"
         ],
         "modules-left": [
             "hyprland/workspaces",
@@ -49,40 +48,4 @@
             "sort-by-number": true
         },
     },
-    {
-        "layer": "top", // Waybar at top layer
-        "output": "HDMI-A-1",
-        "margin": "5 10 0 10",
-        "include": [
-            "~/.config/waybar/modules"
-        ],
-        "modules-left": [
-            "hyprland/workspaces",
-            "hyprland/submap",
-        ],
-        "modules-center": [
-            "clock",
-            "mpris",
-        ],
-        "modules-right": [],
-        "hyprland/workspaces": {
-            "format": "{icon}",
-            "on-click": "activate",
-            "persistent-workspaces": {
-                "6": [],
-                "7": [],
-                "8": []
-            },
-            "format-icons": {
-                "6": "",
-                "7": "",
-                "8": "",
-                "9": "󰢹",
-                "urgent": "",
-                "active": "",
-                "default": ""
-            },
-            "sort-by-number": true
-        },
-    }
 ]

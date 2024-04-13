@@ -79,7 +79,7 @@ end
 local function noice()
     require("noice").setup({
         messages = {
-            enabled = true,
+            enabled = false,
             -- view = "popup",
             -- view_error = false,
             -- view_warn = nil,
@@ -96,11 +96,16 @@ local function noice()
         presets = {
             bottom_search = true,
         },
-        -- redirect = {
-        --     view = "popup",
-        --     filter = { event = "msg_show" },
-        -- },
         routes = {
+            {
+                filter = {
+                    event = "msg_show",
+                    any = {
+                        { find = "Type number" },
+                    },
+                },
+                view = "popup",
+            },
             {
                 filter = {
                     event = "msg_show",

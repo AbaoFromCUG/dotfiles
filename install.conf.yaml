@@ -32,15 +32,6 @@
       description: Download wallpapers
       quiet: true
     - command: >
-        if [ ! -d ~/.pyenv ]; then
-
-          git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-          cd ~/.pyenv && src/configure && make -C src
-        fi
-
-      description: Install pyenv
-      quiet: true
-    - command: >
         if [ ! -d ~/.tmux ] || [ ! -f ~/.tmux.conf ]; then
           if [[ -f ~/.tmux.conf ]]; then
             mv ~/.tmux.conf /tmp/tmux.conf.bak

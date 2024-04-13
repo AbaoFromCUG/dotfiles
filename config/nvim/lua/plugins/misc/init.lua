@@ -1,54 +1,3 @@
-local function mason()
-    require("mason").setup({
-        ui = {
-            icons = {
-                package_installed = "✓",
-                package_pending = "➜",
-                package_uninstalled = "✗",
-            },
-        },
-    })
-end
-
-local function mason_lspconfig()
-    require("mason-lspconfig").setup({
-        ensure_installed = {
-            "lua_ls",
-            "pyright",
-            "vimls",
-            "bashls",
-            "clangd",
-            "jsonls",
-            "yamlls",
-            "neocmake",
-            "html",
-            "cssls",
-            -- "tsserver",
-            -- "volar",
-            "texlab",
-            "marksman",
-            "taplo",
-            "ruff_lsp",
-            "tailwindcss",
-        },
-        automatic_installation = true,
-    })
-end
-
-local function mason_dap()
-    require("mason-nvim-dap").setup({
-        ensure_installed = { "cppdbg" },
-        automatic_installation = true,
-    })
-end
-
-local function mason_null_ls()
-    require("mason-null-ls").setup({
-        ensure_installed = {},
-        automatic_installation = true,
-    })
-end
-
 local function cmake()
     -- register command
     require("cmake-tools").setup({
@@ -116,33 +65,8 @@ local function tex()
 end
 
 return {
-    -- installer
-    { "williamboman/mason.nvim", config = mason },
-    {
-        "williamboman/mason-lspconfig.nvim",
-        dependencies = "mason.nvim",
-        config = mason_lspconfig,
-    },
-    {
-        "jay-babu/mason-nvim-dap.nvim",
-        dependencies = "mason.nvim",
-        config = mason_dap,
-    },
-    {
-        "jay-babu/mason-null-ls.nvim",
-        event = { "BufReadPre", "BufNewFile" },
-        dependencies = {
-            "williamboman/mason.nvim",
-            "nvimtools/none-ls.nvim",
-        },
-        config = mason_null_ls,
-    },
     {
         "AbaoFromCUG/cmake-tools.nvim",
-    },
-    {
-        "AbaoFromCUG/rust-tools.nvim",
-        opts = {},
     },
     { "Saecki/crates.nvim", opts = {} },
     {
@@ -173,7 +97,7 @@ return {
     {
         "SUSTech-data/neopyter",
         -- branch="abao/websocket2",
-        dev=true,
+        -- dev = true,
         cmd = { "Neopyter" },
         ft = { "python" },
         lazy = true,
@@ -204,4 +128,5 @@ return {
         dependencies = { "nvim-treesitter/nvim-treesitter" },
         opts = {},
     },
+    { "lambdalisue/suda.vim" },
 }

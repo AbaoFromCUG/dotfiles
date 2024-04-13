@@ -47,6 +47,8 @@ end
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
+vim.lsp.set_log_level("debug")
+
 if not vim.uv.fs_stat(lazypath) then
     vim.fn.system({
         "git",
@@ -54,10 +56,7 @@ if not vim.uv.fs_stat(lazypath) then
         "--filter=blob:none",
         "https://github.com/folke/lazy.nvim.git",
         "--branch=stable", -- latest stable release
-        lazypath,
-    })
-end
-vim.opt.rtp:prepend(lazypath)
+        lazypath, }) end vim.opt.rtp:prepend(lazypath)
 
 local opts = {
     dev = {

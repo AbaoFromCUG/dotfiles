@@ -1,11 +1,11 @@
 local util = require("lspconfig.util")
+local Path = require("pathlib")
 
 local root_files = {
     ".qmlls.ini",
     "CMakeLists.txt",
 }
 return function(config)
-    local Path = require("plenary.path")
     local fn = vim.fn
     local qmlls_paths = vim.split(fn.globpath("/opt/Qt/", "*/*/bin/qmlls"), "\n", {})
     local qmlls_path
@@ -19,7 +19,7 @@ return function(config)
     local cmake_project = vim.fn.getcwd() .. "/build"
 
     for _, qmldir_file in ipairs(fn.split(fn.globpath(cmake_project, "**/*/qmldir"), "\n")) do
-        local path = Path:new(qmldir_file)
+        local path = Path(qmldir_file)
         path = path:parent()
         while path:absolute() ~= build_path:absolute() do
             local qmlmoule_dir = path:absolute()

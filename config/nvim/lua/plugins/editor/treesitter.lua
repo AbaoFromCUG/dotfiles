@@ -33,6 +33,7 @@ return function()
         -- one of "all", "maintained" (parsers with maintainers), or a list of languages
         ensure_installed = {
             "vim",
+            "vimdoc",
             "lua",
             "python",
             "typescript",
@@ -52,7 +53,7 @@ return function()
             "css",
             "vue",
             "tsx",
-            "latex",
+            -- "latex",
             "wgsl",
             "regex",
         },

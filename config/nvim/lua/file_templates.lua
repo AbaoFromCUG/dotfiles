@@ -2,17 +2,6 @@ local M = {}
 
 local Path = require("pathlib")
 local nio = require("nio")
-local fn = vim.fn
-
-local function read_file(file)
-    local open_err, fd = nio.uv.fs_open(file, "r", 438)
-    assert(not open_err, open_err)
-    local stat_err, stat = nio.uv.fs_fstat(fd)
-    assert(not stat_err, stat_err)
-    local _, content = nio.uv.fs_read(fd, stat.size, 0)
-    nio.uv.fs_close(fd)
-    return content
-end
 
 local function write_file(path, content)
     path = Path(path)
@@ -22,12 +11,17 @@ local function write_file(path, content)
     assert(not err, err)
 end
 
+---local json config
+---@param config_path string
+---@return unknown
 local function load_template_config(config_path)
-    return vim.json.decode(read_file(config_path))
+    local file = nio.file.open(config_path, "r")
+    local content = file.read()
+    return vim.json.decode(content)
 end
 
 local builtin_config = {
-    user_name = vim.fn.expand("$USERNAME"),
+    user_name = nio.fn.expand("$USERNAME"),
 }
 
 M.template_configs = {}
@@ -37,6 +31,7 @@ local function choice_options(config)
     for key, value in pairs(builtin_config) do
         result[key] = value
     end
+
     if config.options then
         for _, option in ipairs(config.options) do
             if option.options then
@@ -52,15 +47,13 @@ local function choice_options(config)
 end
 
 local function refresh_templates()
-    local config_root = Path:new(fn.stdpath("config"))
-    local templates_root = config_root / "share" / "templates"
-    local template_list = fn.split(fn.globpath(templates_root:absolute() .. "/*/", "template.json"), "\n")
-    for _, config_path in pairs(template_list) do
-        local config = load_template_config(config_path)
+    local templ_root = Path.stdpath("config", "share", "templates")
+    -- templ_root:glob
+    for config_path in templ_root:glob("./*/template.json") do
+        local config = load_template_config(tostring(config_path))
         table.insert(M.template_configs, { path = config_path, config = config })
     end
 end
-
 local function str_replace(text, old, new)
     old = old:gsub("[%^%$%(%)%%%.%[%]%*%+%-%?]", "%%%1")
     return text:gsub(old, new)
@@ -89,22 +82,25 @@ end
 
 --
 function M.create(_base_path)
-    local base_path = Path:new(_base_path)
-    a.run(function()
+    nio.run(function()
+        local base_path = Path(_base_path)
         if #M.template_configs <= 0 then
             refresh_templates()
         end
-        local item = async_select(M.template_configs, {
+
+        nio.scheduler()
+        local item = nio.ui.select(M.template_configs, {
             prompt = "Select templates",
             format_item = function(item)
                 return item.config.name
             end,
         })
+        print("select:", item)
         if not item then
             return
         end
         local options = choice_options(item.config)
-        local config_path = Path:new(item.path)
+        local config_path = Path(item.path)
         local write_tasks = {}
         for _, output in ipairs(item.config.output_files) do
             local source_path = config_path:parent():child(output.from):absolute()
@@ -122,7 +118,10 @@ function M.create(_base_path)
         for path, content in pairs(write_tasks) do
             write_file(path, content)
         end
-    end, function() end)
+    end, function(v, e)
+        print(vim.inspect(v), e)
+        assert(v, e)
+    end)
 end
 
 return M

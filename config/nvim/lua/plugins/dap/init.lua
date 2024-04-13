@@ -28,7 +28,6 @@ return {
     },
     {
         "AbaoFromCUG/integrator.nvim",
-        dev = true,
         opts = {
             dap = { enabled = true },
             session = { enabled = true },
@@ -43,7 +42,7 @@ return {
     { "theHamsta/nvim-dap-virtual-text", config = true },
     { "Weissle/persistent-breakpoints.nvim", config = true },
 
-    { "stevearc/overseer.nvim", dev = true, config = overseer },
+    { "stevearc/overseer.nvim", config = overseer },
     {
         "nvim-neotest/neotest",
         dependencies = {
@@ -53,5 +52,5 @@ return {
         },
         config = neotest,
     },
-    { "nvim-neotest/neotest-plenary", dev = true },
+    { "nvim-neotest/neotest-plenary" },
 }

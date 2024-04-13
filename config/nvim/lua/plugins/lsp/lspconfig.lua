@@ -19,20 +19,19 @@ return function()
             on_attach = on_attach,
         }
     end
-    vim.defer_fn(function()
-        require("mason-lspconfig").setup_handlers({
-            function(server_name)
-                local server = lspconfig[server_name]
-                local config = make_config()
-                local module_name = "plugins.lsp.server." .. server_name
-                local success, hook = pcall(require, module_name)
-                if success then
-                    hook(config)
-                end
-                server.setup(config)
-            end,
-            -- don't setup volar
-            ["volar"] = function() end,
-        })
-    end, 100)
+    require("mason-lspconfig").setup_handlers({
+        function(server_name)
+            local server = lspconfig[server_name]
+            local config = make_config()
+            local module_name = "plugins.lsp.server." .. server_name
+            local success, hook = pcall(require, module_name)
+            if success then
+                hook(config)
+            end
+            server.setup(config)
+        end,
+        -- don't setup volar
+        ["volar"] = function() end,
+        ["tsserver"] = function() end,
+    })
 end

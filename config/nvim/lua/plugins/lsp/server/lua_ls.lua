@@ -14,9 +14,6 @@ return function(config)
 
     config.settings = vim.tbl_deep_extend("force", config.settings or {}, {
         Lua = {
-            workspace = {
-                -- library = vim_lib
-            },
             diagnostics = {
                 -- Get the language server to recognize the `vim` global
                 globals = {

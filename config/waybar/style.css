@@ -1,7 +1,8 @@
 * {
     border: none;
     border-radius: 0;
-    font-family: Liberation Mono;
+    /* font-family: Liberation Mono; */
+    font-family: Hack Nerd Font Mono;
     min-height: 20px;
 }
 
