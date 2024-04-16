@@ -1,7 +1,6 @@
 local api = require("nvim-tree.api")
 local which_key = require("which-key")
 local builtin = require("telescope.builtin")
-local file_templates = require("file_templates")
 
 local function get_available_path()
     local node = api.tree.get_node_under_cursor()
@@ -13,7 +12,7 @@ local function get_available_path()
 end
 
 local create_template = function()
-    file_templates.create(get_available_path())
+    -- (get_available_path())
 end
 
 local find_file = function()

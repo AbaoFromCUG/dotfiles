@@ -50,14 +50,6 @@ local function symbols_outline()
     })
 end
 
-local function dressing()
-    require("dressing").setup({
-        select = {
-            enabled = true,
-        },
-    })
-end
-
 local function statuscol()
     -- consult https://github.com/luukvbaal/statuscol.nvim/issues/27
     -- this will fix fold numbers
@@ -79,7 +71,7 @@ end
 local function noice()
     require("noice").setup({
         messages = {
-            enabled = false,
+            enabled = true,
             -- view = "popup",
             -- view_error = false,
             -- view_warn = nil,
@@ -101,20 +93,12 @@ local function noice()
                 filter = {
                     event = "msg_show",
                     any = {
-                        { find = "Type number" },
-                    },
-                },
-                view = "popup",
-            },
-            {
-                filter = {
-                    event = "msg_show",
-                    any = {
                         { find = "%d+L, %d+B" },
                         { find = "; after #%d+" },
                         { find = "; before #%d+" },
                         { find = "%d fewer lines" },
                         { find = "%d more lines" },
+                        { find = "Already at oldest change" },
                     },
                 },
                 opts = { skip = true },
@@ -152,6 +136,16 @@ return {
         dependencies = {
             "MunifTanjim/nui.nvim",
             "rcarriga/nvim-notify",
+        },
+    },
+    {
+
+        "stevearc/dressing.nvim",
+        event = "VeryLazy",
+        opts = {
+            select = {
+                enabled = true,
+            },
         },
     },
 

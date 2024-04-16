@@ -14,10 +14,17 @@ local function neotest()
     require("neotest").setup({
         adapters = {
             require("neotest-plenary"),
+            require("neotest-python"),
+            require("neotest-jest")({
+                jestCommand = "npm test --",
+                jestConfigFile = "custom.jest.config.ts",
+                env = { CI = true },
+                cwd = function(path)
+                    return vim.fn.getcwd()
+                end,
+            }),
         },
-        consumers = {
-            overseer = require("neotest.consumers.overseer"),
-        },
+        consumers = { overseer = require("neotest.consumers.overseer") },
     })
 end
 
@@ -42,15 +49,19 @@ return {
     { "theHamsta/nvim-dap-virtual-text", config = true },
     { "Weissle/persistent-breakpoints.nvim", config = true },
 
-    { "stevearc/overseer.nvim", config = overseer },
+    { "stevearc/overseer.nvim", dev = true, config = overseer },
     {
         "nvim-neotest/neotest",
         dependencies = {
-            "nvim-neotest/nvim-nio",
-            "nvim-lua/plenary.nvim",
-            "nvim-treesitter/nvim-treesitter",
+            "nvim-nio",
+            "plenary.nvim",
+            "nvim-treesitter",
+            "neotest-jest",
+            "neotest-plenary",
         },
         config = neotest,
     },
-    { "nvim-neotest/neotest-plenary" },
+    { "nvim-neotest/neotest-plenary", dev = true },
+    { "nvim-neotest/neotest-jest" },
+    "nvim-neotest/neotest-python",
 }

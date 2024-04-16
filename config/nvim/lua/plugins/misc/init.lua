@@ -77,7 +77,10 @@ return {
     {
         "iamcco/markdown-preview.nvim",
         cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-        build = "cd app && yarn install",
+        -- build = "cd app && yarn install",
+        build = function()
+            vim.fn["mkdp#util#install"]()
+        end,
         init = function()
             vim.g.mkdp_filetypes = { "markdown" }
         end,
@@ -96,20 +99,18 @@ return {
     },
     {
         "SUSTech-data/neopyter",
-        -- branch="abao/websocket2",
-        -- dev = true,
         cmd = { "Neopyter" },
         ft = { "python" },
         lazy = true,
+        enable = false,
         opts = {
             remote_address = "127.0.0.1:9001",
             auto_attach = true,
-            -- rpc_client = "websocket_server",
             on_attach = function(buf)
                 require("keymap.notebookbuf")(buf)
             end,
             highlight = {
-                enable = true,
+                enable = false,
                 shortsighted = false,
             },
         },

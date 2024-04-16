@@ -55,7 +55,7 @@ return {
         config = require("plugins.lsp.lspconfig"),
         dependencies = {
             "neodev.nvim",
-            -- "neoconf.nvim"
+            "neoconf.nvim"
         },
     },
     {
