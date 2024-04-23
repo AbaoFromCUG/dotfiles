@@ -14,6 +14,7 @@ return {
     {
         "williamboman/mason-lspconfig.nvim",
         dependencies = "mason.nvim",
+        priority = 100,
         opts = {
             ensure_installed = {
                 "lua_ls",

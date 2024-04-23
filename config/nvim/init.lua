@@ -47,7 +47,6 @@ end
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
-vim.lsp.set_log_level("debug")
 
 if not vim.uv.fs_stat(lazypath) then
     vim.fn.system({

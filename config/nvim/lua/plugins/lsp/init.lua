@@ -53,9 +53,11 @@ return {
     {
         "neovim/nvim-lspconfig",
         config = require("plugins.lsp.lspconfig"),
+        event = "VeryLazy",
+        -- module = false,
         dependencies = {
             "neodev.nvim",
-            "neoconf.nvim"
+            "neoconf.nvim",
         },
     },
     {

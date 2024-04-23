@@ -70,15 +70,14 @@ yay:
     - ninja
     - assimp
     - eigen
-    - pyenv
-    - pyenv-virtualenv
     - nvm
     - rustup
     - go
+    - tk
     # editor
     - neovim-git
     - ripgrep
-    - glow
+    - fzf
     # fonts
     - noto-fonts-emoji
     - ttf-hack-nerd

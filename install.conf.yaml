@@ -23,6 +23,11 @@
       if: '[ $(uname) != Linux ]'
 - shell:
     - command: >
+        curl https://pyenv.run | bash
+        git clone https://github.com/real-yfprojects/pyenv-link.git $(pyenv root)/plugins/pyenv-link
+      description: "Install pyenv"
+      quite: true
+    - command: >
         if [ ! -d ~/Pictures/wallpapers/ ]; then
           mkdir ~/Pictures/wallpapers/ -p
           wget https://gitlab.manjaro.org/artwork/wallpapers/wallpapers-2018/-/raw/master/nature-3058859.jpg -O ~/Pictures/wallpapers/nature-3058859.jpg

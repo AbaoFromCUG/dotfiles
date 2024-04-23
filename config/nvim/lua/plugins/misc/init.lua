@@ -70,11 +70,6 @@ return {
     },
     { "Saecki/crates.nvim", opts = {} },
     {
-        "ellisonleao/glow.nvim",
-        ft = "markdown",
-        opts = { style = "dark", width = 120 },
-    },
-    {
         "iamcco/markdown-preview.nvim",
         cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
         -- build = "cd app && yarn install",

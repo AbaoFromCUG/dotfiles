@@ -77,6 +77,7 @@ wk.register({
         },
         [","] = {
             name = "settings",
+            [","] = { "<cmd>Neoconf local<cr>", "local settings" },
             m = { "<cmd>Telescope filetypes<cr>", "languages" },
             c = { "<cmd>Telescope colorscheme<cr>", "colorscheme" },
         },

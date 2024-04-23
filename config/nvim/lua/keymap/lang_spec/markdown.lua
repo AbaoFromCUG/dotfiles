@@ -3,7 +3,7 @@ local wk = require("which-key")
 return function(bufno)
     wk.register({
         ["<space>"] = {
-            ["<space>"] = { "<cmd>Glow<cr>", "preview markdown" },
+            ["<space>"] = { "<cmd>MarkdownPreview<cr>", "preview markdown" },
         },
     }, {
         buffer = bufno,
