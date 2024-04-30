@@ -61,7 +61,7 @@ return {
         },
         config = neotest,
     },
-    { "nvim-neotest/neotest-plenary", dev = true },
+    { "AbaoFromCUG/neotest-plenary", branch="abao/fix_async" },
     { "nvim-neotest/neotest-jest" },
     "nvim-neotest/neotest-python",
 }

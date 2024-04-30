@@ -125,4 +125,6 @@ return {
         opts = {},
     },
     { "lambdalisue/suda.vim" },
+    { "h-hg/fcitx.nvim" },
+    { "AbaoFromCUG/luals.nvim", config = true },
 }
