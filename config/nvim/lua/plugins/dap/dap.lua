@@ -34,4 +34,17 @@ return function()
     session.register_hook("post_restore", "restore_breakpoints", function()
         persistent_bp.load_breakpoints()
     end)
+
+    local function smart_run()
+        if dap.session() then
+            dap.continue()
+        else
+            dap.run_last()
+        end
+    end
+    vim.keymap.set({ "n", "i" }, "<F5>", smart_run, { desc = "run" })
+    vim.keymap.set({ "n", "i" }, "<F6>", dap.terminate, { desc = "terminate" })
+    vim.keymap.set({ "n", "i" }, "<F9>", "<cmd>PBToggleBreakpoint<cr>", { desc = "toggle breakpoint" })
+    vim.keymap.set({ "n", "i" }, "<F11>", dap.step_into, { desc = "step into" })
+    vim.keymap.set({ "n", "i" }, "<F12>", dap.step_over, { desc = "step over" })
 end

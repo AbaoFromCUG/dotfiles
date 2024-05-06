@@ -14,6 +14,10 @@ return function(config)
         tmux_keys = {
             -- pane
             {
+                key = "z",
+                action = act.TogglePaneZoomState,
+            },
+            {
                 key = "v",
                 action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
             },
@@ -66,7 +70,6 @@ return function(config)
                     act.ActivateKeyTable({ name = "resize_pane", timeout_milliseconds = 600, one_shot = false, until_unknow = true }),
                 }),
             },
-
             -- tab
             {
                 key = "c",

@@ -68,45 +68,6 @@ local function notify()
     vim.notify = require("notify")
 end
 
-local function noice()
-    require("noice").setup({
-        messages = {
-            enabled = true,
-            -- view = "popup",
-            -- view_error = false,
-            -- view_warn = nil,
-            view_history = "messages",
-        },
-        lsp = {
-            signature = {
-                enabled = false,
-            },
-            hover = {
-                enabled = false,
-            },
-        },
-        presets = {
-            bottom_search = true,
-        },
-        routes = {
-            {
-                filter = {
-                    event = "msg_show",
-                    any = {
-                        { find = "%d+L, %d+B" },
-                        { find = "; after #%d+" },
-                        { find = "; before #%d+" },
-                        { find = "%d fewer lines" },
-                        { find = "%d more lines" },
-                        { find = "Already at oldest change" },
-                    },
-                },
-                opts = { skip = true },
-            },
-        },
-    })
-end
-
 return {
     {
         "EdenEast/nightfox.nvim",
@@ -116,9 +77,19 @@ return {
     },
     -- color text colorizer, e.g. #5F9EA0 Aqua #91f
     { "NvChad/nvim-colorizer.lua", config = true },
-    { "akinsho/bufferline.nvim", config = require("plugins.ui.bufferline") },
+    {
+        "akinsho/bufferline.nvim",
+        config = require("plugins.ui.bufferline"),
+        lazy = true,
+        event = "VeryLazy",
+    },
     -- status line
-    { "hoob3rt/lualine.nvim", config = require("plugins.ui.lualine") },
+    {
+        "hoob3rt/lualine.nvim",
+        config = require("plugins.ui.lualine"),
+        lazy = true,
+        event = "VeryLazy",
+    },
     { "SmiteshP/nvim-navic", opts = {
         lsp = {
             auto_attach = true,
@@ -128,15 +99,11 @@ return {
     -- components
     { "rcarriga/nvim-notify", config = notify },
     -- lsp progress
-    -- { "j-hui/fidget.nvim", tag = "legacy", config = true },
     {
-        "folke/noice.nvim",
+        "j-hui/fidget.nvim",
+        config = true,
+        lazy = true,
         event = "VeryLazy",
-        config = noice,
-        dependencies = {
-            "MunifTanjim/nui.nvim",
-            "rcarriga/nvim-notify",
-        },
     },
     {
 
@@ -155,18 +122,19 @@ return {
 
     {
         "nvim-tree/nvim-tree.lua",
-        lazy = false,
         dependencies = {
             "nvim-tree/nvim-web-devicons",
         },
         config = require("plugins.ui.filetree"),
+        lazy = true,
+        event = "UIEnter",
     },
     { "simrat39/symbols-outline.nvim", config = symbols_outline },
     {
         "glepnir/dashboard-nvim",
-        event = "VimEnter",
         config = require("plugins.ui.dashboard"),
         dependencies = { "nvim-tree/nvim-web-devicons" },
+        event = "VimEnter",
     },
 
     -- terminal

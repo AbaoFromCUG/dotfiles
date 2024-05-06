@@ -1,9 +1,8 @@
 local wezterm = require("wezterm")
 
 local config = {
-    enable_wayland = true,
-    window_decorations = "RESIZE",
-    front_end = "WebGpu",
+    -- enable_wayland = false,
+    -- window_decorations = "RESIZE",
     font_size = 14,
     -- => == !=  😀
     font = wezterm.font_with_fallback({
@@ -18,6 +17,6 @@ config.status_update_interval = 500
 
 require("keymap")(config)
 require("components")(config)
-require("session")(config)
+-- require("session")(config)
 
 return config

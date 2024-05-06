@@ -1,25 +1,3 @@
-local function cmake()
-    -- register command
-    require("cmake-tools").setup({
-        cmake_build_directory = "build",
-        cmake_soft_link_compile_commands = false,
-        cmake_dap_configuration = { -- debug settings for cmake
-            name = "cpp",
-            type = "cppdbg",
-            request = "launch",
-            stopOnEntry = false,
-            runInTerminal = true,
-            console = "integratedTerminal",
-        },
-        cmake_always_use_terminal = false,
-        cmake_quickfix_opts = { -- quickfix settings for cmake, quickfix will be used when `cmake_always_use_terminal` is false
-            show = "only_on_error", -- "always", "only_on_error"
-            position = "belowright", -- "bottom", "top"
-            size = 10,
-        },
-    })
-end
-
 local function femaco()
     require("femaco").setup({
         create_tmp_filepath = function(filetype)
@@ -58,10 +36,6 @@ local function neorg()
             },
         },
     })
-end
-
-local function tex()
-    vim.g.vimtex_view_method = "zathura"
 end
 
 return {
@@ -110,7 +84,6 @@ return {
             },
         },
     },
-    { "lervag/vimtex", config = tex, ft = "tex" },
     { "rafcamlet/nvim-luapad" },
     {
         "glacambre/firenvim",
@@ -122,9 +95,11 @@ return {
     {
         "luckasRanarison/tailwind-tools.nvim",
         dependencies = { "nvim-treesitter/nvim-treesitter" },
+        ---@type TailwindTools.Option
         opts = {},
+        lazy = true,
     },
     { "lambdalisue/suda.vim" },
     { "h-hg/fcitx.nvim" },
-    { "AbaoFromCUG/luals.nvim", config = true },
+    { "AbaoFromCUG/luals.nvim", config = true, lazy = true },
 }

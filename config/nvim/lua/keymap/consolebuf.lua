@@ -2,9 +2,6 @@ local which_key = require("which-key")
 
 local function goto_define()
     local line = vim.api.nvim_get_current_line()
-    -- ...ugins/integrator.nvim/tests/integrator/settings_spec.lua:58: Function was never called with matching arguments
-    -- line:match(kk, init?)
-    print(line)
 end
 
 local line = "...ugins/integrator.nvim/tests/integrator/settings_spec.lua:58: Function was never called with matching arguments"

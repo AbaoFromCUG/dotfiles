@@ -26,30 +26,31 @@ local function neotest()
         },
         consumers = { overseer = require("neotest.consumers.overseer") },
     })
+    vim.keymap.set("n", "<space>tf", function()
+        neotest.run.run(vim.fn.expand("%"))
+    end, { desc = "test current file" })
+    vim.keymap.set("n", "<space>tt", function()
+        neotest.run.run()
+    end, { desc = "test nearest case" })
 end
 
 return {
     {
         "mfussenegger/nvim-dap",
         config = require("plugins.dap.dap"),
-    },
-    {
-        "AbaoFromCUG/integrator.nvim",
-        opts = {
-            dap = { enabled = true },
-            session = { enabled = true },
-            settings = { enabled = true },
-        },
+        lazy = true,
+        event = "VeryLazy",
     },
     {
         "rcarriga/nvim-dap-ui",
         dependencies = "nvim-dap",
         config = require("plugins.dap.dapui"),
+        lazy = true,
     },
-    { "theHamsta/nvim-dap-virtual-text", config = true },
-    { "Weissle/persistent-breakpoints.nvim", config = true },
+    { "theHamsta/nvim-dap-virtual-text", config = true, lazy = true },
+    { "Weissle/persistent-breakpoints.nvim", config = true, lazy = true, event = "VeryLazy" },
 
-    { "stevearc/overseer.nvim", dev = true, config = overseer },
+    { "stevearc/overseer.nvim", dev = true, config = overseer, lazy = true, event = "VeryLazy" },
     {
         "nvim-neotest/neotest",
         dependencies = {
@@ -60,8 +61,10 @@ return {
             "neotest-plenary",
         },
         config = neotest,
+        lazy = true,
+        event = "VeryLazy",
     },
-    { "AbaoFromCUG/neotest-plenary", branch="abao/fix_async" },
+    { "AbaoFromCUG/neotest-plenary", branch = "abao/fix_async" },
     { "nvim-neotest/neotest-jest" },
     "nvim-neotest/neotest-python",
 }

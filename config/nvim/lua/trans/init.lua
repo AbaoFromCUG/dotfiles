@@ -1,4 +1,3 @@
-
 local M = {}
 function M.trans_cursor_word()
     local word = vim.fn.expand("<cword>")

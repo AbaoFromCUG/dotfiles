@@ -53,7 +53,7 @@ return function()
             "css",
             "vue",
             "tsx",
-            -- "latex",
+            "latex",
             "wgsl",
             "regex",
         },
@@ -91,12 +91,6 @@ return function()
         refactor = {
             highlight_definitions = { enable = true },
             highlight_current_scope = { enable = false },
-            smart_rename = {
-                enable = true,
-                keymaps = {
-                    smart_rename = "grr",
-                },
-            },
             navigation = {
                 enable = true,
                 keymaps = {

@@ -78,12 +78,12 @@ return {
         "nvim-telescope/telescope.nvim",
         dependencies = { "nvim-lua/plenary.nvim" },
         config = require("plugins.editor.telescope"),
+        lazy = true,
     },
     {
         "nvim-telescope/telescope-fzf-native.nvim",
         build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
     },
-    { "nvim-telescope/telescope-dap.nvim" },
     { "nvim-telescope/telescope-symbols.nvim" },
     { "nvim-telescope/telescope-frecency.nvim" },
 
@@ -92,24 +92,34 @@ return {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
         config = require("plugins.editor.treesitter"),
+        lazy = true,
+        event = "VeryLazy",
     },
-    { "nvim-treesitter/nvim-treesitter-refactor" },
-    { "nvim-treesitter/nvim-treesitter-textobjects" },
-    { "nvim-treesitter/nvim-treesitter-context", opts = { max_lines = 1 } },
-    { "andymass/vim-matchup", opts = {} },
-    { "RRethy/nvim-treesitter-endwise" },
+    { "nvim-treesitter/nvim-treesitter-refactor", lazy = true },
+    { "nvim-treesitter/nvim-treesitter-textobjects", lazy = true },
+    {
+        "nvim-treesitter/nvim-treesitter-context",
+        opts = { max_lines = 1 },
+        lazy = true,
+        event = "VeryLazy",
+    },
+    { "andymass/vim-matchup", opts = {}, lazy = true },
+    { "RRethy/nvim-treesitter-endwise", lazy = true },
     -- autopairs
     {
         "windwp/nvim-autopairs",
         event = "InsertEnter",
         opts = autopairs,
+        lazy = true,
     },
-    "windwp/nvim-ts-autotag",
+    { "windwp/nvim-ts-autotag", lazy = true },
     -- fold
     {
         "kevinhwang91/nvim-ufo",
         dependencies = "kevinhwang91/promise-async",
         config = ufo,
+        lazy = true,
+        event = "VeryLazy",
     },
     -- surround edit
     {
@@ -132,11 +142,13 @@ return {
         "danymat/neogen",
         dependencies = "nvim-treesitter/nvim-treesitter",
         opts = { snippet_engine = "luasnip" },
+        lazy = true,
+        event = "VeryLazy",
     },
 
     -- comment
-    { "numToStr/Comment.nvim", config = comment },
-    "JoosepAlviste/nvim-ts-context-commentstring",
+    { "numToStr/Comment.nvim", config = comment, lazy = true, event = "VeryLazy" },
+    { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
     {
         "folke/todo-comments.nvim",
         dependencies = { "nvim-lua/plenary.nvim" },
@@ -161,12 +173,16 @@ return {
     {
         "AbaoFromCUG/session.nvim",
         config = session,
+        dependencies = { "nvim-treesitter" },
+        lazy = true,
+        event = "VimEnter",
     },
 
     -- project-local config
     {
         "folke/neoconf.nvim",
+        lazy = true,
         config = true,
     },
-    { "nvim-pack/nvim-spectre", config = _spectre },
+    { "nvim-pack/nvim-spectre", config = _spectre, lazy = true, event = "UIEnter" },
 }

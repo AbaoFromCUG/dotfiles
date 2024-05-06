@@ -34,7 +34,7 @@ end
 local function signature()
     local lsp_signature = require("lsp_signature")
     lsp_signature.setup({
-        floating_window_above_cur_line = false,
+        -- floating_window_above_cur_line = false,
     })
 end
 
@@ -53,20 +53,24 @@ return {
     {
         "neovim/nvim-lspconfig",
         config = require("plugins.lsp.lspconfig"),
-        event = "VeryLazy",
-        -- module = false,
         dependencies = {
             "neodev.nvim",
             "neoconf.nvim",
+            "luals.nvim",
         },
+        event = { "VeryLazy", "BufReadPre" },
+        lazy = true,
     },
     {
         "folke/neodev.nvim",
+        lazy = true,
         config = true,
     },
     {
         "pmizio/typescript-tools.nvim",
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+        lazy = true,
+        event = "VeryLazy",
         config = tstools,
     },
     -- completion engine
@@ -96,8 +100,9 @@ return {
     -- show signature
     {
         "ray-x/lsp_signature.nvim",
-        event = "VeryLazy",
         config = signature,
+        lazy = true,
+        event = "VeryLazy",
     },
     -- pictograms for lsp
     { "onsails/lspkind-nvim" },

@@ -14,7 +14,8 @@ return {
     {
         "williamboman/mason-lspconfig.nvim",
         dependencies = "mason.nvim",
-        priority = 100,
+        lazy = true,
+        event = "VeryLazy",
         opts = {
             ensure_installed = {
                 "lua_ls",
@@ -46,6 +47,7 @@ return {
             ensure_installed = { "cppdbg" },
             automatic_installation = true,
         },
+        lazy = true,
     },
     {
         "jay-babu/mason-null-ls.nvim",

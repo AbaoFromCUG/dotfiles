@@ -46,5 +46,4 @@ return function(bufnr)
         buffer = bufnr,
         silent = false,
     })
-
 end

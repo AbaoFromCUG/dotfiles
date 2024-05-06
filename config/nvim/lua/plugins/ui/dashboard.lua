@@ -1,5 +1,4 @@
 return function()
-    local builtin = require("telescope.builtin")
     local fn = vim.fn
 
     local function format_desc(name)
@@ -26,6 +25,7 @@ return function()
                     icon = "🔭",
                     desc = format_desc("Find File"),
                     action = function()
+                        local builtin = require("telescope.builtin")
                         builtin.find_files({})
                     end,
                     key = "f",
@@ -35,6 +35,7 @@ return function()
                     icon = "📖",
                     desc = format_desc("Recently opend files"),
                     action = function()
+                        local builtin = require("telescope.builtin")
                         builtin.oldfiles({})
                     end,
                     key = "h",
@@ -44,6 +45,7 @@ return function()
                     icon = "🔠",
                     desc = format_desc("Find words"),
                     action = function()
+                        local builtin = require("telescope.builtin")
                         builtin.live_grep({})
                     end,
                     key = "w",
@@ -53,6 +55,7 @@ return function()
                     icon = "📌",
                     desc = format_desc("Find marks"),
                     action = function()
+                        local builtin = require("telescope.builtin")
                         builtin.marks({})
                     end,
                     key = "m",
@@ -61,8 +64,7 @@ return function()
             },
             footer = {
                 string.format("🛸 loaded %d plugins", plugin_count),
-                tostring(vim.version())
-
+                tostring(vim.version()),
             },
         },
         preview = {

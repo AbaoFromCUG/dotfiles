@@ -14,3 +14,4 @@ config/mpd/playlists
 config/nvim/lazy-lock.json
 config/fish/fish_variables
 .python-version
+config/nvim/spell
