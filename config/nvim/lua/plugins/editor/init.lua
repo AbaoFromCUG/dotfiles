@@ -92,34 +92,39 @@ return {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
         config = require("plugins.editor.treesitter"),
+        dependencies = {
+            { "andymass/vim-matchup", opts = {}, lazy = true },
+            { "RRethy/nvim-treesitter-endwise", lazy = true },
+            { "nvim-treesitter/nvim-treesitter-refactor", lazy = true },
+            { "nvim-treesitter/nvim-treesitter-textobjects", lazy = true },
+            { "windwp/nvim-ts-autotag", lazy = true },
+        },
         lazy = true,
         event = "VeryLazy",
     },
-    { "nvim-treesitter/nvim-treesitter-refactor", lazy = true },
-    { "nvim-treesitter/nvim-treesitter-textobjects", lazy = true },
     {
         "nvim-treesitter/nvim-treesitter-context",
         opts = { max_lines = 1 },
+        dependencies = {
+            "nvim-treesitter",
+        },
         lazy = true,
         event = "VeryLazy",
     },
-    { "andymass/vim-matchup", opts = {}, lazy = true },
-    { "RRethy/nvim-treesitter-endwise", lazy = true },
     -- autopairs
     {
         "windwp/nvim-autopairs",
-        event = "InsertEnter",
+        -- event = "InsertEnter",
         opts = autopairs,
         lazy = true,
     },
-    { "windwp/nvim-ts-autotag", lazy = true },
     -- fold
     {
         "kevinhwang91/nvim-ufo",
         dependencies = "kevinhwang91/promise-async",
         config = ufo,
         lazy = true,
-        event = "VeryLazy",
+        -- event = "VeryLazy",
     },
     -- surround edit
     {

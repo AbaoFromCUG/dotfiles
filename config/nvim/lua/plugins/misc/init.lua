@@ -69,9 +69,6 @@ return {
     {
         "SUSTech-data/neopyter",
         cmd = { "Neopyter" },
-        ft = { "python" },
-        lazy = true,
-        enable = false,
         opts = {
             remote_address = "127.0.0.1:9001",
             auto_attach = true,
@@ -83,6 +80,9 @@ return {
                 shortsighted = false,
             },
         },
+        lazy = true,
+        ft = { "python" },
+        dev = true,
     },
     { "rafcamlet/nvim-luapad" },
     {
@@ -98,8 +98,14 @@ return {
         ---@type TailwindTools.Option
         opts = {},
         lazy = true,
+        ft = { "html", "typescript", "typescriptreact", "vue" },
     },
     { "lambdalisue/suda.vim" },
     { "h-hg/fcitx.nvim" },
-    { "AbaoFromCUG/luals.nvim", config = true, lazy = true },
+    {
+        "AbaoFromCUG/luals.nvim",
+        config = true,
+        dev = true,
+        lazy = true,
+    },
 }

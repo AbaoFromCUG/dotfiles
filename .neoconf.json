@@ -3,5 +3,13 @@
     "library": {
       "plugins": true
     }
+  },
+  "luals": {
+    "addons": [
+      "busted",
+      "md5",
+      "luassert",
+      "~/Documents/work/wezterm-luals-addon"
+    ]
   }
 }

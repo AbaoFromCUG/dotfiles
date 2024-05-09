@@ -60,9 +60,6 @@ return function()
         modules = {},
         highlight = {
             enable = true, -- false will disable the whole extension
-            disable = function(lang, bufnr)
-                return vim.api.nvim_buf_line_count(bufnr) > 1000
-            end,
         },
         indent = {
             enable = true,

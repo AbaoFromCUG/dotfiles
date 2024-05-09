@@ -44,6 +44,7 @@ local function none_ls()
         debug = true,
         sources = {
             null_ls.builtins.formatting.stylua,
+            null_ls.builtins.formatting.shfmt,
         },
     })
 end
@@ -69,9 +70,9 @@ return {
     {
         "pmizio/typescript-tools.nvim",
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+        config = tstools,
         lazy = true,
         event = "VeryLazy",
-        config = tstools,
     },
     -- completion engine
     {

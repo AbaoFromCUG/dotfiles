@@ -1,8 +1,57 @@
-local wezterm = require("wezterm")
+local wezterm = require("wezterm") --[[@as wezterm.WezTerm]]
+local session = require("session")
+
 local act = wezterm.action
 
+---@param config wezterm.Config
 return function(config)
+    config.disable_default_key_bindings = true
     config.keys = {
+        {
+            key = "c",
+            mods = "CTRL|SHIFT",
+            action = act.CopyTo("Clipboard"),
+        },
+        {
+            key = "v",
+            mods = "CTRL|SHIFT",
+            action = act.PasteFrom("Clipboard"),
+        },
+        {
+            key = "p",
+            mods = "CTRL|SHIFT",
+            action = act.ActivateCommandPalette,
+        },
+        {
+            key = "+",
+            mods = "CTRL|SHIFT",
+            action = act.IncreaseFontSize,
+        },
+        {
+            key = "-",
+            mods = "CTRL|SHIFT",
+            action = act.DecreaseFontSize,
+        },
+        {
+            key = "s",
+            mods = "CTRL|SHIFT",
+            action = wezterm.action_callback(function(window, pane)
+                window:perform_action(
+                    act.PromptInputLine({
+                        description = "Input session name",
+                        action = wezterm.action_callback(function(win, pane, name)
+                            if not name then
+                                window:toast_notification("Session", "cancel")
+                                return
+                            end
+                            window:toast_notification("Session", name)
+                            session.save(name)
+                        end),
+                    }),
+                    pane
+                )
+            end),
+        },
         {
             key = "a",
             mods = "CTRL",
@@ -16,6 +65,10 @@ return function(config)
             {
                 key = "z",
                 action = act.TogglePaneZoomState,
+            },
+            {
+                key = "x",
+                action = act.CloseCurrentPane({ confirm = true }),
             },
             {
                 key = "v",
