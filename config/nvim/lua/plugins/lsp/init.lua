@@ -1,29 +1,3 @@
-local function tstools()
-    local Path = require("pathlib")
-    -- local mason_path = "mason/packages/vue-language-server/node_modules/@vue/language-server/node_modules/@vue/typescript-plugin/"
-    local mason_path = "mason/packages/vue-language-server/node_modules/@vue/language-server"
-    local plugin_path = Path(vim.fn.stdpath("data")) / mason_path
-
-    local languages = {
-        "javascript",
-        "typescript",
-        "javascriptreact",
-        "typescriptreact",
-        "vue",
-    }
-    require("typescript-tools").setup({
-        filetypes = languages,
-        on_attach = function(client)
-            client.server_capabilities.semanticTokensProvider = false
-        end,
-        settings = {
-            tsserver_plugins = {
-                "@vue/typescript-plugin",
-                "@styled/typescript-styled-plugin",
-            },
-        },
-    })
-end
 
 local function luasnip()
     local snippet_path = vim.fn.stdpath("config") .. "/snippets"
@@ -66,13 +40,6 @@ return {
         "folke/neodev.nvim",
         lazy = true,
         config = true,
-    },
-    {
-        "pmizio/typescript-tools.nvim",
-        dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-        config = tstools,
-        lazy = true,
-        event = "VeryLazy",
     },
     -- completion engine
     {

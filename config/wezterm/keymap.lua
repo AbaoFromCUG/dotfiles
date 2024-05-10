@@ -39,12 +39,11 @@ return function(config)
                 window:perform_action(
                     act.PromptInputLine({
                         description = "Input session name",
-                        action = wezterm.action_callback(function(win, pane, name)
+                        action = wezterm.action_callback(function(_, _, name)
                             if not name then
                                 window:toast_notification("Session", "cancel")
                                 return
                             end
-                            window:toast_notification("Session", name)
                             session.save(name)
                         end),
                     }),

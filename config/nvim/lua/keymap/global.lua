@@ -7,7 +7,7 @@ vim.api.nvim_set_keymap("n", ";", "<C-w>", { noremap = true })
 local function smart_format()
     vim.lsp.buf.format({
         filter = function(client)
-            return client.name ~= "typescript-tools"
+            return client.name ~= "tsserver"
         end,
     })
 end
