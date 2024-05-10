@@ -68,7 +68,6 @@ return {
     },
     {
         "SUSTech-data/neopyter",
-        cmd = { "Neopyter" },
         opts = {
             remote_address = "127.0.0.1:9001",
             auto_attach = true,
@@ -82,7 +81,6 @@ return {
         },
         lazy = true,
         ft = { "python" },
-        dev = true,
     },
     { "rafcamlet/nvim-luapad" },
     {
@@ -105,7 +103,6 @@ return {
     {
         "AbaoFromCUG/luals.nvim",
         config = true,
-        dev = true,
         lazy = true,
     },
 }

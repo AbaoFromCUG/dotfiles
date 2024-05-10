@@ -50,7 +50,7 @@ return {
     { "theHamsta/nvim-dap-virtual-text", config = true, lazy = true },
     { "Weissle/persistent-breakpoints.nvim", config = true, lazy = true, event = "VeryLazy" },
 
-    { "stevearc/overseer.nvim", dev = true, config = overseer, lazy = true, event = "VeryLazy" },
+    { "stevearc/overseer.nvim",  config = overseer, lazy = true, event = "VeryLazy" },
     {
         "nvim-neotest/neotest",
         dependencies = {

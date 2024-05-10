@@ -29,7 +29,9 @@ vim.opt.sessionoptions = { "buffers", "curdir", "folds", "winsize", "winpos", "t
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 
-local uname = vim.uv.os_uname()
+local uv = vim.uv or vim.loop
+
+local uname = uv.os_uname()
 if uname.sysname == "Windows_NT" then
     -- for mason.nvim
     vim.g.python3_host_prog = vim.fn.exepath("python")
@@ -47,7 +49,7 @@ end
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
-if not vim.uv.fs_stat(lazypath) then
+if not uv.fs_stat(lazypath) then
     vim.fn.system({
         "git",
         "clone",

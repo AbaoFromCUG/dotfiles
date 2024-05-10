@@ -1,7 +1,6 @@
 [
     {
         "layer": "top",
-        "output": "DP-1",
         "margin": "5 10 0 10",
         "include": [
             "~/.config/waybar/modules.jsonc"
@@ -29,13 +28,13 @@
         "hyprland/workspaces": {
             "format": "{icon}",
             "on-click": "activate",
-            "persistent-workspaces": {
-                "1": [],
-                "2": [],
-                "3": [],
-                "4": [],
-                "5": [],
-            },
+            // "persistent-workspaces": {
+            //     "1": [],
+            //     "2": [],
+            //     "3": [],
+            //     "4": [],
+            //     "5": [],
+            // },
             "format-icons": {
                 "1": "",
                 "2": "",

@@ -2,7 +2,6 @@
 
 set -e
 
-CONFIG="install.conf.yaml"
 DOTBOT_DIR="dotbot"
 
 DOTBOT_BIN="bin/dotbot"
@@ -12,4 +11,22 @@ cd "${BASEDIR}"
 git -C "${DOTBOT_DIR}" submodule sync --quiet --recursive
 git submodule update --init --recursive "${DOTBOT_DIR}"
 
-"${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
+config=$1
+case $config in
+shell)
+	CONFIG="shell.conf.yaml"
+	;;
+full)
+	CONFIG="full.conf.yaml"
+	;;
+*)
+	echo "First argument must be shell or full"
+	exit 1
+	;;
+esac
+
+args=("${@}")
+
+unset args[0]
+
+"${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${args[@]}"

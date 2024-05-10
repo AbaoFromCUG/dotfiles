@@ -43,47 +43,19 @@ zinit light romkatv/powerlevel10k
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-export MICROSOFT_UNAME=$(uname -a | grep -i microsoft)
-export IS_WSL=$( [ ! -z "$MICROSOFT_UNAME" ] && echo "1" || echo "0" )
 
-if [[ "$IS_WSL" == "1" ]]; then
-  __git_prompt_git() {
-    if wslpath -w . | grep -q '\\wsl'; then
-      git --no-optional-locks $@
-    else
-      git.exe --no-optional-locks $@
-    fi
-  }
+
+if command -v zoxide &> /dev/null
+then
+    eval "$(zoxide init zsh)"
 fi
-
-eval "$(zoxide init zsh)"
-
-
-# Env Manager
-if [[ -d $HOME/.pyenv ]]; then
-    export PATH="$HOME/.pyenv/bin:$PATH"
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
-fi
-
-if [[ -d /usr/share/nvm ]]; then
-	source '/usr/share/nvm/init-nvm.sh'
-elif [[ -d $HOME/.nvm ]]; then
-    export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-fi
-
-
-if [[ -d $HOME/.rvm ]]; then
-	source $HOME/.rvm/scripts/rvm
-fi
-
-# End Env Manager
 
 function yay() {
     # avoid install python package to pyenv python site
     PYENV_VERSION=system /usr/bin/yay "${@}"
 }
 
+alias vim=nvim
+alias ranger=joshuto
+alias s='neofetch|lolcat'
 
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

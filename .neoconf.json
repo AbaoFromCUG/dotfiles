@@ -9,7 +9,7 @@
       "busted",
       "md5",
       "luassert",
-      "~/Documents/work/wezterm-luals-addon"
+      "git@github.com:AbaoFromCUG/wezterm-luals-addon.git"
     ]
   }
 }

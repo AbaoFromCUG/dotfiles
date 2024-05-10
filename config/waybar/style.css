@@ -112,18 +112,22 @@ window#waybar.hidden {
     background: #383c4a;
 }
 
+.modules-center > widget:first-child {
+    border-radius: 10px 0px 0px 10px;
+}
+
+.modules-center > widget:last-child {
+    border-radius: 0px 10px 10px 0px;
+}
+
 #clock {
     padding-left: 16px;
     padding-right: 16px;
-    border-radius: 10px 0px 0px 10px;
     transition: none;
     color: #ffffff;
     background: #383c4a;
 }
 
-.modules-center > widget:last-child {
-    border-radius: 10px;
-}
 
 #cava {
     transition: none;
@@ -135,9 +139,12 @@ window#waybar.hidden {
 #mpris {
     padding-left: 8px;
     padding-right: 8px;
-    border-radius: 0px 10px 10px 0px;
     color: #ffffff;
     background: #383c4a;
+}
+
+.modules-right > widget:last-child {
+    border-radius: 10px;
 }
 
 #cpu {
@@ -195,6 +202,15 @@ window#waybar.hidden {
 }
 
 #bluetooth {
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-right: 8px;
+    /* border-radius: 0px 10px 10px 0px; */
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#battery {
     padding-left: 8px;
     padding-right: 8px;
     margin-right: 8px;

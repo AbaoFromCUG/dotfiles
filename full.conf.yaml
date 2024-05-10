@@ -1,0 +1,23 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+- clean:
+    ~/:
+      force: true
+      recursive: true
+    ~/.config:
+      recursive: true
+- link:
+    ~/:
+      glob: true
+      path: home/**
+      prefix: "."
+      if: '[ $(uname) = Linux ]'
+    ~/.config:
+      glob: true
+      path: config/*
+      if: '[ $(uname) = Linux ]'
+    ~/AppData/Local/nvim:
+      path: config/nvim
+      if: '[ $(uname) != Linux ]'
