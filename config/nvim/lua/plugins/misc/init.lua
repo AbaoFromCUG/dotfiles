@@ -68,6 +68,7 @@ return {
     },
     {
         "SUSTech-data/neopyter",
+        ---@type neopyter.Option
         opts = {
             remote_address = "127.0.0.1:9001",
             auto_attach = true,
@@ -77,6 +78,12 @@ return {
             highlight = {
                 enable = false,
                 shortsighted = false,
+            },
+            jupyter = {
+                scroll = {
+                    enable = true,
+                    align = "auto",
+                },
             },
         },
         lazy = true,
@@ -100,9 +107,4 @@ return {
     },
     { "lambdalisue/suda.vim" },
     { "h-hg/fcitx.nvim" },
-    {
-        "AbaoFromCUG/luals.nvim",
-        config = true,
-        lazy = true,
-    },
 }

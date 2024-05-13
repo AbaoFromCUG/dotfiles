@@ -20,7 +20,6 @@ local function blankline()
         "vista",
         "help",
         "todoist",
-        "NvimTree",
         "peekaboo",
         "git",
         "TelescopePrompt",
@@ -41,12 +40,6 @@ local function blankline()
                 "nofile",
             },
         },
-    })
-end
-
-local function symbols_outline()
-    require("symbols-outline").setup({
-        auto_preview = true,
     })
 end
 
@@ -120,21 +113,17 @@ return {
     -- status column
     { "luukvbaal/statuscol.nvim", config = statuscol },
 
+    ---@type LazySpec
     {
-        "nvim-tree/nvim-tree.lua",
+        "mikavilpas/yazi.nvim",
         dependencies = {
-            "nvim-tree/nvim-web-devicons",
+            "nvim-lua/plenary.nvim",
         },
-        config = require("plugins.ui.filetree"),
-        lazy = true,
-        event = "UIEnter",
-    },
-    { "simrat39/symbols-outline.nvim", config = symbols_outline },
-    {
-        "glepnir/dashboard-nvim",
-        config = require("plugins.ui.dashboard"),
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-        event = "VimEnter",
+        event = "VeryLazy",
+        ---@type YaziConfig
+        opts = {
+            open_for_directories = false,
+        },
     },
 
     -- terminal

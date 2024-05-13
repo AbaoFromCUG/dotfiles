@@ -12,22 +12,22 @@ local function smart_format()
     })
 end
 
+vim.keymap.set("n", "<C-b>", function()
+    require("yazi").yazi()
+end, { desc = "Open the file manager" })
+
+vim.keymap.set("n", "<leader>cw", function()
+    require("yazi").yazi(nil, vim.fn.getcwd())
+end, { desc = "Open the file manager in nvim's working directory" })
+
 wk.register({
     ["<leader>"] = {
-        f = {
-            name = "find",
-        },
-        c = {
-            name = "generate",
-            a = { "<cmd>Neogen<cr>", "generate annotation" },
-        },
-        t = { trans.trans_cursor_word, "translate" },
+        c = { name = "generate" },
+        f = { name = "find" },
+        s = { name = "search" },
+        t = { name = "translate" },
         v = {
             name = "view",
-            b = { "<cmd>NvimTreeToggle<cr>", "toggle explorer" },
-            f = { "<cmd>NvimTreeFindFile<cr>", "focus in explorer" },
-            l = { "<cmd>BufferLineCycleNext<cr>", "focus right tab" },
-            h = { "<cmd>BufferLineCyclePrev<cr>", "focus left tab" },
             o = {
                 function()
                     vim.cmd("BufferLineCloseLeft")
@@ -57,12 +57,11 @@ wk.register({
         },
         s = { "<cmd>w<cr>", "write" },
         t = {
-            name = "Test",
+            name = "test",
         },
         f = { smart_format, "format" },
     },
 
-    ["<C-b>"] = { "<cmd>NvimTreeToggle<cr>", "toggle explorer" },
     ["<S-l>"] = { "<cmd>BufferLineCycleNext<cr>", "focus right tab" },
     ["<S-h>"] = { "<cmd>BufferLineCyclePrev<cr>", "focus left tab" },
     ["<C-w>Q"] = { "<cmd>qall<cr>", "Quit all" },

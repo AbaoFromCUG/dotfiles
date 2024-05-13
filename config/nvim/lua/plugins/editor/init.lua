@@ -79,6 +79,7 @@ return {
         dependencies = { "nvim-lua/plenary.nvim" },
         config = require("plugins.editor.telescope"),
         lazy = true,
+        event = "VeryLazy",
     },
     {
         "nvim-telescope/telescope-fzf-native.nvim",
@@ -124,7 +125,7 @@ return {
         dependencies = "kevinhwang91/promise-async",
         config = ufo,
         lazy = true,
-        -- event = "VeryLazy",
+        event = "VeryLazy",
     },
     -- surround edit
     {
@@ -180,7 +181,7 @@ return {
         config = session,
         dependencies = { "nvim-treesitter" },
         lazy = true,
-        event = "VimEnter",
+        event = "VeryLazy",
     },
 
     -- project-local config

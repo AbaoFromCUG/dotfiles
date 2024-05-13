@@ -2,7 +2,6 @@ return function()
     local lspconfig = require("lspconfig")
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
-
     require("vim.lsp.log").set_format_func(vim.inspect)
 
     require("mason-lspconfig").setup_handlers({
@@ -19,14 +18,13 @@ return function()
             end
             server.setup(config)
         end,
-        -- don't setup volar
         ["volar"] = function() end,
-        -- ["tsserver"] = function() end,
+        ["texlab"] = function() end,
     })
-    vim.keymap.set("n", "<space>e", vim.diagnostic.open_float)
-    vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
-    vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
-    vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist)
+    vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "open diagnostic" })
+    vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "prev diagnostic" })
+    vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "next diagnostic" })
+    vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, { desc = "diagnostic list" })
 
     -- Use LspAttach autocommand to only map the following keys
     -- after the language server attaches to the current buffer

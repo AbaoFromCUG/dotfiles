@@ -2,7 +2,15 @@ return function()
     local lspkind = require("lspkind")
     local cmp = require("cmp")
     local luasnip = require("luasnip")
-
+    local function smart_tab(fallback)
+        if cmp.visible() then
+            cmp.select_next_item()
+        elseif luasnip.expand_or_locally_jumpable() then
+            luasnip.expand_or_jump()
+        else
+            fallback()
+        end
+    end
     cmp.setup({
         preselect = cmp.PreselectMode.None,
         completion = { completeopt = "menu,menuone,noselect" },
@@ -27,15 +35,17 @@ return function()
                     fallback()
                 end
             end,
-            ["<Tab>"] = cmp.mapping(function(fallback)
-                if cmp.visible() then
-                    cmp.select_next_item()
-                elseif luasnip.expand_or_locally_jumpable() then
-                    luasnip.expand_or_jump()
-                else
-                    fallback()
-                end
-            end, { "i", "s", "c" }),
+            ["<Tab>"] = cmp.mapping({
+                i = smart_tab,
+                c = smart_tab,
+                n = function(fallback)
+                    if luasnip.expand_or_locally_jumpable() then
+                        luasnip.expand_or_jump()
+                    else
+                        fallback()
+                    end
+                end,
+            }),
             ["<S-Tab>"] = cmp.mapping(function(fallback)
                 if cmp.visible() then
                     cmp.select_prev_item()

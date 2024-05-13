@@ -8,8 +8,9 @@ source /tmp/argsparse.sh
 
 usage() {
     printf "Bootstrap script, supported choices:\n"
-    printf "\ttmux: only install oh-my-tmux\n"
-    printf "\tenv: above+pyenv+nvm\n"
+    printf "\tterminal: install terminal tools\n"
+    printf "\tenv: pyenv+nvm\n"
+    printf "\ttexlive: texlive\n"
     printf "\tdevelop: above+develop tools\n"
     printf "\tfull: above+desktop environments\n"
     printf "Beginning of usage:\n"
@@ -19,7 +20,7 @@ usage() {
 }
 
 argsparse_use_option choose "choose install specified environments" value mandatory
-option_choose_values=(tmux env develop full)
+option_choose_values=(terminal env texlive develop full)
 
 argsparse_parse_options "$@"
 
@@ -41,7 +42,7 @@ download() {
     fi
 }
 
-nvm() {
+setup_nvm() {
     if [ ! -d ~/.nvm ]; then
         echo "installing nvm..."
         curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
@@ -50,7 +51,7 @@ nvm() {
     fi
 }
 
-pyenv() {
+setup_pyenv() {
 
     if [ ! -d ~/.pyenv ]; then
         echo "installing pyenv..."
@@ -74,19 +75,20 @@ pyenv() {
     pyenv_plugin pyenv-doctor pyenv
     pyenv_plugin pyenv-update pyenv
     pyenv_plugin pyenv-update pyenv
+    pyenv_plugin pyenv-pyright alefpereira
 }
 
-rust() {
+# setup_rustup() {
+#
+#     if [ ! -d ~/.rustup ]; then
+#         echo "installing rustup..."
+#         curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+#     else
+#         echo "rustup installed, skip"
+#     fi
+# }
 
-    if [ ! -d ~/.rustup ]; then
-        echo "installing rustup..."
-        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-    else
-        echo "rustup installed, skip"
-    fi
-}
-
-tmux() {
+setup_tmux() {
 
     if [ ! -d ~/.tmux ] || [ ! -f ~/.tmux.conf ]; then
         echo "installing oh-my-tmux..."
@@ -102,13 +104,29 @@ tmux() {
     fi
 }
 
-develop() {
-    pyenv
-    nvm
-    rust
-    tmux
+# --------------choice--------------------
 
+install_terminal() {
+    setup_tmux
     system_packages+=(
+        ripgrep
+        fzf
+        tmux
+        zoxide
+        lazygit
+        fd
+        yazi
+    )
+}
+
+install_env() {
+    setup_pyenv
+    setup_nvm
+}
+
+install_develop() {
+    system_packages+=(
+        man-db
         cmake
         git
         tk
@@ -116,19 +134,13 @@ develop() {
         eigen
         go
         rustup
-
         stylua
-        ripgrep
-        fzf
-        tmux
-        zoxide
-        lazygit
     )
 }
 
-desktop() {
+install_desktop() {
     system_packages+=(
-        hyprland-git
+        hyprland
         hyprpaper
         hyprpicker
         hypridle
@@ -193,7 +205,7 @@ desktop() {
         wechat-universal-bwrap
         vlc
         ario
-        wezterm-git
+
     )
     # others
     system_packages+=(
@@ -209,23 +221,50 @@ desktop() {
         "hyprpm add https://github.com/levnikmyskin/hyprland-virtual-desktops"
         "hyprpm add https://github.com/KZDKM/Hyprspace.git"
         "hyprpm enable virtual-desktops"
+
+        "systemctl enable --user pipewire"
+        "systemctl enable --user pipewire-pulse"
+    )
+}
+
+install_texlive() {
+    system_packages+=(
+        sioyek
+        texlive-latex
+        texlive-xetex
+        texlive-binextra
+        texlive-latexrecommended
+        texlive-latexextra
+        texlive-fontsrecommended
+        texlive-fontsextra
+        texlive-bibtexextra
+        texlive-mathscience
+
+        texlive-langcjk
+        texlive-langchinese
+
+        texlive-plaingeneric
     )
 }
 
 echo $args_only
 
-if [[ $args_only = tmux ]]; then
-    tmux
+if [[ $args_only = terminal ]]; then
+    install_terminal
 elif [[ $args_only = env ]]; then
-    pyenv
-    nvm
-    rust
-    tmux
+    install_env
+elif [[ $args_only = texlive ]]; then
+    install_texlive
 elif [[ $args_only = develop ]]; then
-    develop
+    install_terminal
+    install_env
+    install_develop
 elif [[ $args_only = full ]]; then
-    develop
-    desktop
+    install_terminal
+    install_env
+    install_develop
+    install_desktop
+    install_texlive
 fi
 
 if [[ -n "${system_packages[@]}" ]]; then

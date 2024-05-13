@@ -204,7 +204,6 @@ window#waybar.hidden {
 #bluetooth {
     padding-left: 8px;
     padding-right: 8px;
-    margin-right: 8px;
     /* border-radius: 0px 10px 10px 0px; */
     color: #ffffff;
     background: #383c4a;

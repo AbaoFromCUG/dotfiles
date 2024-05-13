@@ -5,13 +5,14 @@ local function overseer()
         strategy = {
             "toggleterm",
             direction = "float",
-            -- use_shell = true,
+            use_shell = true,
         },
     })
 end
 
-local function neotest()
-    require("neotest").setup({
+local function _neotest()
+    local neotest = require("neotest")
+    neotest.setup({
         adapters = {
             require("neotest-plenary"),
             require("neotest-python"),
@@ -50,7 +51,12 @@ return {
     { "theHamsta/nvim-dap-virtual-text", config = true, lazy = true },
     { "Weissle/persistent-breakpoints.nvim", config = true, lazy = true, event = "VeryLazy" },
 
-    { "stevearc/overseer.nvim",  config = overseer, lazy = true, event = "VeryLazy" },
+    {
+        "stevearc/overseer.nvim",
+        config = overseer,
+        lazy = true,
+        event = "VeryLazy",
+    },
     {
         "nvim-neotest/neotest",
         dependencies = {
@@ -60,7 +66,7 @@ return {
             "neotest-jest",
             "neotest-plenary",
         },
-        config = neotest,
+        config = _neotest,
         lazy = true,
         event = "VeryLazy",
     },

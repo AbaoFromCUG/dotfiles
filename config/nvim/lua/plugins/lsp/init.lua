@@ -1,4 +1,3 @@
-
 local function luasnip()
     local snippet_path = vim.fn.stdpath("config") .. "/snippets"
     require("luasnip.loaders.from_vscode").lazy_load({ paths = { snippet_path } })
@@ -79,5 +78,17 @@ return {
     {
         "nvimtools/none-ls.nvim",
         config = none_ls,
+    },
+    {
+        "AbaoFromCUG/luals.nvim",
+        config = true,
+        lazy = true,
+    },
+    {
+        "AbaoFromCUG/texlab.nvim",
+        dependencies = { "nvim-lspconfig" },
+        config = true,
+        lazy = true,
+        event = "VeryLazy",
     },
 }

@@ -31,9 +31,11 @@ return function()
             },
         },
     })
-    telescope.load_extension("fzf")
-    telescope.load_extension("frecency")
-    telescope.load_extension("session")
+    vim.defer_fn(function()
+        telescope.load_extension("fzf")
+        telescope.load_extension("frecency")
+        telescope.load_extension("session")
+    end, 101)
 
     local is_inside_work_tree = {}
     local function project_files()
