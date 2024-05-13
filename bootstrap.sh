@@ -26,7 +26,8 @@ argsparse_parse_options "$@"
 
 args_only=${program_options[choose]}
 
-system_packages=()
+yay_packages=()
+apt_packages=()
 additional_commands=()
 
 download() {
@@ -52,6 +53,28 @@ setup_nvm() {
 }
 
 setup_pyenv() {
+    yay_packages+=(
+        penssl
+        zlib
+        xz
+        tk
+    )
+    apt_packages+=(
+        build-essential
+        libssl-dev
+        zlib1g-dev
+        libbz2-dev
+        libreadline-dev
+        libsqlite3-dev
+        curl
+        libncursesw5-dev
+        xz-utils
+        tk-dev
+        libxml2-dev
+        libxmlsec1-dev
+        libffi-dev
+        liblzma-dev
+    )
 
     if [ ! -d ~/.pyenv ]; then
         echo "installing pyenv..."
@@ -78,15 +101,15 @@ setup_pyenv() {
     pyenv_plugin pyenv-pyright alefpereira
 }
 
-# setup_rustup() {
-#
-#     if [ ! -d ~/.rustup ]; then
-#         echo "installing rustup..."
-#         curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-#     else
-#         echo "rustup installed, skip"
-#     fi
-# }
+setup_rustup() {
+
+    if [ ! -d ~/.rustup ]; then
+        echo "installing rustup..."
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    else
+        echo "rustup installed, skip"
+    fi
+}
 
 setup_tmux() {
 
@@ -108,7 +131,7 @@ setup_tmux() {
 
 install_terminal() {
     setup_tmux
-    system_packages+=(
+    yay_packages+=(
         ripgrep
         fzf
         tmux
@@ -122,10 +145,11 @@ install_terminal() {
 install_env() {
     setup_pyenv
     setup_nvm
+    setup_rustup
 }
 
 install_develop() {
-    system_packages+=(
+    yay_packages+=(
         man-db
         cmake
         git
@@ -133,20 +157,20 @@ install_develop() {
         ninja
         eigen
         go
-        rustup
+        rust
         stylua
     )
 }
 
 install_desktop() {
-    system_packages+=(
+    yay_packages+=(
         hyprland
         hyprpaper
         hyprpicker
         hypridle
         hyprlock
     )
-    system_packages+=(
+    yay_packages+=(
         xdg-desktop-portal-hyprland
         polkit-gnome
         wofi
@@ -160,7 +184,7 @@ install_desktop() {
     )
 
     # input method
-    system_packages+=(
+    yay_packages+=(
         fcitx5-configtool
         fcitx5-gtk
         fcitx5-qt
@@ -170,7 +194,7 @@ install_desktop() {
     )
 
     # fonts
-    system_packages+=(
+    yay_packages+=(
         noto-fonts-emoji
         ttf-hack-nerd
         ttf-cascadia-code-nerd
@@ -180,7 +204,7 @@ install_desktop() {
         ttf-firacode-nerd
     )
     # basic tools
-    system_packages+=(
+    yay_packages+=(
         pipewire
         pipewire-pulse
         pipewire-jack
@@ -193,7 +217,7 @@ install_desktop() {
         unarchiver
     )
     # apps
-    system_packages+=(
+    yay_packages+=(
         clash-for-windows-bin
         firefox
         # wps-office
@@ -208,7 +232,7 @@ install_desktop() {
 
     )
     # others
-    system_packages+=(
+    yay_packages+=(
         neofetch
         lolcat
     )
@@ -228,7 +252,7 @@ install_desktop() {
 }
 
 install_texlive() {
-    system_packages+=(
+    yay_packages+=(
         sioyek
         texlive-latex
         texlive-xetex
@@ -267,14 +291,19 @@ elif [[ $args_only = full ]]; then
     install_texlive
 fi
 
-if [[ -n "${system_packages[@]}" ]]; then
+if [ -n "${yay_packages}" ] && command -v yay >/dev/null 2>&1; then
     echo "please install manually:"
-    echo "yay -S ${system_packages[@]} --needed"
+    echo "   yay -S ${yay_packages[@]} --needed"
+elif [ -n "${apt_packages}" ] && command -v apt >/dev/null 2>&1; then
+    echo "please install manually:"
+    echo "   sudo apt install ${apt_packages[@]}"
+else
+    echo "\033[31m Don't support current system \033[0m"
 fi
 
 if [[ -n "${additional_commands[@]}" ]]; then
     echo "please install manually:"
     for command in "${additional_commands[@]}"; do
-        echo $command
+        echo "    $command"
     done
 fi
