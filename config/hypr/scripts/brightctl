@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+
+BUILTIN_MONITOR="eDP-1"
+
+monitor=$1
+value=$2
+
+current_dir=$(
+	cd $(dirname $BASH_SOURCE)
+	pwd
+)
+source "${current_dir}/../../../local/share/shell/argsparse.sh"
+
+usage() {
+	printf "Brightness controller\n"
+	printf "Beginning of usage:\n"
+	argsparse_usage
+	printf "End of useage\n"
+	exit 16
+}
+
+argsparse_use_option monitor "Choose specified monitors" value mandatory
+
+argsparse_use_option op "Operatoion" value mandatory
+
+option_option1_values=(+ - =)
+
+argsparse_use_option value "value" value mandatory type:uint
+
+argsparse_parse_options "$@"
+
+
+echo "${program_params[*]}"
+
+monitor=${program_options[monitor]}
+op=${program_options[op]}
+value=${program_options[value]}
+
+
+monitor_data=$(hyprctl monitors -j)
+
+change_builtin(){
+    if [[ "$op" == "=" ]]; then
+		 brightnessctl s "${value}%"
+    elif [[ "$op" == "-" ]]; then
+		 brightnessctl s "${value}%-"
+    elif [[ "$op" == "+" ]]; then
+		 brightnessctl s "${value}%+"
+    fi
+}
+
+change() {
+    if [[ "$op" == "=" ]]; then
+		 ddcutil --display=$1 setvcp 10 "${value}"
+    elif [[ "$op" == "-" ]]; then
+		 ddcutil --display=$1 setvcp 10 - "${value}"
+    elif [[ "$op" == "+" ]]; then
+		ddcutil --display=$1 setvcp 10 + "${value}"
+    fi
+}
+
+if [ "$monitor" == "focus" ]; then
+	focused_name=$(echo $monitor_data | jq -r '.[] | select(.focused == true) | .name')
+	if [[ "$focused_name" == "$BUILTIN_MONITOR" ]]; then
+        change_builtin
+	else
+		focused_id=$(echo $monitor_data | jq -r '.[] | select(.focused == true) | .id')
+        change ${focused_id}
+	fi
+else
+	external_ids=$(echo $monitor_data | jq -r ".[] | select(.name != \"${BUILTIN_MONITOR}\") | .id")
+	for id in $external_ids; do
+        change ${id}
+	done
+    change_builtin
+fi

@@ -16,11 +16,14 @@ case $config in
 shell)
 	CONFIG="shell.conf.yaml"
 	;;
+develop)
+	CONFIG="develop.conf.yaml"
+	;;
 full)
 	CONFIG="full.conf.yaml"
 	;;
 *)
-	echo "First argument must be shell or full"
+	echo "First argument must be shell/develop/full"
 	exit 1
 	;;
 esac

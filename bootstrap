@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 
-if [ ! -f /tmp/argsparse.sh ]; then
-    echo "downloading argsparse module"
-    curl -s https://raw.githubusercontent.com/Anvil/bash-argsparse/master/argsparse.sh -o /tmp/argsparse.sh
-fi
-source /tmp/argsparse.sh
+current_dir=$(
+    cd $(dirname $BASH_SOURCE)
+    pwd
+)
 
-usage() {
+source "${current_dir}/local/share/shell/argsparse.sh"
+
+usage()
+{
     printf "Bootstrap script, supported choices:\n"
     printf "\tterminal: install terminal tools\n"
     printf "\tenv: pyenv+nvm\n"
@@ -30,7 +32,8 @@ yay_packages=()
 apt_packages=()
 additional_commands=()
 
-download() {
+download()
+{
     filename=$1
     url=$2
     mkdir -p $(dirname $filename)
@@ -43,7 +46,8 @@ download() {
     fi
 }
 
-setup_nvm() {
+setup_nvm()
+{
     if [ ! -d ~/.nvm ]; then
         echo "installing nvm..."
         curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
@@ -52,9 +56,10 @@ setup_nvm() {
     fi
 }
 
-setup_pyenv() {
+setup_pyenv()
+{
     yay_packages+=(
-        penssl
+        openssl
         zlib
         xz
         tk
@@ -83,7 +88,8 @@ setup_pyenv() {
         echo "pyenv installed, skip"
     fi
 
-    pyenv_plugin() {
+    pyenv_plugin()
+    {
         name=$1
         git_user=$2
         if [ ! -d ~/.pyenv/plugins/${name} ]; then
@@ -97,21 +103,22 @@ setup_pyenv() {
     pyenv_plugin pyenv-virtualenv AbaoFromCUG
     pyenv_plugin pyenv-doctor pyenv
     pyenv_plugin pyenv-update pyenv
-    pyenv_plugin pyenv-update pyenv
     pyenv_plugin pyenv-pyright alefpereira
 }
 
-setup_rustup() {
+# setup_rustup()
+# {
+#
+#     if [ ! -d ~/.rustup ]; then
+#         echo "installing rustup..."
+#         curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+#     else
+#         echo "rustup installed, skip"
+#     fi
+# }
 
-    if [ ! -d ~/.rustup ]; then
-        echo "installing rustup..."
-        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-    else
-        echo "rustup installed, skip"
-    fi
-}
-
-setup_tmux() {
+setup_tmux()
+{
 
     if [ ! -d ~/.tmux ] || [ ! -f ~/.tmux.conf ]; then
         echo "installing oh-my-tmux..."
@@ -129,7 +136,8 @@ setup_tmux() {
 
 # --------------choice--------------------
 
-install_terminal() {
+install_terminal()
+{
     setup_tmux
     yay_packages+=(
         ripgrep
@@ -142,28 +150,40 @@ install_terminal() {
     )
 }
 
-install_env() {
+install_env()
+{
     setup_pyenv
     setup_nvm
-    setup_rustup
+    # setup_rustup
 }
 
-install_develop() {
+install_develop()
+{
     yay_packages+=(
         man-db
         cmake
         git
-        tk
         ninja
         eigen
         go
         rust
         stylua
     )
+    apt_packages+=(
+        cmake
+        git
+    )
 }
 
-install_desktop() {
+install_desktop()
+{
     yay_packages+=(
+        base
+        base-devel
+        linux
+        yay
+
+        linux-firmware
         hyprland
         hyprpaper
         hyprpicker
@@ -176,9 +196,9 @@ install_desktop() {
         wofi
         libinput-gestures
         nwg-bar
+        nwg-displays
         waybar
         conky
-        cava
         dunst
         wl-clipboard
     )
@@ -192,7 +212,6 @@ install_desktop() {
         fcitx5-chinese-addons
         fcitx5-breeze
     )
-
     # fonts
     yay_packages+=(
         noto-fonts-emoji
@@ -205,31 +224,40 @@ install_desktop() {
     )
     # basic tools
     yay_packages+=(
+        networkmanager
+        lsof
         pipewire
         pipewire-pulse
         pipewire-jack
         pipewire-audio
+
+        bluez-utils
+        blueman
+
         mpd
         mpd-mpris
         playerctl
         pavucontrol
 
-        unarchiver
+        ksnip
+        grimblast-git
+
     )
     # apps
     yay_packages+=(
         clash-for-windows-bin
         firefox
-        # wps-office
+        wps-office
         feishu-bin
-        gimp
-        telegram-desktop
-        krita
         linuxqq-nt-bwrap
         wechat-universal-bwrap
+        telegram-desktop
+
+        gimp
+        krita
         vlc
         ario
-
+        unarchiver
     )
     # others
     yay_packages+=(
@@ -246,12 +274,17 @@ install_desktop() {
         "hyprpm add https://github.com/KZDKM/Hyprspace.git"
         "hyprpm enable virtual-desktops"
 
+        "systemctl enable bluetooth"
         "systemctl enable --user pipewire"
         "systemctl enable --user pipewire-pulse"
+
+        "sudo usermode -aG input audio lp abao"
+
     )
 }
 
-install_texlive() {
+install_texlive()
+{
     yay_packages+=(
         sioyek
         texlive-latex
@@ -271,8 +304,6 @@ install_texlive() {
     )
 }
 
-echo $args_only
-
 if [[ $args_only = terminal ]]; then
     install_terminal
 elif [[ $args_only = env ]]; then
@@ -280,8 +311,8 @@ elif [[ $args_only = env ]]; then
 elif [[ $args_only = texlive ]]; then
     install_texlive
 elif [[ $args_only = develop ]]; then
-    install_terminal
     install_env
+    install_terminal
     install_develop
 elif [[ $args_only = full ]]; then
     install_terminal
@@ -292,8 +323,20 @@ elif [[ $args_only = full ]]; then
 fi
 
 if [ -n "${yay_packages}" ] && command -v yay >/dev/null 2>&1; then
-    echo "please install manually:"
-    echo "   yay -S ${yay_packages[@]} --needed"
+    installed_packages="$(yay -Qq | sort)"
+    yay_packages=$(printf "%s\n" ${yay_packages[*]} | sort)
+    missed_packages=$(comm -23 <(echo "$yay_packages") <(echo "$installed_packages"))
+    echo $missed_package
+    if [[ -n "$missed_packages" ]]; then
+        echo "these packages are required but not installed:"
+        echo "   yay -S $(echo $missed_packages)"
+    fi
+    explicit_packages="$(yay -Qettq | sort)"
+    missed_packages=$(comm -23 <(echo "$explicit_packages") <(echo "$yay_packages"))
+    if [[ -n "$missed_packages" ]]; then
+        echo "these packages are explicitly installed but not required"
+        echo "   yay -S $(echo $missed_packages)"
+    fi
 elif [ -n "${apt_packages}" ] && command -v apt >/dev/null 2>&1; then
     echo "please install manually:"
     echo "   sudo apt install ${apt_packages[@]}"

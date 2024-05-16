@@ -20,6 +20,7 @@ return function()
         end,
         ["volar"] = function() end,
         ["texlab"] = function() end,
+        ["lua_ls"] = function() end,
     })
     vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "open diagnostic" })
     vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "prev diagnostic" })

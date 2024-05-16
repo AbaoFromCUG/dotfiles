@@ -14,16 +14,7 @@ return function(config)
 
     config.settings = vim.tbl_deep_extend("force", config.settings or {}, {
         Lua = {
-            diagnostics = {
-                -- Get the language server to recognize the `vim` global
-                globals = {
-                    -- "vim",
-                    "describe",
-                    "it",
-                    "before_each",
-                    "after_each",
-                },
-            },
+            diagnostics = {},
             -- Do not send telemetry data containing a randomized but unique identifier
             telemetry = {
                 enable = false,

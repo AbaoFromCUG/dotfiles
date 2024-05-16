@@ -30,7 +30,7 @@ return {
         dependencies = {
             "neodev.nvim",
             "neoconf.nvim",
-            "luals.nvim",
+            "lua_ls.nvim",
         },
         event = { "VeryLazy", "BufReadPre" },
         lazy = true,
@@ -80,15 +80,27 @@ return {
         config = none_ls,
     },
     {
-        "AbaoFromCUG/luals.nvim",
-        config = true,
+        "AbaoFromCUG/lua_ls.nvim",
+        ---@type lua_ls.Config
+        config = {
+            
+            
+        },
         lazy = true,
+        dev = true,
     },
     {
         "AbaoFromCUG/texlab.nvim",
         dependencies = { "nvim-lspconfig" },
-        config = true,
+        ---@type texlab.Config
+        opts = {
+            compiler = {
+                name = "latexmk",
+                engine = "xelatex",
+            },
+        },
         lazy = true,
         event = "VeryLazy",
+        dev = true,
     },
 }

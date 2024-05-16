@@ -6,6 +6,7 @@ local config = wezterm.config_builder()
 config.font_size = 14
 
 -- => == !=  😀
+config.enable_wayland=true
 config.font = wezterm.font_with_fallback({
     "FiraCode Nerd Font",
 })

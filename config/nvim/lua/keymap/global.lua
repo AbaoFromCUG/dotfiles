@@ -5,10 +5,12 @@ vim.api.nvim_set_keymap("n", "<cr>", '{-> v:hlsearch ? ":nohl<CR>" : "<CR>"}()',
 vim.api.nvim_set_keymap("n", ";", "<C-w>", { noremap = true })
 
 local function smart_format()
+    local eslint = vim.lsp.get_clients({ name = "eslint" })[1]
+
     vim.lsp.buf.format({
-        filter = function(client)
+        filter = eslint and function(client)
             return client.name ~= "tsserver"
-        end,
+        end or nil,
     })
 end
 
