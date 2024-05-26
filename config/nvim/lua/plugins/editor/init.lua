@@ -1,11 +1,3 @@
-local function autopairs()
-    local npairs = require("nvim-autopairs")
-
-    npairs.setup({
-        check_ts = true,
-    })
-end
-
 local function ufo()
     vim.o.foldcolumn = "1" -- '0' is not bad
     vim.o.foldlevel = 99
@@ -78,14 +70,13 @@ return {
         "nvim-telescope/telescope.nvim",
         dependencies = { "nvim-lua/plenary.nvim" },
         config = require("plugins.editor.telescope"),
-        lazy = true,
         event = "VeryLazy",
     },
     {
         "nvim-telescope/telescope-fzf-native.nvim",
         build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
     },
-    { "nvim-telescope/telescope-symbols.nvim" },
+    { "nvim-telescope/telescope-symbols.nvim", event = "VeryLazy" },
     { "nvim-telescope/telescope-frecency.nvim" },
 
     -- tree-sitter highlight
@@ -94,37 +85,35 @@ return {
         build = ":TSUpdate",
         config = require("plugins.editor.treesitter"),
         dependencies = {
-            { "andymass/vim-matchup", opts = {}, lazy = true },
-            { "RRethy/nvim-treesitter-endwise", lazy = true },
-            { "nvim-treesitter/nvim-treesitter-refactor", lazy = true },
-            { "nvim-treesitter/nvim-treesitter-textobjects", lazy = true },
-            { "windwp/nvim-ts-autotag", lazy = true },
+            { "andymass/vim-matchup", opts = {} },
+            { "RRethy/nvim-treesitter-endwise" },
+            { "nvim-treesitter/nvim-treesitter-refactor" },
+            { "nvim-treesitter/nvim-treesitter-textobjects" },
         },
-        lazy = true,
         event = "VeryLazy",
     },
+    { "windwp/nvim-ts-autotag", config = { opts = { enable_close_on_slash = true } }, event = "VeryLazy" },
     {
         "nvim-treesitter/nvim-treesitter-context",
         opts = { max_lines = 1 },
         dependencies = {
             "nvim-treesitter",
         },
-        lazy = true,
         event = "VeryLazy",
     },
     -- autopairs
     {
         "windwp/nvim-autopairs",
-        -- event = "InsertEnter",
-        opts = autopairs,
-        lazy = true,
+        opts = {
+            check_ts = true,
+        },
+        event = "InsertEnter",
     },
     -- fold
     {
         "kevinhwang91/nvim-ufo",
         dependencies = "kevinhwang91/promise-async",
         config = ufo,
-        lazy = true,
         event = "VeryLazy",
     },
     -- surround edit
@@ -148,47 +137,60 @@ return {
         "danymat/neogen",
         dependencies = "nvim-treesitter/nvim-treesitter",
         opts = { snippet_engine = "luasnip" },
-        lazy = true,
         event = "VeryLazy",
     },
 
     -- comment
-    { "numToStr/Comment.nvim", config = comment, lazy = true, event = "VeryLazy" },
-    { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
+    { "numToStr/Comment.nvim", config = comment, event = "VeryLazy" },
+    { "JoosepAlviste/nvim-ts-context-commentstring" },
     {
         "folke/todo-comments.nvim",
         dependencies = { "nvim-lua/plenary.nvim" },
         config = true,
+        event = "VeryLazy",
     },
     -- git
-    { "lewis6991/gitsigns.nvim", config = gitsigns },
-    { "sindrets/diffview.nvim" },
+    {
+        "lewis6991/gitsigns.nvim",
+        config = gitsigns,
+        event = "VeryLazy",
+    },
+    {
+        "sindrets/diffview.nvim",
+        event = "VeryLazy",
+    },
     -- keymap
     {
         "folke/which-key.nvim",
         config = true,
+        event = "VeryLazy",
     },
 
     -- zen mode
     { "Pocco81/true-zen.nvim", config = zen_mode },
 
-    -- jump anywhere
-    { "phaazon/hop.nvim", config = hop },
+    {
+        "phaazon/hop.nvim",
+        config = hop,
+        event = "VeryLazy",
+    },
 
     -- session & project
     {
         "AbaoFromCUG/session.nvim",
         config = session,
         dependencies = { "nvim-treesitter" },
-        lazy = true,
         event = "VeryLazy",
     },
 
     -- project-local config
     {
         "folke/neoconf.nvim",
-        lazy = true,
         config = true,
     },
-    { "nvim-pack/nvim-spectre", config = _spectre, lazy = true, event = "UIEnter" },
+    {
+        "nvim-pack/nvim-spectre",
+        config = _spectre,
+        event = "VeryLazy",
+    },
 }

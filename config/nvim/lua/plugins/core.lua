@@ -1,11 +1,8 @@
 return {
     "nvim-lua/plenary.nvim",
     "nvim-neotest/nvim-nio",
-    "rktjmp/fwatch.nvim",
-    "nvim-lua/popup.nvim",
     "tami5/sqlite.lua",
     "nvim-tree/nvim-web-devicons",
-    "MunifTanjim/nui.nvim",
     "pysan3/pathlib.nvim",
     "AbaoFromCUG/websocket.nvim",
 
@@ -14,7 +11,6 @@ return {
     {
         "williamboman/mason-lspconfig.nvim",
         dependencies = "mason.nvim",
-        lazy = true,
         event = "VeryLazy",
         opts = {
             ensure_installed = {
@@ -36,6 +32,8 @@ return {
                 "ruff_lsp",
                 "tailwindcss",
                 "eslint",
+                "rust_analyzer",
+                "stylelint_lsp",
             },
             automatic_installation = true,
         },
@@ -47,7 +45,6 @@ return {
             ensure_installed = { "cppdbg" },
             automatic_installation = true,
         },
-        lazy = true,
     },
     {
         "jay-babu/mason-null-ls.nvim",

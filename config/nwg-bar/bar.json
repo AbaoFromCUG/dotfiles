@@ -1,7 +1,7 @@
 [
   {
     "label": "Lock",
-    "exec": "swaylock",
+    "exec": "hyprlock",
     "icon": "/usr/share/nwg-bar/images/system-lock-screen.svg"
   },
   {

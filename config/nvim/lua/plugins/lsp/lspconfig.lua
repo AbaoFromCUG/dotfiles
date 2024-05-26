@@ -15,12 +15,14 @@ return function()
             }
             if success then
                 hook(config)
+            elseif #vim.split(hook, "\n") < 3 then
+                print(hook)
             end
             server.setup(config)
         end,
         ["volar"] = function() end,
         ["texlab"] = function() end,
-        ["lua_ls"] = function() end,
+        -- ["lua_ls"] = function() end,
     })
     vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "open diagnostic" })
     vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "prev diagnostic" })

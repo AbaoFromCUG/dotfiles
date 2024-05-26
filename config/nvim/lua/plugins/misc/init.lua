@@ -6,43 +6,12 @@ local function femaco()
     })
 end
 
-local function neorg()
-    require("neorg").setup({
-        load = {
-            ["core.defaults"] = {},
-            ["core.journal"] = {
-                config = {
-                    workspace = "notes",
-                },
-            },
-
-            ["core.completion"] = { config = { engine = "nvim-cmp" } },
-            ["core.concealer"] = {},
-            ["core.dirman"] = {
-                config = {
-                    workspaces = {
-                        notes = "~/Documents/notes",
-                    },
-                    autochdir = true,
-                    index = "index.norg",
-                },
-            },
-            ["core.export"] = {},
-            ["core.export.markdown"] = {},
-            ["core.presenter"] = {
-                config = {
-                    zen_mode = "truezen",
-                },
-            },
-        },
-    })
-end
-
+---@type LazySpec[]
 return {
     {
         "AbaoFromCUG/cmake-tools.nvim",
+        event = "VeryLazy",
     },
-    { "Saecki/crates.nvim", opts = {} },
     {
         "iamcco/markdown-preview.nvim",
         cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
@@ -59,12 +28,6 @@ return {
         "AckslD/nvim-FeMaco.lua",
         ft = "markdown",
         config = femaco,
-    },
-    {
-        "nvim-neorg/neorg",
-        cmd = { "Neorg" },
-        version = "v7.0.0",
-        config = neorg,
     },
     {
         "SUSTech-data/neopyter",
@@ -86,25 +49,23 @@ return {
                 },
             },
         },
-        lazy = true,
         ft = { "python" },
+        dev = true,
     },
-    { "rafcamlet/nvim-luapad" },
     {
         "glacambre/firenvim",
         build = function()
             vim.fn["firenvim#install"](0)
         end,
     },
-    "LunarVim/bigfile.nvim",
+    { "LunarVim/bigfile.nvim", event = "UIEnter" },
     {
         "luckasRanarison/tailwind-tools.nvim",
         dependencies = { "nvim-treesitter/nvim-treesitter" },
         ---@type TailwindTools.Option
         opts = {},
-        lazy = true,
         ft = { "html", "typescript", "typescriptreact", "vue" },
     },
-    { "lambdalisue/suda.vim" },
-    { "h-hg/fcitx.nvim" },
+    { "lambdalisue/suda.vim", cmd = { "SudaWrite", "SudaRead" } },
+    { "h-hg/fcitx.nvim", event = "VeryLazy" },
 }

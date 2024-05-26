@@ -69,33 +69,46 @@ return {
         config = theme,
     },
     -- color text colorizer, e.g. #5F9EA0 Aqua #91f
-    { "NvChad/nvim-colorizer.lua", config = true },
+    {
+        "NvChad/nvim-colorizer.lua",
+        config = true,
+        event = "VeryLazy",
+    },
     {
         "akinsho/bufferline.nvim",
         config = require("plugins.ui.bufferline"),
-        lazy = true,
         event = "VeryLazy",
     },
     -- status line
     {
         "hoob3rt/lualine.nvim",
         config = require("plugins.ui.lualine"),
-        lazy = true,
         event = "VeryLazy",
     },
-    { "SmiteshP/nvim-navic", opts = {
-        lsp = {
-            auto_attach = true,
+    {
+        "SmiteshP/nvim-navic",
+        opts = {
+            lsp = {
+                auto_attach = true,
+            },
         },
-    } },
-    { "lukas-reineke/indent-blankline.nvim", config = blankline },
+    },
+
+    {
+        "lukas-reineke/indent-blankline.nvim",
+        config = blankline,
+        event = "VeryLazy",
+    },
     -- components
-    { "rcarriga/nvim-notify", config = notify },
+    {
+        "rcarriga/nvim-notify",
+        config = notify,
+        event = "VeryLazy",
+    },
     -- lsp progress
     {
         "j-hui/fidget.nvim",
         config = true,
-        lazy = true,
         event = "VeryLazy",
     },
     {
@@ -109,9 +122,13 @@ return {
         },
     },
 
-    { "cpea2506/relative-toggle.nvim" },
+    { "cpea2506/relative-toggle.nvim", event = "VeryLazy" },
     -- status column
-    { "luukvbaal/statuscol.nvim", config = statuscol },
+    {
+        "luukvbaal/statuscol.nvim",
+        config = statuscol,
+        event = "VeryLazy",
+    },
 
     ---@type LazySpec
     {
@@ -125,7 +142,14 @@ return {
             open_for_directories = false,
         },
     },
-
-    -- terminal
-    { "akinsho/toggleterm.nvim", opts = {} },
+    {
+        "akinsho/toggleterm.nvim",
+        config = true,
+        event = "VeryLazy",
+    },
+    {
+        "willothy/flatten.nvim",
+        config = true,
+        lazy = false,
+    },
 }

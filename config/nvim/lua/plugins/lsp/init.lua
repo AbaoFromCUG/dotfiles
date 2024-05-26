@@ -30,14 +30,11 @@ return {
         dependencies = {
             "neodev.nvim",
             "neoconf.nvim",
-            "lua_ls.nvim",
         },
         event = { "VeryLazy", "BufReadPre" },
-        lazy = true,
     },
     {
         "folke/neodev.nvim",
-        lazy = true,
         config = true,
     },
     -- completion engine
@@ -58,7 +55,6 @@ return {
     },
     {
         "L3MON4D3/LuaSnip",
-        lazy = true,
         dependencies = { "rafamadriz/friendly-snippets" },
         build = "make install_jsregexp",
         config = luasnip,
@@ -68,25 +64,43 @@ return {
     {
         "ray-x/lsp_signature.nvim",
         config = signature,
-        lazy = true,
         event = "VeryLazy",
     },
     -- pictograms for lsp
     { "onsails/lspkind-nvim" },
     -- diagnostic list
-    { "folke/trouble.nvim", config = require("plugins.lsp.trouble") },
+    {
+        "folke/trouble.nvim",
+        config = require("plugins.lsp.trouble"),
+        event = "VeryLazy",
+    },
     {
         "nvimtools/none-ls.nvim",
         config = none_ls,
+        event = "VeryLazy",
     },
     {
         "AbaoFromCUG/lua_ls.nvim",
         ---@type lua_ls.Config
         config = {
-            
-            
+            settings = {
+                Lua = {
+                    diagnostics = {},
+                    -- Do not send telemetry data containing a randomized but unique identifier
+                    telemetry = {
+                        enable = false,
+                    },
+                    format = {
+                        enable = false,
+                    },
+                    completion = {
+                        autoRequire = true,
+                        callSnippet = "Replace",
+                    },
+                },
+            },
         },
-        lazy = true,
+        ft = { "lua" },
         dev = true,
     },
     {
@@ -99,7 +113,6 @@ return {
                 engine = "xelatex",
             },
         },
-        lazy = true,
         event = "VeryLazy",
         dev = true,
     },

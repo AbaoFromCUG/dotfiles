@@ -27,7 +27,7 @@ return function()
         sync_install = false,
         auto_install = true,
         ignore_install = {
-            "javascript",
+            -- "javascript",
         },
         parser_install_dir = parser_path,
         -- one of "all", "maintained" (parsers with maintainers), or a list of languages
@@ -37,6 +37,7 @@ return function()
             "lua",
             "python",
             "typescript",
+            "javascript",
             "c",
             "cpp",
             "rust",
@@ -62,12 +63,6 @@ return function()
             enable = true, -- false will disable the whole extension
         },
         indent = {
-            enable = true,
-        },
-        autopairs = {
-            enable = true,
-        },
-        autotag = {
             enable = true,
         },
         endwise = {

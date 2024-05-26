@@ -16,3 +16,6 @@ config/fish/fish_variables
 .python-version
 config/nvim/spell
 config/ags/types
+config/ags/README.md
+config/ags/tsconfig.json
+.tool-versions

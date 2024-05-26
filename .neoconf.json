@@ -4,12 +4,13 @@
       "plugins": true
     }
   },
-  "luals": {
-    "addons": [
-      "busted",
-      "md5",
-      "luassert",
-      "git@github.com:AbaoFromCUG/wezterm-luals-addon.git"
-    ]
+  "lspconfig": {
+    "lua_ls": {
+      "addonManager": {
+        "addons": [
+          "~/Documents/work/wezterm-luals-addon"
+        ]
+      }
+    }
   }
 }
