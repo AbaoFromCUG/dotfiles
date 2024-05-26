@@ -10,7 +10,7 @@ source "${current_dir}/local/share/shell/argsparse.sh"
 usage() {
     printf "Bootstrap script, supported choices:\n"
     printf "\tterminal: install terminal tools\n"
-    printf "\tenv: pyenv+nvm+asdf\n"
+    printf "\tenv: pyenv+asdf\n"
     printf "\ttexlive: texlive\n"
     printf "\tdevelop: above+develop tools\n"
     printf "\tfull: above+desktop environments\n"
@@ -41,15 +41,6 @@ download() {
         curl $url -o $filename
     else
         echo "$filename exists, skip"
-    fi
-}
-
-setup_nvm() {
-    if [ ! -d ~/.nvm ]; then
-        echo "installing nvm..."
-        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-    else
-        echo "nvm installed, skip"
     fi
 }
 
@@ -122,6 +113,7 @@ setup_asdf() {
     }
     asdf_plugin bun cometkim/asdf-bun
     asdf_plugin rust code-lever/asdf-rust
+    asdf_plugin nodejs asdf-vm/asdf-nodejs
 }
 
 setup_tmux() {
@@ -160,7 +152,6 @@ install_terminal() {
 
 install_env() {
     setup_pyenv
-    setup_nvm
     setup_asdf
 }
 
