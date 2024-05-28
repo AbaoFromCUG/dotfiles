@@ -64,5 +64,13 @@ function yay() {
 
 alias vim=nvim
 alias ranger=joshuto
-alias s='neofetch|lolcat'
+alias s='fastfetch'
+
+
+# WARNING!!! fzf must in tail
+if [ -d ~/.fzf/bin ]; then
+    PATH="${PATH:+${PATH}:}$HOME/.fzf/bin"
+    source <($HOME/.fzf/bin/fzf --zsh)
+fi
+
 

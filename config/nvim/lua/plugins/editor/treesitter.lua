@@ -70,15 +70,6 @@ return function()
         },
         matchup = {
             enable = true,
-            filetypes = {
-                "html",
-                "xml",
-                "typescript",
-                "typescriptreact",
-                "javascript",
-                "tsx",
-                "javascriptreact",
-            },
         },
         refactor = {
             highlight_definitions = { enable = true },

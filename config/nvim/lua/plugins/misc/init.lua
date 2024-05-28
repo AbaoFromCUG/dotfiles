@@ -1,11 +1,3 @@
-local function femaco()
-    require("femaco").setup({
-        create_tmp_filepath = function(filetype)
-            return string.format("%s/.femaco_%d_%s", vim.fn.getcwd(), math.random(100, 999), filetype)
-        end,
-    })
-end
-
 ---@type LazySpec[]
 return {
     {
@@ -15,7 +7,6 @@ return {
     {
         "iamcco/markdown-preview.nvim",
         cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-        -- build = "cd app && yarn install",
         build = function()
             vim.fn["mkdp#util#install"]()
         end,
@@ -23,11 +14,6 @@ return {
             vim.g.mkdp_filetypes = { "markdown" }
         end,
         ft = { "markdown" },
-    },
-    {
-        "AckslD/nvim-FeMaco.lua",
-        ft = "markdown",
-        config = femaco,
     },
     {
         "SUSTech-data/neopyter",

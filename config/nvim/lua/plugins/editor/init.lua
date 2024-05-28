@@ -24,11 +24,6 @@ local function gitsigns()
     })
 end
 
-local function zen_mode()
-    local truezen = require("true-zen")
-    truezen.setup({})
-end
-
 local function hop()
     require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
 end
@@ -52,31 +47,19 @@ local function comment()
     })
 end
 
-local function _spectre()
-    local spectre = require("spectre")
-    spectre.setup()
-    vim.keymap.set("n", "<leader>S", spectre.toggle, { desc = "Toggle Spectre" })
-    vim.keymap.set("n", "<leader>sw", function()
-        spectre.open_visual({ select_word = true })
-    end, { desc = "Search current word" })
-    vim.keymap.set("v", "<leader>sw", spectre.open_visual, { desc = "Search current word" })
-    vim.keymap.set("n", "<leader>sp", function()
-        spectre.open_file_search({ select_word = true })
-    end, { desc = "Search on current file" })
-end
-
+---@type LazySpec[]
 return {
     {
         "nvim-telescope/telescope.nvim",
         dependencies = { "nvim-lua/plenary.nvim" },
         config = require("plugins.editor.telescope"),
-        event = "VeryLazy",
+        cmd = "Telescope",
     },
     {
         "nvim-telescope/telescope-fzf-native.nvim",
         build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
     },
-    { "nvim-telescope/telescope-symbols.nvim", event = "VeryLazy" },
+    { "nvim-telescope/telescope-symbols.nvim" },
     { "nvim-telescope/telescope-frecency.nvim" },
 
     -- tree-sitter highlight
@@ -92,7 +75,7 @@ return {
         },
         event = "VeryLazy",
     },
-    { "windwp/nvim-ts-autotag", config = { opts = { enable_close_on_slash = true } }, event = "VeryLazy" },
+    { "windwp/nvim-ts-autotag", opts = { opts = { enable_close_on_slash = true } }, event = "VeryLazy" },
     {
         "nvim-treesitter/nvim-treesitter-context",
         opts = { max_lines = 1 },
@@ -135,9 +118,7 @@ return {
     -- annotation gen
     {
         "danymat/neogen",
-        dependencies = "nvim-treesitter/nvim-treesitter",
         opts = { snippet_engine = "luasnip" },
-        event = "VeryLazy",
     },
 
     -- comment
@@ -167,7 +148,7 @@ return {
     },
 
     -- zen mode
-    { "Pocco81/true-zen.nvim", config = zen_mode },
+    { "folke/zen-mode.nvim", opts = {} },
 
     {
         "phaazon/hop.nvim",
@@ -179,18 +160,14 @@ return {
     {
         "AbaoFromCUG/session.nvim",
         config = session,
-        dependencies = { "nvim-treesitter" },
         event = "VeryLazy",
     },
-
-    -- project-local config
     {
         "folke/neoconf.nvim",
         config = true,
     },
     {
         "nvim-pack/nvim-spectre",
-        config = _spectre,
-        event = "VeryLazy",
+        config = true,
     },
 }

@@ -1,8 +1,8 @@
 local wk = require("which-key")
 local trans = require("trans")
 
-vim.api.nvim_set_keymap("n", "<cr>", '{-> v:hlsearch ? ":nohl<CR>" : "<CR>"}()', { expr = true, noremap = true })
-vim.api.nvim_set_keymap("n", ";", "<C-w>", { noremap = true })
+vim.keymap.set("n", "<cr>", '{-> v:hlsearch ? ":nohl<CR>" : "<CR>"}()', { expr = true, noremap = true })
+vim.keymap.set("n", ";", "<C-w>", { desc = "window", remap = true })
 
 local function smart_format()
     local eslint = vim.lsp.get_clients({ name = "eslint" })[1]
@@ -22,10 +22,33 @@ vim.keymap.set("n", "<leader>cw", function()
     require("yazi").yazi(nil, vim.fn.getcwd())
 end, { desc = "Open the file manager in nvim's working directory" })
 
+local is_inside_work_tree = {}
+local function project_files()
+    local cwd = vim.uv.cwd()
+    local builtin = require("telescope.builtin")
+    if cwd and is_inside_work_tree[cwd] == nil then
+        vim.system({ "git", "rev-parse", "--is-inside-work-tree" }, { text = true, cwd = cwd }, function(out)
+            is_inside_work_tree[cwd] = out.code == 0
+            vim.schedule(project_files)
+        end)
+    end
+    if is_inside_work_tree[cwd] then
+        builtin.git_files({ use_git_root = false, show_untracked = true })
+    else
+        builtin.find_files()
+    end
+end
+
 wk.register({
     ["<leader>"] = {
-        c = { name = "generate" },
-        f = { name = "find" },
+
+        f = {
+            name = "find",
+            f = { project_files, "find files" },
+            h = { "<cmd>Telescope oldfiles<cr>", "history files" },
+            w = { "<cmd>Telescope live_grep<cr>", "find words" },
+            m = { "<cmd>Telescope marks<cr>", "find marks" },
+        },
         s = { name = "search" },
         t = { name = "translate" },
         v = {
@@ -38,13 +61,6 @@ wk.register({
                 "close other tabs",
             },
         },
-        z = {
-            name = "zen",
-            n = { "<cmd>TZNarrow<cr>", "toggle narrow mode" },
-            f = { "<cmd>TZFocus<cr>", "toggle focus mode" },
-            m = { "<cmd>TZMinimalist<cr>", "toggle minimalist mode" },
-            a = { "<cmd>TZAtaraxis<cr>", "toggle ataraxis mode" },
-        },
         [","] = {
             name = "settings",
             [","] = { "<cmd>Neoconf local<cr>", "local settings" },
@@ -54,6 +70,13 @@ wk.register({
     },
     ["<space>"] = {
         name = "super space",
+        c = {
+            name = "code",
+            n = { "<cmd>Neogen<cr>", "neogen" },
+            f = { "<cmd>Neogen func<cr>", "neogen function" },
+            c = { "<cmd>Neogen class<cr>", "neogen class" },
+            t = { "<cmd>Neogen type<cr>", "neogen type" },
+        },
         d = {
             name = "Debugger",
         },
@@ -88,3 +111,16 @@ wk.register({
 }, {
     mode = "v",
 })
+
+vim.keymap.set("n", "<leader>S", function()
+    require("spectre").toggle()
+end, { desc = "Toggle Spectre" })
+vim.keymap.set("n", "<leader>sw", function()
+    require("spectre").open_visual({ select_word = true })
+end, { desc = "Search current word" })
+vim.keymap.set("v", "<leader>sw", function()
+    require("spectre").open_visual()
+end, { desc = "Search current word" })
+vim.keymap.set("n", "<leader>sp", function()
+    require("spectre").open_file_search({ select_word = true })
+end, { desc = "Search on current file" })

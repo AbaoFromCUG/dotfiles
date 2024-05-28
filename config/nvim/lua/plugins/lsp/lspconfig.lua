@@ -22,7 +22,7 @@ return function()
         end,
         ["volar"] = function() end,
         ["texlab"] = function() end,
-        -- ["lua_ls"] = function() end,
+        ["lua_ls"] = function() end,
     })
     vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "open diagnostic" })
     vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "prev diagnostic" })
@@ -35,28 +35,12 @@ return function()
         group = vim.api.nvim_create_augroup("UserLspConfig", {}),
         callback = function(args)
             local buffer = args.buf
-            local client = vim.lsp.get_client_by_id(args.data.client_id)
 
-            ---@cast client -nil
             -- Enable completion triggered by <c-x><c-o>
             vim.bo[buffer].omnifunc = "v:lua.vim.lsp.omnifunc"
 
-            if client.supports_method("textDocument/declaration") then
-                vim.keymap.set("n", "<space>gd", vim.lsp.buf.declaration, { buffer = buffer, desc = "goto declaration" })
-            elseif client.supports_method("textDocument/type_definition") then
-                vim.keymap.set("n", "<space>gd", vim.lsp.buf.type_definition, { buffer = buffer, desc = "goto definition" })
-            else
-                vim.keymap.set("n", "<space>gd", vim.lsp.buf.definition, { buffer = buffer, desc = "goto definition" })
-            end
-            if client.supports_method("textDocument/implementation") then
-                vim.keymap.set("n", "<space>gi", vim.lsp.buf.implementation, { buffer = buffer, desc = "goto implementation" })
-            elseif client.supports_method("textDocument/implementation") then
-                vim.keymap.set("n", "<space>gi", vim.lsp.buf.implementation, { buffer = buffer, desc = "goto implementation" })
-            end
-
-            if client.supports_method("textDocument/implementation") then
-                vim.keymap.set("n", "g<C-I>", vim.lsp.buf.implementation, { buffer = args.buf })
-            end
+            vim.keymap.set("n", "<space>gd", vim.lsp.buf.definition, { buffer = buffer, desc = "goto definition" })
+            vim.keymap.set("n", "<space>gi", vim.lsp.buf.implementation, { buffer = buffer, desc = "goto implementation" })
 
             vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = buffer, desc = "display hover info" })
             vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, { buffer = buffer, desc = "open signature help" })

@@ -4,6 +4,42 @@ local function theme()
         vim.cmd([[colorscheme nightfox]])
     end
 end
+local function lualine()
+    local code_navigation = require("nvim-navic")
+    require("lualine").setup({
+        options = {
+            icons_enabled = true,
+            icon_only = true,
+            theme = "gruvbox",
+            component_separators = { "", "" },
+            section_separators = { "", "" },
+            disabled_filetypes = {},
+        },
+        sections = {
+            lualine_a = {
+                "mode",
+            },
+            lualine_b = {
+                "filename",
+                "diff",
+                {
+                    function()
+                        return code_navigation.get_location()
+                    end,
+                    cond = code_navigation.is_available,
+                },
+            },
+            lualine_c = {
+                "launcher",
+                "overseer",
+            },
+            lualine_x = { "diagnostics" },
+            lualine_y = { "encoding", "fileformat", "filetype" },
+            lualine_z = { "progress", "location" },
+        },
+        extensions = {},
+    })
+end
 
 local function blankline()
     local filetype_exclude = {
@@ -82,7 +118,7 @@ return {
     -- status line
     {
         "hoob3rt/lualine.nvim",
-        config = require("plugins.ui.lualine"),
+        config = lualine,
         event = "VeryLazy",
     },
     {

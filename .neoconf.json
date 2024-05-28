@@ -8,6 +8,7 @@
     "lua_ls": {
       "addonManager": {
         "addons": [
+          "nvim",
           "~/Documents/work/wezterm-luals-addon"
         ]
       }

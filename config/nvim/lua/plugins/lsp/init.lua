@@ -4,13 +4,6 @@ local function luasnip()
     require("luasnip.loaders.from_vscode").load()
 end
 
-local function signature()
-    local lsp_signature = require("lsp_signature")
-    lsp_signature.setup({
-        -- floating_window_above_cur_line = false,
-    })
-end
-
 local function none_ls()
     local null_ls = require("null-ls")
     null_ls.setup({
@@ -22,6 +15,7 @@ local function none_ls()
     })
 end
 
+---@type LazySpec[]
 return {
 
     {
@@ -31,7 +25,7 @@ return {
             "neodev.nvim",
             "neoconf.nvim",
         },
-        event = { "VeryLazy", "BufReadPre" },
+        event = { "VeryLazy" },
     },
     {
         "folke/neodev.nvim",
@@ -63,7 +57,7 @@ return {
     -- show signature
     {
         "ray-x/lsp_signature.nvim",
-        config = signature,
+        config = true,
         event = "VeryLazy",
     },
     -- pictograms for lsp
@@ -100,7 +94,7 @@ return {
                 },
             },
         },
-        ft = { "lua" },
+        event = "VeryLazy",
         dev = true,
     },
     {

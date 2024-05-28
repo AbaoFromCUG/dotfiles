@@ -132,18 +132,21 @@ setup_tmux() {
     fi
 }
 
+setup_fzf() {
+    if [ ! -f ~/.fzf/install ]; then
+        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+        ~/.fzf/install --bin
+    fi
+}
+
 # --------------choice--------------------
 
 install_terminal() {
     setup_tmux
+    setup_fzf
     yay_packages+=(
-        ripgrep
-        fzf
         tmux
-        zoxide
         lazygit
-        fd
-        yazi
         zsh
         openssh
         neovim
@@ -163,8 +166,6 @@ install_develop() {
         ninja
         eigen
         go
-        rust
-        stylua
     )
     apt_packages+=(
         cmake
@@ -207,9 +208,8 @@ install_desktop() {
     )
     # basic tools
     yay_packages+=(
-        rsync
-        lsof
         cups
+        imagemagick
         ksnip gimp grimblast-git
     )
     # apps
@@ -229,8 +229,9 @@ install_desktop() {
     )
     # others
     yay_packages+=(
-        neofetch
-        lolcat
+        fastfetch
+        rsync
+        lsof
     )
 
     download ~/Pictures/wallpapers/nature-3058859.jpg https://gitlab.manjaro.org/artwork/wallpapers/wallpapers-2018/-/raw/master/nature-3058859.jpg
