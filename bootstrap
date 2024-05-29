@@ -160,6 +160,7 @@ install_env() {
 
 install_develop() {
     yay_packages+=(
+        pkgfile
         man-db
         cmake
         git
@@ -183,7 +184,7 @@ install_desktop() {
         brightnessctl
 
         sof-firmware libva-intel-driver libva-mesa-driver
-        power-profiles-daemon
+        tlp
         networkmanager
         pipewire pipewire-pulse pipewire-jack pipewire-audio
         bluez-utils blueman

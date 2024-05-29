@@ -28,7 +28,7 @@ zinit snippet OMZL::git.zsh
 zinit snippet OMZL::grep.zsh
 zinit snippet OMZP::python
 zinit snippet OMZP::command-not-found
-
+zinit snippet OMZP::docker
 # alias la,ll
 zinit snippet OMZP::common-aliases
 
