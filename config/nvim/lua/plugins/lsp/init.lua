@@ -11,6 +11,8 @@ local function none_ls()
         sources = {
             null_ls.builtins.formatting.stylua,
             null_ls.builtins.formatting.shfmt,
+            null_ls.builtins.diagnostics.markdownlint,
+            null_ls.builtins.formatting.markdownlint,
         },
     })
 end
@@ -22,14 +24,9 @@ return {
         "neovim/nvim-lspconfig",
         config = require("plugins.lsp.lspconfig"),
         dependencies = {
-            "neodev.nvim",
             "neoconf.nvim",
         },
         event = { "VeryLazy" },
-    },
-    {
-        "folke/neodev.nvim",
-        config = true,
     },
     -- completion engine
     {
@@ -53,7 +50,6 @@ return {
         build = "make install_jsregexp",
         config = luasnip,
     },
-    "rafamadriz/friendly-snippets",
     -- show signature
     {
         "ray-x/lsp_signature.nvim",
@@ -65,8 +61,40 @@ return {
     -- diagnostic list
     {
         "folke/trouble.nvim",
-        config = require("plugins.lsp.trouble"),
+        opts = {},
         event = "VeryLazy",
+        keys = {
+            {
+                "<leader>xx",
+                "<cmd>Trouble diagnostics toggle<cr>",
+                desc = "Diagnostics (Trouble)",
+            },
+            {
+                "<leader>xX",
+                "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+                desc = "Buffer Diagnostics (Trouble)",
+            },
+            {
+                "<leader>cs",
+                "<cmd>Trouble symbols toggle focus=false<cr>",
+                desc = "Symbols (Trouble)",
+            },
+            {
+                "<leader>cl",
+                "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+                desc = "LSP Definitions / references / ... (Trouble)",
+            },
+            {
+                "<leader>xL",
+                "<cmd>Trouble loclist toggle<cr>",
+                desc = "Location List (Trouble)",
+            },
+            {
+                "<leader>xQ",
+                "<cmd>Trouble qflist toggle<cr>",
+                desc = "Quickfix List (Trouble)",
+            },
+        },
     },
     {
         "nvimtools/none-ls.nvim",
@@ -76,7 +104,7 @@ return {
     {
         "AbaoFromCUG/lua_ls.nvim",
         ---@type lua_ls.Config
-        config = {
+        opts = {
             settings = {
                 Lua = {
                     diagnostics = {},

@@ -19,3 +19,4 @@ config/ags/types
 config/ags/README.md
 config/ags/tsconfig.json
 .tool-versions
+config/yazi/plugins

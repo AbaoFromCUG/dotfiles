@@ -1,5 +1,5 @@
-local util = require("lspconfig.util")
 local Path = require("pathlib")
+local util = require("lspconfig.util")
 
 local root_files = {
     ".qmlls.ini",

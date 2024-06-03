@@ -5,7 +5,9 @@
 [manager]
 
 prepend_keymap = [
-	# Help
-	{ on = [ "?" ], run = "help", desc = "Open help" },
+    # Help
+    { on = ["?"], run = "help", desc = "Open help" },
+    { on = ["s"], run = "plugin keyjump --args=global" },
+    { on = ["\\", "f", "f"], run = "search fd" },
+    { on = ["\\", "f", "w"], run = "search rg" },
 ]
-

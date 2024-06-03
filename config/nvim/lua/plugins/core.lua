@@ -54,7 +54,9 @@ return {
             "nvimtools/none-ls.nvim",
         },
         opts = {
-            ensure_installed = {},
+            ensure_installed = {
+                "markdownlint",
+            },
             automatic_installation = true,
         },
     },

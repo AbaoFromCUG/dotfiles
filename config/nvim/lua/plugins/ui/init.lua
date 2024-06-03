@@ -4,6 +4,7 @@ local function theme()
         vim.cmd([[colorscheme nightfox]])
     end
 end
+
 local function lualine()
     local code_navigation = require("nvim-navic")
     require("lualine").setup({
@@ -94,9 +95,50 @@ local function statuscol()
 end
 
 local function notify()
+    ---@diagnostic disable-next-line: missing-fields
+    require("notify").setup({
+        on_open = function(win)
+            vim.api.nvim_win_set_config(win, { focusable = false })
+        end,
+    })
     vim.notify = require("notify")
 end
 
+local function yazi()
+    ---@param buf number
+    ---@param config YaziConfig
+    local function set_keymappings_function(buf, config)
+        local helper = require("yazi.keybinding_helpers")
+        local function live_grep()
+            helper.select_current_file_and_close_yazi(config, {
+                on_file_opened = function(chosen_file, _, state)
+                    local success, result_or_error = pcall(config.integrations.grep_in_directory, state.last_directory.filename)
+                    assert(success, result_or_error)
+                end,
+            })
+        end
+        local function find_files()
+            helper.select_current_file_and_close_yazi(config, {
+                on_file_opened = function(chosen_file, _, state)
+                    local directory = state.last_directory.filename
+                    require("telescope.builtin").live_grep({
+                        search = "",
+                        prompt_title = "Grep in " .. directory,
+                        cwd = directory,
+                    })
+                end,
+            })
+        end
+        vim.keymap.set({ "t" }, "<leader>fw", live_grep, { buffer = buf })
+        vim.keymap.set({ "t" }, "<leader>ff", find_files, { buffer = buf })
+    end
+    require("yazi").setup({
+        open_for_directories = false,
+        set_keymappings_function = set_keymappings_function,
+    })
+end
+
+---@type LazySpec[]
 return {
     {
         "EdenEast/nightfox.nvim",
@@ -114,6 +156,11 @@ return {
         "akinsho/bufferline.nvim",
         config = require("plugins.ui.bufferline"),
         event = "VeryLazy",
+        keys = {
+            { "<S-l>", "<cmd>BufferLineCycleNext<cr>", desc = "focus right tab" },
+            { "<S-h>", "<cmd>BufferLineCyclePrev<cr>", desc = "focus left tab" },
+            { "<leader>vo", "<cmd>BufferLineCloseOthers<cr>", "close other tabs" },
+        },
     },
     -- status line
     {
@@ -172,10 +219,15 @@ return {
         dependencies = {
             "nvim-lua/plenary.nvim",
         },
-        event = "VeryLazy",
-        ---@type YaziConfig
-        opts = {
-            open_for_directories = false,
+        config = yazi,
+        keys = {
+            {
+                "<C-b>",
+                function()
+                    require("yazi").yazi()
+                end,
+                desc = "Open the file manager",
+            },
         },
     },
     {

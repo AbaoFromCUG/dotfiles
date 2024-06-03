@@ -36,6 +36,7 @@ return {
             },
         },
         ft = { "python" },
+        cmd = "Neopyter",
         dev = true,
     },
     {

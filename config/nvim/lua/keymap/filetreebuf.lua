@@ -1,6 +1,6 @@
 local api = require("nvim-tree.api")
-local which_key = require("which-key")
 local builtin = require("telescope.builtin")
+local which_key = require("which-key")
 
 local function get_available_path()
     local node = api.tree.get_node_under_cursor()

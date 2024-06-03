@@ -1,18 +1,28 @@
+local function smart_run()
+    local dap = require("dap")
+    if dap.session() then
+        dap.continue()
+    else
+        dap.run_last()
+    end
+end
+
 local function overseer()
-    require("dap.ext.vscode").json_decode = require("overseer.json").decode
+    ---@diagnostic disable-next-line: missing-fields
     require("overseer").setup({
         templates = { "builtin" },
+        ---@diagnostic disable-next-line: assign-type-mismatch
         strategy = {
             "toggleterm",
             direction = "float",
-            use_shell = true,
+            -- use_shell = true,
         },
     })
 end
 
-local function _neotest()
-    local neotest = require("neotest")
-    neotest.setup({
+local function neotest()
+    ---@diagnostic disable-next-line: missing-fields
+    require("neotest").setup({
         adapters = {
             require("neotest-plenary"),
             require("neotest-python"),
@@ -20,26 +30,27 @@ local function _neotest()
                 jestCommand = "npm test --",
                 jestConfigFile = "custom.jest.config.ts",
                 env = { CI = true },
-                cwd = function(path)
+                cwd = function()
                     return vim.fn.getcwd()
                 end,
             }),
         },
+        ---@diagnostic disable-next-line: assign-type-mismatch
         consumers = { overseer = require("neotest.consumers.overseer") },
     })
-    vim.keymap.set("n", "<space>tf", function()
-        neotest.run.run(vim.fn.expand("%"))
-    end, { desc = "test current file" })
-    vim.keymap.set("n", "<space>tt", function()
-        neotest.run.run()
-    end, { desc = "test nearest case" })
 end
 
 return {
     {
         "mfussenegger/nvim-dap",
         config = require("plugins.dap.dap"),
-        event = "VeryLazy",
+        keys = {
+            { "<F5>", smart_run, mode = { "n", "i" }, desc = "run" },
+            { "<F6>", "<cmd>DapTerminate<cr>", mode = { "n", "i" }, desc = "terminate" },
+            { "<F9>", "<cmd>PBToggleBreakpoint<cr>", mode = { "n", "i" }, desc = "toggle breakpoint" },
+            { "<F11>", "<cmd>DapStepInto<cr>", mode = { "n", "i" }, desc = "step into" },
+            { "<F12>", "<cmd>DapStepOver<cr>", mode = { "n", "i" }, desc = "step over" },
+        },
     },
     {
         "rcarriga/nvim-dap-ui",
@@ -47,12 +58,10 @@ return {
         config = require("plugins.dap.dapui"),
     },
     { "theHamsta/nvim-dap-virtual-text", config = true },
-    { "Weissle/persistent-breakpoints.nvim", config = true, event = "VeryLazy" },
-
+    { "Weissle/persistent-breakpoints.nvim", config = true },
     {
         "stevearc/overseer.nvim",
         config = overseer,
-        event = "VeryLazy",
         dev = true,
     },
     {
@@ -64,8 +73,19 @@ return {
             "neotest-jest",
             "neotest-plenary",
         },
-        config = _neotest,
-        event = "VeryLazy",
+        config = neotest,
+        cmd = "Neotest",
+        keys = {
+            { "<space>tt", "<cmd>Neotest run<cr>", desc = "test nearest case" },
+            {
+                "<space>tf",
+                function()
+                    require("neotest").run.run(vim.fn.expand("%"))
+                end,
+                desc = "test nearest case",
+            },
+            -- { "<space>tf", "<cmd>Neotest run file<cr>", desc = "test current file" },
+        },
     },
     { "AbaoFromCUG/neotest-plenary", branch = "abao/fix_async" },
     { "nvim-neotest/neotest-jest" },

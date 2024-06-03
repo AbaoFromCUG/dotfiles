@@ -117,7 +117,6 @@ setup_asdf() {
 }
 
 setup_tmux() {
-
     if [ ! -d ~/.tmux ] || [ ! -f ~/.tmux.conf ]; then
         echo "installing oh-my-tmux..."
         if [[ -f ~/.tmux.conf ]]; then
@@ -139,11 +138,28 @@ setup_fzf() {
     fi
 }
 
+setup_yazi() {
+    yazi_plugin() {
+        name=$1
+        repository=$2
+        if [ ! -d ~/.config/yazi/plugins/${name} ]; then
+            echo "installing ${name}..."
+            git clone https://github.com/$repository ~/.config/yazi/plugins/$name
+
+        else
+            echo "    ${name} installed, skip"
+        fi
+    }
+    yazi_plugin keyjump.yazi DreamMaoMao/keyjump.yazi
+
+}
+
 # --------------choice--------------------
 
 install_terminal() {
     setup_tmux
     setup_fzf
+    setup_yazi
     yay_packages+=(
         tmux
         lazygit

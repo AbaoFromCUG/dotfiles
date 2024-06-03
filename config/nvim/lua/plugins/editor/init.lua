@@ -1,3 +1,21 @@
+local is_inside_work_tree = {}
+
+local function project_files()
+    local cwd = vim.uv.cwd()
+    local builtin = require("telescope.builtin")
+    if cwd and is_inside_work_tree[cwd] == nil then
+        vim.system({ "git", "rev-parse", "--is-inside-work-tree" }, { text = true, cwd = cwd }, function(out)
+            is_inside_work_tree[cwd] = out.code == 0
+            vim.schedule(project_files)
+        end)
+    end
+    if is_inside_work_tree[cwd] then
+        builtin.git_files({ use_git_root = false, show_untracked = true })
+    else
+        builtin.find_files()
+    end
+end
+
 local function ufo()
     vim.o.foldcolumn = "1" -- '0' is not bad
     vim.o.foldlevel = 99
@@ -22,10 +40,6 @@ local function gitsigns()
             ignore_whitespace = false,
         },
     })
-end
-
-local function hop()
-    require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
 end
 
 local function session()
@@ -54,6 +68,14 @@ return {
         dependencies = { "nvim-lua/plenary.nvim" },
         config = require("plugins.editor.telescope"),
         cmd = "Telescope",
+        keys = {
+            { "<leader>ff", project_files, desc = "find files" },
+            { "<leader>fh", "<cmd>Telescope oldfiles<cr>", desc = "history files" },
+            { "<leader>fw", "<cmd>Telescope live_grep<cr>", desc = "find words" },
+            { "<leader>fm", "<cmd>Telescope marks<cr>", desc = "find marks" },
+            { "<leader>,m", "<cmd>Telescope filetypes<cr>", desc = "change languages" },
+            { "<leader>,c", "<cmd>Telescope colorscheme<cr>", desc = "change colorscheme" },
+        },
     },
     {
         "nvim-telescope/telescope-fzf-native.nvim",
@@ -107,18 +129,19 @@ return {
             "nvim-treesitter/nvim-treesitter",
             "nvim-treesitter/nvim-treesitter-textobjects",
         },
-        opts = {
-            surrounds = {
-                ["("] = {
-                    add = { "(", ")" },
-                },
-            },
-        },
+        opts = {},
     },
     -- annotation gen
     {
         "danymat/neogen",
         opts = { snippet_engine = "luasnip" },
+        cmd = "Neogen",
+        keys = {
+            { "<space>cn", "<cmd>Neogen<cr>", desc = "neogen" },
+            { "<space>cf", "<cmd>Neogen func<cr>", desc = "neogen function" },
+            { "<space>cc", "<cmd>Neogen class<cr>", desc = "neogen class" },
+            { "<space>ct", "<cmd>Neogen type<cr>", desc = "neogen type" },
+        },
     },
 
     -- comment
@@ -148,12 +171,60 @@ return {
     },
 
     -- zen mode
-    { "folke/zen-mode.nvim", opts = {} },
+    {
+        "folke/zen-mode.nvim",
+        opts = {},
+        keys = {
+            { "<leader>zz", "<cmd>ZenMode<cr>", mode = { "n", "i", "v" }, desc = "zen mode" },
+        },
+    },
 
     {
-        "phaazon/hop.nvim",
-        config = hop,
-        event = "VeryLazy",
+        "folke/flash.nvim",
+        ---@type Flash.Config
+        opts = {},
+        keys = {
+            {
+                "s",
+                mode = { "n", "x", "o" },
+                function()
+                    require("flash").jump()
+                end,
+                desc = "Flash",
+            },
+            {
+                "S",
+                mode = { "n", "x", "o" },
+                function()
+                    require("flash").treesitter()
+                end,
+                desc = "Flash Treesitter",
+            },
+            {
+                "r",
+                mode = "o",
+                function()
+                    require("flash").remote()
+                end,
+                desc = "Remote Flash",
+            },
+            {
+                "R",
+                mode = { "o", "x" },
+                function()
+                    require("flash").treesitter_search()
+                end,
+                desc = "Treesitter Search",
+            },
+            {
+                "<c-s>",
+                mode = { "c" },
+                function()
+                    require("flash").toggle()
+                end,
+                desc = "Toggle Flash Search",
+            },
+        },
     },
 
     -- session & project
@@ -165,9 +236,17 @@ return {
     {
         "folke/neoconf.nvim",
         config = true,
+        keys = {
+            { "<leader>,,", "<cmd>Neoconf local<cr>", "local settings" },
+        },
     },
     {
         "nvim-pack/nvim-spectre",
         config = true,
+        cmd = "Spectre",
+        keys = {
+            { "<leader>ss", "<cmd>Spectre<cr>", desc = "Select current word" },
+            { "<leader>sw", "<cmd>Spectre select_word=true<cr>", desc = "Select current word" },
+        },
     },
 }
