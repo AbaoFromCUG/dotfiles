@@ -1,0 +1,5 @@
+local map = require("keymap")
+local previewer = require("texlab.previewer")
+local requests = require("texlab.requests")
+map({ "n", "<space><space>", requests.build, desc = "latex build" })
+map({ "n", "<space>b", previewer.start, desc = "latex start" })

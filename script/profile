@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+
+
+if [ -f "/tmp/nvim_profile" ]; then
+    rm /tmp/nvim_profile
+fi
+
+for i in $(seq 1 1000); do
+    nvim -c "autocmd User LazyVimStarted  lua log_startup_time('/tmp/nvim_profile')"
+done
+
+
+cat /tmp/nvim_profile|awk '{sum+=$1}END{print "Average = ", sum/NR}'

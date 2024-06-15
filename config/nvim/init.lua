@@ -22,6 +22,9 @@ vim.opt.langmenu = "zh_CN.UTF-8"
 vim.opt.helplang = "cn"
 vim.opt.encoding = "utf8"
 
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+
 vim.opt.laststatus = 3
 vim.opt.swapfile = false
 vim.opt.sessionoptions = { "buffers", "curdir", "winsize", "winpos", "terminal" }
@@ -69,5 +72,12 @@ local opts = {
         lazy = true,
     },
 }
+
+_G.log_startup_time = function(filename)
+    local time = require("lazy").stats().startuptime
+    local file = assert(io.open(filename, "a+"))
+    file:write(string.format("%s\n", time))
+    vim.cmd("qall")
+end
 
 require("lazy").setup("plugins", opts)

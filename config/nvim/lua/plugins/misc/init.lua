@@ -1,3 +1,31 @@
+local function neopyter()
+    require("neopyter").setup({
+        remote_address = "127.0.0.1:9001",
+        auto_attach = true,
+        on_attach = function(buf)
+            local function map(mode, lhs, rhs, desc)
+                vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = buf })
+            end
+
+            map("n", "<space>nt", "<cmd>Neopyter execute kernelmenu:restart<cr>", "restart kernel")
+
+            map("n", "<C-Enter>", "<cmd>Neopyter execute notebook:run-cell<cr>", "run selected")
+
+            map("n", "<F5>", "<cmd>Neopyter execute notebook:restart-run-all<cr>", "restart kernel and run all")
+        end,
+        highlight = {
+            enable = true,
+            shortsighted = false,
+        },
+        jupyter = {
+            scroll = {
+                enable = true,
+                align = "auto",
+            },
+        },
+    })
+end
+
 ---@type LazySpec[]
 return {
     {
@@ -17,24 +45,7 @@ return {
     },
     {
         "SUSTech-data/neopyter",
-        ---@type neopyter.Option
-        opts = {
-            remote_address = "127.0.0.1:9001",
-            auto_attach = true,
-            on_attach = function(buf)
-                require("keymap.notebookbuf")(buf)
-            end,
-            highlight = {
-                enable = false,
-                shortsighted = false,
-            },
-            jupyter = {
-                scroll = {
-                    enable = true,
-                    align = "auto",
-                },
-            },
-        },
+        config = neopyter,
         ft = { "python" },
         cmd = "Neopyter",
         dev = true,
@@ -45,7 +56,7 @@ return {
             vim.fn["firenvim#install"](0)
         end,
     },
-    { "LunarVim/bigfile.nvim", event = "UIEnter" },
+    { "LunarVim/bigfile.nvim", opts = {}, lazy = false },
     {
         "luckasRanarison/tailwind-tools.nvim",
         dependencies = { "nvim-treesitter/nvim-treesitter" },
@@ -55,4 +66,12 @@ return {
     },
     { "lambdalisue/suda.vim", cmd = { "SudaWrite", "SudaRead" } },
     { "h-hg/fcitx.nvim", event = "VeryLazy" },
+    {
+        "rest-nvim/rest.nvim",
+        dependencies = { "luarocks.nvim" },
+        config = true,
+        main = "rest-nvim",
+        cmd = { "Rest" },
+        ft = "http",
+    },
 }

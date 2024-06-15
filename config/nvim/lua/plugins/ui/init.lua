@@ -6,7 +6,17 @@ local function theme()
 end
 
 local function lualine()
-    local code_navigation = require("nvim-navic")
+    local trouble = require("trouble")
+    local symbols = trouble.statusline({
+        mode = "lsp_document_symbols",
+        groups = {},
+        title = false,
+        filter = { range = true },
+        format = "{kind_icon}{symbol.name:Normal}",
+        -- The following line is needed to fix the background color
+        -- Set it to the lualine section you want to use
+        hl_group = "lualine_c_normal",
+    })
     require("lualine").setup({
         options = {
             icons_enabled = true,
@@ -24,15 +34,13 @@ local function lualine()
                 "filename",
                 "diff",
                 {
-                    function()
-                        return code_navigation.get_location()
-                    end,
-                    cond = code_navigation.is_available,
+                    symbols.get,
+                    cond = symbols.has,
                 },
             },
             lualine_c = {
-                "launcher",
-                "overseer",
+                -- "launcher",
+                -- "overseer",
             },
             lualine_x = { "diagnostics" },
             lualine_y = { "encoding", "fileformat", "filetype" },
@@ -94,16 +102,6 @@ local function statuscol()
     })
 end
 
-local function notify()
-    ---@diagnostic disable-next-line: missing-fields
-    require("notify").setup({
-        on_open = function(win)
-            vim.api.nvim_win_set_config(win, { focusable = false })
-        end,
-    })
-    vim.notify = require("notify")
-end
-
 local function yazi()
     ---@param buf number
     ---@param config YaziConfig
@@ -159,7 +157,6 @@ return {
         keys = {
             { "<S-l>", "<cmd>BufferLineCycleNext<cr>", desc = "focus right tab" },
             { "<S-h>", "<cmd>BufferLineCyclePrev<cr>", desc = "focus left tab" },
-            { "<leader>vo", "<cmd>BufferLineCloseOthers<cr>", "close other tabs" },
         },
     },
     -- status line
@@ -185,14 +182,18 @@ return {
     -- components
     {
         "rcarriga/nvim-notify",
-        config = notify,
-        event = "VeryLazy",
-    },
-    -- lsp progress
-    {
-        "j-hui/fidget.nvim",
-        config = true,
-        event = "VeryLazy",
+        init = function()
+            ---@diagnostic disable-next-line: duplicate-set-field
+            vim.notify = function(...)
+                require("notify")(...)
+            end
+        end,
+        opts = {
+            on_open = function(win)
+                vim.api.nvim_win_set_config(win, { focusable = false })
+            end,
+        },
+        -- event = "VeryLazy",
     },
     {
 
@@ -213,6 +214,18 @@ return {
         event = "VeryLazy",
     },
 
+    {
+        "nvim-tree/nvim-tree.lua",
+        init = function()
+            vim.g.loaded_netrw = 1
+            vim.g.loaded_netrwPlugin = 1
+        end,
+        config = require("plugins.ui.filetree"),
+
+        keys = {
+            { "<leader>b", "<cmd>NvimTreeToggle<cr>", desc = "Open the file manager" },
+        },
+    },
     ---@type LazySpec
     {
         "mikavilpas/yazi.nvim",
@@ -220,15 +233,6 @@ return {
             "nvim-lua/plenary.nvim",
         },
         config = yazi,
-        keys = {
-            {
-                "<C-b>",
-                function()
-                    require("yazi").yazi()
-                end,
-                desc = "Open the file manager",
-            },
-        },
     },
     {
         "akinsho/toggleterm.nvim",
@@ -236,8 +240,19 @@ return {
         event = "VeryLazy",
     },
     {
-        "willothy/flatten.nvim",
-        config = true,
-        lazy = false,
+        "stevearc/aerial.nvim",
+        opts = {},
+        keys = {
+            { "<leader>vt", "<cmd>AerialToggle right<cr>", desc = "outline" },
+        },
+    },
+    {
+        "folke/edgy.nvim",
+        config = require("plugins.ui.edgy"),
+        event = "VeryLazy",
+    },
+    {
+        "RRethy/vim-illuminate",
+        event = "VeryLazy",
     },
 }

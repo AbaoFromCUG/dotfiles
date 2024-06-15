@@ -1,3 +1,25 @@
+local function enrich_config(finalConfig, on_config)
+    local final_config = vim.deepcopy(finalConfig)
+    if final_config.envFile then
+        local filePath = final_config.envFile
+        vim.iter(io.lines(filePath))
+            :filter(function(line)
+                return not line:match("^#")
+            end)
+            :each(function(line)
+                local words = {}
+                for word in string.gmatch(line, "[^=]+") do
+                    table.insert(words, word)
+                end
+                if not final_config.env then
+                    final_config.env = {}
+                end
+                final_config.env[words[1]] = words[2]
+            end)
+    end
+    on_config(final_config)
+end
+
 return function()
     local dap = require("dap")
 
@@ -12,10 +34,11 @@ return function()
         type = "executable",
         command = "OpenDebugAD7", -- adjust as needed
     }
-    dap.adapters.python = {
+    dap.adapters.debugpy = {
         type = "executable",
         command = "python",
         args = { "-m", "debugpy.adapter" },
+        enrich_config = enrich_config,
     }
 
     dap.adapters.node = {
@@ -27,13 +50,17 @@ return function()
             args = { "${port}" },
         },
     }
-    dap.adapters.nlua = function(callback, config)
-        callback({ type = "server", host = config.host or "127.0.0.1", port = config.port or 8086 })
+    local dapui = require("dap")
+    dap.listeners.before.attach.dapui_config = function()
+        require("dapui").open()
     end
-
-    local session = require("session")
-    session.register_hook("post_restore", "restore_breakpoints", function()
-        local persistent_bp = require("persistent-breakpoints.api")
-        persistent_bp.load_breakpoints()
-    end)
+    dap.listeners.before.launch.dapui_config = function()
+        require("dapui").open()
+    end
+    dap.listeners.before.event_terminated.dapui_config = function()
+        require("dapui").close(1)
+    end
+    dap.listeners.before.event_exited.dapui_config = function()
+        require("dapui").close(1)
+    end
 end

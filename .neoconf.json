@@ -2,9 +2,8 @@
   "lspconfig": {
     "lua_ls": {
       "Lua.addonManager.addons": [
-        "nvim",
-        "~/Documents/work/wezterm-luals-addon"
-      ],
+        "nvim-full",
+      ]
     }
   }
 }

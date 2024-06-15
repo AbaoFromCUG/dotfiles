@@ -139,6 +139,7 @@ setup_fzf() {
 }
 
 setup_yazi() {
+    echo "install yazi plugin"
     yazi_plugin() {
         name=$1
         repository=$2
@@ -151,7 +152,6 @@ setup_yazi() {
         fi
     }
     yazi_plugin keyjump.yazi DreamMaoMao/keyjump.yazi
-
 }
 
 # --------------choice--------------------
@@ -197,11 +197,10 @@ install_desktop() {
         xdg-desktop-portal-hyprland polkit-gnome
         libinput-gestures
         wl-clipboard
-        brightnessctl
+        brightnessctl tlp ddcutil
 
         sof-firmware libva-intel-driver libva-mesa-driver
-        tlp
-        networkmanager
+        networkmanager curl wget
         pipewire pipewire-pulse pipewire-jack pipewire-audio
         bluez-utils blueman
         mpd mpd-mpris playerctl pavucontrol
@@ -231,17 +230,17 @@ install_desktop() {
     )
     # apps
     yay_packages+=(
-        wps-office
+        wps-office wps-office-fonts wps-office-mime ttf-wps-fonts
         clash-for-windows-bin
         firefox
         linuxqq-nt-bwrap wechat-universal-bwrap
-        telegram-desktop feishu-bin
+        telegram-desktop feishu-bin discord
         krita
         vlc obs-studio
         ario
-        unarchiver
+        unarchiver unzip
         pot-translation
-        code
+        visual-studio-code-bin
         wezterm kitty alacritty
     )
     # others

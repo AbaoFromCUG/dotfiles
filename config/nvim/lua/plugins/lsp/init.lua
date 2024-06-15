@@ -19,7 +19,6 @@ end
 
 ---@type LazySpec[]
 return {
-
     {
         "neovim/nvim-lspconfig",
         config = require("plugins.lsp.lspconfig"),
@@ -58,11 +57,16 @@ return {
     },
     -- pictograms for lsp
     { "onsails/lspkind-nvim" },
+    -- lsp progress
+    {
+        "j-hui/fidget.nvim",
+        config = true,
+        event = "VeryLazy",
+    },
     -- diagnostic list
     {
         "folke/trouble.nvim",
         opts = {},
-        event = "VeryLazy",
         keys = {
             {
                 "<leader>xx",
@@ -128,6 +132,7 @@ return {
     {
         "AbaoFromCUG/texlab.nvim",
         dependencies = { "nvim-lspconfig" },
+        ---@module "texlab.nvim"
         ---@type texlab.Config
         opts = {
             compiler = {
@@ -135,7 +140,7 @@ return {
                 engine = "xelatex",
             },
         },
-        event = "VeryLazy",
+        ft = { "tex", "latex" },
         dev = true,
     },
 }

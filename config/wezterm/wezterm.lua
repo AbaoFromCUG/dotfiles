@@ -1,4 +1,5 @@
 local wezterm = require("wezterm")
+
 local session = require("session")
 
 local config = wezterm.config_builder()
@@ -6,7 +7,7 @@ local config = wezterm.config_builder()
 config.font_size = 14
 
 -- => == !=  😀
-config.enable_wayland=true
+config.enable_wayland = false
 config.font = wezterm.font_with_fallback({
     "FiraCode Nerd Font",
 })

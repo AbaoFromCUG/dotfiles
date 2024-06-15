@@ -15,7 +15,7 @@ local function overseer()
         strategy = {
             "toggleterm",
             direction = "float",
-            -- use_shell = true,
+            use_shell = true,
         },
     })
 end
@@ -45,7 +45,7 @@ return {
         "mfussenegger/nvim-dap",
         config = require("plugins.dap.dap"),
         keys = {
-            { "<F5>", smart_run, mode = { "n", "i" }, desc = "run" },
+            { "<F5>", "<cmd>DapContinue<cr>", mode = { "n", "i" }, desc = "run" },
             { "<F6>", "<cmd>DapTerminate<cr>", mode = { "n", "i" }, desc = "terminate" },
             { "<F9>", "<cmd>PBToggleBreakpoint<cr>", mode = { "n", "i" }, desc = "toggle breakpoint" },
             { "<F11>", "<cmd>DapStepInto<cr>", mode = { "n", "i" }, desc = "step into" },
@@ -61,8 +61,8 @@ return {
     { "Weissle/persistent-breakpoints.nvim", config = true },
     {
         "stevearc/overseer.nvim",
+        commit = "fdcd46ce738ef342bce38e5433df004ebdab3a1a",
         config = overseer,
-        dev = true,
     },
     {
         "nvim-neotest/neotest",
@@ -87,7 +87,12 @@ return {
             -- { "<space>tf", "<cmd>Neotest run file<cr>", desc = "test current file" },
         },
     },
-    { "AbaoFromCUG/neotest-plenary", branch = "abao/fix_async" },
+    {
+        "nvim-neotest/neotest-plenary",
+        -- "AbaoFromCUG/neotest-plenary",
+        -- branch = "abao/fix_async",
+        -- dev = true,
+    },
     { "nvim-neotest/neotest-jest" },
     "nvim-neotest/neotest-python",
 }

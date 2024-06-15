@@ -4,7 +4,7 @@ return function()
     local luasnip = require("luasnip")
     local function smart_tab(fallback)
         if cmp.visible() then
-            cmp.select_next_item()
+            cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
         elseif luasnip.expand_or_locally_jumpable() then
             luasnip.expand_or_jump()
         else

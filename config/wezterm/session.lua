@@ -1,5 +1,5 @@
-local wezterm = require("wezterm") --[[@as wezterm.WezTerm]]
 local utils = require("utils")
+local wezterm = require("wezterm") --[[@as wezterm.WezTerm]]
 
 local mux = wezterm.mux
 

@@ -1,5 +1,5 @@
-local wezterm = require("wezterm") --[[@as wezterm.WezTerm]]
 local session = require("session")
+local wezterm = require("wezterm") --[[@as wezterm.WezTerm]]
 
 local act = wezterm.action
 
@@ -55,6 +55,11 @@ return function(config)
             key = "a",
             mods = "CTRL",
             action = act.ActivateKeyTable({ name = "tmux_keys", one_shot = true }),
+        },
+        {
+            key = "b",
+            mods = "CTRL",
+            action = act.SendKey({ key="a", mods="CTRL" }),
         },
     }
 
