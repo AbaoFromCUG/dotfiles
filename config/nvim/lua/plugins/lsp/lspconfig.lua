@@ -1,8 +1,9 @@
 local function smart_format()
     local eslint = vim.lsp.get_clients({ name = "eslint" })[1]
-    vim.lsp.buf.format({ filter = eslint and function(client)
-        return client.name ~= "tsserver"
-    end or nil })
+    -- vim.lsp.buf.format({ filter = eslint and function(client)
+    --     return client.name ~= "tsserver"
+    -- end or nil })
+    vim.lsp.buf.format()
 end
 
 return function()
@@ -28,7 +29,7 @@ return function()
             server.setup(config)
         end,
         ["volar"] = function() end,
-        ["texlab"] = function() end,
+        -- ["texlab"] = function() end,
         ["lua_ls"] = function() end,
     })
 

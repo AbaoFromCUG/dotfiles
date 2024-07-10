@@ -41,26 +41,36 @@ local function gitsigns()
             ignore_whitespace = false,
         },
         on_attach = function(bufnr)
-            local function map(mode, l, r, desc)
-                vim.keymap.set(mode, l, r, { buffer = bufnr, desc = desc })
-            end
+            local map = require("keymap")
 
-            map("n", "]h", "<cmd>Gitsigns nav_hunk next<cr>", "next Hunk")
-            map("n", "[h", "<cmd>Gitsigns nav_hunk prev<cr>", "next Hunk")
-            map({ "n", "v" }, "<leader>ghs", "<cmr>Gitsigns stage_hunk<CR>", "stage hunk")
-            map({ "n", "v" }, "<leader>ghr", "<cmd>Gitsigns reset_hunk<CR>", "reset hunk")
-            -- map("n", "<leader>ghS", gs.stage_buffer, "Stage Buffer")
-            -- map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
-            -- map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
-            -- map("n", "<leader>ghp", gs.preview_hunk_inline, "Preview Hunk Inline")
-            -- map("n", "<leader>ghb", function()
-            --     gs.blame_line({ full = true })
-            -- end, "Blame Line")
-            -- map("n", "<leader>ghd", gs.diffthis, "Diff This")
-            -- map("n", "<leader>ghD", function()
-            --     gs.diffthis("~")
-            -- end, "Diff This ~")
-            -- map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
+            map({
+                { "n", "]h", "<cmd>Gitsigns nav_hunk next<cr>", "next Hunk" },
+                { "n", "[h", "<cmd>Gitsigns nav_hunk prev<cr>", "next hunk" },
+                { { "n", "v" }, "<leader>ghs", "<cmr>Gitsigns stage_hunk<CR>", "stage hunk" },
+                { { "n", "v" }, "<leader>ghr", "<cmd>Gitsigns reset_hunk<CR>", "reset hunk" },
+                { "n", "<leader>ghS", gs.stage_buffer, "Stage Buffer" },
+                { "n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk" },
+                { "n", "<leader>ghR", gs.reset_buffer, "Reset Buffer" },
+                { "n", "<leader>ghp", gs.preview_hunk_inline, "Preview Hunk Inline" },
+                {
+                    "n",
+                    "<leader>ghb",
+                    function()
+                        gs.blame_line({ full = true })
+                    end,
+                    "Blame Line",
+                },
+                { "n", "<leader>ghd", gs.diffthis, "Diff This" },
+                {
+                    "n",
+                    "<leader>ghD",
+                    function()
+                        gs.diffthis("~")
+                    end,
+                    "Diff This ~",
+                },
+                { { "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk" },
+            })
         end,
     })
 end
@@ -128,7 +138,7 @@ return {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
         config = require("plugins.editor.treesitter"),
-        commit = "a80fe081b4c",
+        -- commit = "a80fe081b4c",
         dependencies = {
             { "andymass/vim-matchup", opts = {} },
             { "RRethy/nvim-treesitter-endwise" },

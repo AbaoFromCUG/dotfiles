@@ -32,11 +32,8 @@ return function()
         parser_install_dir = parser_path,
         -- one of "all", "maintained" (parsers with maintainers), or a list of languages
         ensure_installed = {
-            "javascript",
-            "jsonc",
+            "jsdoc",
             "markdown_inline",
-            "html",
-            "css",
             "latex",
             "wgsl",
             "regex",

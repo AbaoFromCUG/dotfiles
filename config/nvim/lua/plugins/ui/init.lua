@@ -242,6 +242,7 @@ return {
     {
         "stevearc/aerial.nvim",
         opts = {},
+        cmd = { "AerialToggle", "AerialOpen" },
         keys = {
             { "<leader>vt", "<cmd>AerialToggle right<cr>", desc = "outline" },
         },

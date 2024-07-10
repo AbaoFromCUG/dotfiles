@@ -50,15 +50,15 @@ return function()
             args = { "${port}" },
         },
     }
-    local dapui = require("dap")
+    local dapui = require("dapui")
     dap.listeners.before.attach.dapui_config = function()
-        require("dapui").open()
+        dapui.open()
     end
     dap.listeners.before.launch.dapui_config = function()
-        require("dapui").open()
+        dapui.open()
     end
     dap.listeners.before.event_terminated.dapui_config = function()
-        require("dapui").close(1)
+        dapui.close(1)
     end
     dap.listeners.before.event_exited.dapui_config = function()
         require("dapui").close(1)

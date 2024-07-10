@@ -14,7 +14,15 @@ return function()
             {
                 ft = "aerial",
                 pinned = true,
-                open = "AerialToggle right",
+                -- open = "AerialToggle right",
+            },
+            {
+                ft = "help",
+                size = { width = 120 },
+                -- only show help buffers
+                filter = function(buf)
+                    return vim.bo[buf].buftype == "help"
+                end,
             },
         },
         bottom = {
@@ -32,14 +40,6 @@ return function()
                 size = { height = 0.4 },
             },
             { ft = "qf", title = "QuickFix" },
-            {
-                ft = "help",
-                size = { height = 20 },
-                -- only show help buffers
-                filter = function(buf)
-                    return vim.bo[buf].buftype == "help"
-                end,
-            },
             { ft = "spectre_panel", size = { height = 0.4 } },
             { ft = "httpResult", size = { height = 0.4 } },
         },

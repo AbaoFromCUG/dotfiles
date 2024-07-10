@@ -34,6 +34,9 @@ local function neotest()
                     return vim.fn.getcwd()
                 end,
             }),
+            require("neotest-vitest")({
+                vitestCommand = "bunx vitest",
+            }),
         },
         ---@diagnostic disable-next-line: assign-type-mismatch
         consumers = { overseer = require("neotest.consumers.overseer") },
@@ -72,26 +75,20 @@ return {
             "nvim-treesitter",
             "neotest-jest",
             "neotest-plenary",
+            { "marilari88/neotest-vitest", dev = true },
         },
         config = neotest,
         cmd = "Neotest",
         keys = {
             { "<space>tt", "<cmd>Neotest run<cr>", desc = "test nearest case" },
-            {
-                "<space>tf",
-                function()
-                    require("neotest").run.run(vim.fn.expand("%"))
-                end,
-                desc = "test nearest case",
-            },
-            -- { "<space>tf", "<cmd>Neotest run file<cr>", desc = "test current file" },
+            { "<space>tf", "<cmd>lua require('neotest').run.run(vim.fn.expand('%'))<cr>", desc = "test current file" },
         },
     },
     {
         "nvim-neotest/neotest-plenary",
         -- "AbaoFromCUG/neotest-plenary",
         -- branch = "abao/fix_async",
-        -- dev = true,
+        dev = true,
     },
     { "nvim-neotest/neotest-jest" },
     "nvim-neotest/neotest-python",

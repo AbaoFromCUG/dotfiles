@@ -1,8 +1,6 @@
 return function()
     local lspkind = require("lspkind")
-    local cmp = require("cmp")
-    local luasnip = require("luasnip")
-    local function smart_tab(fallback)
+    local cmp = require("cmp") local luasnip = require("luasnip") local function smart_tab(fallback)
         if cmp.visible() then
             cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
         elseif luasnip.expand_or_locally_jumpable() then
@@ -58,15 +56,13 @@ return function()
         }),
         sources = cmp.config.sources({
             { name = "nvim_lsp" },
-            { name = "buffer" },
             { name = "path" },
-            { name = "treesitter" },
-            { name = "doxygen" },
             { name = "luasnip" },
             { name = "neopyter" },
         }, {
             { name = "buffer" },
         }),
+        ---@diagnostic disable-next-line: missing-fields
         formatting = {
             format = lspkind.cmp_format({
                 mode = "symbol_text",
@@ -77,7 +73,6 @@ return function()
                     buffer = "[Buffer]",
                     path = "[Path]",
                     cmdline = "[Cmdline]",
-                    treesitter = "[Treesitter]",
                     doxygen = "[Doxygen]",
                     luasnip = "[Snippet]",
                     neopyter = "[Neopyter]",

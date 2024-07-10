@@ -37,8 +37,6 @@ return {
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-cmdline",
-            "ray-x/cmp-treesitter",
-            "paopaol/cmp-doxygen",
             "saadparwaiz1/cmp_luasnip",
         },
         config = require("plugins.lsp.cmp"),
@@ -127,20 +125,6 @@ return {
             },
         },
         event = "VeryLazy",
-        dev = true,
-    },
-    {
-        "AbaoFromCUG/texlab.nvim",
-        dependencies = { "nvim-lspconfig" },
-        ---@module "texlab.nvim"
-        ---@type texlab.Config
-        opts = {
-            compiler = {
-                name = "latexmk",
-                engine = "xelatex",
-            },
-        },
-        ft = { "tex", "latex" },
         dev = true,
     },
 }

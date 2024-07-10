@@ -74,14 +74,6 @@ return {
         lazy = false,
     },
 
-    -- installer
-    {
-        "vhyrro/luarocks.nvim",
-        config = true,
-        opts = {
-            rocks = { "lua-curl", "mimetypes", "xml2lua" },
-        },
-    },
     { "williamboman/mason.nvim", config = true },
     {
         "williamboman/mason-lspconfig.nvim",
