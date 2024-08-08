@@ -1,0 +1,12 @@
+# for ArchLinux
+# includes = [".dotter/platform/linux.toml", ".dotter/platform/unix.toml"]
+# packages = ["develop", "desktop"]
+
+# for windows
+# includes = [".dotter/platform/windows.toml"]
+# packages = ["develop", "desktop"]
+
+
+[variables]
+# email="xxx@example.com"
+# git_username="Your name"

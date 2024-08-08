@@ -1,0 +1,3 @@
+
+[vim.files]
+"config/nvim" = "~/AppData/Local/nvim"

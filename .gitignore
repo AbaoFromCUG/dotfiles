@@ -22,3 +22,6 @@ config/ags/tsconfig.json
 config/yazi/plugins
 config/ags
 config/quickshell/.qmlls.ini
+.dotter/cache
+.dotter/cache.toml
+.dotter/local.toml
