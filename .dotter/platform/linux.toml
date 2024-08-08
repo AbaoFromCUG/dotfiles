@@ -1,6 +1,5 @@
 
 [desktop]
-depends = ["hyprland"]
 
 [desktop.files]
 "config/qq-bwrap-flags.conf" = "~/.config/qq-bwrap-flags.conf"
@@ -14,8 +13,6 @@ depends = ["hyprland"]
 "config/libinput-gestures.conf" = "~/.config/libinput-gestures.conf"
 "config/yay" = { type = "symbolic", target = "~/.config/yay", recurse = false }
 
-
-[hyprland.files]
 "config/hypr" = { type = "symbolic", target = "~/.config/hypr", recurse = false }
 
 "config/microsoft-edge-stable-flags.conf" = "~/.config/microsoft-edge-stable-flags.conf"
