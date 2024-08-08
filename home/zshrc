@@ -64,7 +64,7 @@ fi
 
 function yay() {
     # avoid install python package to pyenv python site
-    PYENV_VERSION=system /usr/bin/yay "${@}"
+     ASDF_RUST_VERSION=system  ASDF_NODEJS_VERSION=system PYENV_VERSION=system /usr/bin/yay "${@}"
 }
 
 alias vim=nvim

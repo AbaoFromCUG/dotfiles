@@ -15,7 +15,7 @@ local function lualine()
         format = "{kind_icon}{symbol.name:Normal}",
         -- The following line is needed to fix the background color
         -- Set it to the lualine section you want to use
-        hl_group = "lualine_c_normal",
+        -- hl_group = "lualine_b_normal",
     })
     require("lualine").setup({
         options = {
@@ -166,15 +166,6 @@ return {
         event = "VeryLazy",
     },
     {
-        "SmiteshP/nvim-navic",
-        opts = {
-            lsp = {
-                auto_attach = true,
-            },
-        },
-    },
-
-    {
         "lukas-reineke/indent-blankline.nvim",
         config = blankline,
         event = "VeryLazy",
@@ -236,7 +227,9 @@ return {
     },
     {
         "akinsho/toggleterm.nvim",
-        config = true,
+        opts = {
+            close_on_exit = false,
+        },
         event = "VeryLazy",
     },
     {

@@ -1,9 +1,3 @@
-local function luasnip()
-    local snippet_path = vim.fn.stdpath("config") .. "/snippets"
-    require("luasnip.loaders.from_vscode").lazy_load({ paths = { snippet_path } })
-    require("luasnip.loaders.from_vscode").load()
-end
-
 local function none_ls()
     local null_ls = require("null-ls")
     null_ls.setup({
@@ -11,8 +5,33 @@ local function none_ls()
         sources = {
             null_ls.builtins.formatting.stylua,
             null_ls.builtins.formatting.shfmt,
+
             null_ls.builtins.diagnostics.markdownlint,
+            null_ls.builtins.diagnostics.qmllint,
+
             null_ls.builtins.formatting.markdownlint,
+            null_ls.builtins.formatting.qmlformat,
+        },
+    })
+end
+
+local function typescript()
+    local Path = require("pathlib")
+    -- local mason_path = "mason/packages/vue-language-server/node_modules/@vue/language-server"
+    -- local plugin_path = tostring(Path(vim.fn.stdpath("data")) / mason_path)
+    require("typescript-tools").setup({
+        filetypes = {
+            "javascript",
+            "typescript",
+            "javascriptreact",
+            "typescriptreact",
+            "vue",
+        },
+        settings = {
+            tsserver_plugins = {
+                "@vue/typescript-plugin",
+                "@styled/typescript-styled-plugin",
+            },
         },
     })
 end
@@ -25,7 +44,7 @@ return {
         dependencies = {
             "neoconf.nvim",
         },
-        event = { "VeryLazy" },
+        event = { "LazyFile" },
     },
     -- completion engine
     {
@@ -37,15 +56,15 @@ return {
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-cmdline",
-            "saadparwaiz1/cmp_luasnip",
+            "lukas-reineke/cmp-under-comparator",
         },
         config = require("plugins.lsp.cmp"),
     },
     {
-        "L3MON4D3/LuaSnip",
+        "garymjr/nvim-snippets",
         dependencies = { "rafamadriz/friendly-snippets" },
-        build = "make install_jsregexp",
-        config = luasnip,
+        opts = { friendly_snippets = true, create_cmp_source = true },
+        event = "InsertEnter",
     },
     -- show signature
     {
@@ -55,6 +74,12 @@ return {
     },
     -- pictograms for lsp
     { "onsails/lspkind-nvim" },
+    {
+        "roobert/tailwindcss-colorizer-cmp.nvim",
+        opts = {
+            color_square_width = 2,
+        },
+    },
     -- lsp progress
     {
         "j-hui/fidget.nvim",
@@ -104,6 +129,12 @@ return {
         event = "VeryLazy",
     },
     {
+        "pmizio/typescript-tools.nvim",
+        dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+        ft = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
+        config = typescript,
+    },
+    {
         "AbaoFromCUG/lua_ls.nvim",
         ---@type lua_ls.Config
         opts = {
@@ -124,7 +155,7 @@ return {
                 },
             },
         },
-        event = "VeryLazy",
+        ft = "lua",
         dev = true,
     },
 }

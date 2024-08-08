@@ -41,35 +41,37 @@ local function gitsigns()
             ignore_whitespace = false,
         },
         on_attach = function(bufnr)
-            local map = require("keymap")
-
-            map({
-                { "n", "]h", "<cmd>Gitsigns nav_hunk next<cr>", "next Hunk" },
-                { "n", "[h", "<cmd>Gitsigns nav_hunk prev<cr>", "next hunk" },
-                { { "n", "v" }, "<leader>ghs", "<cmr>Gitsigns stage_hunk<CR>", "stage hunk" },
-                { { "n", "v" }, "<leader>ghr", "<cmd>Gitsigns reset_hunk<CR>", "reset hunk" },
-                { "n", "<leader>ghS", gs.stage_buffer, "Stage Buffer" },
-                { "n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk" },
-                { "n", "<leader>ghR", gs.reset_buffer, "Reset Buffer" },
-                { "n", "<leader>ghp", gs.preview_hunk_inline, "Preview Hunk Inline" },
+            require("which-key").add({
+                { "]h", "<cmd>Gitsigns nav_hunk next<cr>", desc = "next Hunk" },
+                { "[h", "<cmd>Gitsigns nav_hunk prev<cr>", desc = "next hunk" },
+                { "<leader>ghS", gs.stage_buffer, desc = "Stage Buffer" },
+                { "<leader>ghu", gs.undo_stage_hunk, desc = "Undo Stage Hunk" },
+                { "<leader>ghR", gs.reset_buffer, desc = "Reset Buffer" },
+                { "<leader>ghp", gs.preview_hunk_inline, desc = "Preview Hunk Inline" },
                 {
-                    "n",
                     "<leader>ghb",
                     function()
                         gs.blame_line({ full = true })
                     end,
-                    "Blame Line",
+                    desc = "Blame Line",
                 },
-                { "n", "<leader>ghd", gs.diffthis, "Diff This" },
+                { "<leader>ghd", gs.diffthis, desc = "Diff This" },
                 {
-                    "n",
                     "<leader>ghD",
                     function()
                         gs.diffthis("~")
                     end,
-                    "Diff This ~",
+                    desc = "Diff This ~",
                 },
-                { { "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk" },
+                {
+                    mode = { "n", "v" },
+                    { "<leader>ghs", "<cmr>Gitsigns stage_hunk<CR>", desc = "stage hunk" },
+                    { "<leader>ghr", "<cmd>Gitsigns reset_hunk<CR>", desc = "reset hunk" },
+                },
+                {
+                    mode = { "o", "x" },
+                    { "ih", ":<C-U>Gitsigns select_hunk<CR>", desc = "GitSigns Select Hunk" },
+                },
             })
         end,
     })
@@ -112,11 +114,6 @@ end
 return {
     {
         "nvim-telescope/telescope.nvim",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "nvim-telescope/telescope-symbols.nvim",
-            "nvim-telescope/telescope-frecency.nvim",
-        },
         config = require("plugins.editor.telescope"),
         cmd = "Telescope",
         keys = {
@@ -128,6 +125,7 @@ return {
             { "<leader>,c", "<cmd>Telescope colorscheme<cr>", desc = "change colorscheme" },
         },
     },
+    "nvim-telescope/telescope-symbols.nvim",
     {
         "nvim-telescope/telescope-fzf-native.nvim",
         build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
@@ -211,7 +209,7 @@ return {
     },
     {
         "sindrets/diffview.nvim",
-        event = "VeryLazy",
+        cmd = { "DiffviewOpen" },
     },
     {
         "NeogitOrg/neogit",

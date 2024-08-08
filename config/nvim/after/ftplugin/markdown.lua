@@ -1,3 +1,5 @@
-local map = require("keymap")
+local wk = require("which-key")
 
-map({ "n", "<space><space>", "<cmd>MarkdownPreview<cr>", desc = "preview markdown" })
+wk.add({
+    { "<space><space>", "<cmd>MarkdownPreviewToggle<cr>", desc = "preview markdown", buffer = 0 },
+})

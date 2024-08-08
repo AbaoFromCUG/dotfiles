@@ -31,13 +31,13 @@ vim.opt.sessionoptions = { "buffers", "curdir", "winsize", "winpos", "terminal" 
 
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
+vim.g.loaded_node_provider = 0
 
 local uname = vim.uv.os_uname()
 if uname.sysname == "Windows_NT" then
     -- for mason.nvim
     vim.g.python3_host_prog = vim.fn.exepath("python")
-elseif uname.release:find("WSL") then
-    -- WSL
+elseif uname.release:find("WSL") then -- WSL
     vim.system({ "/mnt/c/Windows/system32/cmd.exe", "/c", "echo", "%path%" }, { text = true }, function(obj)
         local paths = string.gsub(obj.stdout, "C:", "/mnt/c")
         paths = paths:gsub("\\", "/")
@@ -63,6 +63,12 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
+-- Add support for the LazyFile event
+local Event = require("lazy.core.handler.event")
+
+local lazy_file_events = { "BufReadPost", "BufNewFile", "BufWritePre" }
+Event.mappings.LazyFile = { id = "LazyFile", event = lazy_file_events }
+Event.mappings["User LazyFile"] = Event.mappings.LazyFile
 local opts = {
     dev = {
         path = "~/Documents/plugins",

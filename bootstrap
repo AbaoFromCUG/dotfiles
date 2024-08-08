@@ -194,7 +194,7 @@ install_desktop() {
     yay_packages+=(
         base base-devel linux linux-firmware yay
         hyprland hyprpaper hyprpicker hypridle hyprlock
-        xdg-desktop-portal-hyprland polkit-gnome
+        xdg-desktop-portal-hyprland lxqt-policykit
         libinput-gestures
         wl-clipboard
         brightnessctl tlp ddcutil

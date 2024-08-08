@@ -1,9 +1,14 @@
 local function smart_format()
     local eslint = vim.lsp.get_clients({ name = "eslint" })[1]
-    -- vim.lsp.buf.format({ filter = eslint and function(client)
-    --     return client.name ~= "tsserver"
-    -- end or nil })
-    vim.lsp.buf.format()
+    if eslint then
+        vim.lsp.buf.format({
+            filter = function(client)
+                return client.name ~= "tsserver" and client.name ~= "typescript-tools" and client.name ~= "volar"
+            end,
+        })
+    else
+        vim.lsp.buf.format()
+    end
 end
 
 return function()
@@ -12,26 +17,31 @@ return function()
 
     require("vim.lsp.log").set_format_func(vim.inspect)
 
-    require("mason-lspconfig").setup_handlers({
-        function(server_name)
-            local server = lspconfig[server_name]
-            local module_name = "plugins.lsp.server." .. server_name
-            local success, hook = pcall(require, module_name)
+    local function setup_server(server_name)
+        local server = lspconfig[server_name]
+        local module_name = "plugins.lsp.server." .. server_name
+        local success, hook = pcall(require, module_name)
 
-            local config = {
-                capabilities = cmp_nvim_lsp.default_capabilities(),
-            }
-            if success then
-                hook(config)
-            elseif #vim.split(hook, "\n") < 3 then
-                print(hook)
-            end
-            server.setup(config)
-        end,
-        ["volar"] = function() end,
+        local config = {
+            capabilities = cmp_nvim_lsp.default_capabilities(),
+        }
+        if success then
+            hook(config)
+        elseif #vim.split(hook, "\n") < 3 then
+            error(hook)
+        end
+        server.setup(config)
+    end
+
+    require("mason-lspconfig").setup_handlers({
+        setup_server,
+        -- ["volar"] = function() end,
         -- ["texlab"] = function() end,
         ["lua_ls"] = function() end,
+        ["tsserver"] = function() end,
     })
+
+    setup_server("qmlls")
 
     vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "open diagnostic" })
     vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "prev diagnostic" })

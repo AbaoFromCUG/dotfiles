@@ -1,3 +1,3 @@
-local map = require("keymap")
-
-map({ "n", "<space>rr", "<cmd>Rest run<cr>", desc = "run the cursor" })
+require("which-key").add({
+    { "<space>rr", "<cmd>Rest run<cr>", desc = "run the cursor", buffer = 0 },
+})

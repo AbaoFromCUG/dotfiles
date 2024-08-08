@@ -78,7 +78,7 @@ return {
     {
         "williamboman/mason-lspconfig.nvim",
         dependencies = "mason.nvim",
-        event = "VeryLazy",
+        event = "LazyFile",
         opts = {
             ensure_installed = {
                 "lua_ls",
@@ -92,7 +92,7 @@ return {
                 "html",
                 "cssls",
                 "tsserver",
-                "volar",
+                -- "volar",
                 "texlab",
                 "marksman",
                 "taplo",
@@ -100,7 +100,7 @@ return {
                 "tailwindcss",
                 "eslint",
                 "rust_analyzer",
-                "stylelint_lsp",
+                -- "stylelint_lsp",
             },
             automatic_installation = true,
         },
@@ -108,7 +108,6 @@ return {
     {
         "jay-babu/mason-nvim-dap.nvim",
         dependencies = "mason.nvim",
-        event = "VeryLazy",
         opts = {
             ensure_installed = {
                 "cppdbg",

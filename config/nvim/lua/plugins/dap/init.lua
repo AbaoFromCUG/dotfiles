@@ -46,6 +46,7 @@ end
 return {
     {
         "mfussenegger/nvim-dap",
+        dependencies = { "jay-babu/mason-nvim-dap.nvim" },
         config = require("plugins.dap.dap"),
         keys = {
             { "<F5>", "<cmd>DapContinue<cr>", mode = { "n", "i" }, desc = "run" },

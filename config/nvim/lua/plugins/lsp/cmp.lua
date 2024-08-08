@@ -1,21 +1,47 @@
 return function()
     local lspkind = require("lspkind")
-    local cmp = require("cmp") local luasnip = require("luasnip") local function smart_tab(fallback)
+    local cmp = require("cmp")
+    local function smart_tab(fallback)
         if cmp.visible() then
             cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
-        elseif luasnip.expand_or_locally_jumpable() then
-            luasnip.expand_or_jump()
         else
             fallback()
         end
     end
+    local function smart_shift_tab(fallback)
+        if cmp.visible() then
+            -- cmp.select_({ behavior = cmp.SelectBehavior.Insert })
+        else
+            fallback()
+        end
+    end
+
     cmp.setup({
-        preselect = cmp.PreselectMode.None,
+        preselect = cmp.PreselectMode.Item,
         completion = { completeopt = "menu,menuone,noselect" },
         snippet = {
             expand = function(args)
-                luasnip.lsp_expand(args.body)
+                vim.snippet.expand(args.body)
             end,
+        },
+        sorting = {
+            priority_weight = 2,
+            comparators = {
+                function(entry1, entry2)
+                    if entry1.completion_item.preselect ~= entry2.completion_item.preselect then
+                        return false
+                    end
+                    return nil
+                end,
+                cmp.config.compare.offset,
+                cmp.config.compare.exact,
+                cmp.config.compare.score,
+                require("cmp-under-comparator").under,
+                cmp.config.compare.kind,
+                cmp.config.compare.sort_text,
+                cmp.config.compare.length,
+                cmp.config.compare.order,
+            },
         },
         mapping = cmp.mapping.preset.insert({
             ["<C-d>"] = cmp.mapping.scroll_docs(4),
@@ -37,8 +63,8 @@ return function()
                 i = smart_tab,
                 c = smart_tab,
                 n = function(fallback)
-                    if luasnip.expand_or_locally_jumpable() then
-                        luasnip.expand_or_jump()
+                    if vim.snippet.active({ direction = 1 }) then
+                        vim.snippet.jump(1)
                     else
                         fallback()
                     end
@@ -47,8 +73,8 @@ return function()
             ["<S-Tab>"] = cmp.mapping(function(fallback)
                 if cmp.visible() then
                     cmp.select_prev_item()
-                elseif luasnip.jumpable(-1) then
-                    luasnip.jump(-1)
+                -- elseif luasnip.jumpable(-1) then
+                --     luasnip.jump(-1)
                 else
                     fallback()
                 end
@@ -57,7 +83,7 @@ return function()
         sources = cmp.config.sources({
             { name = "nvim_lsp" },
             { name = "path" },
-            { name = "luasnip" },
+            { name = "snippets" },
             { name = "neopyter" },
         }, {
             { name = "buffer" },
@@ -74,7 +100,7 @@ return function()
                     path = "[Path]",
                     cmdline = "[Cmdline]",
                     doxygen = "[Doxygen]",
-                    luasnip = "[Snippet]",
+                    snippets = "[Snippet]",
                     neopyter = "[Neopyter]",
                 },
                 symbol_map = {
@@ -85,6 +111,7 @@ return function()
                     ["Instance"] = "󱃻",
                     ["Statement"] = "󱇯",
                 },
+                before = require("tailwindcss-colorizer-cmp").formatter,
             }),
         },
     })
