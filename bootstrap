@@ -207,7 +207,7 @@ install_desktop() {
     )
     yay_packages+=(
         whitesur-gtk-theme whitesur-cursor-theme-git whitesur-icon-theme
-        wofi waybar aylurs-gtk-shell
+        wofi quickshell aylurs-gtk-shell
         nwg-bar nwg-displays nwg-look
         conky
     )
@@ -215,7 +215,8 @@ install_desktop() {
     # input method & fonts
     yay_packages+=(
         fcitx5 fcitx5-configtool fcitx5-pinyin-zhwiki fcitx5-chinese-addons
-        fcitx5-gtk fcitx5-qt fcitx5-breeze
+        fcitx5-gtk fcitx5-qt
+        fcitx5-skin-fluentdark-git
 
         ttf-hack-nerd ttf-cascadia-code-nerd ttf-firacode-nerd
         adobe-source-han-serif-cn-fonts adobe-source-han-sans-cn-fonts
@@ -224,7 +225,8 @@ install_desktop() {
     )
     # basic tools
     yay_packages+=(
-        cups
+        cups cups-pdf
+
         imagemagick
         ksnip gimp grimblast-git
     )
@@ -232,16 +234,15 @@ install_desktop() {
     yay_packages+=(
         wps-office wps-office-fonts wps-office-mime ttf-wps-fonts
         clash-for-windows-bin
-        firefox
         linuxqq-nt-bwrap wechat-universal-bwrap
         telegram-desktop feishu-bin discord
-        krita
+        krita blender
         vlc obs-studio
         ario
         unarchiver unzip
         pot-translation
         visual-studio-code-bin
-        wezterm kitty alacritty
+        kitty alacritty
     )
     # others
     yay_packages+=(
@@ -274,6 +275,7 @@ install_texlive() {
         sioyek
         texlive-latex
         texlive-xetex
+        texlive-luatex
         texlive-binextra
         texlive-latexrecommended
         texlive-latexextra
@@ -284,7 +286,18 @@ install_texlive() {
 
         texlive-langcjk
         texlive-langchinese
+        texlive-langjapanes
 
+        texlive-metapost
+        texlive-music
+        texlive-pstricks
+        texlive-publishers
+        ttf-babelstone-han
+        texlive-context
+        texlive-fontutils
+        texlive-formatsextra
+        texlive-games
+        texlive-humanities
         texlive-plaingeneric
     )
 }
