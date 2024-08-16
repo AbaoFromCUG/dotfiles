@@ -69,7 +69,7 @@ return function()
             smart_rename = {
                 enable = true,
                 keymaps = {
-                    smart_rename = "<space>crn",
+                    smart_rename = "<space>cs",
                 },
             },
         },

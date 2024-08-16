@@ -15,12 +15,17 @@ local function overseer()
         strategy = {
             "toggleterm",
             direction = "float",
-            use_shell = true,
+            -- use_shell = true,
         },
     })
+    ---@diagnostic disable-next-line: duplicate-set-field
+    require("overseer.shell").escape_cmd = function(cmd)
+        return table.concat(vim.tbl_map(vim.fn.shellescape, cmd), " ")
+    end
 end
 
 local function neotest()
+    local vitest_original_is_test_file = require("neotest-vitest").is_test_file
     ---@diagnostic disable-next-line: missing-fields
     require("neotest").setup({
         adapters = {
@@ -36,6 +41,13 @@ local function neotest()
             }),
             require("neotest-vitest")({
                 vitestCommand = "bunx vitest",
+                is_test_file = function(file_path)
+                    if vitest_original_is_test_file(file_path) then
+                        return true
+                    end
+
+                    return string.match(file_path, "tests")
+                end,
             }),
         },
         ---@diagnostic disable-next-line: assign-type-mismatch
@@ -65,7 +77,6 @@ return {
     { "Weissle/persistent-breakpoints.nvim", config = true },
     {
         "stevearc/overseer.nvim",
-        commit = "fdcd46ce738ef342bce38e5433df004ebdab3a1a",
         config = overseer,
     },
     {
@@ -74,8 +85,9 @@ return {
             "nvim-nio",
             "plenary.nvim",
             "nvim-treesitter",
-            "neotest-jest",
-            "neotest-plenary",
+            "nvim-neotest/neotest-jest",
+            "nvim-neotest/neotest-plenary",
+            "nvim-neotest/neotest-python",
             { "marilari88/neotest-vitest", dev = true },
         },
         config = neotest,
@@ -83,14 +95,9 @@ return {
         keys = {
             { "<space>tt", "<cmd>Neotest run<cr>", desc = "test nearest case" },
             { "<space>tf", "<cmd>lua require('neotest').run.run(vim.fn.expand('%'))<cr>", desc = "test current file" },
+
+            { "[n", "<cmd>lua require('neotest').jump.prev({ status = 'failed' })<cr>", desc = "previous failed test" },
+            { "]n", "<cmd>lua require('neotest').jump.next({ status = 'failed' })<cr>", desc = "next failed test" },
         },
     },
-    {
-        "nvim-neotest/neotest-plenary",
-        -- "AbaoFromCUG/neotest-plenary",
-        -- branch = "abao/fix_async",
-        dev = true,
-    },
-    { "nvim-neotest/neotest-jest" },
-    "nvim-neotest/neotest-python",
 }

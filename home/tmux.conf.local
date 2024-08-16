@@ -457,11 +457,14 @@ set -g @continuum-restore 'on'
 
 set -g @plugin 'tmux-plugins/tmux-yank'
 
-set -g @plugin 'omerxx/tmux-sessionx'
-
 set -g @plugin 'alexwforsythe/tmux-which-key'
 
 set -g @plugin 'rickstaa/tmux-notify'
+
+
+set-option -g update-environment "SSH_AUTH_SOCK \
+                                  SSH_CONNECTION \
+                                  DISPLAY"
 
 
 # -- custom variables ----------------------------------------------------------

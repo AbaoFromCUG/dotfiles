@@ -32,6 +32,7 @@ vim.opt.sessionoptions = { "buffers", "curdir", "winsize", "winpos", "terminal" 
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
+vim.g.loaded_python3_provider = 0
 
 local uname = vim.uv.os_uname()
 if uname.sysname == "Windows_NT" then
@@ -78,12 +79,5 @@ local opts = {
         lazy = true,
     },
 }
-
-_G.log_startup_time = function(filename)
-    local time = require("lazy").stats().startuptime
-    local file = assert(io.open(filename, "a+"))
-    file:write(string.format("%s\n", time))
-    vim.cmd("qall")
-end
 
 require("lazy").setup("plugins", opts)

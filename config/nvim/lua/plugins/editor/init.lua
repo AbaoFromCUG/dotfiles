@@ -42,36 +42,30 @@ local function gitsigns()
         },
         on_attach = function(bufnr)
             require("which-key").add({
-                { "]h", "<cmd>Gitsigns nav_hunk next<cr>", desc = "next Hunk" },
-                { "[h", "<cmd>Gitsigns nav_hunk prev<cr>", desc = "next hunk" },
-                { "<leader>ghS", gs.stage_buffer, desc = "Stage Buffer" },
-                { "<leader>ghu", gs.undo_stage_hunk, desc = "Undo Stage Hunk" },
-                { "<leader>ghR", gs.reset_buffer, desc = "Reset Buffer" },
-                { "<leader>ghp", gs.preview_hunk_inline, desc = "Preview Hunk Inline" },
-                {
-                    "<leader>ghb",
-                    function()
-                        gs.blame_line({ full = true })
-                    end,
-                    desc = "Blame Line",
-                },
-                { "<leader>ghd", gs.diffthis, desc = "Diff This" },
-                {
-                    "<leader>ghD",
-                    function()
-                        gs.diffthis("~")
-                    end,
-                    desc = "Diff This ~",
-                },
-                {
-                    mode = { "n", "v" },
-                    { "<leader>ghs", "<cmr>Gitsigns stage_hunk<CR>", desc = "stage hunk" },
-                    { "<leader>ghr", "<cmd>Gitsigns reset_hunk<CR>", desc = "reset hunk" },
-                },
-                {
-                    mode = { "o", "x" },
-                    { "ih", ":<C-U>Gitsigns select_hunk<CR>", desc = "GitSigns Select Hunk" },
-                },
+                { mode = { "n", "v", "o", "x" }, "g", group = "git" },
+                -- Navigation
+                { mode = "n", "]h", "<cmd>Gitsigns next_hunk<cr>", desc = "next hunk", expr = true },
+                { mode = "n", "[h", "<cmd>Gitsigns prev_hunk<cr>", desc = "prev hunk", expr = true },
+
+                -- Actions
+                { mode = "n", "<leader>ghs", "<cmd>Gitsigns stage_hunk<CR>", desc = "stage hunk" },
+                { mode = "v", "<leader>ghs", "<cmd>Gitsigns stage_hunk<CR>", desc = "stage hunk" },
+                { mode = "n", "<leader>ghr", "<cmd>Gitsigns reset_hunk<CR>", desc = "reset hunk" },
+                { mode = "v", "<leader>ghr", "<cmd>Gitsigns reset_hunk<CR>", desc = "reset hunk" },
+                { mode = "n", "<leader>ghS", "<cmd>Gitsigns stage_buffer<CR>", desc = "stage buffer" },
+                { mode = "n", "<leader>ghu", "<cmd>Gitsigns undo_stage_hunk<CR>", desc = "unstage hunk" },
+                { mode = "n", "<leader>ghR", "<cmd>Gitsigns reset_buffer<CR>", desc = "reset buffer" },
+                { mode = "n", "<leader>ghp", "<cmd>Gitsigns preview_hunk<CR>", desc = "preview hunk" },
+                { mode = "n", "<leader>ghb", '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', desc = "glame line full" },
+                { mode = "n", "<leader>gtb", "<cmd>Gitsigns toggle_current_line_blame<CR>", desc = "toggle line blame" },
+                { mode = "n", "<leader>ghd", "<cmd>Gitsigns diffthis<CR>", desc = "diff this" },
+                { mode = "n", "<leader>ghD", '<cmd>lua require"gitsigns".diffthis("~")<CR>', desc = "reset hunk" },
+                { mode = "n", "<leader>gtd", "<cmd>Gitsigns toggle_deleted<CR>", desc = "reset hunk" },
+
+                -- Text object
+                { mode = "o", "ih", ":<C-U>Gitsigns select_hunk<CR>", desc = "reset hunk" },
+                { mode = "x", "ih", ":<C-U>Gitsigns select_hunk<CR>", desc = "reset hunk" },
+                buffer = bufnr,
             })
         end,
     })
@@ -116,6 +110,13 @@ return {
         "nvim-telescope/telescope.nvim",
         config = require("plugins.editor.telescope"),
         cmd = "Telescope",
+        dependencies = {
+            "nvim-telescope/telescope-symbols.nvim",
+            {
+                "nvim-telescope/telescope-fzf-native.nvim",
+                build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+            },
+        },
         keys = {
             { "<leader>ff", project_files, desc = "find files" },
             { "<leader>fh", "<cmd>Telescope oldfiles<cr>", desc = "history files" },
@@ -124,11 +125,6 @@ return {
             { "<leader>,m", "<cmd>Telescope filetypes<cr>", desc = "change languages" },
             { "<leader>,c", "<cmd>Telescope colorscheme<cr>", desc = "change colorscheme" },
         },
-    },
-    "nvim-telescope/telescope-symbols.nvim",
-    {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
     },
 
     -- tree-sitter highlight
@@ -246,7 +242,7 @@ return {
                 desc = "Flash",
             },
             {
-                "S",
+                "F",
                 mode = { "n", "x", "o" },
                 function()
                     require("flash").treesitter()
@@ -298,8 +294,18 @@ return {
         config = true,
         cmd = "Spectre",
         keys = {
-            { "<leader>ss", "<cmd>Spectre<cr>", desc = "Select current word" },
-            { "<leader>sw", "<cmd>Spectre select_word=true<cr>", desc = "Select current word" },
+            { mode = "n", "<leader>ss", '<cmd>lua require("spectre").toggle()<cr>', desc = "toggle spectre" },
+            { mode = "n", "<leader>sw", '<cmd>lua require("spectre").open_visual({select_word=true})<cr>', desc = "search current word" },
+            { mode = "v", "<leader>sw", '<esc><cmd>lua require("spectre").open_visual()<cr>', desc = "search current word" },
+            { mode = "n", "<leader>sp", '<cmd>lua require("spectre").open_file_search({select_word=true})<cr>', desc = "search on current file" },
+        },
+    },
+
+    {
+        "ThePrimeagen/refactoring.nvim",
+        opts = {},
+        keys = {
+            { "<space>cr", "<cmd>lua require('refactoring').select_refactor()<cr>", desc = "refactor" },
         },
     },
 }

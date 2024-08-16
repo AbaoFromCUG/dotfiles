@@ -1,20 +1,5 @@
 local wk = require("which-key")
 
-_G.test = function()
-    -- code
-    local function is(path, ty)
-        if not path then
-            return false
-        end
-        local stat = vim.loop.fs_stat(path)
-        if not stat then
-            return false
-        end
-        return stat.type == ty
-    end
-    return is("/home/abao/.pyenv", "directory")
-end
-
 vim.keymap.set("n", "<cr>", '{-> v:hlsearch ? ":nohl<CR>" : "<CR>"}()', { expr = true, silent = true, noremap = true })
 wk.add({
     { ";", group = "view" },

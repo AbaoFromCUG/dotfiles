@@ -91,10 +91,7 @@ return {
     { "lambdalisue/suda.vim", cmd = { "SudaWrite", "SudaRead" } },
     { "h-hg/fcitx.nvim", event = "InsertEnter" },
     {
-        "rest-nvim/rest.nvim",
-        config = true,
-        main = "rest-nvim",
-        cmd = { "Rest" },
-        ft = "http",
+        "mistweaverco/kulala.nvim",
+        ft="http"
     },
 }

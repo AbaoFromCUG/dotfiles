@@ -215,6 +215,7 @@ return {
 
         keys = {
             { "<leader>b", "<cmd>NvimTreeToggle<cr>", desc = "Open the file manager" },
+            { "<leader>vb", "<cmd>NvimTreeToggle<cr>", desc = "Open the file manager" },
         },
     },
     ---@type LazySpec

@@ -1,3 +1,6 @@
+local kulala = require("kulala")
+
 require("which-key").add({
-    { "<space>rr", "<cmd>Rest run<cr>", desc = "run the cursor", buffer = 0 },
+    { "<space>rr", kulala.run, desc = "run current" },
+    buffer = 0,
 })

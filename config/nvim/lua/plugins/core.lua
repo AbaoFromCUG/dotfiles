@@ -63,7 +63,7 @@ return {
         "ojroques/nvim-bufdel",
         cmd = { "BufDel", "BufDelOthers" },
         keys = {
-            { ";x", smart_close, desc = "close current buffer" },
+            -- { ";x", smart_close, desc = "close current buffer" },
             { "<leader>vq", smart_close, desc = "close current buffer" },
             { "<leader>vo", smart_close_others, desc = "close others buffer" },
         },
@@ -88,7 +88,7 @@ return {
                 "clangd",
                 "jsonls",
                 "yamlls",
-                "neocmake",
+                -- "neocmake",
                 "html",
                 "cssls",
                 "tsserver",
@@ -102,7 +102,7 @@ return {
                 "rust_analyzer",
                 -- "stylelint_lsp",
             },
-            automatic_installation = true,
+            automatic_installation = false,
         },
     },
     {

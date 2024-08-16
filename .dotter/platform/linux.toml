@@ -17,3 +17,4 @@
 
 "config/microsoft-edge-stable-flags.conf" = "~/.config/microsoft-edge-stable-flags.conf"
 "config/electron-flags.conf" = "~/.config/electron-flags.conf"
+"config/code-flags.conf" = "~/.config/code-flags.conf"

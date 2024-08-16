@@ -6,9 +6,9 @@
 recurse = false
 default_target_type = "automatic"
 
-
-[desktop.files]
-"home/gitconfig" = "~/.gitconfig"
-
 [develop]
 depends = ["shell", "vim", "mirror"]
+
+[develop.files]
+"home/gitconfig" = "~/.gitconfig"
+

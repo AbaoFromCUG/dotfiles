@@ -36,6 +36,7 @@ export PATH=$PATH:/opt/pot
 
 export WECHAT_DATA_DIR=$HOME/Documents/wechat
 export NLTK_DATA=$HOME/Documents/nltk_data
+export CPM_SOURCE_CACHE=$HOME/.cache/CPM
 
 
 export EDITOR=nvim

@@ -42,6 +42,7 @@ return function()
     })
 
     setup_server("qmlls")
+    setup_server("neocmake")
 
     vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "open diagnostic" })
     vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "prev diagnostic" })
@@ -64,7 +65,6 @@ return function()
             map("n", "<C-k>", vim.lsp.buf.signature_help, "open signature help")
             map("n", "<space>rn", vim.lsp.buf.rename, "rename")
             map({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, "code action")
-            map("n", "<space>gr", vim.lsp.buf.references, "list reference")
             map("n", "<space>gr", vim.lsp.buf.references, "list reference")
 
             map("n", "<space>f", smart_format, "format")

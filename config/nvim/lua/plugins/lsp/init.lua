@@ -8,9 +8,11 @@ local function none_ls()
 
             null_ls.builtins.diagnostics.markdownlint,
             null_ls.builtins.diagnostics.qmllint,
+            null_ls.builtins.diagnostics.cmake_lint,
 
             null_ls.builtins.formatting.markdownlint,
             null_ls.builtins.formatting.qmlformat,
+            null_ls.builtins.formatting.cmake_format,
         },
     })
 end
@@ -31,6 +33,16 @@ local function typescript()
             tsserver_plugins = {
                 "@vue/typescript-plugin",
                 "@styled/typescript-styled-plugin",
+            },
+            tsserver_file_preferences = {
+                includeInlayParameterNameHints = "all",
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayFunctionParameterTypeHints = true,
+                -- includeInlayVariableTypeHints = true,
+                includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+                includeInlayPropertyDeclarationTypeHints = true,
+                -- includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayEnumMemberValueHints = true,
             },
         },
     })
@@ -140,6 +152,9 @@ return {
         opts = {
             settings = {
                 Lua = {
+                    hint = {
+                        enable = true,
+                    },
                     diagnostics = {},
                     -- Do not send telemetry data containing a randomized but unique identifier
                     telemetry = {
