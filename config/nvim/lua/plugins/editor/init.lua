@@ -42,29 +42,29 @@ local function gitsigns()
         },
         on_attach = function(bufnr)
             require("which-key").add({
-                { mode = { "n", "v", "o", "x" }, "g", group = "git" },
+                { mode = { "n", "v" }, "g", group = "git" },
                 -- Navigation
-                { mode = "n", "]h", "<cmd>Gitsigns next_hunk<cr>", desc = "next hunk", expr = true },
-                { mode = "n", "[h", "<cmd>Gitsigns prev_hunk<cr>", desc = "prev hunk", expr = true },
+                { "]h", "<cmd>Gitsigns next_hunk<cr>", desc = "next hunk", expr = true },
+                { "[h", "<cmd>Gitsigns prev_hunk<cr>", desc = "prev hunk", expr = true },
 
                 -- Actions
-                { mode = "n", "<leader>ghs", "<cmd>Gitsigns stage_hunk<CR>", desc = "stage hunk" },
-                { mode = "v", "<leader>ghs", "<cmd>Gitsigns stage_hunk<CR>", desc = "stage hunk" },
-                { mode = "n", "<leader>ghr", "<cmd>Gitsigns reset_hunk<CR>", desc = "reset hunk" },
-                { mode = "v", "<leader>ghr", "<cmd>Gitsigns reset_hunk<CR>", desc = "reset hunk" },
-                { mode = "n", "<leader>ghS", "<cmd>Gitsigns stage_buffer<CR>", desc = "stage buffer" },
-                { mode = "n", "<leader>ghu", "<cmd>Gitsigns undo_stage_hunk<CR>", desc = "unstage hunk" },
-                { mode = "n", "<leader>ghR", "<cmd>Gitsigns reset_buffer<CR>", desc = "reset buffer" },
-                { mode = "n", "<leader>ghp", "<cmd>Gitsigns preview_hunk<CR>", desc = "preview hunk" },
-                { mode = "n", "<leader>ghb", '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', desc = "glame line full" },
-                { mode = "n", "<leader>gtb", "<cmd>Gitsigns toggle_current_line_blame<CR>", desc = "toggle line blame" },
-                { mode = "n", "<leader>ghd", "<cmd>Gitsigns diffthis<CR>", desc = "diff this" },
-                { mode = "n", "<leader>ghD", '<cmd>lua require"gitsigns".diffthis("~")<CR>', desc = "reset hunk" },
-                { mode = "n", "<leader>gtd", "<cmd>Gitsigns toggle_deleted<CR>", desc = "reset hunk" },
+                { "<leader>ghs", "<cmd>Gitsigns stage_hunk<CR>", desc = "stage hunk" },
+                { "<leader>ghs", "<cmd>Gitsigns stage_hunk<CR>", desc = "stage hunk", mode = "v" },
+                { "<leader>ghr", "<cmd>Gitsigns reset_hunk<CR>", desc = "reset hunk" },
+                { "<leader>ghr", "<cmd>Gitsigns reset_hunk<CR>", desc = "reset hunk", mode = "v" },
+                { "<leader>ghS", "<cmd>Gitsigns stage_buffer<CR>", desc = "stage buffer" },
+                { "<leader>ghu", "<cmd>Gitsigns undo_stage_hunk<CR>", desc = "unstage hunk" },
+                { "<leader>ghR", "<cmd>Gitsigns reset_buffer<CR>", desc = "reset buffer" },
+                { "<leader>ghp", "<cmd>Gitsigns preview_hunk<CR>", desc = "preview hunk" },
+                { "<leader>ghb", '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', desc = "glame line full" },
+                { "<leader>gtb", "<cmd>Gitsigns toggle_current_line_blame<CR>", desc = "toggle line blame" },
+                { "<leader>ghd", "<cmd>Gitsigns diffthis<CR>", desc = "diff this" },
+                { "<leader>ghD", '<cmd>lua require"gitsigns".diffthis("~")<CR>', desc = "reset hunk" },
+                { "<leader>gtd", "<cmd>Gitsigns toggle_deleted<CR>", desc = "reset hunk" },
 
                 -- Text object
-                { mode = "o", "ih", ":<C-U>Gitsigns select_hunk<CR>", desc = "reset hunk" },
-                { mode = "x", "ih", ":<C-U>Gitsigns select_hunk<CR>", desc = "reset hunk" },
+                { "ih", ":<C-U>Gitsigns select_hunk<CR>", desc = "reset hunk", mode = "o" },
+                { "ih", ":<C-U>Gitsigns select_hunk<CR>", desc = "reset hunk", mode = "x" },
                 buffer = bufnr,
             })
         end,
@@ -123,7 +123,7 @@ return {
             { "<leader>fw", "<cmd>Telescope live_grep<cr>", desc = "find words" },
             { "<leader>fm", "<cmd>Telescope marks<cr>", desc = "find marks" },
             { "<leader>,m", "<cmd>Telescope filetypes<cr>", desc = "change languages" },
-            { "<leader>,c", "<cmd>Telescope colorscheme<cr>", desc = "change colorscheme" },
+            { "<leader>,t", "<cmd>Telescope colorscheme<cr>", desc = "change colorscheme" },
         },
     },
 
@@ -134,14 +134,28 @@ return {
         config = require("plugins.editor.treesitter"),
         -- commit = "a80fe081b4c",
         dependencies = {
-            { "andymass/vim-matchup", opts = {} },
             { "RRethy/nvim-treesitter-endwise" },
             { "nvim-treesitter/nvim-treesitter-refactor" },
             { "nvim-treesitter/nvim-treesitter-textobjects" },
         },
         event = "VeryLazy",
     },
-    { "windwp/nvim-ts-autotag", opts = { opts = { enable_close_on_slash = true } }, event = "VeryLazy" },
+    {
+        "windwp/nvim-ts-autotag",
+        opts = { opts = { enable_close_on_slash = true } },
+        event = "VeryLazy",
+    },
+    {
+        "monkoose/matchparen.nvim",
+        event = "VeryLazy",
+        opts = {
+            -- config
+        },
+        init = function()
+            -- `matchparen.vim` needs to be disabled manually in case of lazy loading
+            vim.g.loaded_matchparen = 1
+        end,
+    },
     {
         "nvim-treesitter/nvim-treesitter-context",
         opts = { max_lines = 1 },
@@ -178,7 +192,7 @@ return {
     -- annotation gen
     {
         "danymat/neogen",
-        opts = { snippet_engine = "luasnip" },
+        opts = { snippet_engine = "nvim" },
         cmd = "Neogen",
         keys = {
             { "<space>cn", "<cmd>Neogen<cr>", desc = "neogen" },
@@ -286,7 +300,7 @@ return {
         "folke/neoconf.nvim",
         config = true,
         keys = {
-            { "<leader>,,", "<cmd>Neoconf local<cr>", "local settings" },
+            { "<leader>,,", "<cmd>Neoconf local<cr>", desc = "local settings" },
         },
     },
     {
@@ -300,12 +314,65 @@ return {
             { mode = "n", "<leader>sp", '<cmd>lua require("spectre").open_file_search({select_word=true})<cr>', desc = "search on current file" },
         },
     },
-
     {
         "ThePrimeagen/refactoring.nvim",
         opts = {},
         keys = {
             { "<space>cr", "<cmd>lua require('refactoring').select_refactor()<cr>", desc = "refactor" },
         },
+    },
+    {
+        "smjonas/live-command.nvim",
+        opts = {
+            commands = {
+                Norm = { cmd = "norm" },
+            },
+        },
+        cmd = { "Norm" },
+    },
+    {
+        "nvimdev/template.nvim",
+    },
+    {
+        "jake-stewart/multicursor.nvim",
+        config = function()
+            local mc = require("multicursor-nvim")
+
+            mc.setup()
+
+            -- use MultiCursorCursor and MultiCursorVisual to customize
+            -- additional cursors appearance
+            vim.cmd.hi("link", "MultiCursorCursor", "Cursor")
+            vim.cmd.hi("link", "MultiCursorVisual", "Visual")
+
+            vim.keymap.set("n", "<esc>", function()
+                if mc.hasCursors() then
+                    mc.clearCursors()
+                else
+                    -- default <esc> handler
+                end
+            end)
+
+            -- add cursors above/below the main cursor
+            vim.keymap.set("n", "<up>", function()
+                mc.addCursor("k")
+            end)
+            vim.keymap.set("n", "<down>", function()
+                mc.addCursor("j")
+            end)
+
+            -- add a cursor and jump to the next word under cursor
+            vim.keymap.set("n", "<c-n>", function()
+                mc.addCursor("*")
+            end)
+
+            -- jump to the next word under cursor but do not add a cursor
+            vim.keymap.set("n", "<c-s>", function()
+                mc.skipCursor("*")
+            end)
+
+            -- add and remove cursors with control + left click
+            vim.keymap.set("n", "<c-leftmouse>", mc.handleMouse)
+        end,
     },
 }

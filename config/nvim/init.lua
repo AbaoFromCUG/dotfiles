@@ -35,10 +35,7 @@ vim.g.loaded_node_provider = 0
 vim.g.loaded_python3_provider = 0
 
 local uname = vim.uv.os_uname()
-if uname.sysname == "Windows_NT" then
-    -- for mason.nvim
-    vim.g.python3_host_prog = vim.fn.exepath("python")
-elseif uname.release:find("WSL") then -- WSL
+if uname.release:find("WSL") then -- WSL
     vim.system({ "/mnt/c/Windows/system32/cmd.exe", "/c", "echo", "%path%" }, { text = true }, function(obj)
         local paths = string.gsub(obj.stdout, "C:", "/mnt/c")
         paths = paths:gsub("\\", "/")

@@ -18,9 +18,6 @@ local function none_ls()
 end
 
 local function typescript()
-    local Path = require("pathlib")
-    -- local mason_path = "mason/packages/vue-language-server/node_modules/@vue/language-server"
-    -- local plugin_path = tostring(Path(vim.fn.stdpath("data")) / mason_path)
     require("typescript-tools").setup({
         filetypes = {
             "javascript",
@@ -68,6 +65,7 @@ return {
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-cmdline",
+            "micangl/cmp-vimtex",
             "lukas-reineke/cmp-under-comparator",
         },
         config = require("plugins.lsp.cmp"),
@@ -103,35 +101,52 @@ return {
         "folke/trouble.nvim",
         opts = {},
         keys = {
+            { "<leader>cx", "<cmd>Trouble diagnostics toggle<cr>", desc = "diagnostics" },
+            { "<leader>cX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "buffer diagnostics" },
+            { "<leader>cs", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "symbols" },
+            { "<leader>cl", "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", desc = "lsp definitions/references" },
+            { "<leader>cL", "<cmd>Trouble loclist toggle<cr>", desc = "location list" },
+            { "<leader>cQ", "<cmd>Trouble qflist toggle<cr>", desc = "quickfix list" },
             {
-                "<leader>xx",
-                "<cmd>Trouble diagnostics toggle<cr>",
-                desc = "Diagnostics (Trouble)",
+                "[q",
+                function()
+                    if require("trouble").is_open() then
+                        ---@diagnostic disable-next-line: missing-fields, missing-parameter
+                        require("trouble").prev({ skip_groups = true, jump = true })
+                    else
+                        local ok, err = pcall(vim.cmd.cprev)
+                        if not ok then
+                            vim.notify(err, vim.log.levels.ERROR)
+                        end
+                    end
+                end,
+                desc = "Previous Trouble/Quickfix Item",
             },
             {
-                "<leader>xX",
-                "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-                desc = "Buffer Diagnostics (Trouble)",
+                "]q",
+                function()
+                    if require("trouble").is_open() then
+                        ---@diagnostic disable-next-line: missing-fields, missing-parameter
+                        require("trouble").next({ skip_groups = true, jump = true })
+                    else
+                        local ok, err = pcall(vim.cmd.cnext)
+                        if not ok then
+                            vim.notify(err, vim.log.levels.ERROR)
+                        end
+                    end
+                end,
+                desc = "Next Trouble/Quickfix Item",
             },
-            {
-                "<leader>cs",
-                "<cmd>Trouble symbols toggle focus=false<cr>",
-                desc = "Symbols (Trouble)",
-            },
-            {
-                "<leader>cl",
-                "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
-                desc = "LSP Definitions / references / ... (Trouble)",
-            },
-            {
-                "<leader>xL",
-                "<cmd>Trouble loclist toggle<cr>",
-                desc = "Location List (Trouble)",
-            },
-            {
-                "<leader>xQ",
-                "<cmd>Trouble qflist toggle<cr>",
-                desc = "Quickfix List (Trouble)",
+        },
+    },
+    {
+        "jmbuhr/otter.nvim",
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+        },
+        opts = {
+            lsp = {
+                diagnostic_update_events = { "TextChanged" },
             },
         },
     },
@@ -146,6 +161,7 @@ return {
         ft = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
         config = typescript,
     },
+    "b0o/schemastore.nvim",
     {
         "AbaoFromCUG/lua_ls.nvim",
         ---@type lua_ls.Config

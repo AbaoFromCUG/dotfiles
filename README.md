@@ -6,8 +6,6 @@ My dotfiles for Neovim, zsh,...  optimized for ArchLinux and WSL. Managed with [
 
 ## QuickStart
 
-**ArchLinux**
-
 ```bash
 git clone https://github.com/AbaoFromCUG/dotfiles ~/.dotfiles
 yay -S dotter
@@ -33,4 +31,4 @@ dotter
 
 * [Zsh](https://www.zsh.org/) + [powerlevel10k](https://github.com/romkatv/powerlevel10k) as my shell
 
-* Neovim on its [lastet release](https://github.com/neovim/neovim/commits/master)
+* Neovim on its [latest release](https://github.com/neovim/neovim/commits/master)

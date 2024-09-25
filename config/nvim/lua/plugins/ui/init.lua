@@ -1,10 +1,3 @@
-local function theme()
-    -- theme
-    if not vim.g.vscode then
-        vim.cmd([[colorscheme nightfox]])
-    end
-end
-
 local function lualine()
     local trouble = require("trouble")
     local symbols = trouble.statusline({
@@ -15,20 +8,31 @@ local function lualine()
         format = "{kind_icon}{symbol.name:Normal}",
         -- The following line is needed to fix the background color
         -- Set it to the lualine section you want to use
-        -- hl_group = "lualine_b_normal",
+        hl_group = "lualine_b_normal",
     })
+    local function is_active()
+        local ok, hydra = pcall(require, "hydra.statusline")
+        return ok and hydra.is_active()
+    end
+
+    local function get_name()
+        local ok, hydra = pcall(require, "hydra.statusline")
+        if ok then
+            return hydra.get_name()
+        end
+        return ""
+    end
     require("lualine").setup({
         options = {
             icons_enabled = true,
             icon_only = true,
-            theme = "gruvbox",
-            component_separators = { "", "" },
-            section_separators = { "", "" },
-            disabled_filetypes = {},
+            section_separators = "",
+            component_separators = "",
         },
         sections = {
             lualine_a = {
                 "mode",
+                { get_name, cond = is_active },
             },
             lualine_b = {
                 "filename",
@@ -142,7 +146,15 @@ return {
         "EdenEast/nightfox.nvim",
         lazy = false,
         priority = 1000,
-        config = theme,
+        config = function()
+            vim.cmd([[colorscheme nightfox]])
+        end,
+    },
+    {
+        "MunifTanjim/nui.nvim",
+    },
+    {
+        "grapp-dev/nui-components.nvim",
     },
     -- color text colorizer, e.g. #5F9EA0 Aqua #91f
     {
@@ -214,8 +226,8 @@ return {
         config = require("plugins.ui.filetree"),
 
         keys = {
-            { "<leader>b", "<cmd>NvimTreeToggle<cr>", desc = "Open the file manager" },
-            { "<leader>vb", "<cmd>NvimTreeToggle<cr>", desc = "Open the file manager" },
+            { "<leader>b", "<cmd>NvimTreeToggle<cr>", desc = "file manager" },
+            { "<leader>vb", "<cmd>NvimTreeToggle<cr>", desc = "file manager" },
         },
     },
     ---@type LazySpec
@@ -249,5 +261,11 @@ return {
     {
         "RRethy/vim-illuminate",
         event = "VeryLazy",
+    },
+    {
+        "3rd/image.nvim",
+        config = function()
+            -- ...
+        end,
     },
 }

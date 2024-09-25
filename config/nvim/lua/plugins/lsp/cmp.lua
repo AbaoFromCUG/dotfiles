@@ -84,7 +84,9 @@ return function()
             { name = "nvim_lsp" },
             { name = "path" },
             { name = "snippets" },
+            -- { name = "neopyter", option = { completers = { "CompletionProvider:kernel" } } },
             { name = "neopyter" },
+            { name = "vimtex" },
         }, {
             { name = "buffer" },
         }),

@@ -91,8 +91,8 @@ return {
                 -- "neocmake",
                 "html",
                 "cssls",
-                "tsserver",
-                -- "volar",
+                "ts_ls",
+                "volar",
                 "texlab",
                 "marksman",
                 "taplo",
@@ -121,7 +121,7 @@ return {
     },
     {
         "jay-babu/mason-null-ls.nvim",
-        event = "VeryLazy",
+        -- event = "VeryLazy",
         dependencies = {
             "williamboman/mason.nvim",
             "nvimtools/none-ls.nvim",

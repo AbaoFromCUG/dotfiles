@@ -3,7 +3,7 @@ local function smart_format()
     if eslint then
         vim.lsp.buf.format({
             filter = function(client)
-                return client.name ~= "tsserver" and client.name ~= "typescript-tools" and client.name ~= "volar"
+                return client.name ~= "ts_ls" and client.name ~= "typescript-tools" and client.name ~= "volar"
             end,
         })
     else
@@ -19,12 +19,21 @@ return function()
 
     local function setup_server(server_name)
         local server = lspconfig[server_name]
-        local module_name = "plugins.lsp.server." .. server_name
-        local success, hook = pcall(require, module_name)
 
         local config = {
             capabilities = cmp_nvim_lsp.default_capabilities(),
         }
+        if server_name == "jsonls" then
+            config.settings = {
+                json = {
+                    schemas = require("schemastore").json.schemas(),
+                    validate = { enable = true },
+                },
+            }
+        end
+
+        local module_name = "plugins.lsp.server." .. server_name
+        local success, hook = pcall(require, module_name)
         if success then
             hook(config)
         elseif #vim.split(hook, "\n") < 3 then
@@ -38,36 +47,30 @@ return function()
         -- ["volar"] = function() end,
         -- ["texlab"] = function() end,
         ["lua_ls"] = function() end,
-        ["tsserver"] = function() end,
+        ["ts_ls"] = function() end,
     })
 
     setup_server("qmlls")
     setup_server("neocmake")
 
-    vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "open diagnostic" })
-    vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "prev diagnostic" })
-    vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "next diagnostic" })
-    vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, { desc = "diagnostic list" })
-
     vim.api.nvim_create_autocmd("LspAttach", {
-        group = vim.api.nvim_create_augroup("UserLspConfig", {}),
         callback = function(args)
-            -- Enable completion triggered by <c-x><c-o>
-            vim.bo[args.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+            local bufnr = args.buf
 
-            local function map(mode, lhs, rhs, desc)
-                vim.keymap.set(mode, lhs, rhs, { buffer = args.buf, desc = desc })
-            end
+            require("which-key").add({
+                { "<space>gd", vim.lsp.buf.definition, desc = "goto definition" },
+                { "<space>gD", vim.lsp.buf.declaration, desc = "goto declaration" },
+                { "<space>gi", vim.lsp.buf.implementation, desc = "goto implementation" },
+                { "<space>gr", vim.lsp.buf.references, desc = "list reference" },
+                { "<space>rn", vim.lsp.buf.rename, desc = "rename" },
+                { "<space>ca", vim.lsp.buf.code_action, desc = "code action", mode = { "n", "v" } },
 
-            map("n", "<space>gd", vim.lsp.buf.definition, "goto definition")
-            map("n", "<space>gi", vim.lsp.buf.implementation, "goto implementation")
-            map("n", "K", vim.lsp.buf.hover, "display hover info")
-            map("n", "<C-k>", vim.lsp.buf.signature_help, "open signature help")
-            map("n", "<space>rn", vim.lsp.buf.rename, "rename")
-            map({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, "code action")
-            map("n", "<space>gr", vim.lsp.buf.references, "list reference")
+                { "<space>e", vim.diagnostic.open_float, desc = "open diagnostic" },
+                { "<space>f", smart_format, desc = "format" },
+                { "<space>q", vim.diagnostic.setloclist, desc = "diagnostic list" },
 
-            map("n", "<space>f", smart_format, "format")
+                { "<C-k>", vim.lsp.buf.signature_help, desc = "open signature help" },
+            }, { buffer = bufnr })
         end,
     })
 end

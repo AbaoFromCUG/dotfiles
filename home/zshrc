@@ -40,6 +40,7 @@ zinit snippet OMZP::common-aliases
 # some plugins
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-autosuggestions
+zinit light soimort/translate-shell
 zi for \
     atload"zicompinit; zicdreplay" \
     blockf \
