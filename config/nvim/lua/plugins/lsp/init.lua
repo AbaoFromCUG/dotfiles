@@ -1,3 +1,56 @@
+local function blink()
+    ---@param ctx blink.cmp.CompletionRenderContext
+    ---@return blink.cmp.Component
+    local function render_item(ctx)
+        local map = {
+            ["blink.cmp.sources.lsp"] = "[LSP]",
+            ["blink.cmp.sources.path"] = "[PATH]",
+            ["blink.cmp.sources.snippets"] = "[SNIP]",
+        }
+        return {
+            {
+                " " .. ctx.item.label,
+                fill = true,
+                -- hl_group = ctx.deprecated and "BlinkCmpLabelDeprecated" or "BlinkCmpLabel",
+            },
+            { string.format(" %s%s%-10s", ctx.kind_icon, ctx.icon_gap, ctx.kind), hl_group = "BlinkCmpKind" .. ctx.kind },
+            {
+                string.format("%6s ", map[ctx.item.source] or "UNKNOWN"),
+                hl_group = "BlinkCmpSource",
+            },
+        }
+    end
+    ---@diagnostic disable: missing-fields
+    require("blink-cmp").setup({
+        keymap = {
+            show = "<C-space>",
+            hide = "<C-e>",
+            accept = "<Cr>",
+            select_prev = { "<S-Tab>", "<Up>", "<C-p>" },
+            select_next = { "<Tab>", "<Down>", "<C-n>" },
+
+            show_documentation = {},
+            hide_documentation = {},
+            scroll_documentation_up = "<C-u>",
+            scroll_documentation_down = "<C-d>",
+
+            snippet_forward = "<Tab>",
+            snippet_backward = "<S-Tab>",
+        },
+        windows = {
+            autocomplete = {
+                draw = render_item,
+            },
+        },
+        -- experimental auto-brackets support
+        accept = { auto_brackets = { enabled = true } },
+
+        -- experimental signature help support
+        trigger = { signature_help = { enabled = true } },
+    })
+    ---@diagnostic enable: missing-fields
+end
+
 local function none_ls()
     local null_ls = require("null-ls")
     null_ls.setup({
@@ -55,40 +108,23 @@ return {
         },
         event = { "LazyFile" },
     },
+
     -- completion engine
     {
-        "hrsh7th/nvim-cmp",
+        "saghen/blink.cmp",
+        commit = "ab3d558be6419240e05c99e2ba6e0bd3d3e2e360",
         event = "VeryLazy",
-        dependencies = {
-            "hrsh7th/cmp-buffer",
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-buffer",
-            "hrsh7th/cmp-path",
-            "hrsh7th/cmp-cmdline",
-            "micangl/cmp-vimtex",
-            "lukas-reineke/cmp-under-comparator",
-        },
-        config = require("plugins.lsp.cmp"),
-    },
-    {
-        "garymjr/nvim-snippets",
-        dependencies = { "rafamadriz/friendly-snippets" },
-        opts = { friendly_snippets = true, create_cmp_source = true },
-        event = "InsertEnter",
+        build = 'RUSTFLAGS="-C target-feature=-crt-static" cargo build --release',
+        dependencies = "rafamadriz/friendly-snippets",
+
+        version = "v0.*",
+        config = blink,
     },
     -- show signature
     {
         "ray-x/lsp_signature.nvim",
         config = true,
         event = "VeryLazy",
-    },
-    -- pictograms for lsp
-    { "onsails/lspkind-nvim" },
-    {
-        "roobert/tailwindcss-colorizer-cmp.nvim",
-        opts = {
-            color_square_width = 2,
-        },
     },
     -- lsp progress
     {

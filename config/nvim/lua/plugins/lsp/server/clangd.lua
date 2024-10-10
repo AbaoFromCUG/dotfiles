@@ -1,5 +1,5 @@
 return function(config)
-    config.capabilities.textDocument.completion.completionItem.snippetSupport = false
+    -- config.capabilities.textDocument.completion.completionItem.snippetSupport = false
     config.settings = {
         clangd = {
             InlayHints = {

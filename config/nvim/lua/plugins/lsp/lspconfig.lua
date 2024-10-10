@@ -13,7 +13,7 @@ end
 
 return function()
     local lspconfig = require("lspconfig")
-    local cmp_nvim_lsp = require("cmp_nvim_lsp")
+    -- local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
     require("vim.lsp.log").set_format_func(vim.inspect)
 
@@ -21,7 +21,8 @@ return function()
         local server = lspconfig[server_name]
 
         local config = {
-            capabilities = cmp_nvim_lsp.default_capabilities(),
+            -- capabilities = cmp_nvim_lsp.default_capabilities(),
+            capabilities = {},
         }
         if server_name == "jsonls" then
             config.settings = {
