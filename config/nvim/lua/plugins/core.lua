@@ -91,7 +91,7 @@ return {
                 -- "neocmake",
                 "html",
                 "cssls",
-                "ts_ls",
+                -- "ts_ls",
                 "volar",
                 "texlab",
                 "marksman",

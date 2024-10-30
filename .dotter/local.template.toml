@@ -1,5 +1,5 @@
 # for ArchLinux
-# includes = [".dotter/platform/linux.toml", ".dotter/platform/unix.toml"]
+# includes = [".dotter/platform/arch.toml", ".dotter/platform/unix.toml"]
 # packages = ["develop", "desktop"]
 
 # for windows
@@ -10,3 +10,4 @@
 [variables]
 # email="xxx@example.com"
 # git_username="Your name"
+# config_path="your $XDG_CONFIG_HOME"

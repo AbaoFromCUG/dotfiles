@@ -1,5 +1,10 @@
 local wk = require("which-key")
 
+local function context_menu()
+    vim.cmd.exec('"normal! \\<RightMouse>"')
+    require("menu").open("default", { mouse = true })
+end
+
 vim.keymap.set("n", "<cr>", '{-> v:hlsearch ? ":nohl<CR>" : "<CR>"}()', { expr = true, silent = true, noremap = true })
 wk.add({
     { ";", group = "view" },
@@ -32,31 +37,17 @@ wk.add({
     { "<space>d", group = "Debugger" },
     { "<space>s", "<cmd>w<cr>", desc = "write" },
     { "<space>t", group = "test" },
+
+    { "<RightMouse>", context_menu, desc = "context menu" },
 })
 
 wk.add({
     {
         mode = { "n", "v" },
-        { "<space>P", '"+P', desc = "put before cursor from system clipboard", silent = false },
-        { "<space>p", '"+p', desc = "put from system clipboard", silent = false },
-        { "<space>x", '"+x', desc = "delete char to system clipboard", silent = false },
-        { "<space>y", '"+y', desc = "yank to system clipboard", silent = false },
+        { "<space>P", '"+P', desc = "put before cursor from system clipboard" },
+        { "<space>p", '"+p', desc = "put from system clipboard" },
+        { "<space>x", '"+x', desc = "delete char to system clipboard" },
+        { "<space>y", '"+y', desc = "yank to system clipboard" },
     },
-})
-
-vim.api.nvim_create_autocmd({ "FileType" }, {
-    pattern = { "*" },
-    callback = function()
-        local ft = vim.fn.expand("<amatch>")
-
-        local console_fts = {
-            "PlenaryTestPopup",
-        }
-        for _, t in ipairs(console_fts) do
-            if ft == t then
-                require("keymap.consolebuf")(0)
-                break
-            end
-        end
-    end,
+    silent = false,
 })

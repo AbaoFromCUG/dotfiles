@@ -34,6 +34,10 @@ vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
 vim.g.loaded_python3_provider = 0
 
+-- nvim-tree required
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 local uname = vim.uv.os_uname()
 if uname.release:find("WSL") then -- WSL
     vim.system({ "/mnt/c/Windows/system32/cmd.exe", "/c", "echo", "%path%" }, { text = true }, function(obj)

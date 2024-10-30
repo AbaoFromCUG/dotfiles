@@ -2,11 +2,6 @@ local function blink()
     ---@param ctx blink.cmp.CompletionRenderContext
     ---@return blink.cmp.Component
     local function render_item(ctx)
-        local map = {
-            ["blink.cmp.sources.lsp"] = "[LSP]",
-            ["blink.cmp.sources.path"] = "[PATH]",
-            ["blink.cmp.sources.snippets"] = "[SNIP]",
-        }
         return {
             {
                 " " .. ctx.item.label,
@@ -15,31 +10,34 @@ local function blink()
             },
             { string.format(" %s%s%-10s", ctx.kind_icon, ctx.icon_gap, ctx.kind), hl_group = "BlinkCmpKind" .. ctx.kind },
             {
-                string.format("%6s ", map[ctx.item.source] or "UNKNOWN"),
+                string.format("[%s] ", ctx.item.source_name),
                 hl_group = "BlinkCmpSource",
             },
         }
     end
+
     ---@diagnostic disable: missing-fields
     require("blink-cmp").setup({
         keymap = {
-            show = "<C-space>",
-            hide = "<C-e>",
-            accept = "<Cr>",
-            select_prev = { "<S-Tab>", "<Up>", "<C-p>" },
-            select_next = { "<Tab>", "<Down>", "<C-n>" },
-
-            show_documentation = {},
-            hide_documentation = {},
-            scroll_documentation_up = "<C-u>",
-            scroll_documentation_down = "<C-d>",
-
-            snippet_forward = "<Tab>",
-            snippet_backward = "<S-Tab>",
+            ["<CR>"] = { "accept", "hide", "fallback" },
+            ["<C-Space>"] = { "show" },
+            ["<C-e>"] = { "show_documentation", "hide_documentation" },
+            ["<C-d>"] = { "scroll_documentation_down" },
+            ["<C-u>"] = { "scroll_documentation_up" },
+            ["<Tab>"] = { "snippet_forward", "select_next", "fallback" },
+            ["<Down>"] = { "snippet_forward", "select_next", "fallback" },
+            ["<C-n>"] = { "snippet_forward", "select_next", "fallback" },
+            ["<S-Tab>"] = { "snippet_backward", "select_prev", "fallback" },
+            ["<Up>"] = { "snippet_backward", "select_prev", "fallback" },
+            ["<C-p>"] = { "snippet_backward", "select_prev", "fallback" },
         },
         windows = {
             autocomplete = {
+                selection = "manual",
                 draw = render_item,
+            },
+            documentation = {
+                auto_show = true,
             },
         },
         -- experimental auto-brackets support
@@ -66,34 +64,7 @@ local function none_ls()
             null_ls.builtins.formatting.markdownlint,
             null_ls.builtins.formatting.qmlformat,
             null_ls.builtins.formatting.cmake_format,
-        },
-    })
-end
-
-local function typescript()
-    require("typescript-tools").setup({
-        filetypes = {
-            "javascript",
-            "typescript",
-            "javascriptreact",
-            "typescriptreact",
-            "vue",
-        },
-        settings = {
-            tsserver_plugins = {
-                "@vue/typescript-plugin",
-                "@styled/typescript-styled-plugin",
-            },
-            tsserver_file_preferences = {
-                includeInlayParameterNameHints = "all",
-                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                includeInlayFunctionParameterTypeHints = true,
-                -- includeInlayVariableTypeHints = true,
-                includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-                includeInlayPropertyDeclarationTypeHints = true,
-                -- includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayEnumMemberValueHints = true,
-            },
+            null_ls.builtins.formatting.typstfmt,
         },
     })
 end
@@ -112,19 +83,12 @@ return {
     -- completion engine
     {
         "saghen/blink.cmp",
-        commit = "ab3d558be6419240e05c99e2ba6e0bd3d3e2e360",
-        event = "VeryLazy",
-        build = 'RUSTFLAGS="-C target-feature=-crt-static" cargo build --release',
+        lazy = false,
+        -- event = "VeryLazy",
+        -- version = "v0.*",
+        build = "cargo build --release",
         dependencies = "rafamadriz/friendly-snippets",
-
-        version = "v0.*",
         config = blink,
-    },
-    -- show signature
-    {
-        "ray-x/lsp_signature.nvim",
-        config = true,
-        event = "VeryLazy",
     },
     -- lsp progress
     {
@@ -190,12 +154,6 @@ return {
         "nvimtools/none-ls.nvim",
         config = none_ls,
         event = "VeryLazy",
-    },
-    {
-        "pmizio/typescript-tools.nvim",
-        dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-        ft = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
-        config = typescript,
     },
     "b0o/schemastore.nvim",
     {

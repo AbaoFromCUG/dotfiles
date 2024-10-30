@@ -2,7 +2,12 @@
   "lspconfig": {
     "lua_ls": {
       "Lua.addonManager.addons": [
-        "nvim-full",
+        "nvim",
+        "pathlib",
+        "nvim-lspconfig",
+        "blink.cmp",
+        "lazy.nvim",
+        "which-key.nvim"
       ]
     }
   }

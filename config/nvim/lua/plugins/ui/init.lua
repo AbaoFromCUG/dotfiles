@@ -156,11 +156,13 @@ return {
     {
         "grapp-dev/nui-components.nvim",
     },
-    -- color text colorizer, e.g. #5F9EA0 Aqua #91f
+    { "nvchad/volt", lazy = true },
+    { "nvchad/menu", lazy = true },
+    -- color text colorizer, e.g. #5F9EA0 Aqua #91f #f101ff11
     {
-        "NvChad/nvim-colorizer.lua",
-        config = true,
-        event = "VeryLazy",
+        "norcalli/nvim-colorizer.lua",
+        opts = { "qml", user_default_options = { rgb_fn = true, RRGGBBAA = true } },
+        event = "BufReadPre",
     },
     {
         "akinsho/bufferline.nvim",
@@ -196,7 +198,6 @@ return {
                 vim.api.nvim_win_set_config(win, { focusable = false })
             end,
         },
-        -- event = "VeryLazy",
     },
     {
 
@@ -219,10 +220,7 @@ return {
 
     {
         "nvim-tree/nvim-tree.lua",
-        init = function()
-            vim.g.loaded_netrw = 1
-            vim.g.loaded_netrwPlugin = 1
-        end,
+        init = function() end,
         config = require("plugins.ui.filetree"),
 
         keys = {

@@ -3,7 +3,7 @@ local function smart_format()
     if eslint then
         vim.lsp.buf.format({
             filter = function(client)
-                return client.name ~= "ts_ls" and client.name ~= "typescript-tools" and client.name ~= "volar"
+                return client.name ~= "ts_ls" and client.name ~= "typescript-tools" and client.name ~= "vtsls"
             end,
         })
     else
@@ -13,42 +13,95 @@ end
 
 return function()
     local lspconfig = require("lspconfig")
-    -- local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
     require("vim.lsp.log").set_format_func(vim.inspect)
 
-    local function setup_server(server_name)
-        local server = lspconfig[server_name]
+    local Path = require("pathlib")
+    local mason_package_path = Path.stdpath("data") / "mason/packages/"
+    local vue_plugin = mason_package_path / "vue-language-server/node_modules/@vue/language-server/node_modules/@vue/typescript-plugin"
 
-        local config = {
-            -- capabilities = cmp_nvim_lsp.default_capabilities(),
-            capabilities = {},
-        }
-        if server_name == "jsonls" then
-            config.settings = {
+    ---@diagnostic disable: missing-fields
+    local configs = {
+        ---@type lspconfig.options.vtsls
+        vtsls = {
+            filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "vue" },
+            settings = {
+                vtsls = {
+                    tsserver = {
+                        globalPlugins = {
+                            {
+                                name = "@vue/typescript-plugin",
+                                location = require("mason-registry").get_package("vue-language-server"):get_install_path()
+                                    .. "/node_modules/@vue/language-server",
+                                languages = { "vue" },
+                                configNamespace = "typescript",
+                                enableForWorkspaceTypeScriptVersions = true,
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        ---@type lspconfig.options.clangd
+        clangd = {
+            settings = {
+                clangd = {
+                    InlayHints = {
+                        Designators = true,
+                        Enabled = true,
+                        ParameterNames = true,
+                        DeducedTypes = true,
+                    },
+                    fallbackFlags = { "-std=c++20" },
+                },
+            },
+        },
+        ---@type lspconfig.options.pyright
+        pyright = {
+            cmd = vim.fn.executable("delance-langserver") and { "delance-langserver", "--stdio" } or nil,
+            settings = {
+                python = {
+                    pythonPath = vim.trim(vim.system({ "pyenv", "which", "python" }):wait().stdout),
+                },
+            },
+        },
+        ---@tyipe lspconfig.options.jsonls
+        jsonls = {
+            settings = {
                 json = {
                     schemas = require("schemastore").json.schemas(),
                     validate = { enable = true },
                 },
-            }
-        end
+            },
+        },
+        ---@type lspconfig.options.yamlls
+        yamlls = {
+            settings = {
+                yaml = {
+                    format = {
+                        enable = true,
+                    },
+                },
+            },
+        },
+        ---@type lspconfig.options.qmlls
+        qmlls={
+            cmd={"qmlls6"}
+        }
+    }
+    ---@diagnostic enable: missing-fields
 
-        local module_name = "plugins.lsp.server." .. server_name
-        local success, hook = pcall(require, module_name)
-        if success then
-            hook(config)
-        elseif #vim.split(hook, "\n") < 3 then
-            error(hook)
-        end
+    local function setup_server(server_name)
+        local server = lspconfig[server_name]
+        local config = vim.tbl_deep_extend("keep", configs[server_name] or {}, {
+            capabilities = vim.lsp.protocol.make_client_capabilities(),
+        })
         server.setup(config)
     end
 
     require("mason-lspconfig").setup_handlers({
         setup_server,
-        -- ["volar"] = function() end,
-        -- ["texlab"] = function() end,
         ["lua_ls"] = function() end,
-        ["ts_ls"] = function() end,
     })
 
     setup_server("qmlls")
@@ -56,14 +109,9 @@ return function()
 
     vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
-            local bufnr = args.buf
-
             require("which-key").add({
                 { "<space>gd", vim.lsp.buf.definition, desc = "goto definition" },
                 { "<space>gD", vim.lsp.buf.declaration, desc = "goto declaration" },
-                { "<space>gi", vim.lsp.buf.implementation, desc = "goto implementation" },
-                { "<space>gr", vim.lsp.buf.references, desc = "list reference" },
-                { "<space>rn", vim.lsp.buf.rename, desc = "rename" },
                 { "<space>ca", vim.lsp.buf.code_action, desc = "code action", mode = { "n", "v" } },
 
                 { "<space>e", vim.diagnostic.open_float, desc = "open diagnostic" },
@@ -71,7 +119,8 @@ return function()
                 { "<space>q", vim.diagnostic.setloclist, desc = "diagnostic list" },
 
                 { "<C-k>", vim.lsp.buf.signature_help, desc = "open signature help" },
-            }, { buffer = bufnr })
+                buffer = args.buf,
+            })
         end,
     })
 end

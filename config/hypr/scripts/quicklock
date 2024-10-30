@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+
+# Launch example
+echo "---" | tee -a /tmp/quicklock.log
+quickshell -c ~/.config/quickshell/lock.qml 2>&1 | tee -a /tmp/quicklock.log &
+disown
+
+echo "quickshell lock..."

@@ -30,7 +30,7 @@ local function neopyter()
         on_attach = function(buf)
             require("which-key").add({
                 { "<space>nt", "<cmd>Neopyter execute kernelmenu:restart<cr>", desc = "restart kernel" },
-                { "<C-Enter>", "<cmd>Neopyter execute notebook:run-cell<cr>", desc = "run selected" },
+                { "<C-CR>", "<cmd>Neopyter execute notebook:run-cell<cr>", desc = "run selected" },
                 { "<space>nr", "<cmd>Neopyter execute notebook:run-cell<cr>", desc = "run selected" },
                 { "<F5>", "<cmd>Neopyter execute notebook:restart-run-all<cr>", desc = "restart kernel and run all" },
 
@@ -127,6 +127,14 @@ return {
         ft = { "tex", "latex" },
         init = function()
             vim.g.vimtex_view_method = "zathura"
+        end,
+    },
+    {
+        "chomosuke/typst-preview.nvim",
+        ft = "typst",
+        version = "0.3.*",
+        build = function()
+            require("typst-preview").update()
         end,
     },
     {
