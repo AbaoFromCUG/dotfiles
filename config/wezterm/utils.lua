@@ -11,9 +11,7 @@ function utils.load_json_file(filename)
     local content = file:read("*a")
     file:close()
     local data = wezterm.serde.json_decode(content)
-    if not data then
-        wezterm.log_error("Failed parse JSON data from file: " .. filename)
-    end
+    if not data then wezterm.log_error("Failed parse JSON data from file: " .. filename) end
     return data
 end
 

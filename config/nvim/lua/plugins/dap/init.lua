@@ -19,9 +19,7 @@ local function overseer()
         },
     })
     ---@diagnostic disable-next-line: duplicate-set-field
-    require("overseer.shell").escape_cmd = function(cmd)
-        return table.concat(vim.tbl_map(vim.fn.shellescape, cmd), " ")
-    end
+    require("overseer.shell").escape_cmd = function(cmd) return table.concat(vim.tbl_map(vim.fn.shellescape, cmd), " ") end
 end
 
 local function neotest()
@@ -35,16 +33,12 @@ local function neotest()
                 jestCommand = "npm test --",
                 jestConfigFile = "custom.jest.config.ts",
                 env = { CI = true },
-                cwd = function()
-                    return vim.fn.getcwd()
-                end,
+                cwd = function() return vim.fn.getcwd() end,
             }),
             require("neotest-vitest")({
                 vitestCommand = "bunx vitest",
                 is_test_file = function(file_path)
-                    if vitest_original_is_test_file(file_path) then
-                        return true
-                    end
+                    if vitest_original_is_test_file(file_path) then return true end
 
                     return string.match(file_path, "tests")
                 end,

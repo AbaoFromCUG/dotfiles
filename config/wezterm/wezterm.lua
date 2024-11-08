@@ -7,7 +7,7 @@ local config = wezterm.config_builder()
 config.font_size = 14
 
 -- => == !=  😀
-config.enable_wayland = false
+-- config.enable_wayland = false
 config.font = wezterm.font_with_fallback({
     "FiraCode Nerd Font",
 })
@@ -19,8 +19,6 @@ config.status_update_interval = 500
 require("keymap")(config)
 require("components")(config)
 
-wezterm.on("gui-startup", function(cmd)
-    session.load()
-end)
+wezterm.on("gui-startup", function(cmd) session.load() end)
 
 return config

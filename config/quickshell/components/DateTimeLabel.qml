@@ -8,7 +8,7 @@ import Quickshell.Wayland
 Label {
     id: control
 
-    property string format: "h:m AP"
+    property string format: "hh:mm AP"
     property int interval: 1000
 
     color: Config.colors.primaryFg

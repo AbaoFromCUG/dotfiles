@@ -5,9 +5,7 @@ return function(config)
         local hostname = " 🖥️" .. wezterm.hostname() .. "  "
         local key_table = window:active_key_table()
         local content = ""
-        if key_table then
-            content = content .. "⌨️  "
-        end
+        if key_table then content = content .. "⌨️  " end
 
         local components = {
             {

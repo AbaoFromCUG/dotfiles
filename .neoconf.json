@@ -3,10 +3,11 @@
     "lua_ls": {
       "Lua.addonManager.addons": [
         "nvim",
-        "pathlib",
+        "pathlib.nvim",
         "nvim-lspconfig",
         "blink.cmp",
         "lazy.nvim",
+        "snacks.nvim",
         "which-key.nvim"
       ]
     }

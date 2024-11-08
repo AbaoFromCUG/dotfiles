@@ -20,9 +20,7 @@ return function()
                 ft = "help",
                 size = { width = 120 },
                 -- only show help buffers
-                filter = function(buf)
-                    return vim.bo[buf].buftype == "help"
-                end,
+                filter = function(buf) return vim.bo[buf].buftype == "help" end,
             },
         },
         bottom = {
@@ -30,9 +28,7 @@ return function()
                 ft = "toggleterm",
                 size = { height = 0.4 },
                 -- exclude floating windows
-                filter = function(buf, win)
-                    return vim.api.nvim_win_get_config(win).relative == ""
-                end,
+                filter = function(buf, win) return vim.api.nvim_win_get_config(win).relative == "" end,
             },
             {
                 ft = "trouble",

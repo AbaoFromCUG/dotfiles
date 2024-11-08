@@ -10,10 +10,12 @@ wk.add({
     { ";", group = "view" },
     { ";-", "<cmd>split<cr>", desc = "split hoizontal" },
     { ";Q", "<cmd>qall<cr>", desc = "quit" },
-    { ";h", "<cmd>wincmd h<cr>", desc = "move cursor left" },
-    { ";j", "<cmd>wincmd j<cr>", desc = "move cursor down" },
-    { ";k", "<cmd>wincmd k<cr>", desc = "move cursor up" },
-    { ";l", "<cmd>wincmd l<cr>", desc = "move cursor right" },
+    { ";h", "<cmd>wincmd h<cr>", desc = "goto left" },
+    { ";j", "<cmd>wincmd j<cr>", desc = "goto down" },
+    { ";k", "<cmd>wincmd k<cr>", desc = "goto up" },
+    { ";l", "<cmd>wincmd l<cr>", desc = "goto right" },
+    { ";w", "<cmd>wincmd w<cr>", desc = "goto float" },
+    { ";o", "<cmd>wincmd o<cr>", desc = "close other windows" },
     { ";|", "<cmd>vsplit<cr>", desc = "split vertical" },
     { "<leader>,", group = "settings" },
     { "<leader>f", group = "find" },
@@ -42,12 +44,17 @@ wk.add({
 })
 
 wk.add({
-    {
-        mode = { "n", "v" },
-        { "<space>P", '"+P', desc = "put before cursor from system clipboard" },
-        { "<space>p", '"+p', desc = "put from system clipboard" },
-        { "<space>x", '"+x', desc = "delete char to system clipboard" },
-        { "<space>y", '"+y', desc = "yank to system clipboard" },
-    },
+    { "<space>P", '"+P', desc = "put before cursor from system clipboard" },
+    { "<space>p", '"+p', desc = "put from system clipboard" },
+    { "<space>x", '"+x', desc = "delete char to system clipboard" },
+    { "<space>y", '"+y', desc = "yank to system clipboard" },
+    mode = { "n", "v" },
     silent = false,
+})
+
+wk.add({
+    {
+        "<C-i>",
+        function() vim.snippet.jump(1) end,
+    },
 })

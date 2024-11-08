@@ -44,9 +44,7 @@ if uname.release:find("WSL") then -- WSL
         local paths = string.gsub(obj.stdout, "C:", "/mnt/c")
         paths = paths:gsub("\\", "/")
         paths = paths:gsub(";", ":")
-        vim.schedule(function()
-            vim.env.PATH = vim.env.PATH .. ":" .. paths
-        end)
+        vim.schedule(function() vim.env.PATH = vim.env.PATH .. ":" .. paths end)
     end)
 end
 

@@ -56,9 +56,7 @@ local function serde_window(window)
     ---comment
     ---@param process_info? wezterm.LocalProcessInfo
     local function serde_process_info(process_info)
-        if not process_info then
-            return nil
-        end
+        if not process_info then return nil end
         process_info.children = utils.map(serde_process_info, utils.tbl_values(process_info.children))
         return process_info
     end
@@ -139,11 +137,9 @@ local function deserde_window(window_data)
             tab, pane = window:spawn_tab({})
         end
         ---@cast tab -nil
-        if not pane then
-            tab:active_pane():split({
-                direction = "Left",
-            })
-        end
+        if not pane then tab:active_pane():split({
+            direction = "Left",
+        }) end
         tab:set_title(tab_data.title)
     end
 
@@ -165,9 +161,7 @@ function session.load(workspace_name)
     workspace_name = workspace_name or "default"
     local filename = string.format("%s/%s.session", session_dir, workspace_name)
     local data = utils.load_json_file(filename)
-    if not data then
-        return
-    end
+    if not data then return end
     deserde_window(data)
 end
 

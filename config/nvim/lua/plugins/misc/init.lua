@@ -3,9 +3,7 @@ local function cmake()
     require("cmake-tools").setup({
         cmake_command = "cmake", -- this is used to specify cmake command path
         ctest_command = "ctest", -- this
-        cmake_build_directory = function()
-            return "build/${variant:buildType}"
-        end,
+        cmake_build_directory = function() return "build/${variant:buildType}" end,
         cmake_executor = {
             name = "overseer",
 
@@ -89,12 +87,8 @@ return {
     {
         "iamcco/markdown-preview.nvim",
         cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-        build = function()
-            vim.fn["mkdp#util#install"]()
-        end,
-        init = function()
-            vim.g.mkdp_filetypes = { "markdown" }
-        end,
+        build = function() vim.fn["mkdp#util#install"]() end,
+        init = function() vim.g.mkdp_filetypes = { "markdown" } end,
         ft = { "markdown" },
     },
     {
@@ -125,17 +119,13 @@ return {
     {
         "lervag/vimtex",
         ft = { "tex", "latex" },
-        init = function()
-            vim.g.vimtex_view_method = "zathura"
-        end,
+        init = function() vim.g.vimtex_view_method = "zathura" end,
     },
     {
         "chomosuke/typst-preview.nvim",
         ft = "typst",
         version = "0.3.*",
-        build = function()
-            require("typst-preview").update()
-        end,
+        build = function() require("typst-preview").update() end,
     },
     {
         "mistricky/codesnap.nvim",

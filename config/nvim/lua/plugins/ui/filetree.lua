@@ -4,9 +4,7 @@ return function()
     local function get_available_path()
         local node = api.tree.get_node_under_cursor()
         assert(node, "current cursor node is nil")
-        if node.fs_stat.type ~= "directory" then
-            node = node.parent
-        end
+        if node.fs_stat.type ~= "directory" then node = node.parent end
         return node.absolute_path
     end
 
@@ -27,9 +25,7 @@ return function()
         local items = {
             {
                 name = "  New file/folder",
-                cmd = function()
-                    api.fs.create(node())
-                end,
+                cmd = function() api.fs.create(node()) end,
                 rtxt = "a",
             },
 
@@ -37,33 +33,25 @@ return function()
 
             {
                 name = "  Open in window",
-                cmd = function()
-                    api.node.open.edit(node())
-                end,
+                cmd = function() api.node.open.edit(node()) end,
                 rtxt = "o",
             },
 
             {
                 name = "  Open in vertical split",
-                cmd = function()
-                    api.node.open.vertical(node())
-                end,
+                cmd = function() api.node.open.vertical(node()) end,
                 rtxt = "v",
             },
 
             {
                 name = "  Open in horizontal split",
-                cmd = function()
-                    api.node.open.horizontal(node())
-                end,
+                cmd = function() api.node.open.horizontal(node()) end,
                 rtxt = "s",
             },
 
             {
                 name = "󰓪  Open in new tab",
-                cmd = function()
-                    api.node.open.tab(node())
-                end,
+                cmd = function() api.node.open.tab(node()) end,
                 rtxt = "O",
             },
 
@@ -71,41 +59,31 @@ return function()
 
             {
                 name = "  Cut",
-                cmd = function()
-                    api.fs.cut(node())
-                end,
+                cmd = function() api.fs.cut(node()) end,
                 rtxt = "x",
             },
 
             {
                 name = "  Paste",
-                cmd = function()
-                    api.fs.paste(node())
-                end,
+                cmd = function() api.fs.paste(node()) end,
                 rtxt = "p",
             },
 
             {
                 name = "  Copy",
-                cmd = function()
-                    api.fs.copy.node(node())
-                end,
+                cmd = function() api.fs.copy.node(node()) end,
                 rtxt = "c",
             },
 
             {
                 name = "󰴠  Copy absolute path",
-                cmd = function()
-                    api.fs.copy.absolute_path(node())
-                end,
+                cmd = function() api.fs.copy.absolute_path(node()) end,
                 rtxt = "gy",
             },
 
             {
                 name = "  Copy relative path",
-                cmd = function()
-                    api.fs.copy.relative_path(node())
-                end,
+                cmd = function() api.fs.copy.relative_path(node()) end,
                 rtxt = "Y",
             },
 
@@ -128,26 +106,20 @@ return function()
 
             {
                 name = "  Rename",
-                cmd = function()
-                    api.fs.rename(node())
-                end,
+                cmd = function() api.fs.rename(node()) end,
                 rtxt = "r",
             },
 
             {
                 name = "  Trash",
-                cmd = function()
-                    api.fs.trash(node())
-                end,
+                cmd = function() api.fs.trash(node()) end,
                 rtxt = "D",
             },
 
             {
                 name = "  Delete",
                 hl = "ExRed",
-                cmd = function()
-                    api.fs.remove(node())
-                end,
+                cmd = function() api.fs.remove(node()) end,
                 rtxt = "d",
             },
         }
@@ -185,6 +157,19 @@ return function()
                 { "<RightMouse>", context_menu, desc = "find word" },
                 buffer = bufnr,
             })
+        end,
+    })
+
+    local prev = { new_name = "", old_name = "" } -- Prevents duplicate events
+    vim.api.nvim_create_autocmd("User", {
+        pattern = "NvimTreeSetup",
+        callback = function()
+            api.events.subscribe(api.events.Event.NodeRenamed, function(data)
+                if prev.new_name ~= data.new_name or prev.old_name ~= data.old_name then
+                    data = data
+                    Snacks.rename.on_rename_file(data.old_name, data.new_name)
+                end
+            end)
         end,
     })
 end

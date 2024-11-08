@@ -59,7 +59,7 @@ return function(config)
         {
             key = "b",
             mods = "CTRL",
-            action = act.SendKey({ key="a", mods="CTRL" }),
+            action = act.SendKey({ key = "a", mods = "CTRL" }),
         },
     }
 

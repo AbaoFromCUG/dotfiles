@@ -26,15 +26,11 @@ return function()
             custom_filter = function(buf_number, buf_numbers)
                 local filetype = vim.bo[buf_number].filetype
                 for _, value in ipairs(blacklist_filetypes) do
-                    if filetype == value then
-                        return false
-                    end
+                    if filetype == value then return false end
                 end
                 local name = vim.fn.bufname(buf_number)
                 for _, value in ipairs(blacklist_filenames) do
-                    if string.match(name, value) then
-                        return false
-                    end
+                    if string.match(name, value) then return false end
                 end
                 return true
             end,

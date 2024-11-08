@@ -17,9 +17,7 @@ local function lualine()
 
     local function get_name()
         local ok, hydra = pcall(require, "hydra.statusline")
-        if ok then
-            return hydra.get_name()
-        end
+        if ok then return hydra.get_name() end
         return ""
     end
     require("lualine").setup({
@@ -146,9 +144,7 @@ return {
         "EdenEast/nightfox.nvim",
         lazy = false,
         priority = 1000,
-        config = function()
-            vim.cmd([[colorscheme nightfox]])
-        end,
+        config = function() vim.cmd([[colorscheme nightfox]]) end,
     },
     {
         "MunifTanjim/nui.nvim",
@@ -161,7 +157,7 @@ return {
     -- color text colorizer, e.g. #5F9EA0 Aqua #91f #f101ff11
     {
         "norcalli/nvim-colorizer.lua",
-        opts = { "qml", user_default_options = { rgb_fn = true, RRGGBBAA = true } },
+        opts = { "qml", "typst", user_default_options = { rgb_fn = true, RRGGBBAA = true } },
         event = "BufReadPre",
     },
     {
@@ -184,23 +180,7 @@ return {
         config = blankline,
         event = "VeryLazy",
     },
-    -- components
     {
-        "rcarriga/nvim-notify",
-        init = function()
-            ---@diagnostic disable-next-line: duplicate-set-field
-            vim.notify = function(...)
-                require("notify")(...)
-            end
-        end,
-        opts = {
-            on_open = function(win)
-                vim.api.nvim_win_set_config(win, { focusable = false })
-            end,
-        },
-    },
-    {
-
         "stevearc/dressing.nvim",
         event = "VeryLazy",
         opts = {
@@ -262,8 +242,7 @@ return {
     },
     {
         "3rd/image.nvim",
-        config = function()
-            -- ...
-        end,
+        ft = { "markdown", "typst" },
+        opts = {},
     },
 }

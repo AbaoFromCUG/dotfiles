@@ -380,6 +380,8 @@ tmux_conf_urlscan_options="--compact --dedupe"
 # start with mouse mode enabled
 set -g mouse on
 
+set -gq allow-passthrough on
+
 
 # split-window
 unbind _

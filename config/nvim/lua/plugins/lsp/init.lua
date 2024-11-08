@@ -1,20 +1,17 @@
 local function blink()
-    ---@param ctx blink.cmp.CompletionRenderContext
-    ---@return blink.cmp.Component
-    local function render_item(ctx)
-        return {
-            {
-                " " .. ctx.item.label,
-                fill = true,
-                -- hl_group = ctx.deprecated and "BlinkCmpLabelDeprecated" or "BlinkCmpLabel",
-            },
-            { string.format(" %s%s%-10s", ctx.kind_icon, ctx.icon_gap, ctx.kind), hl_group = "BlinkCmpKind" .. ctx.kind },
-            {
-                string.format("[%s] ", ctx.item.source_name),
-                hl_group = "BlinkCmpSource",
-            },
-        }
-    end
+    local utils = require("blink.cmp.utils")
+    local source_map = {
+        Snippets = "Snip",
+        LSP = "LSP",
+        Buffer = "Buf",
+        Path = "Path",
+    }
+
+    ---@type blink.cmp.DrawComponent
+    local source_component = {
+        ---@param ctx blink.cmp.DrawItemContext
+        text = function(ctx) return string.format("[%s] ", source_map[ctx.item.source_name] or ctx.item.source_name) end,
+    }
 
     ---@diagnostic disable: missing-fields
     require("blink-cmp").setup({
@@ -24,20 +21,33 @@ local function blink()
             ["<C-e>"] = { "show_documentation", "hide_documentation" },
             ["<C-d>"] = { "scroll_documentation_down" },
             ["<C-u>"] = { "scroll_documentation_up" },
-            ["<Tab>"] = { "snippet_forward", "select_next", "fallback" },
-            ["<Down>"] = { "snippet_forward", "select_next", "fallback" },
-            ["<C-n>"] = { "snippet_forward", "select_next", "fallback" },
-            ["<S-Tab>"] = { "snippet_backward", "select_prev", "fallback" },
-            ["<Up>"] = { "snippet_backward", "select_prev", "fallback" },
-            ["<C-p>"] = { "snippet_backward", "select_prev", "fallback" },
+            ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+            ["<Down>"] = { "select_next", "fallback" },
+            ["<C-n>"] = { "select_next", "snippet_forward", "fallback" },
+            ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+            ["<Up>"] = { "select_prev", "fallback" },
+            ["<C-p>"] = { "select_prev", "snippet_backward", "fallback" },
+        },
+        highlight = {
+            use_nvim_cmp_as_default = true,
         },
         windows = {
             autocomplete = {
                 selection = "manual",
-                draw = render_item,
+                -- draw = render_item,
+                draw = {
+                    padding = { 1, 0 },
+                    columns = { { "label" }, { "kind_icon", "kind" }, { "label_description" }, { "source" } },
+                    components = {
+                        source = source_component,
+                    },
+                },
             },
             documentation = {
                 auto_show = true,
+            },
+            ghost_text = {
+                enabled = true,
             },
         },
         -- experimental auto-brackets support
@@ -64,7 +74,7 @@ local function none_ls()
             null_ls.builtins.formatting.markdownlint,
             null_ls.builtins.formatting.qmlformat,
             null_ls.builtins.formatting.cmake_format,
-            null_ls.builtins.formatting.typstfmt,
+            null_ls.builtins.formatting.typstyle,
         },
     })
 end
@@ -90,12 +100,13 @@ return {
         dependencies = "rafamadriz/friendly-snippets",
         config = blink,
     },
+
     -- lsp progress
-    {
-        "j-hui/fidget.nvim",
-        config = true,
-        event = "VeryLazy",
-    },
+    -- {
+    --     "j-hui/fidget.nvim",
+    --     config = true,
+    --     event = "VeryLazy",
+    -- },
     -- diagnostic list
     {
         "folke/trouble.nvim",
@@ -115,9 +126,7 @@ return {
                         require("trouble").prev({ skip_groups = true, jump = true })
                     else
                         local ok, err = pcall(vim.cmd.cprev)
-                        if not ok then
-                            vim.notify(err, vim.log.levels.ERROR)
-                        end
+                        if not ok then vim.notify(err, vim.log.levels.ERROR) end
                     end
                 end,
                 desc = "Previous Trouble/Quickfix Item",
@@ -130,9 +139,7 @@ return {
                         require("trouble").next({ skip_groups = true, jump = true })
                     else
                         local ok, err = pcall(vim.cmd.cnext)
-                        if not ok then
-                            vim.notify(err, vim.log.levels.ERROR)
-                        end
+                        if not ok then vim.notify(err, vim.log.levels.ERROR) end
                     end
                 end,
                 desc = "Next Trouble/Quickfix Item",

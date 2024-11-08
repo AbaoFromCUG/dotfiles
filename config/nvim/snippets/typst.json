@@ -1,0 +1,45 @@
+{
+  "figure": {
+    "prefix": "fig",
+    "body": [
+      "#figure(",
+      "  image(\"${1:filepath}\", width: ${2:100%}),",
+      "    caption: [${3:description}]",
+      ") <${4:label}>",
+      ""
+    ],
+    "description": "Figures are that things like centered images (probably with captions), tables, even code"
+  },
+  "bullet list": {
+    "prefix": "list",
+    "body": [
+      "- ${1:first item}",
+      "- ${2:second item}"
+    ],
+    "description": "Displays a sequence of items vertically, with each item introduced by a marker"
+  },
+  "number list": {
+    "prefix": "enum",
+    "body": [
+      "+ ${1:first item}",
+      "+ ${2:second item}"
+    ],
+    "description": "Displays a sequence of items vertically and numbers them consecutively"
+  },
+  "table": {
+    "prefix": "table",
+    "body": [
+      "#table(",
+      "  columns: ${1|one,two,three|},",
+      "  inset: 10pt,",
+      "  align: horizon,",
+      "  table.header(",
+      "    [], [*Volume*], [*Parameters*],",
+      "  ),",
+      "  image(\"cylinder.svg\"),",
+      "",
+      ")"
+    ],
+    "description": "table"
+  }
+}

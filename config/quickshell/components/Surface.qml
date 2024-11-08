@@ -19,8 +19,7 @@ Rectangle {
     DateTimeLabel {
         font.bold: true
         font.pointSize: 80
-        format: "hh:mm:ss"
-        interval: 500
+        format: "hh:mm"
         color: Config.greeter.time
 
         anchors {

@@ -24,9 +24,7 @@ local function ufo()
     vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 
     require("ufo").setup({
-        provider_selector = function()
-            return { "treesitter", "indent" }
-        end,
+        provider_selector = function() return { "treesitter", "indent" } end,
     })
 end
 
@@ -44,22 +42,27 @@ local function gitsigns()
             require("which-key").add({
                 { mode = { "n", "v" }, "g", group = "git" },
                 -- Navigation
-                { "]h", "<cmd>Gitsigns next_hunk<cr>", desc = "next hunk", expr = true },
-                { "[h", "<cmd>Gitsigns prev_hunk<cr>", desc = "prev hunk", expr = true },
+                { "]h", "<cmd>Gitsigns next_hunk<cr>", desc = "next hunk" },
+                { "[h", "<cmd>Gitsigns prev_hunk<cr>", desc = "prev hunk" },
 
                 -- Actions
-                { "<leader>ghs", "<cmd>Gitsigns stage_hunk<CR>", desc = "stage hunk" },
-                { "<leader>ghs", "<cmd>Gitsigns stage_hunk<CR>", desc = "stage hunk", mode = "v" },
-                { "<leader>ghr", "<cmd>Gitsigns reset_hunk<CR>", desc = "reset hunk" },
-                { "<leader>ghr", "<cmd>Gitsigns reset_hunk<CR>", desc = "reset hunk", mode = "v" },
-                { "<leader>ghS", "<cmd>Gitsigns stage_buffer<CR>", desc = "stage buffer" },
-                { "<leader>ghu", "<cmd>Gitsigns undo_stage_hunk<CR>", desc = "unstage hunk" },
-                { "<leader>ghR", "<cmd>Gitsigns reset_buffer<CR>", desc = "reset buffer" },
-                { "<leader>ghp", "<cmd>Gitsigns preview_hunk<CR>", desc = "preview hunk" },
-                { "<leader>ghb", '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', desc = "glame line full" },
-                { "<leader>gtb", "<cmd>Gitsigns toggle_current_line_blame<CR>", desc = "toggle line blame" },
-                { "<leader>ghd", "<cmd>Gitsigns diffthis<CR>", desc = "diff this" },
-                { "<leader>ghD", '<cmd>lua require"gitsigns".diffthis("~")<CR>', desc = "reset hunk" },
+                { "<leader>gh", desc = "git operation" },
+                { mode = "n", "<leader>ghs", gs.stage_hunk, desc = "stage hunk" },
+                { mode = "v", "<leader>ghs", function() gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, desc = "stage hunk" },
+
+                { mode = "n", "<leader>ghu", gs.undo_stage_hunk, desc = "unstage hunk" },
+                { mode = "v", "<leader>ghu", function() gs.undo_stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, desc = "unstage hunk" },
+
+                { mode = "n", "<leader>ghr", gs.reset_hunk, desc = "reset hunk" },
+                { mode = "v", "<leader>ghr", function() gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, desc = "reset hunk" },
+
+                { mode = "n", "<leader>ghS", gs.stage_buffer, desc = "stage buffer" },
+                { mode = "n", "<leader>ghR", gs.reset_buffer, desc = "reset buffer" },
+
+                -- view
+                { "<leader>gtb", "<cmd>Gitsigns blame<CR>", desc = "toggle blame" },
+                { "<leader>gtt", "<cmd>Gitsigns diffthis<CR>", desc = "diff this" },
+                { "<leader>gtD", "<cmd>Gitsigns diffthis ~<CR>", desc = "diff last commit" },
                 { "<leader>gtd", "<cmd>Gitsigns toggle_deleted<CR>", desc = "reset hunk" },
 
                 -- Text object
@@ -76,9 +79,7 @@ local function session()
     require("session").register_hook("pre_save", "close_all_floating_wins", function()
         for _, win in ipairs(vim.api.nvim_list_wins()) do
             local config = vim.api.nvim_win_get_config(win)
-            if config.relative ~= "" then
-                vim.api.nvim_win_close(win, false)
-            end
+            if config.relative ~= "" then vim.api.nvim_win_close(win, false) end
         end
     end)
     require("session").register_hook("post_restore", "restore_breakpoints", function()
@@ -187,7 +188,22 @@ return {
             "nvim-treesitter/nvim-treesitter",
             "nvim-treesitter/nvim-treesitter-textobjects",
         },
-        opts = {},
+        opts = {
+            keymaps = {
+
+                insert = "<C-g>s",
+                insert_line = "<C-g>S",
+                normal = "ys",
+                normal_cur = "yss",
+                normal_line = "yS",
+                normal_cur_line = "ySS",
+                visual = "ys",
+                visual_line = "gS",
+                delete = "ds",
+                change = "cs",
+                change_line = "cS",
+            },
+        },
     },
     -- annotation gen
     {
@@ -250,41 +266,31 @@ return {
             {
                 "s",
                 mode = { "n", "x", "o" },
-                function()
-                    require("flash").jump()
-                end,
+                function() require("flash").jump() end,
                 desc = "Flash",
             },
             {
                 "F",
                 mode = { "n", "x", "o" },
-                function()
-                    require("flash").treesitter()
-                end,
+                function() require("flash").treesitter() end,
                 desc = "Flash Treesitter",
             },
             {
                 "r",
                 mode = "o",
-                function()
-                    require("flash").remote()
-                end,
+                function() require("flash").remote() end,
                 desc = "Remote Flash",
             },
             {
                 "R",
                 mode = { "o", "x" },
-                function()
-                    require("flash").treesitter_search()
-                end,
+                function() require("flash").treesitter_search() end,
                 desc = "Treesitter Search",
             },
             {
                 "<c-s>",
                 mode = { "c" },
-                function()
-                    require("flash").toggle()
-                end,
+                function() require("flash").toggle() end,
                 desc = "Toggle Flash Search",
             },
         },
@@ -354,22 +360,14 @@ return {
             end)
 
             -- add cursors above/below the main cursor
-            vim.keymap.set("n", "<up>", function()
-                mc.addCursor("k")
-            end)
-            vim.keymap.set("n", "<down>", function()
-                mc.addCursor("j")
-            end)
+            vim.keymap.set("n", "<up>", function() mc.addCursor("k") end)
+            vim.keymap.set("n", "<down>", function() mc.addCursor("j") end)
 
             -- add a cursor and jump to the next word under cursor
-            vim.keymap.set("n", "<c-n>", function()
-                mc.addCursor("*")
-            end)
+            vim.keymap.set("n", "<c-n>", function() mc.addCursor("*") end)
 
             -- jump to the next word under cursor but do not add a cursor
-            vim.keymap.set("n", "<c-s>", function()
-                mc.skipCursor("*")
-            end)
+            vim.keymap.set("n", "<c-s>", function() mc.skipCursor("*") end)
 
             -- add and remove cursors with control + left click
             vim.keymap.set("n", "<c-leftmouse>", mc.handleMouse)

@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 
+lock_process=$(ps aux | grep quickshell | grep lock | wc -l)
 
-# Launch example
-echo "---" | tee -a /tmp/quicklock.log
-quickshell -c ~/.config/quickshell/lock.qml 2>&1 | tee -a /tmp/quicklock.log &
-disown
+if (("0" == "$lock_process")); then
+    # Launch example
+    echo "---" | tee -a /tmp/quicklock.log
+    quickshell -c lock 2>&1 | tee -a /tmp/quicklock.log &
+    disown
 
-echo "quickshell lock..."
+    echo "quickshell lock..."
+fi

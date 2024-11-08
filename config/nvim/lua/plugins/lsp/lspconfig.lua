@@ -2,9 +2,7 @@ local function smart_format()
     local eslint = vim.lsp.get_clients({ name = "eslint" })[1]
     if eslint then
         vim.lsp.buf.format({
-            filter = function(client)
-                return client.name ~= "ts_ls" and client.name ~= "typescript-tools" and client.name ~= "vtsls"
-            end,
+            filter = function(client) return client.name ~= "ts_ls" and client.name ~= "typescript-tools" and client.name ~= "vtsls" end,
         })
     else
         vim.lsp.buf.format()
@@ -17,8 +15,8 @@ return function()
     require("vim.lsp.log").set_format_func(vim.inspect)
 
     local Path = require("pathlib")
-    local mason_package_path = Path.stdpath("data") / "mason/packages/"
-    local vue_plugin = mason_package_path / "vue-language-server/node_modules/@vue/language-server/node_modules/@vue/typescript-plugin"
+    local vls_path = Path.new(require("mason-registry").get_package("vue-language-server"):get_install_path())
+    local vue_plugin_path = tostring(vls_path / "node_modules/@vue/language-server")
 
     ---@diagnostic disable: missing-fields
     local configs = {
@@ -31,8 +29,7 @@ return function()
                         globalPlugins = {
                             {
                                 name = "@vue/typescript-plugin",
-                                location = require("mason-registry").get_package("vue-language-server"):get_install_path()
-                                    .. "/node_modules/@vue/language-server",
+                                location = vue_plugin_path,
                                 languages = { "vue" },
                                 configNamespace = "typescript",
                                 enableForWorkspaceTypeScriptVersions = true,
@@ -52,7 +49,7 @@ return function()
                         ParameterNames = true,
                         DeducedTypes = true,
                     },
-                    fallbackFlags = { "-std=c++20" },
+                    -- fallbackFlags = { "-std=c++20" },
                 },
             },
         },
@@ -85,9 +82,9 @@ return function()
             },
         },
         ---@type lspconfig.options.qmlls
-        qmlls={
-            cmd={"qmlls6"}
-        }
+        qmlls = {
+            cmd = { "qmlls6" },
+        },
     }
     ---@diagnostic enable: missing-fields
 
@@ -96,6 +93,7 @@ return function()
         local config = vim.tbl_deep_extend("keep", configs[server_name] or {}, {
             capabilities = vim.lsp.protocol.make_client_capabilities(),
         })
+        config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
         server.setup(config)
     end
 
@@ -112,7 +110,6 @@ return function()
             require("which-key").add({
                 { "<space>gd", vim.lsp.buf.definition, desc = "goto definition" },
                 { "<space>gD", vim.lsp.buf.declaration, desc = "goto declaration" },
-                { "<space>ca", vim.lsp.buf.code_action, desc = "code action", mode = { "n", "v" } },
 
                 { "<space>e", vim.diagnostic.open_float, desc = "open diagnostic" },
                 { "<space>f", smart_format, desc = "format" },

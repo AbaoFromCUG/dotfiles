@@ -20,31 +20,6 @@ local function profile_end()
     end
 end
 
-local function smart_close()
-    if vim.o["buflisted"] then
-        local current_buf = vim.api.nvim_get_current_buf()
-        local wins = vim.iter(vim.api.nvim_list_wins())
-            :filter(function(win)
-                return vim.api.nvim_win_get_buf(win) == current_buf
-            end)
-            :totable()
-        assert(#wins >= 1, "hidden buffer can't smart close")
-        if #wins > 1 then
-            vim.cmd("quit")
-        else
-            vim.cmd("BufDel")
-        end
-    else
-        vim.cmd("quit")
-    end
-end
-
-local function smart_close_others()
-    if vim.o["buflisted"] == true then
-        vim.cmd("BufDelOthers")
-    end
-end
-
 ---@type (LazySpec|string)[]
 return {
     {
@@ -59,15 +34,15 @@ return {
     "nvim-tree/nvim-web-devicons",
     "pysan3/pathlib.nvim",
     "AbaoFromCUG/websocket.nvim",
-    {
-        "ojroques/nvim-bufdel",
-        cmd = { "BufDel", "BufDelOthers" },
-        keys = {
-            -- { ";x", smart_close, desc = "close current buffer" },
-            { "<leader>vq", smart_close, desc = "close current buffer" },
-            { "<leader>vo", smart_close_others, desc = "close others buffer" },
-        },
-    },
+    -- {
+    --     "ojroques/nvim-bufdel",
+    --     cmd = { "BufDel", "BufDelOthers" },
+    --     keys = {
+    --         -- { ";x", smart_close, desc = "close current buffer" },
+    --         { "<leader>vq", smart_close, desc = "close current buffer" },
+    --         { "<leader>vo", smart_close_others, desc = "close others buffer" },
+    --     },
+    -- },
     {
         "willothy/flatten.nvim",
         config = true,
@@ -96,7 +71,7 @@ return {
                 "texlab",
                 "marksman",
                 "taplo",
-                "ruff_lsp",
+                "ruff",
                 "tailwindcss",
                 "eslint",
                 "rust_analyzer",
@@ -132,5 +107,43 @@ return {
             },
             automatic_installation = true,
         },
+    },
+    {
+        "folke/snacks.nvim",
+        priority = 1000,
+        lazy = false,
+        opts = {},
+        keys = {
+            -- git
+            { "<leader>gg", function() Snacks.lazygit() end, desc = "lazygit" },
+            { "<leader>gB", function() Snacks.gitbrowse() end, desc = "git browse" },
+            { "<leader>gf", function() Snacks.lazygit.log_file() end, desc = "lazygit current file history" },
+            { "<leader>gl", function() Snacks.lazygit.log() end, desc = "lazygit log" },
+
+            { "<leader>nm", function() Snacks.notifier.hide() end, desc = "dismiss all notifications" },
+            { "<leader>nl", function() Snacks.notifier.show_history() end, desc = "show all notifications" },
+
+            { "]]", function() Snacks.words.jump(vim.v.count1) end, desc = "next reference" },
+            { "[[", function() Snacks.words.jump(-vim.v.count1) end, desc = "prev reference" },
+
+            { ";x", function() Snacks.bufdelete() end, desc = "close current buffer" },
+            { "<leader>vq", function() Snacks.bufdelete.delete()() end, desc = "close current buffer" },
+            { "<leader>vo", function() Snacks.bufdelete.other() end, desc = "close others buffer" },
+        },
+        init = function()
+            vim.api.nvim_create_autocmd("User", {
+                pattern = "VeryLazy",
+                callback = function()
+                    _G.dd = function(...) Snacks.debug.inspect(...) end
+                    _G.bt = function() Snacks.debug.backtrace() end
+                    vim.print = _G.dd
+
+                    Snacks.toggle.diagnostics():map("<leader>,d")
+                    Snacks.toggle.line_number():map("<leader>,l")
+                    Snacks.toggle.treesitter():map("<leader>,t")
+                    Snacks.toggle.inlay_hints():map("<leader>,i")
+                end,
+            })
+        end,
     },
 }
