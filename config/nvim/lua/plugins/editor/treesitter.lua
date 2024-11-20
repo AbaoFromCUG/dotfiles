@@ -1,9 +1,4 @@
 return function()
-    -- consult nvim-ufo
-    vim.opt.foldmethod = "expr"
-    vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-    vim.opt.foldenable = false
-
     vim.treesitter.language.register("qmljs", "qml")
     -- vim.treesitter.language.register("typescript", "javascript")
     -- vim.treesitter.language.register("typescript", "javascriptreact")
@@ -50,7 +45,7 @@ return function()
         endwise = {
             enable = true,
         },
-        -- matchup = {
+        -- matchup =
         --     enable = true,
         -- },
         -- pairs = {

@@ -1,5 +1,4 @@
 local function blink()
-    local utils = require("blink.cmp.utils")
     local source_map = {
         Snippets = "Snip",
         LSP = "LSP",
@@ -34,10 +33,9 @@ local function blink()
         windows = {
             autocomplete = {
                 selection = "manual",
-                -- draw = render_item,
                 draw = {
                     padding = { 1, 0 },
-                    columns = { { "label" }, { "kind_icon", "kind" }, { "label_description" }, { "source" } },
+                    columns = { { "label", widht = { max = 20 } }, { "kind_icon", "kind", gap = 1 }, { "source" } },
                     components = {
                         source = source_component,
                     },
@@ -62,7 +60,6 @@ end
 local function none_ls()
     local null_ls = require("null-ls")
     null_ls.setup({
-        debug = true,
         sources = {
             null_ls.builtins.formatting.stylua,
             null_ls.builtins.formatting.shfmt,
@@ -101,12 +98,6 @@ return {
         config = blink,
     },
 
-    -- lsp progress
-    -- {
-    --     "j-hui/fidget.nvim",
-    --     config = true,
-    --     event = "VeryLazy",
-    -- },
     -- diagnostic list
     {
         "folke/trouble.nvim",
@@ -126,7 +117,9 @@ return {
                         require("trouble").prev({ skip_groups = true, jump = true })
                     else
                         local ok, err = pcall(vim.cmd.cprev)
-                        if not ok then vim.notify(err, vim.log.levels.ERROR) end
+                        if not ok then
+                            vim.notify(err, vim.log.levels.ERROR)
+                        end
                     end
                 end,
                 desc = "Previous Trouble/Quickfix Item",
@@ -139,7 +132,9 @@ return {
                         require("trouble").next({ skip_groups = true, jump = true })
                     else
                         local ok, err = pcall(vim.cmd.cnext)
-                        if not ok then vim.notify(err, vim.log.levels.ERROR) end
+                        if not ok then
+                            vim.notify(err, vim.log.levels.ERROR)
+                        end
                     end
                 end,
                 desc = "Next Trouble/Quickfix Item",

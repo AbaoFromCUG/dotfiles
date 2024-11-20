@@ -1,4 +1,4 @@
-require("which-key").add({
-    { "<space><space>", "<cmd>MarkdownPreviewToggle<cr>", desc = "preview markdown" },
-    buffer = 0,
-})
+-- require("which-key").add({
+--     { "<space><space>", "<cmd>MarkdownPreviewToggle<cr>", desc = "preview markdown" },
+--     buffer = 0,
+-- })

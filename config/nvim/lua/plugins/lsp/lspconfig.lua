@@ -1,17 +1,5 @@
-local function smart_format()
-    local eslint = vim.lsp.get_clients({ name = "eslint" })[1]
-    if eslint then
-        vim.lsp.buf.format({
-            filter = function(client) return client.name ~= "ts_ls" and client.name ~= "typescript-tools" and client.name ~= "vtsls" end,
-        })
-    else
-        vim.lsp.buf.format()
-    end
-end
-
 return function()
     local lspconfig = require("lspconfig")
-
     require("vim.lsp.log").set_format_func(vim.inspect)
 
     local Path = require("pathlib")
@@ -19,8 +7,8 @@ return function()
     local vue_plugin_path = tostring(vls_path / "node_modules/@vue/language-server")
 
     ---@diagnostic disable: missing-fields
+    ---@type lspconfig.options
     local configs = {
-        ---@type lspconfig.options.vtsls
         vtsls = {
             filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "vue" },
             settings = {
@@ -39,8 +27,12 @@ return function()
                 },
             },
         },
-        ---@type lspconfig.options.clangd
         clangd = {
+            cmd={
+                "clangd",
+                "--header-insertion-decorators=false"
+
+            },
             settings = {
                 clangd = {
                     InlayHints = {
@@ -49,11 +41,10 @@ return function()
                         ParameterNames = true,
                         DeducedTypes = true,
                     },
-                    -- fallbackFlags = { "-std=c++20" },
+                    fallbackFlags = { "-std=c++20" },
                 },
             },
         },
-        ---@type lspconfig.options.pyright
         pyright = {
             cmd = vim.fn.executable("delance-langserver") and { "delance-langserver", "--stdio" } or nil,
             settings = {
@@ -62,7 +53,6 @@ return function()
                 },
             },
         },
-        ---@tyipe lspconfig.options.jsonls
         jsonls = {
             settings = {
                 json = {
@@ -71,7 +61,6 @@ return function()
                 },
             },
         },
-        ---@type lspconfig.options.yamlls
         yamlls = {
             settings = {
                 yaml = {
@@ -81,9 +70,15 @@ return function()
                 },
             },
         },
-        ---@type lspconfig.options.qmlls
         qmlls = {
             cmd = { "qmlls6" },
+        },
+        tinymist = {
+            -- offset_encoding = "utf-8",
+            root_dir = function() return vim.fn.getcwd() end,
+            settings = {
+                semantic_tokens = "disable",
+            },
         },
     }
     ---@diagnostic enable: missing-fields
@@ -94,6 +89,11 @@ return function()
             capabilities = vim.lsp.protocol.make_client_capabilities(),
         })
         config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+        config.capabilities.textDocument.foldingRange = {
+            dynamicRegistration = false,
+            lineFoldingOnly = true,
+        }
+        -- vim.print(config.capabilities)
         server.setup(config)
     end
 
@@ -104,20 +104,4 @@ return function()
 
     setup_server("qmlls")
     setup_server("neocmake")
-
-    vim.api.nvim_create_autocmd("LspAttach", {
-        callback = function(args)
-            require("which-key").add({
-                { "<space>gd", vim.lsp.buf.definition, desc = "goto definition" },
-                { "<space>gD", vim.lsp.buf.declaration, desc = "goto declaration" },
-
-                { "<space>e", vim.diagnostic.open_float, desc = "open diagnostic" },
-                { "<space>f", smart_format, desc = "format" },
-                { "<space>q", vim.diagnostic.setloclist, desc = "diagnostic list" },
-
-                { "<C-k>", vim.lsp.buf.signature_help, desc = "open signature help" },
-                buffer = args.buf,
-            })
-        end,
-    })
 end

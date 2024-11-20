@@ -16,6 +16,7 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.magic = false
 vim.opt.spell = true
+vim.opt.spelllang = "en,cjk"
 
 -- encoding
 vim.opt.langmenu = "zh_CN.UTF-8"
@@ -28,6 +29,12 @@ vim.opt.splitright = true
 vim.opt.laststatus = 3
 vim.opt.swapfile = false
 vim.opt.sessionoptions = { "buffers", "curdir", "winsize", "winpos", "terminal" }
+
+vim.o.foldcolumn = "1"
+vim.o.foldlevel = 99
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
@@ -56,7 +63,7 @@ if not vim.uv.fs_stat(lazypath) then
         "clone",
         "--filter=blob:none",
         "https://github.com/folke/lazy.nvim.git",
-        "--branch=stable", -- latest stable release
+        "--branch=stable",
         lazypath,
     })
 end
@@ -70,6 +77,9 @@ local lazy_file_events = { "BufReadPost", "BufNewFile", "BufWritePre" }
 Event.mappings.LazyFile = { id = "LazyFile", event = lazy_file_events }
 Event.mappings["User LazyFile"] = Event.mappings.LazyFile
 local opts = {
+    rocks = {
+        hererocks = true,
+    },
     dev = {
         path = "~/Documents/plugins",
         fallback = true,

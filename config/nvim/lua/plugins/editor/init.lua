@@ -16,18 +16,6 @@ local function project_files()
     end
 end
 
-local function ufo()
-    vim.o.foldcolumn = "1" -- '0' is not bad
-    vim.o.foldlevel = 99
-    vim.o.foldlevelstart = 99
-    vim.o.foldenable = true
-    vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
-
-    require("ufo").setup({
-        provider_selector = function() return { "treesitter", "indent" } end,
-    })
-end
-
 local function gitsigns()
     local gs = require("gitsigns")
     gs.setup({
@@ -79,7 +67,9 @@ local function session()
     require("session").register_hook("pre_save", "close_all_floating_wins", function()
         for _, win in ipairs(vim.api.nvim_list_wins()) do
             local config = vim.api.nvim_win_get_config(win)
-            if config.relative ~= "" then vim.api.nvim_win_close(win, false) end
+            if config.relative ~= "" then
+                vim.api.nvim_win_close(win, false)
+            end
         end
     end)
     require("session").register_hook("post_restore", "restore_breakpoints", function()
@@ -177,8 +167,14 @@ return {
     {
         "kevinhwang91/nvim-ufo",
         dependencies = "kevinhwang91/promise-async",
-        config = ufo,
         event = "VeryLazy",
+        opts = {
+            provider_selector = function() return { "treesitter", "indent" } end,
+        },
+        keys = {
+            { "zR", function() require("ufo").openAllFolds() end, desc = "Open all folds" },
+            { "zM", function() require("ufo").closeAllFolds() end, desc = "Close all folds" },
+        },
     },
     -- surround edit
     {

@@ -25,3 +25,5 @@ config/quickshell/.qmlls.ini
 .dotter/cache
 .dotter/cache.toml
 .dotter/local.toml
+.repro
+repro.lua

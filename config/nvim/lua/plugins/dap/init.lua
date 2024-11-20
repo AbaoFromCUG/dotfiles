@@ -38,7 +38,9 @@ local function neotest()
             require("neotest-vitest")({
                 vitestCommand = "bunx vitest",
                 is_test_file = function(file_path)
-                    if vitest_original_is_test_file(file_path) then return true end
+                    if vitest_original_is_test_file(file_path) then
+                        return true
+                    end
 
                     return string.match(file_path, "tests")
                 end,

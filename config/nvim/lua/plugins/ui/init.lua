@@ -17,7 +17,9 @@ local function lualine()
 
     local function get_name()
         local ok, hydra = pcall(require, "hydra.statusline")
-        if ok then return hydra.get_name() end
+        if ok then
+            return hydra.get_name()
+        end
         return ""
     end
     require("lualine").setup({
@@ -90,20 +92,6 @@ local function blankline()
     })
 end
 
-local function statuscol()
-    -- consult https://github.com/luukvbaal/statuscol.nvim/issues/27
-    -- this will fix fold numbers
-    local builtin = require("statuscol.builtin")
-    require("statuscol").setup({
-        relculright = true,
-        segments = {
-            { text = { "%s" }, click = "v:lua.ScSa" },
-            { text = { builtin.lnumfunc }, click = "v:lua.ScLa" },
-            { text = { " ", builtin.foldfunc, " " }, click = "v:lua.ScFa" },
-        },
-    })
-end
-
 local function yazi()
     ---@param buf number
     ---@param config YaziConfig
@@ -153,11 +141,16 @@ return {
         "grapp-dev/nui-components.nvim",
     },
     { "nvchad/volt", lazy = true },
+
+    {
+        "nvzone/minty",
+        cmd = { "Shades", "Huefy" },
+    },
     { "nvchad/menu", lazy = true },
     -- color text colorizer, e.g. #5F9EA0 Aqua #91f #f101ff11
     {
         "norcalli/nvim-colorizer.lua",
-        opts = { "qml", "typst", user_default_options = { rgb_fn = true, RRGGBBAA = true } },
+        opts = { "qml", "typst", "lua", "vue", "html", "css", user_default_options = { rgb_fn = true, RRGGBBAA = true } },
         event = "BufReadPre",
     },
     {
@@ -192,11 +185,11 @@ return {
 
     { "cpea2506/relative-toggle.nvim", event = "VeryLazy" },
     -- status column
-    {
-        "luukvbaal/statuscol.nvim",
-        config = statuscol,
-        event = "VeryLazy",
-    },
+    -- {
+    --     "luukvbaal/statuscol.nvim",
+    --     config = statuscol,
+    --     event = "VeryLazy",
+    -- },
 
     {
         "nvim-tree/nvim-tree.lua",
@@ -242,7 +235,9 @@ return {
     },
     {
         "3rd/image.nvim",
-        ft = { "markdown", "typst" },
-        opts = {},
+        ft = { "markdown" },
+        opts = {
+            window_overlap_clear_enabled = true,
+        },
     },
 }

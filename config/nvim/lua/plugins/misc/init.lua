@@ -84,12 +84,14 @@ return {
             { "<space>cb", "<cmd>CMakeBuild<cr>", desc = "cmake generate" },
         },
     },
+
     {
-        "iamcco/markdown-preview.nvim",
-        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-        build = function() vim.fn["mkdp#util#install"]() end,
-        init = function() vim.g.mkdp_filetypes = { "markdown" } end,
-        ft = { "markdown" },
+        "MeanderingProgrammer/render-markdown.nvim",
+        dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+        ---@module 'render-markdown'
+        ---@type render.md.UserConfig
+        opts = {},
+        ft = "markdown",
     },
     {
         "SUSTech-data/neopyter",
@@ -122,10 +124,21 @@ return {
         init = function() vim.g.vimtex_view_method = "zathura" end,
     },
     {
+        "AbaoFromCUG/tinymist.nvim",
+        ft = "typst",
+        dev = true,
+        opts = {
+            -- debug = true,
+        },
+    },
+    {
         "chomosuke/typst-preview.nvim",
         ft = "typst",
         version = "0.3.*",
         build = function() require("typst-preview").update() end,
+        opts = {
+            -- debug = true,
+        },
     },
     {
         "mistricky/codesnap.nvim",

@@ -34,15 +34,6 @@ return {
     "nvim-tree/nvim-web-devicons",
     "pysan3/pathlib.nvim",
     "AbaoFromCUG/websocket.nvim",
-    -- {
-    --     "ojroques/nvim-bufdel",
-    --     cmd = { "BufDel", "BufDelOthers" },
-    --     keys = {
-    --         -- { ";x", smart_close, desc = "close current buffer" },
-    --         { "<leader>vq", smart_close, desc = "close current buffer" },
-    --         { "<leader>vo", smart_close_others, desc = "close others buffer" },
-    --     },
-    -- },
     {
         "willothy/flatten.nvim",
         config = true,
@@ -74,8 +65,7 @@ return {
                 "ruff",
                 "tailwindcss",
                 "eslint",
-                "rust_analyzer",
-                -- "stylelint_lsp",
+                "tinymist",
             },
             automatic_installation = false,
         },
@@ -96,14 +86,16 @@ return {
     },
     {
         "jay-babu/mason-null-ls.nvim",
-        -- event = "VeryLazy",
+        event = { "BufReadPre", "BufNewFile" },
         dependencies = {
             "williamboman/mason.nvim",
             "nvimtools/none-ls.nvim",
         },
+
         opts = {
             ensure_installed = {
                 "markdownlint",
+                "shfmt",
             },
             automatic_installation = true,
         },
@@ -112,7 +104,29 @@ return {
         "folke/snacks.nvim",
         priority = 1000,
         lazy = false,
-        opts = {},
+        opts = {
+            statuscolumn = {
+                left = { "sign", "git" },
+                right = { "fold" },
+                -- right = { "mark" },
+                folds = {
+                    open = true,
+                    git_hl = true,
+                },
+                git = {
+                    -- patterns to match Git signs
+                    patterns = { "GitSign", "MiniDiffSign" },
+                },
+                refresh = 50, -- refresh at most every 50ms
+            },
+            notifier = {
+                style = "fancy",
+            },
+            bigfile = {
+                size = 0.05 * 1024 * 1024,
+            },
+        },
+
         keys = {
             -- git
             { "<leader>gg", function() Snacks.lazygit() end, desc = "lazygit" },

@@ -7,7 +7,9 @@ local function enrich_config(finalConfig, on_config)
             for word in string.gmatch(line, "[^=]+") do
                 table.insert(words, word)
             end
-            if not final_config.env then final_config.env = {} end
+            if not final_config.env then
+                final_config.env = {}
+            end
             final_config.env[words[1]] = words[2]
         end)
     end

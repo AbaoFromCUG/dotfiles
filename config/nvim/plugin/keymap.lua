@@ -15,6 +15,7 @@ wk.add({
     { ";k", "<cmd>wincmd k<cr>", desc = "goto up" },
     { ";l", "<cmd>wincmd l<cr>", desc = "goto right" },
     { ";w", "<cmd>wincmd w<cr>", desc = "goto float" },
+    { ";q", "<cmd>wincmd q<cr>", desc = "close window" },
     { ";o", "<cmd>wincmd o<cr>", desc = "close other windows" },
     { ";|", "<cmd>vsplit<cr>", desc = "split vertical" },
     { "<leader>,", group = "settings" },
@@ -50,11 +51,4 @@ wk.add({
     { "<space>y", '"+y', desc = "yank to system clipboard" },
     mode = { "n", "v" },
     silent = false,
-})
-
-wk.add({
-    {
-        "<C-i>",
-        function() vim.snippet.jump(1) end,
-    },
 })

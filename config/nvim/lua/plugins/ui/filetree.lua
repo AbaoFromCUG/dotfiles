@@ -4,7 +4,9 @@ return function()
     local function get_available_path()
         local node = api.tree.get_node_under_cursor()
         assert(node, "current cursor node is nil")
-        if node.fs_stat.type ~= "directory" then node = node.parent end
+        if node.fs_stat.type ~= "directory" then
+            node = node.parent
+        end
         return node.absolute_path
     end
 

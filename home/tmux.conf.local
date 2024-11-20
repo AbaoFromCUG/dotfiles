@@ -381,6 +381,7 @@ tmux_conf_urlscan_options="--compact --dedupe"
 set -g mouse on
 
 set -gq allow-passthrough on
+set -g visual-activity off
 
 
 # split-window
