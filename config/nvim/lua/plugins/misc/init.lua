@@ -124,14 +124,6 @@ return {
         init = function() vim.g.vimtex_view_method = "zathura" end,
     },
     {
-        "AbaoFromCUG/tinymist.nvim",
-        ft = "typst",
-        dev = true,
-        opts = {
-            -- debug = true,
-        },
-    },
-    {
         "chomosuke/typst-preview.nvim",
         ft = "typst",
         version = "0.3.*",
