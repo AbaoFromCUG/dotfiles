@@ -245,15 +245,6 @@ return {
         event = "VeryLazy",
     },
 
-    -- zen mode
-    {
-        "folke/zen-mode.nvim",
-        opts = {},
-        keys = {
-            { "<leader>zz", "<cmd>ZenMode<cr>", mode = { "n", "i", "v" }, desc = "zen mode" },
-        },
-    },
-
     {
         "folke/flash.nvim",
         ---@type Flash.Config

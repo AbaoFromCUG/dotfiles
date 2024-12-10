@@ -40,7 +40,12 @@ return {
         lazy = false,
     },
 
-    { "williamboman/mason.nvim", config = true },
+    {
+        "williamboman/mason.nvim",
+        opts = {
+            registries = { "github:fecet/mason-registry" },
+        },
+    },
     {
         "williamboman/mason-lspconfig.nvim",
         dependencies = "mason.nvim",
@@ -104,7 +109,22 @@ return {
         "folke/snacks.nvim",
         priority = 1000,
         lazy = false,
+        ---@type snacks.Config
         opts = {
+            bigfile = {
+                size = 5 * 1024 * 1024,
+            },
+            indent = { enabled = true },
+            input = {
+                enabled = true,
+                relative = "cursor",
+                row = -3,
+                col = 0,
+            },
+            notifier = {
+                style = "fancy",
+            },
+            scroll = { enabled = true },
             statuscolumn = {
                 left = { "sign", "git" },
                 right = { "fold" },
@@ -119,14 +139,10 @@ return {
                 },
                 refresh = 50, -- refresh at most every 50ms
             },
-            notifier = {
-                style = "fancy",
-            },
-            bigfile = {
-                size = 0.05 * 1024 * 1024,
+            styles = {
+                notification = { focusable = false },
             },
         },
-
         keys = {
             -- git
             { "<leader>gg", function() Snacks.lazygit() end, desc = "lazygit" },
@@ -143,14 +159,16 @@ return {
             { ";x", function() Snacks.bufdelete() end, desc = "close current buffer" },
             { "<leader>vq", function() Snacks.bufdelete.delete()() end, desc = "close current buffer" },
             { "<leader>vo", function() Snacks.bufdelete.other() end, desc = "close others buffer" },
+
+            { "<leader>zz", function() Snacks.zen.zen() end, mode = { "n", "i", "v" }, desc = "zen mode" },
         },
         init = function()
             vim.api.nvim_create_autocmd("User", {
                 pattern = "VeryLazy",
                 callback = function()
-                    _G.dd = function(...) Snacks.debug.inspect(...) end
-                    _G.bt = function() Snacks.debug.backtrace() end
-                    vim.print = _G.dd
+                    -- _G.dd = function(...) Snacks.debug.inspect(...) end
+                    -- _G.bt = function() Snacks.debug.backtrace() end
+                    -- vim.print = _G.dd
 
                     Snacks.toggle.diagnostics():map("<leader>,d")
                     Snacks.toggle.line_number():map("<leader>,l")

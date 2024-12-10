@@ -36,7 +36,7 @@ local function neopyter()
             })
         end,
         highlight = {
-            enable = true,
+            enable = false,
             shortsighted = false,
         },
         jupyter = {
@@ -96,6 +96,9 @@ return {
     {
         "SUSTech-data/neopyter",
         config = neopyter,
+        opts ={
+
+        },
         ft = { "python" },
         enabled = true,
         cmd = "Neopyter",
@@ -160,4 +163,5 @@ return {
             { "<leader>tt", "<Cmd>Translate zh-CN<CR>", mode = { "n", "x" }, desc = "translate" },
         },
     },
+    { "qvalentin/helm-ls.nvim", ft = "helm" },
 }

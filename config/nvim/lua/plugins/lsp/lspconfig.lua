@@ -28,10 +28,9 @@ return function()
             },
         },
         clangd = {
-            cmd={
+            cmd = {
                 "clangd",
-                "--header-insertion-decorators=false"
-
+                "--header-insertion-decorators=false",
             },
             settings = {
                 clangd = {
@@ -64,8 +63,32 @@ return function()
         yamlls = {
             settings = {
                 yaml = {
-                    format = {
-                        enable = true,
+                    -- schemaStore = {
+                    --     enable = false,
+                    --     url = "",
+                    -- },
+                    schemas = require("schemastore").yaml.schemas({
+                        extra = {
+                            {
+                                description = "zero to jupyterhub k8s",
+                                fileMatch = "deployments/*/values.yaml",
+                                name = "z2jk",
+                                url = "https://raw.githubusercontent.com/jupyterhub/zero-to-jupyterhub-k8s/refs/heads/main/jupyterhub/values.yaml",
+                            },
+                        },
+                    }),
+                },
+            },
+        },
+        helm_ls = {
+            settings = {
+                ["helm-ls"] = {
+                    yamlls = {
+                        enabled = false,
+                        path = "yaml-language-server",
+                        config = {
+                            keyOrdering = false,
+                        },
                     },
                 },
             },
@@ -78,6 +101,18 @@ return function()
             root_dir = function() return vim.fn.getcwd() end,
             settings = {
                 semantic_tokens = "disable",
+            },
+        },
+        neocmake = {
+            init_options = {
+                format = {
+                    enable = true,
+                },
+                lint = {
+                    enable = true,
+                },
+                scan_cmake_in_package = false,
+                semantic_token = false,
             },
         },
     }
@@ -93,6 +128,7 @@ return function()
             dynamicRegistration = false,
             lineFoldingOnly = true,
         }
+        -- config.capabilities.textDocument.completion.completionItem.snippetSupport = false
         -- vim.print(config.capabilities)
         server.setup(config)
     end

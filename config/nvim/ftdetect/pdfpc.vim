@@ -1,1 +1,1 @@
-au BufRead,BufNewFile *.pdfpc		set filetype=json
+au BufRead,BufNewFile *.pdfpc set filetype=json

@@ -54,44 +54,6 @@ local function lualine()
     })
 end
 
-local function blankline()
-    local filetype_exclude = {
-        "startify",
-        "dashboard",
-        "dotooagenda",
-        "log",
-        "fugitive",
-        "gitcommit",
-        "packer",
-        "vimwiki",
-        "markdown",
-        "txt",
-        "vista",
-        "help",
-        "todoist",
-        "peekaboo",
-        "git",
-        "TelescopePrompt",
-        "undotree",
-        "flutterToolsOutline",
-        "", -- for all buffers without a file type
-    }
-    local indent_blankline = require("ibl")
-    indent_blankline.setup({
-        scope = {
-            show_start = false,
-            show_end = false,
-        },
-        exclude = {
-            filetypes = filetype_exclude,
-            buftypes = {
-                "terminal",
-                "nofile",
-            },
-        },
-    })
-end
-
 local function yazi()
     ---@param buf number
     ---@param config YaziConfig
@@ -168,20 +130,6 @@ return {
         config = lualine,
         event = "VeryLazy",
     },
-    {
-        "lukas-reineke/indent-blankline.nvim",
-        config = blankline,
-        event = "VeryLazy",
-    },
-    {
-        "stevearc/dressing.nvim",
-        event = "VeryLazy",
-        opts = {
-            select = {
-                enabled = true,
-            },
-        },
-    },
 
     { "cpea2506/relative-toggle.nvim", event = "VeryLazy" },
     -- status column
@@ -236,6 +184,8 @@ return {
     {
         "3rd/image.nvim",
         ft = { "markdown" },
+        enabled = false,
+
         opts = {
             window_overlap_clear_enabled = true,
         },

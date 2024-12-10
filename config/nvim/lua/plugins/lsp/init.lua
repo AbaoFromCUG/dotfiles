@@ -27,12 +27,13 @@ local function blink()
             ["<Up>"] = { "select_prev", "fallback" },
             ["<C-p>"] = { "select_prev", "snippet_backward", "fallback" },
         },
-        highlight = {
-            use_nvim_cmp_as_default = true,
-        },
-        windows = {
-            autocomplete = {
+
+        completion = {
+
+            list = {
                 selection = "manual",
+            },
+            menu = {
                 draw = {
                     padding = { 1, 0 },
                     columns = { { "label", widht = { max = 20 } }, { "kind_icon", "kind", gap = 1 }, { "source" } },
@@ -41,6 +42,14 @@ local function blink()
                     },
                 },
             },
+            accept = {
+
+                -- experimental auto-brackets support
+                accept = { auto_brackets = { enabled = false } },
+
+                -- experimental signature help support
+                trigger = { signature_help = { enabled = true } },
+            },
             documentation = {
                 auto_show = true,
             },
@@ -48,11 +57,12 @@ local function blink()
                 enabled = true,
             },
         },
-        -- experimental auto-brackets support
-        accept = { auto_brackets = { enabled = true } },
-
-        -- experimental signature help support
-        trigger = { signature_help = { enabled = true } },
+        signature = {
+            enabled = false,
+        },
+        appearance = {
+            -- use_nvim_cmp_as_default = true,
+        },
     })
     ---@diagnostic enable: missing-fields
 end
@@ -66,12 +76,13 @@ local function none_ls()
 
             null_ls.builtins.diagnostics.markdownlint,
             null_ls.builtins.diagnostics.qmllint,
-            null_ls.builtins.diagnostics.cmake_lint,
+            -- null_ls.builtins.diagnostics.cmake_lint,
 
             null_ls.builtins.formatting.markdownlint,
             null_ls.builtins.formatting.qmlformat,
-            null_ls.builtins.formatting.cmake_format,
+            -- null_ls.builtins.formatting.cmake_format,
             null_ls.builtins.formatting.typstyle,
+            null_ls.builtins.formatting.yamlfmt,
         },
     })
 end
@@ -91,8 +102,6 @@ return {
     {
         "saghen/blink.cmp",
         lazy = false,
-        -- event = "VeryLazy",
-        -- version = "v0.*",
         build = "cargo build --release",
         dependencies = "rafamadriz/friendly-snippets",
         config = blink,
