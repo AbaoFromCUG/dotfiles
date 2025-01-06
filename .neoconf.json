@@ -4,6 +4,7 @@
       "Lua.addonManager.addons": [
         "nvim",
         "pathlib.nvim",
+        "flatten.nvim",
         "nvim-lspconfig",
         "blink.cmp",
         "lazy.nvim",

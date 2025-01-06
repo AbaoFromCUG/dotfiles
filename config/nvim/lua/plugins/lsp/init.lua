@@ -15,23 +15,24 @@ local function blink()
     ---@diagnostic disable: missing-fields
     require("blink-cmp").setup({
         keymap = {
-            ["<CR>"] = { "accept", "hide", "fallback" },
-            ["<C-Space>"] = { "show" },
-            ["<C-e>"] = { "show_documentation", "hide_documentation" },
-            ["<C-d>"] = { "scroll_documentation_down" },
-            ["<C-u>"] = { "scroll_documentation_up" },
             ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
-            ["<Down>"] = { "select_next", "fallback" },
-            ["<C-n>"] = { "select_next", "snippet_forward", "fallback" },
             ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
-            ["<Up>"] = { "select_prev", "fallback" },
-            ["<C-p>"] = { "select_prev", "snippet_backward", "fallback" },
+            ["<Down>"] = { "select_next", "snippet_forward", "fallback" },
+            ["<Up>"] = { "select_prev", "snippet_backward", "fallback" },
+            ["<CR>"] = { "accept", "fallback" },
+            cmdline = {
+                preset = "super-tab",
+                ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+                ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+                ["<Up>"] = { "fallback" },
+                ["<Down>"] = { "fallback" },
+                ["<CR>"] = { "accept", "fallback" },
+            },
         },
 
         completion = {
-
             list = {
-                selection = "manual",
+                selection = function(ctx) return ctx.mode == "cmdline" and "auto_insert" or "preselect" end,
             },
             menu = {
                 draw = {
@@ -42,14 +43,10 @@ local function blink()
                     },
                 },
             },
-            accept = {
 
-                -- experimental auto-brackets support
-                accept = { auto_brackets = { enabled = false } },
+            -- experimental auto-brackets support
+            accept = { auto_brackets = { enabled = false } },
 
-                -- experimental signature help support
-                trigger = { signature_help = { enabled = true } },
-            },
             documentation = {
                 auto_show = true,
             },

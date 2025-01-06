@@ -78,16 +78,12 @@ return {
     {
         "nvim-neotest/neotest",
         dependencies = {
-            "nvim-nio",
-            "plenary.nvim",
-            "nvim-treesitter",
+            "nvim-neotest/nvim-nio",
             "nvim-neotest/neotest-jest",
             "nvim-neotest/neotest-plenary",
             "nvim-neotest/neotest-python",
-            { "marilari88/neotest-vitest", dev = true },
+            "marilari88/neotest-vitest",
         },
-        config = neotest,
-        cmd = "Neotest",
         keys = {
             { "<space>tt", "<cmd>Neotest run<cr>", desc = "test nearest case" },
             { "<space>tf", "<cmd>lua require('neotest').run.run(vim.fn.expand('%'))<cr>", desc = "test current file" },
@@ -95,5 +91,7 @@ return {
             { "[n", "<cmd>lua require('neotest').jump.prev({ status = 'failed' })<cr>", desc = "previous failed test" },
             { "]n", "<cmd>lua require('neotest').jump.next({ status = 'failed' })<cr>", desc = "next failed test" },
         },
+        config = neotest,
+        cmd = "Neotest",
     },
 }

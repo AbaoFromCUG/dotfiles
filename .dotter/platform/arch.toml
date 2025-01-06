@@ -23,6 +23,6 @@
 [system]
 
 [system.files]
-"etc/greetd/config.toml" = { target = "/etc/greetd/config.toml", type = "template", owner = "root" }
-"etc/greetd/hyprland.conf" = { target = "/etc/greetd/hyprland.conf", type = "template", owner = "root" }
+# "etc/greetd/config.toml" = { target = "/etc/greetd/config.toml", type = "template", owner = "root" }
+# "etc/greetd/hyprland.conf" = { target = "/etc/greetd/hyprland.conf", type = "template", owner = "root" }
 "etc/systemd/logind.conf" = { target = "/etc/systemd/logind.conf", type = "template", owner = "root" }

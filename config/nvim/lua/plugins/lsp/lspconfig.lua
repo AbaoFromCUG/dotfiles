@@ -138,6 +138,4 @@ return function()
         ["lua_ls"] = function() end,
     })
 
-    setup_server("qmlls")
-    setup_server("neocmake")
 end

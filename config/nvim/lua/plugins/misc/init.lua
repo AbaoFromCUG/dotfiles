@@ -36,7 +36,7 @@ local function neopyter()
             })
         end,
         highlight = {
-            enable = false,
+            enable = true,
             shortsighted = false,
         },
         jupyter = {
@@ -96,13 +96,11 @@ return {
     {
         "SUSTech-data/neopyter",
         config = neopyter,
-        opts ={
-
-        },
+        opts = {},
         ft = { "python" },
         enabled = true,
         cmd = "Neopyter",
-        dev = true,
+        -- dev = true,
     },
     {
         "glacambre/firenvim",
@@ -129,9 +127,13 @@ return {
     {
         "chomosuke/typst-preview.nvim",
         ft = "typst",
-        version = "0.3.*",
+        -- version = "0.3.*",
         build = function() require("typst-preview").update() end,
         opts = {
+            dependencies_bin = {
+                ["tinymist"] = vim.fn.exepath("tinymist"),
+                ["websocat"] = vim.fn.exepath("websocat"),
+            },
             -- debug = true,
         },
     },

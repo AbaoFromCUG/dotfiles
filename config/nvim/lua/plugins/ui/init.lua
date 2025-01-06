@@ -132,12 +132,6 @@ return {
     },
 
     { "cpea2506/relative-toggle.nvim", event = "VeryLazy" },
-    -- status column
-    -- {
-    --     "luukvbaal/statuscol.nvim",
-    --     config = statuscol,
-    --     event = "VeryLazy",
-    -- },
 
     {
         "nvim-tree/nvim-tree.lua",
@@ -156,13 +150,46 @@ return {
             "nvim-lua/plenary.nvim",
         },
         config = yazi,
+        keys = {
+            {
+                "<leader>ty",
+                "<cmd>Yazi<cr>",
+                desc = "Open yazi at the current file",
+            },
+            {
+                -- Open in the current working directory
+                "<leader>tw",
+                "<cmd>Yazi cwd<cr>",
+                desc = "Open the file manager in nvim's working directory",
+            },
+        },
     },
     {
         "akinsho/toggleterm.nvim",
-        opts = {
-            close_on_exit = false,
-        },
         event = "VeryLazy",
+        keys = {
+            { ";t", '<cmd>exe v:count1 . "ToggleTerm"<CR>', mode = { "i", "n", "t" } },
+        },
+        opts = {
+            window = {
+                open = "smart",
+            },
+        },
+    },
+    {
+        "willothy/flatten.nvim",
+        lazy = false,
+        version = "v0.5.1",
+        priority = 1001,
+        opts = {
+            integrations = {
+                wezterm = true,
+                kitty = true,
+            },
+            window = {
+                open = "smart",
+            },
+        },
     },
     {
         "stevearc/aerial.nvim",
@@ -180,14 +207,5 @@ return {
     {
         "RRethy/vim-illuminate",
         event = "VeryLazy",
-    },
-    {
-        "3rd/image.nvim",
-        ft = { "markdown" },
-        enabled = false,
-
-        opts = {
-            window_overlap_clear_enabled = true,
-        },
     },
 }

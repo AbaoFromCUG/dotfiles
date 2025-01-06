@@ -16,28 +16,30 @@ fi
 export PATH="$PATH:$HOME/.local/bin"
 
 if command -v go >/dev/null 2>&1; then
-	export PATH="$PATH:$(go env GOBIN):$(go env GOPATH)/bin"
+    path+="$HOME/.local/go/bin"
 	export GOPROXY=https://goproxy.cn
 fi
 
 export PNPM_HOME="$HOME/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
+  *) path+=$PNPM_HOME ;;
 esac
 
 if [ -e "$HOME/.cargo/env" ]; then
     . "$HOME/.cargo/env"
 fi
 
-export PATH=$PATH:$HOME/.cargo/bin
-export PATH=$PATH:$HOME/.local/go/bin
-export PATH=$PATH:/opt/pot
+if [ -e "$HOME/.pixi/bin" ]; then
+    path+="$HOME/.pixi/bin"
+fi
+
+path+="$HOME/.cargo/bin"
 
 export bwBindPar=$HOME/Downloads/
 export NLTK_DATA=$HOME/Documents/nltk_data
 export CPM_SOURCE_CACHE=$HOME/.cache/CPM
 
 
+export PATH
 export EDITOR=nvim
-

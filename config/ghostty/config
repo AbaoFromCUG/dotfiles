@@ -1,0 +1,11 @@
+
+font-family = "FiraCode Nerd Font"
+font-size = 14
+
+
+keybind = ctrl+a>|=new_split:right
+keybind = ctrl+a>-=new_split:down
+keybind = ctrl+a>shift+h=resize_split:left,10
+keybind = ctrl+a>shift+j=resize_split:down,10
+keybind = ctrl+a>shift+k=resize_split:up,10
+keybind = ctrl+a>shift+l=resize_split:right,10

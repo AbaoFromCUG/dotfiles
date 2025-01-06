@@ -45,27 +45,6 @@ return function()
         endwise = {
             enable = true,
         },
-        -- matchup =
-        --     enable = true,
-        -- },
-        -- pairs = {
-        --     enable = true,
-        --     disable = {},
-        --     highlight_pair_events = {}, -- e.g. {"CursorMoved"}, -- when to highlight the pairs, use {} to deactivate highlighting
-        --     highlight_self = false, -- whether to highlight also the part of the pair under cursor (or only the partner)
-        --     goto_right_end = false, -- whether to go to the end of the right partner or the beginning
-        --     fallback_cmd_normal = "call matchit#Match_wrapper('',1,'n')", -- What command to issue when we can't find a pair (e.g. "normal! %")
-        --     keymaps = {
-        --         goto_partner = "<leader>%",
-        --         delete_balanced = "X",
-        --     },
-        --     delete_balanced = {
-        --         only_on_first_char = false, -- whether to trigger balanced delete when on first character of a pair
-        --         fallback_cmd_normal = nil, -- fallback command when no pair found, can be nil
-        --         longest_partner = false, -- whether to delete the longest or the shortest pair when multiple found.
-        --         -- E.g. whether to delete the angle bracket or whole tag in  <pair> </pair>
-        --     },
-        -- },
         refactor = {
             highlight_definitions = { enable = true },
             highlight_current_scope = { enable = false },
@@ -106,12 +85,12 @@ return function()
                 goto_next_start = {
                     ["]f"] = { query = "@function.outer", desc = "next function start" },
                     ["]c"] = { query = "@class.outer", desc = "next class start" },
-                    ["]j"] = { query = "@cellcontent", desc = "previous cell content" },
+                    ["]j"] = { query = "@cellseparator", desc = "previous cell content" },
                 },
                 goto_previous_start = {
                     ["[f"] = { query = "@function.outer", desc = "previous function start" },
                     ["[c"] = { query = "@class.outer", desc = "previous class start" },
-                    ["[j"] = { query = "@cellcontent", desc = "previous cell content" },
+                    ["[j"] = { query = "@cellseparator", desc = "previous cell content" },
                 },
             },
             include_surrounding_whitespace = true,

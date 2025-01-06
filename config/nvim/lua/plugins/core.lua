@@ -29,16 +29,10 @@ return {
             { "<leader>pe", profile_end, desc = "profile end" },
         },
     },
-    "nvim-neotest/nvim-nio",
     "tami5/sqlite.lua",
     "nvim-tree/nvim-web-devicons",
     "pysan3/pathlib.nvim",
     "AbaoFromCUG/websocket.nvim",
-    {
-        "willothy/flatten.nvim",
-        config = true,
-        lazy = false,
-    },
 
     {
         "williamboman/mason.nvim",
