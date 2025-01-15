@@ -11,13 +11,17 @@ return function()
     end
 
     local function find_file()
-        require("telescope.builtin").find_files({
-            search_dirs = { get_available_path() },
+        Snacks.picker.files({
+            dirs = {
+                get_available_path(),
+            },
         })
     end
     local function find_word()
-        require("telescope.builtin").live_grep({
-            search_dirs = { get_available_path() },
+        Snacks.picker.grep({
+            dirs = {
+                get_available_path(),
+            },
         })
     end
     local function context_menu()

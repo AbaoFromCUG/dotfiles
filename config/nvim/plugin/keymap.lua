@@ -6,6 +6,7 @@ local function context_menu()
 end
 
 vim.keymap.set("n", "<cr>", '{-> v:hlsearch ? ":nohl<CR>" : "<CR>"}()', { expr = true, silent = true, noremap = true })
+
 wk.add({
     { ";", group = "view" },
     { ";-", "<cmd>split<cr>", desc = "split hoizontal" },

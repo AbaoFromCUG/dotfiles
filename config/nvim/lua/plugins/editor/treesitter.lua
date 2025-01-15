@@ -78,6 +78,8 @@ return function()
                     -- You can optionally set descriptions to the mappings (used in the desc parameter of
                     -- nvim_buf_set_keymap) which plugins like which-key display
                     ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+                    ["aj"] = { query = "@cell", desc = "Select cell" },
+                    ["ij"] = { query = "@cellcontent", desc = "Select cell content" },
                 },
             },
             move = {
@@ -85,12 +87,16 @@ return function()
                 goto_next_start = {
                     ["]f"] = { query = "@function.outer", desc = "next function start" },
                     ["]c"] = { query = "@class.outer", desc = "next class start" },
-                    ["]j"] = { query = "@cellseparator", desc = "previous cell content" },
+                    ["]j"] = { query = "@cellseparator", desc = "next cell separator" },
+                    ["]C"] = { query = "@cellcontent", desc = "next cell content" },
+                    ["]l"] = { query = "@linemagic", desc = "next line magic" },
                 },
                 goto_previous_start = {
                     ["[f"] = { query = "@function.outer", desc = "previous function start" },
                     ["[c"] = { query = "@class.outer", desc = "previous class start" },
-                    ["[j"] = { query = "@cellseparator", desc = "previous cell content" },
+                    ["[j"] = { query = "@cellseparator", desc = "previous cell separator" },
+                    ["[C"] = { query = "@cellcontent", desc = "previous cell content" },
+                    ["[l"] = { query = "@linemagic", desc = "previous line magic" },
                 },
             },
             include_surrounding_whitespace = true,

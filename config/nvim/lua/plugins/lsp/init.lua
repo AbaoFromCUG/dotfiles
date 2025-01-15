@@ -8,8 +8,10 @@ local function blink()
 
     ---@type blink.cmp.DrawComponent
     local source_component = {
+        width = { max = 30 },
         ---@param ctx blink.cmp.DrawItemContext
         text = function(ctx) return string.format("[%s] ", source_map[ctx.item.source_name] or ctx.item.source_name) end,
+        highlight = "BlinkCmpSource",
     }
 
     ---@diagnostic disable: missing-fields
@@ -32,12 +34,15 @@ local function blink()
 
         completion = {
             list = {
-                selection = function(ctx) return ctx.mode == "cmdline" and "auto_insert" or "preselect" end,
+                selection = {
+                    auto_insert = true,
+                    preselect = function(ctx) return ctx.mode ~= "cmdline" end,
+                },
             },
             menu = {
                 draw = {
-                    padding = { 1, 0 },
-                    columns = { { "label", widht = { max = 20 } }, { "kind_icon", "kind", gap = 1 }, { "source" } },
+                    padding = { 1, 1 },
+                    columns = { { "label", width = { max = 5 } }, { "kind_icon", "kind", gap = 1 }, { "label_description" }, { "source" } },
                     components = {
                         source = source_component,
                     },
@@ -60,28 +65,34 @@ local function blink()
         appearance = {
             -- use_nvim_cmp_as_default = true,
         },
-    })
-    ---@diagnostic enable: missing-fields
-end
-
-local function none_ls()
-    local null_ls = require("null-ls")
-    null_ls.setup({
         sources = {
-            null_ls.builtins.formatting.stylua,
-            null_ls.builtins.formatting.shfmt,
+            default = {
+                "lsp",
+                "buffer",
+                "path",
+                "snippets",
+            },
+            per_filetype = {
+                python = {
+                    "lsp",
+                    "buffer",
+                    "path",
+                    "snippets",
+                    "neopyter",
+                },
+            },
 
-            null_ls.builtins.diagnostics.markdownlint,
-            null_ls.builtins.diagnostics.qmllint,
-            -- null_ls.builtins.diagnostics.cmake_lint,
-
-            null_ls.builtins.formatting.markdownlint,
-            null_ls.builtins.formatting.qmlformat,
-            -- null_ls.builtins.formatting.cmake_format,
-            null_ls.builtins.formatting.typstyle,
-            null_ls.builtins.formatting.yamlfmt,
+            providers = {
+                neopyter = {
+                    name = "Neopyter",
+                    module = "neopyter.blink",
+                    ---@type neopyter.CompleterOption
+                    opts = {},
+                },
+            },
         },
     })
+    ---@diagnostic enable: missing-fields
 end
 
 ---@type LazySpec[]
@@ -92,13 +103,13 @@ return {
         dependencies = {
             "neoconf.nvim",
         },
-        event = { "LazyFile" },
+        event = { "VeryLazy" },
     },
 
     -- completion engine
     {
         "saghen/blink.cmp",
-        lazy = false,
+        event = "InsertEnter",
         build = "cargo build --release",
         dependencies = "rafamadriz/friendly-snippets",
         config = blink,
@@ -160,12 +171,30 @@ return {
     },
     {
         "nvimtools/none-ls.nvim",
-        config = none_ls,
+        config = function()
+            local null_ls = require("null-ls")
+            null_ls.setup({
+                sources = {
+                    null_ls.builtins.formatting.stylua,
+                    null_ls.builtins.formatting.shfmt,
+
+                    null_ls.builtins.diagnostics.markdownlint,
+                    null_ls.builtins.diagnostics.qmllint,
+                    -- null_ls.builtins.diagnostics.cmake_lint,
+
+                    null_ls.builtins.formatting.markdownlint,
+                    null_ls.builtins.formatting.qmlformat,
+                    -- null_ls.builtins.formatting.cmake_format,
+                    null_ls.builtins.formatting.typstyle,
+                    null_ls.builtins.formatting.yamlfmt,
+                },
+            })
+        end,
         event = "VeryLazy",
     },
-    "b0o/schemastore.nvim",
+    { "b0o/schemastore.nvim" },
     {
-        "AbaoFromCUG/lua_ls.nvim",
+        "AbaoFromCUG/luals-addonmanager.nvim",
         ---@type lua_ls.Config
         opts = {
             settings = {
@@ -188,6 +217,7 @@ return {
                 },
             },
         },
+
         ft = "lua",
         dev = true,
     },

@@ -43,7 +43,7 @@ return {
     {
         "williamboman/mason-lspconfig.nvim",
         dependencies = "mason.nvim",
-        event = "LazyFile",
+        event = "VeryLazy",
         opts = {
             ensure_installed = {
                 "lua_ls",
@@ -85,7 +85,7 @@ return {
     },
     {
         "jay-babu/mason-null-ls.nvim",
-        event = { "BufReadPre", "BufNewFile" },
+        event = { "VeryLazy" },
         dependencies = {
             "williamboman/mason.nvim",
             "nvimtools/none-ls.nvim",
@@ -115,6 +115,10 @@ return {
                 row = -3,
                 col = 0,
             },
+            picker = {
+                ui_select = true,
+            },
+
             notifier = {
                 style = "fancy",
             },
@@ -138,6 +142,10 @@ return {
             },
         },
         keys = {
+
+            { "<leader>ff", function() Snacks.picker.files() end },
+            { "<leader>fh", function() Snacks.picker.recent() end },
+            { "<leader>fw", function() Snacks.picker.grep() end },
             -- git
             { "<leader>gg", function() Snacks.lazygit() end, desc = "lazygit" },
             { "<leader>gB", function() Snacks.gitbrowse() end, desc = "git browse" },
@@ -153,6 +161,7 @@ return {
             { ";x", function() Snacks.bufdelete() end, desc = "close current buffer" },
             { "<leader>vq", function() Snacks.bufdelete.delete()() end, desc = "close current buffer" },
             { "<leader>vo", function() Snacks.bufdelete.other() end, desc = "close others buffer" },
+            { "<leader>ddd", function() print(vim.show_pos(0, 155, 23)) end },
 
             { "<leader>zz", function() Snacks.zen.zen() end, mode = { "n", "i", "v" }, desc = "zen mode" },
         },
@@ -168,6 +177,8 @@ return {
                     Snacks.toggle.line_number():map("<leader>,l")
                     Snacks.toggle.treesitter():map("<leader>,t")
                     Snacks.toggle.inlay_hints():map("<leader>,i")
+
+                    Snacks.toggle.dim():map("<leader>uD")
                 end,
             })
         end,

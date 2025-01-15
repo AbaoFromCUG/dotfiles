@@ -1,15 +1,16 @@
+
 local function lualine()
-    local trouble = require("trouble")
-    local symbols = trouble.statusline({
-        mode = "lsp_document_symbols",
-        groups = {},
-        title = false,
-        filter = { range = true },
-        format = "{kind_icon}{symbol.name:Normal}",
-        -- The following line is needed to fix the background color
-        -- Set it to the lualine section you want to use
-        hl_group = "lualine_b_normal",
-    })
+    -- local trouble = require("trouble")
+    -- local symbols = trouble.statusline({
+    --     mode = "lsp_document_symbols",
+    --     groups = {},
+    --     title = false,
+    --     filter = { range = true },
+    --     format = "{kind_icon}{symbol.name:Normal}",
+    --     -- The following line is needed to fix the background color
+    --     -- Set it to the lualine section you want to use
+    --     hl_group = "lualine_b_normal",
+    -- })
     local function is_active()
         local ok, hydra = pcall(require, "hydra.statusline")
         return ok and hydra.is_active()
@@ -37,10 +38,10 @@ local function lualine()
             lualine_b = {
                 "filename",
                 "diff",
-                {
-                    symbols.get,
-                    cond = symbols.has,
-                },
+                -- {
+                --     symbols.get,
+                --     cond = symbols.has,
+                -- },
             },
             lualine_c = {
                 -- "launcher",
@@ -91,10 +92,10 @@ end
 ---@type LazySpec[]
 return {
     {
-        "EdenEast/nightfox.nvim",
+        "folke/tokyonight.nvim",
         lazy = false,
         priority = 1000,
-        config = function() vim.cmd([[colorscheme nightfox]]) end,
+        config = function() vim.cmd([[colorscheme tokyonight]]) end,
     },
     {
         "MunifTanjim/nui.nvim",
@@ -113,7 +114,7 @@ return {
     {
         "norcalli/nvim-colorizer.lua",
         opts = { "qml", "typst", "lua", "vue", "html", "css", user_default_options = { rgb_fn = true, RRGGBBAA = true } },
-        event = "BufReadPre",
+        event = "VeryLazy",
     },
     {
         "akinsho/bufferline.nvim",

@@ -21,36 +21,6 @@ local function cmake()
     })
 end
 
-local function neopyter()
-    require("neopyter").setup({
-        remote_address = "127.0.0.1:9001",
-        auto_attach = true,
-        on_attach = function(buf)
-            require("which-key").add({
-                { "<space>nt", "<cmd>Neopyter execute kernelmenu:restart<cr>", desc = "restart kernel" },
-                { "<C-CR>", "<cmd>Neopyter execute notebook:run-cell<cr>", desc = "run selected" },
-                { "<space>nr", "<cmd>Neopyter execute notebook:run-cell<cr>", desc = "run selected" },
-                { "<F5>", "<cmd>Neopyter execute notebook:restart-run-all<cr>", desc = "restart kernel and run all" },
-
-                buffer = buf,
-            })
-        end,
-        highlight = {
-            enable = true,
-            shortsighted = false,
-        },
-        jupyter = {
-            scroll = {
-                enable = true,
-                align = "auto",
-            },
-        },
-        parser = {
-            trim_whitespace = true,
-        },
-    })
-end
-
 local function toggle_venn()
     local venn_enabled = vim.inspect(vim.b.venn_enabled)
     if venn_enabled == "nil" then
@@ -95,12 +65,41 @@ return {
     },
     {
         "SUSTech-data/neopyter",
-        config = neopyter,
-        opts = {},
+        ---@type neopyter.Option
+        opts = {
+            remote_address = "127.0.0.1:9001",
+            auto_attach = true,
+            on_attach = function(buf)
+                require("which-key").add({
+                    { "<space>nt", "<cmd>Neopyter execute kernelmenu:restart<cr>", desc = "restart kernel" },
+                    { "<C-CR>", "<cmd>Neopyter execute notebook:run-cell<cr>", desc = "run selected" },
+                    { "<space>nr", "<cmd>Neopyter execute notebook:run-cell<cr>", desc = "run selected" },
+                    { "<F5>", "<cmd>Neopyter execute notebook:restart-run-all<cr>", desc = "restart kernel and run all" },
+
+                    buffer = buf,
+                })
+            end,
+            jupyter = {
+                scroll = {
+                    enable = true,
+                    align = "auto",
+                },
+            },
+            highlight = {
+                enable = true,
+                mode = "zen",
+            },
+            textobject = {
+                enable = true,
+                queries = { "linemagic", "cellseparator", "cellcontent", "cell" },
+            },
+            parser = {
+                trim_whitespace = true,
+            },
+        },
         ft = { "python" },
-        enabled = true,
         cmd = "Neopyter",
-        -- dev = true,
+        dev = true,
     },
     {
         "glacambre/firenvim",

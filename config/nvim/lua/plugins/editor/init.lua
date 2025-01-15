@@ -1,21 +1,5 @@
 local is_inside_work_tree = {}
 
-local function project_files()
-    local cwd = vim.uv.cwd()
-    local builtin = require("telescope.builtin")
-    if cwd and is_inside_work_tree[cwd] == nil then
-        vim.system({ "git", "rev-parse", "--is-inside-work-tree" }, { text = true, cwd = cwd }, function(out)
-            is_inside_work_tree[cwd] = out.code == 0
-            vim.schedule(project_files)
-        end)
-    end
-    if is_inside_work_tree[cwd] then
-        builtin.git_files({ use_git_root = false, show_untracked = true })
-    else
-        builtin.find_files()
-    end
-end
-
 local function gitsigns()
     local gs = require("gitsigns")
     gs.setup({
@@ -97,27 +81,6 @@ end
 
 ---@type LazySpec[]
 return {
-    {
-        "nvim-telescope/telescope.nvim",
-        config = require("plugins.editor.telescope"),
-        cmd = "Telescope",
-        dependencies = {
-            "nvim-telescope/telescope-symbols.nvim",
-            {
-                "nvim-telescope/telescope-fzf-native.nvim",
-                build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-            },
-        },
-        keys = {
-            { "<leader>ff", project_files, desc = "find files" },
-            { "<leader>fh", "<cmd>Telescope oldfiles<cr>", desc = "history files" },
-            { "<leader>fw", "<cmd>Telescope live_grep<cr>", desc = "find words" },
-            { "<leader>fm", "<cmd>Telescope marks<cr>", desc = "find marks" },
-            { "<leader>,m", "<cmd>Telescope filetypes<cr>", desc = "change languages" },
-            { "<leader>,t", "<cmd>Telescope colorscheme<cr>", desc = "change colorscheme" },
-        },
-    },
-
     -- tree-sitter highlight
     {
         "nvim-treesitter/nvim-treesitter",
