@@ -105,13 +105,6 @@ return {
         "glacambre/firenvim",
         build = ":call firenvim#install(0)",
     },
-    {
-        "luckasRanarison/tailwind-tools.nvim",
-        dependencies = { "nvim-treesitter/nvim-treesitter" },
-        ---@type TailwindTools.Option
-        opts = {},
-        ft = { "html", "typescript", "typescriptreact", "vue" },
-    },
     { "lambdalisue/suda.vim", cmd = { "SudaWrite", "SudaRead" } },
     { "h-hg/fcitx.nvim", event = "InsertEnter" },
     {

@@ -65,6 +65,7 @@ return {
                 "tailwindcss",
                 "eslint",
                 "tinymist",
+                "vtsls",
             },
             automatic_installation = false,
         },

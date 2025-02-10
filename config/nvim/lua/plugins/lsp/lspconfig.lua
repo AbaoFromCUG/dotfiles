@@ -115,6 +115,15 @@ return function()
                 semantic_token = false,
             },
         },
+        tailwindcss = {
+            capabilities = {
+                textDocument = {
+                    colorProvider = {
+                        dynamicRegistration = true,
+                    },
+                },
+            },
+        },
     }
     ---@diagnostic enable: missing-fields
 
@@ -137,5 +146,4 @@ return function()
         setup_server,
         ["lua_ls"] = function() end,
     })
-
 end
