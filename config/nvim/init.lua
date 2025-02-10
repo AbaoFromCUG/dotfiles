@@ -1,16 +1,3 @@
-if vim.env.PROF then
-    -- example for lazy.nvim
-    -- change this to the correct path for your plugin manager
-    local snacks = vim.fn.stdpath("data") .. "/lazy/snacks.nvim"
-    vim.opt.rtp:append(snacks)
-    require("snacks.profiler").startup({
-        startup = {
-            event = "VimEnter", -- stop profiler on this event. Defaults to `VimEnter`
-            -- event = "UIEnter",
-            -- event = "VeryLazy",
-        },
-    })
-end
 vim.opt.filetype = "on"
 vim.opt.expandtab = true
 vim.opt.number = true
@@ -39,7 +26,10 @@ vim.opt.encoding = "utf8"
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 
+-- edgy.nvim
 vim.opt.laststatus = 3
+vim.opt.splitkeep = "screen"
+
 vim.opt.swapfile = false
 vim.opt.sessionoptions = { "buffers", "curdir", "winsize", "winpos", "terminal" }
 

@@ -120,7 +120,7 @@ return {
             },
 
             notifier = {
-                style = "fancy",
+                -- style = "fancy",
             },
             scroll = { enabled = true },
             statuscolumn = {
@@ -143,7 +143,7 @@ return {
         },
         keys = {
 
-            { "<leader>ff", function() Snacks.picker.files() end },
+            { "<leader>ff", function() Snacks.picker.git_files({ untracked = true }) end },
             { "<leader>fh", function() Snacks.picker.recent() end },
             { "<leader>fw", function() Snacks.picker.grep() end },
             -- git
@@ -155,13 +155,9 @@ return {
             { "<leader>nm", function() Snacks.notifier.hide() end, desc = "dismiss all notifications" },
             { "<leader>nl", function() Snacks.notifier.show_history() end, desc = "show all notifications" },
 
-            { "]]", function() Snacks.words.jump(vim.v.count1) end, desc = "next reference" },
-            { "[[", function() Snacks.words.jump(-vim.v.count1) end, desc = "prev reference" },
-
             { ";x", function() Snacks.bufdelete() end, desc = "close current buffer" },
             { "<leader>vq", function() Snacks.bufdelete.delete()() end, desc = "close current buffer" },
             { "<leader>vo", function() Snacks.bufdelete.other() end, desc = "close others buffer" },
-            { "<leader>ddd", function() print(vim.show_pos(0, 155, 23)) end },
 
             { "<leader>zz", function() Snacks.zen.zen() end, mode = { "n", "i", "v" }, desc = "zen mode" },
         },

@@ -88,7 +88,7 @@ return {
         config = require("plugins.editor.treesitter"),
         -- commit = "a80fe081b4c",
         dependencies = {
-            { "RRethy/nvim-treesitter-endwise" },
+            { "metiulekm/nvim-treesitter-endwise" },
             { "nvim-treesitter/nvim-treesitter-refactor" },
             { "nvim-treesitter/nvim-treesitter-textobjects" },
         },
@@ -99,6 +99,7 @@ return {
         opts = { opts = { enable_close_on_slash = true } },
         event = "VeryLazy",
     },
+
     {
         "monkoose/matchparen.nvim",
         event = "VeryLazy",

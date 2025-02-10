@@ -1,13 +1,34 @@
 return function()
     vim.treesitter.language.register("qmljs", "qml")
-    -- vim.treesitter.language.register("typescript", "javascript")
-    -- vim.treesitter.language.register("typescript", "javascriptreact")
+    vim.treesitter.language.register("bash", "kitty")
 
     require("nvim-treesitter.install").prefer_git = true
     local parser_path = vim.fn.stdpath("data") .. "/ts-parsers"
     vim.opt.runtimepath:append(parser_path)
 
     vim.api.nvim_set_hl(0, "@attribute_ref_value.vue", { link = "@variable" })
+    vim.filetype.add({
+        extension = {
+            rasi = "rasi",
+            rofi = "rasi",
+            wofi = "rasi",
+            qml = "qml",
+            wgsl = "wgsl",
+            pdfpc = "json",
+        },
+        filename = {
+            ["vifmrc"] = "vim",
+            ["justfile"] = "just",
+        },
+        pattern = {
+            ["**/.vscode/*.json"] = "jsonc",
+            [".*/waybar/config"] = "jsonc",
+            [".*/mako/config"] = "dosini",
+            [".*/kitty/.+%.conf"] = "kitty",
+            [".*/hypr/.+%.conf"] = "hyprlang",
+            ["%.env%.[%w_.-]+"] = "sh",
+        },
+    })
 
     require("nvim-treesitter.configs").setup({
         incremental_selection = {
@@ -68,35 +89,31 @@ return function()
         textobjects = {
             select = {
                 enable = true,
-                -- Automatically jump forward to textobj, similar to targets.vim
                 lookahead = true,
                 keymaps = {
-                    -- You can use the capture groups defined in textobjects.scm
-                    ["af"] = "@function.outer",
-                    ["if"] = "@function.inner",
-                    ["ac"] = "@class.outer",
-                    -- You can optionally set descriptions to the mappings (used in the desc parameter of
-                    -- nvim_buf_set_keymap) which plugins like which-key display
-                    ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
-                    ["aj"] = { query = "@cell", desc = "Select cell" },
-                    ["ij"] = { query = "@cellcontent", desc = "Select cell content" },
+                    ["af"] = { query = "@function.outer", desc = "function outer" },
+                    ["if"] = { query = "@function.inner", desc = "function innner" },
+                    ["ac"] = { query = "@class.outer", desc = "class outer" },
+                    ["ic"] = { query = "@class.inner", desc = "class inner" },
+
+                    ["aj"] = { query = "@cell", desc = "cell outer" },
+                    ["ij"] = { query = "@cellcontent", desc = "cell inner" },
                 },
             },
             move = {
                 enable = true,
+                set_jumps = true,
                 goto_next_start = {
-                    ["]f"] = { query = "@function.outer", desc = "next function start" },
-                    ["]c"] = { query = "@class.outer", desc = "next class start" },
-                    ["]j"] = { query = "@cellseparator", desc = "next cell separator" },
-                    ["]C"] = { query = "@cellcontent", desc = "next cell content" },
-                    ["]l"] = { query = "@linemagic", desc = "next line magic" },
+                    ["]f"] = { query = "@function.outer", desc = "function start" },
+                    ["]c"] = { query = "@class.outer", desc = "class start" },
+                    ["]z"] = { query = "@fold", query_group = "folds", desc = "fold" },
+                    ["]j"] = { query = "@cellseparator", desc = "cell separator" },
                 },
                 goto_previous_start = {
-                    ["[f"] = { query = "@function.outer", desc = "previous function start" },
-                    ["[c"] = { query = "@class.outer", desc = "previous class start" },
-                    ["[j"] = { query = "@cellseparator", desc = "previous cell separator" },
-                    ["[C"] = { query = "@cellcontent", desc = "previous cell content" },
-                    ["[l"] = { query = "@linemagic", desc = "previous line magic" },
+                    ["[f"] = { query = "@function.outer", desc = "function start" },
+                    ["[c"] = { query = "@class.outer", desc = "class start" },
+                    ["[z"] = { query = "@fold", query_group = "folds", desc = "fold" },
+                    ["[j"] = { query = "@cellseparator", desc = "cell separator" },
                 },
             },
             include_surrounding_whitespace = true,

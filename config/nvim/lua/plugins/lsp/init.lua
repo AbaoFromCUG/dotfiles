@@ -31,21 +31,20 @@ local function blink()
                 ["<CR>"] = { "accept", "fallback" },
             },
         },
-
         completion = {
             list = {
                 selection = {
-                    auto_insert = true,
-                    preselect = function(ctx) return ctx.mode ~= "cmdline" end,
+                    preselect = false
                 },
             },
             menu = {
                 draw = {
                     padding = { 1, 1 },
-                    columns = { { "label", width = { max = 5 } }, { "kind_icon", "kind", gap = 1 }, { "label_description" }, { "source" } },
+                    columns = { { "label" }, { "kind_icon", "kind", gap = 1 }, { "label_description" }, { "source" } },
                     components = {
                         source = source_component,
                     },
+                    treesitter = { "lsp" },
                 },
             },
 
@@ -112,6 +111,7 @@ return {
         event = "InsertEnter",
         build = "cargo build --release",
         dependencies = "rafamadriz/friendly-snippets",
+        tag = "v0.11.0",
         config = blink,
     },
 
@@ -120,42 +120,12 @@ return {
         "folke/trouble.nvim",
         opts = {},
         keys = {
-            { "<leader>cx", "<cmd>Trouble diagnostics toggle<cr>", desc = "diagnostics" },
-            { "<leader>cX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "buffer diagnostics" },
-            { "<leader>cs", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "symbols" },
-            { "<leader>cl", "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", desc = "lsp definitions/references" },
-            { "<leader>cL", "<cmd>Trouble loclist toggle<cr>", desc = "location list" },
-            { "<leader>cQ", "<cmd>Trouble qflist toggle<cr>", desc = "quickfix list" },
-            {
-                "[q",
-                function()
-                    if require("trouble").is_open() then
-                        ---@diagnostic disable-next-line: missing-fields, missing-parameter
-                        require("trouble").prev({ skip_groups = true, jump = true })
-                    else
-                        local ok, err = pcall(vim.cmd.cprev)
-                        if not ok then
-                            vim.notify(err, vim.log.levels.ERROR)
-                        end
-                    end
-                end,
-                desc = "Previous Trouble/Quickfix Item",
-            },
-            {
-                "]q",
-                function()
-                    if require("trouble").is_open() then
-                        ---@diagnostic disable-next-line: missing-fields, missing-parameter
-                        require("trouble").next({ skip_groups = true, jump = true })
-                    else
-                        local ok, err = pcall(vim.cmd.cnext)
-                        if not ok then
-                            vim.notify(err, vim.log.levels.ERROR)
-                        end
-                    end
-                end,
-                desc = "Next Trouble/Quickfix Item",
-            },
+            { "<space>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "diagnostics" },
+            { "<space>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "buffer diagnostics" },
+            { "<space>xs", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "symbos" },
+            { "<space>xl", "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", desc = "lsp definitions/references" },
+            { "<space>xL", "<cmd>Trouble loclist toggle<cr>", desc = "location list" },
+            { "<space>xQ", "<cmd>Trouble qflist toggle<cr>", desc = "quickfix list" },
         },
     },
     {
@@ -219,6 +189,5 @@ return {
         },
 
         ft = "lua",
-        dev = true,
     },
 }

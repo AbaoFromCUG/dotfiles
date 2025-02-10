@@ -55,21 +55,21 @@ end
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
         local client = vim.lsp.get_client_by_id(args.data.client_id)
+        local buf = args.buf
         ---@cast client -nil
-        if client.name == "tinymist" then
-            -- client.server_capabilities.semanticTokensProvider = nil
+        local function map(lhs, rhs, desc, mode) vim.keymap.set(mode or "n", lhs, rhs, { desc = desc, buffer = buf }) end
+        if client:supports_method("textDocument/definition", buf) then
+            map("gd", vim.lsp.buf.definition, "goto definition")
         end
-        require("which-key").add({
-            { "<space>gd", vim.lsp.buf.definition, desc = "goto definition" },
-            { "<space>gD", vim.lsp.buf.declaration, desc = "goto declaration" },
-
-            { "<space>e", vim.diagnostic.open_float, desc = "open diagnostic" },
-            { "<space>f", smart_format, desc = "format" },
-            { "<space>q", vim.diagnostic.setloclist, desc = "diagnostic list" },
-
-            { "<C-k>", vim.lsp.buf.signature_help, desc = "open signature help" },
-            buffer = args.buf,
-        })
+        if client:supports_method("textDocument/declaration", buf) then
+            map("gD", vim.lsp.buf.declaration, "goto declaration")
+        end
+        if client:supports_method("textDocument/diagnostic", buf) then
+            map("<space>e", vim.diagnostic.open_float, "open diagnostic")
+        end
+        if client:supports_method("textDocument/formatting", buf) then
+            map("<space>f", smart_format, "format")
+        end
     end,
 })
 

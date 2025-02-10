@@ -1,16 +1,74 @@
+local function bufferline()
+    local blacklist_filetypes = {
+        "dashboard",
+        "checkhealth",
+        "qf",
+        "httpResult",
+    }
+    local blacklist_filenames = {
+        "%[dap%-terminal%].*",
+    }
+    local Offset = require("bufferline.offset")
+    if not Offset.edgy then
+        local get = Offset.get
+        Offset.get = function()
+            if package.loaded.edgy then
+                local layout = require("edgy.config").layout
+                local ret = { left = "", left_size = 0, right = "", right_size = 0 }
+                for _, pos in ipairs({ "left", "right" }) do
+                    local sb = layout[pos]
+                    if sb and #sb.wins > 0 then
+                        local title = " Sidebar" .. string.rep(" ", sb.bounds.width - 8)
+                        ret[pos] = "%#EdgyTitle#" .. title .. "%*" .. "%#WinSeparator#│%*"
+                        ret[pos .. "_size"] = sb.bounds.width
+                    end
+                end
+                ret.total_size = ret.left_size + ret.right_size
+                if ret.total_size > 0 then
+                    return ret
+                end
+            end
+            return get()
+        end
+        Offset.edgy = true
+    end
+
+    require("bufferline").setup({
+        options = {
+            -- mode="tabs",
+            -- close_command="BufDel %d",
+            separator_style = "slant",
+            custom_filter = function(buf_number, buf_numbers)
+                local filetype = vim.bo[buf_number].filetype
+                for _, value in ipairs(blacklist_filetypes) do
+                    if filetype == value then
+                        return false
+                    end
+                end
+                local name = vim.fn.bufname(buf_number)
+                for _, value in ipairs(blacklist_filenames) do
+                    if string.match(name, value) then
+                        return false
+                    end
+                end
+                return true
+            end,
+        },
+    })
+end
 
 local function lualine()
-    -- local trouble = require("trouble")
-    -- local symbols = trouble.statusline({
-    --     mode = "lsp_document_symbols",
-    --     groups = {},
-    --     title = false,
-    --     filter = { range = true },
-    --     format = "{kind_icon}{symbol.name:Normal}",
-    --     -- The following line is needed to fix the background color
-    --     -- Set it to the lualine section you want to use
-    --     hl_group = "lualine_b_normal",
-    -- })
+    local trouble = require("trouble")
+    local symbols = trouble.statusline({
+        mode = "lsp_document_symbols",
+        groups = {},
+        title = false,
+        filter = { range = true },
+        format = "{kind_icon}{symbol.name:Normal}",
+        -- The following line is needed to fix the background color
+        -- Set it to the lualine section you want to use
+        hl_group = "lualine_b",
+    })
     local function is_active()
         local ok, hydra = pcall(require, "hydra.statusline")
         return ok and hydra.is_active()
@@ -38,10 +96,10 @@ local function lualine()
             lualine_b = {
                 "filename",
                 "diff",
-                -- {
-                --     symbols.get,
-                --     cond = symbols.has,
-                -- },
+                {
+                    symbols.get,
+                    cond = symbols.has,
+                },
             },
             lualine_c = {
                 -- "launcher",
@@ -92,10 +150,10 @@ end
 ---@type LazySpec[]
 return {
     {
-        "folke/tokyonight.nvim",
+        "EdenEast/nightfox.nvim",
         lazy = false,
         priority = 1000,
-        config = function() vim.cmd([[colorscheme tokyonight]]) end,
+        config = function() vim.cmd([[colorscheme nightfox]]) end,
     },
     {
         "MunifTanjim/nui.nvim",
@@ -118,7 +176,7 @@ return {
     },
     {
         "akinsho/bufferline.nvim",
-        config = require("plugins.ui.bufferline"),
+        config = bufferline,
         event = "VeryLazy",
         keys = {
             { "<S-l>", "<cmd>BufferLineCycleNext<cr>", desc = "focus right tab" },
@@ -155,19 +213,18 @@ return {
             {
                 "<leader>ty",
                 "<cmd>Yazi<cr>",
-                desc = "Open yazi at the current file",
+                desc = "yazi:current file",
             },
             {
                 -- Open in the current working directory
                 "<leader>tw",
                 "<cmd>Yazi cwd<cr>",
-                desc = "Open the file manager in nvim's working directory",
+                desc = "yazi:working directory",
             },
         },
     },
     {
         "akinsho/toggleterm.nvim",
-        event = "VeryLazy",
         keys = {
             { ";t", '<cmd>exe v:count1 . "ToggleTerm"<CR>', mode = { "i", "n", "t" } },
         },
@@ -202,7 +259,71 @@ return {
     },
     {
         "folke/edgy.nvim",
-        config = require("plugins.ui.edgy"),
+        opts = {
+
+            ---@type Edgy.View.Opts[]
+            left = {
+                {
+                    title = "NvimTree",
+                    ft = "NvimTree",
+                    open = "NvimTreeOpen",
+                    size = { height = 1 },
+                },
+                {
+                    title = "Scope",
+                    ft = "dapui_scopes",
+                },
+                {
+                    title = "Breakpoints",
+                    ft = "dapui_breakpoints",
+                },
+                {
+                    title = "Stacks",
+                    ft = "dapui_stacks",
+                },
+                {
+                    title = "Watches",
+                    ft = "dapui_watches",
+                },
+            },
+            right = {
+                {
+                    ft = "aerial",
+                    pinned = true,
+                    -- open = "AerialToggle right",
+                },
+                {
+                    ft = "help",
+                    size = { width = 120 },
+                    -- only show help buffers
+                    filter = function(buf) return vim.bo[buf].buftype == "help" end,
+                },
+            },
+            bottom = {
+                {
+                    title = "Console",
+                    ft = "dapui_console",
+                },
+                {
+                    title = "Repl",
+                    ft = "dap-repl",
+                },
+                {
+                    ft = "toggleterm",
+                    size = { height = 0.4 },
+                    -- exclude floating windows
+                    filter = function(buf, win) return vim.api.nvim_win_get_config(win).relative == "" end,
+                },
+                {
+                    ft = "trouble",
+                    title = "Trouble",
+                    size = { height = 0.4 },
+                },
+                { ft = "qf", title = "QuickFix" },
+                { ft = "spectre_panel", size = { height = 0.4 } },
+                { ft = "httpResult", size = { height = 0.4 } },
+            },
+        },
         event = "VeryLazy",
     },
     {
