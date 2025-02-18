@@ -158,4 +158,23 @@ return {
         },
     },
     { "qvalentin/helm-ls.nvim", ft = "helm" },
+    {
+        "yetone/avante.nvim",
+        event = "VeryLazy",
+        enabled = vim.env.OPENAI_API_BASE,
+        opts = {
+            provider = "openai",
+            openai = {
+                endpoint = vim.env.OPENAI_API_BASE,
+                model = "qwen2.5-coder:32b",
+            },
+        },
+        -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+        build = "make",
+        -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "MunifTanjim/nui.nvim",
+        },
+    },
 }

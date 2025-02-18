@@ -37,7 +37,9 @@ return {
     {
         "williamboman/mason.nvim",
         opts = {
-            registries = { "github:fecet/mason-registry" },
+            -- registries = {
+            --     "github:fecet/mason-registry",
+            -- },
         },
     },
     {
@@ -47,16 +49,14 @@ return {
         opts = {
             ensure_installed = {
                 "lua_ls",
-                "pyright",
+                -- "pyright",
                 "vimls",
                 "bashls",
                 "clangd",
                 "jsonls",
                 "yamlls",
-                -- "neocmake",
                 "html",
                 "cssls",
-                -- "ts_ls",
                 "volar",
                 "texlab",
                 "marksman",
@@ -66,6 +66,7 @@ return {
                 "eslint",
                 "tinymist",
                 "vtsls",
+                -- "pylance",
             },
             automatic_installation = false,
         },
@@ -112,9 +113,6 @@ return {
             indent = { enabled = true },
             input = {
                 enabled = true,
-                relative = "cursor",
-                row = -3,
-                col = 0,
             },
             picker = {
                 ui_select = true,
@@ -140,6 +138,15 @@ return {
             },
             styles = {
                 notification = { focusable = false },
+
+                input = {
+                    relative = "cursor",
+                    row = -3,
+                    col = 0,
+                    keys = {
+                        i_esc = { "<esc>", { "cmp_close", "cancel" }, mode = "i", expr = true },
+                    },
+                },
             },
         },
         keys = {

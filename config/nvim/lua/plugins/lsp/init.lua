@@ -22,7 +22,9 @@ local function blink()
             ["<Down>"] = { "select_next", "snippet_forward", "fallback" },
             ["<Up>"] = { "select_prev", "snippet_backward", "fallback" },
             ["<CR>"] = { "accept", "fallback" },
-            cmdline = {
+        },
+        cmdline = {
+            keymap = {
                 preset = "super-tab",
                 ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
                 ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
@@ -34,7 +36,7 @@ local function blink()
         completion = {
             list = {
                 selection = {
-                    preselect = false
+                    preselect = false,
                 },
             },
             menu = {
@@ -70,13 +72,20 @@ local function blink()
                 "buffer",
                 "path",
                 "snippets",
+                "avante_commands",
+                "avante_mentions",
+                "avante_files",
             },
             per_filetype = {
                 python = {
+
                     "lsp",
                     "buffer",
                     "path",
                     "snippets",
+                    "avante_commands",
+                    "avante_mentions",
+                    "avante_files",
                     "neopyter",
                 },
             },
@@ -86,6 +95,24 @@ local function blink()
                     name = "Neopyter",
                     module = "neopyter.blink",
                     ---@type neopyter.CompleterOption
+                    opts = {},
+                },
+                avante_commands = {
+                    name = "avante_commands",
+                    module = "blink.compat.source",
+                    score_offset = 90, -- show at a higher priority than lsp
+                    opts = {},
+                },
+                avante_files = {
+                    name = "avante_commands",
+                    module = "blink.compat.source",
+                    score_offset = 100, -- show at a higher priority than lsp
+                    opts = {},
+                },
+                avante_mentions = {
+                    name = "avante_mentions",
+                    module = "blink.compat.source",
+                    score_offset = 1000, -- show at a higher priority than lsp
                     opts = {},
                 },
             },
@@ -110,8 +137,10 @@ return {
         "saghen/blink.cmp",
         event = "InsertEnter",
         build = "cargo build --release",
-        dependencies = "rafamadriz/friendly-snippets",
-        tag = "v0.11.0",
+        dependencies = {
+            "rafamadriz/friendly-snippets",
+            "saghen/blink.compat",
+        },
         config = blink,
     },
 

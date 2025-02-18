@@ -26,6 +26,11 @@ case ":$PATH:" in
   *) path+=$PNPM_HOME ;;
 esac
 
+if [ -e "$HOME/.bun/bin" ]; then
+
+    path+=$HOME/.bun/bin:$PATH
+fi
+
 if [ -e "$HOME/.cargo/env" ]; then
     . "$HOME/.cargo/env"
 fi
@@ -43,3 +48,5 @@ export CPM_SOURCE_CACHE=$HOME/.cache/CPM
 
 export PATH
 export EDITOR=nvim
+
+[[ ! -f ~/.zshenv.local ]] || source ~/.zshenv.local

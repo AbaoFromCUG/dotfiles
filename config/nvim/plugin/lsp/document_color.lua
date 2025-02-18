@@ -90,7 +90,7 @@ end
 local function update_color(client, buf)
     local params = make_document_color_params(buf)
     client:request("textDocument/documentColor", params, function(err, result, context, config)
-        if err then
+        if err or result == nil then
             vim.notify("request documentColor filed")
             return
         end
@@ -106,13 +106,19 @@ local function update_color(client, buf)
 end
 update_color = debounce(config.debounce, update_color)
 
+---@type table<number, table<number, number>>
+local client_buf_attached = {}
+
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
         local client = vim.lsp.get_client_by_id(args.data.client_id)
         local buf = args.buf
         ---@cast client -nil
         if client:supports_method("textDocument/documentColor", buf) then
-            vim.api.nvim_create_autocmd(config.events, {
+            if not client_buf_attached[client.id] then
+                client_buf_attached[client.id] = {}
+            end
+            client_buf_attached[client.id][buf] = vim.api.nvim_create_autocmd(config.events, {
                 buffer = buf,
                 callback = function() update_color(client, buf) end,
             })
@@ -124,7 +130,13 @@ vim.api.nvim_create_autocmd("LspDetach", {
     callback = function(args)
         local client = vim.lsp.get_client_by_id(args.data.client_id)
         local buf = args.buf
-        ---@cast client -nil
-        detach_update[client.id][buf] = true
+        if client_buf_attached[client.id] then
+            ---@cast client -nil
+            local id = client_buf_attached[client.id][buf]
+            if id then
+                vim.api.nvim_del_autocmd(id)
+                client_buf_attached[client.id][buf] = nil
+            end
+        end
     end,
 })

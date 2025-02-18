@@ -7,6 +7,7 @@
         "lazy.nvim",
         "neopyter",
         "pathlib.nvim",
+        "which-key.nvim",
         "snacks.nvim"
      ]
     }

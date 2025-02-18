@@ -70,7 +70,7 @@ config-zsh: (install "zsh") \
             (link "home/zshrc" "~/.zshrc") \
             (link "home/zshenv" "~/.zshenv") \
             (link "home/p10k.zsh" "~/.p10k.zsh")
-    zsh -c "export TERM=xterm && source ~/.zshrc"
+    # zsh -c "export TERM=xterm && source ~/.zshrc"
 
 config-tmux: (install "tmux") (install "git") && (link "home/tmux.conf.local" "~/.tmux.conf.local")
     #!/usr/bin/env bash
@@ -101,10 +101,13 @@ config-pyenv: (install "git") config-zsh
     pyenv_plugin pyenv-doctor pyenv
     pyenv_plugin pyenv-update pyenv
     pyenv_plugin pyenv-pyright alefpereira
-
-config-python: config-pyenv  (link "config/pip" "~/.pip")
-    #!/usr/bin/env zsh
     pyenv install --skip-existing 3.10 3.11 3.12
+
+config-python: config-pyenv config-zsh (install "uv")   (link "config/pip" "~/.pip")
+    #!/usr/bin/env zsh
+    if  command -v poetry &>/dev/null; then echo "poetry is exists, ignore"; exit 0; fi
+    curl -sSL https://install.python-poetry.org | python3 -
+    poetry completions zsh >  ~/.local/share/zinit/completions/_poetry
 
 config-rust: (install "rustup")
     rustup default stable

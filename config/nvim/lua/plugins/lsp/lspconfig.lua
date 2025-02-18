@@ -45,7 +45,7 @@ return function()
             },
         },
         pyright = {
-            cmd = vim.fn.executable("delance-langserver") and { "delance-langserver", "--stdio" } or nil,
+            cmd = vim.fn.executable("delance-langserver") == 1 and { "delance-langserver", "--stdio" } or nil,
             settings = {
                 python = {
                     pythonPath = vim.trim(vim.system({ "pyenv", "which", "python" }):wait().stdout),
@@ -81,17 +81,17 @@ return function()
             },
         },
         helm_ls = {
-            settings = {
-                ["helm-ls"] = {
-                    yamlls = {
-                        enabled = false,
-                        path = "yaml-language-server",
-                        config = {
-                            keyOrdering = false,
-                        },
-                    },
-                },
-            },
+            -- settings = {
+            --     ["helm-ls"] = {
+            --         yamlls = {
+            --             enabled = true,
+            --             path = "yaml-language-server",
+            --             config = {
+            --                 keyOrdering = false,
+            --             },
+            --         },
+            --     },
+            -- },
         },
         qmlls = {
             cmd = { "qmlls6" },
