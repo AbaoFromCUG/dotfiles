@@ -110,6 +110,9 @@ return {
             bigfile = {
                 size = 5 * 1024 * 1024,
             },
+            image = {
+                enabled = true,
+            },
             indent = { enabled = true },
             input = {
                 enabled = true,
@@ -151,7 +154,8 @@ return {
         },
         keys = {
 
-            { "<leader>ff", function() Snacks.picker.git_files({ untracked = true }) end },
+            { "<leader>fp", function() Snacks.picker() end },
+            { "<leader>ff", function() Snacks.picker.files({ ignored = false }) end },
             { "<leader>fh", function() Snacks.picker.recent() end },
             { "<leader>fw", function() Snacks.picker.grep() end },
             -- git

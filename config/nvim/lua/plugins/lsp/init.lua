@@ -137,25 +137,12 @@ return {
         "saghen/blink.cmp",
         event = "InsertEnter",
         build = "cargo build --release",
+        version = "v0.12.4",
         dependencies = {
             "rafamadriz/friendly-snippets",
             "saghen/blink.compat",
         },
         config = blink,
-    },
-
-    -- diagnostic list
-    {
-        "folke/trouble.nvim",
-        opts = {},
-        keys = {
-            { "<space>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "diagnostics" },
-            { "<space>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "buffer diagnostics" },
-            { "<space>xs", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "symbos" },
-            { "<space>xl", "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", desc = "lsp definitions/references" },
-            { "<space>xL", "<cmd>Trouble loclist toggle<cr>", desc = "location list" },
-            { "<space>xQ", "<cmd>Trouble qflist toggle<cr>", desc = "quickfix list" },
-        },
     },
     {
         "jmbuhr/otter.nvim",
@@ -170,6 +157,7 @@ return {
     },
     {
         "nvimtools/none-ls.nvim",
+        commit = "980361",
         config = function()
             local null_ls = require("null-ls")
             null_ls.setup({
@@ -218,5 +206,17 @@ return {
         },
 
         ft = "lua",
+    },
+    {
+        "nvimdev/lspsaga.nvim",
+        opts = {
+            symbol_in_winbar = {
+                enable = false,
+            },
+            lightbulb = {
+                sign = false,
+            },
+        },
+        event = "LspAttach",
     },
 }

@@ -16,10 +16,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
         ---@cast client -nil
         local function map(lhs, rhs, desc, mode) vim.keymap.set(mode or "n", lhs, rhs, { desc = desc, buffer = buf }) end
         if client:supports_method("textDocument/definition", buf) then
-            map("gd", vim.lsp.buf.definition, "goto definition")
+            map("gd", function() Snacks.picker.lsp_definitions() end, "goto definition")
         end
+        map("gd", function() Snacks.picker.lsp_definitions() end, "goto definition")
         if client:supports_method("textDocument/declaration", buf) then
-            map("gD", vim.lsp.buf.declaration, "goto declaration")
+            map("gD", function() Snacks.picker.lsp_declarations() end, "goto declaration")
         end
         if client:supports_method("textDocument/diagnostic", buf) then
             map("<space>e", vim.diagnostic.open_float, "open diagnostic")

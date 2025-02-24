@@ -58,17 +58,16 @@ local function bufferline()
 end
 
 local function lualine()
-    local trouble = require("trouble")
-    local symbols = trouble.statusline({
-        mode = "lsp_document_symbols",
-        groups = {},
-        title = false,
-        filter = { range = true },
-        format = "{kind_icon}{symbol.name:Normal}",
-        -- The following line is needed to fix the background color
-        -- Set it to the lualine section you want to use
-        hl_group = "lualine_b",
-    })
+    local symbol_component = {
+        function()
+            local bar = require("lspsaga.symbol.winbar").get_bar()
+            if bar then
+                return bar
+            end
+            return ""
+        end,
+        cond = function() return not not package.loaded["lspsaga"] end,
+    }
     local function is_active()
         local ok, hydra = pcall(require, "hydra.statusline")
         return ok and hydra.is_active()
@@ -94,12 +93,13 @@ local function lualine()
                 { get_name, cond = is_active },
             },
             lualine_b = {
-                "filename",
+                -- "filename",
+                symbol_component,
                 "diff",
-                {
-                    symbols.get,
-                    cond = symbols.has,
-                },
+                -- {
+                --     symbols.get,
+                --     cond = symbols.has,
+                -- },
             },
             lualine_c = {
                 -- "launcher",
