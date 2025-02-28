@@ -183,6 +183,13 @@ return {
             { "<S-h>", "<cmd>BufferLineCyclePrev<cr>", desc = "focus left tab" },
         },
     },
+    -- winbar
+    {
+        "b0o/incline.nvim",
+        config = function() require("incline").setup() end,
+        -- Optional: Lazy load Incline
+        event = "VeryLazy",
+    },
     -- status line
     {
         "hoob3rt/lualine.nvim",

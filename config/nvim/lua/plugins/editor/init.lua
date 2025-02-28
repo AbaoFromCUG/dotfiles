@@ -151,7 +151,6 @@ return {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
         config = require("plugins.editor.treesitter"),
-        -- commit = "a80fe081b4c",
         dependencies = {
             { "metiulekm/nvim-treesitter-endwise" },
             { "nvim-treesitter/nvim-treesitter-textobjects" },

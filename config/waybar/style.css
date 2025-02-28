@@ -1,0 +1,266 @@
+* {
+    border: none;
+    border-radius: 0;
+    /* font-family: Liberation Mono; */
+    font-family: Hack Nerd Font Mono;
+    min-height: 20px;
+}
+
+window#waybar {
+    background: transparent;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+#workspaces {
+    margin-right: 8px;
+    border-radius: 10px;
+    transition: none;
+    background: #383c4a;
+}
+
+#workspaces button {
+    transition: none;
+    color: #7c818c;
+    background: transparent;
+    padding: 5px;
+    font-size: 18px;
+}
+
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+#workspaces button:hover {
+    transition: none;
+    box-shadow: inherit;
+    text-shadow: inherit;
+    border-radius: inherit;
+    color: #383c4a;
+    background: #7c818c;
+}
+
+#workspaces button.active {
+    color: #90EE90;
+}
+
+#workspaces button.urgent {
+    animation-name: blink-urgent;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes blink-urgent {
+    to {
+        color: #bd2c40;
+    }
+}
+
+#submap {
+
+    padding-left: 16px;
+    padding-right: 8px;
+    border-radius: 10px;
+    transition: none;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#language {
+    padding-left: 16px;
+    padding-right: 8px;
+    border-radius: 10px 0px 0px 10px;
+    transition: none;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#keyboard-state {
+    margin-right: 8px;
+    padding-right: 16px;
+    border-radius: 0px 10px 10px 0px;
+    transition: none;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#custom-pacman {
+    padding-left: 16px;
+    padding-right: 8px;
+    border-radius: 10px 0px 0px 10px;
+    transition: none;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#custom-mail {
+    margin-right: 8px;
+    padding-right: 16px;
+    border-radius: 0px 10px 10px 0px;
+    transition: none;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#mode {
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 10px;
+    transition: none;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+.modules-center > widget:first-child {
+    border-radius: 10px 0px 0px 10px;
+}
+
+.modules-center > widget:last-child {
+    border-radius: 0px 10px 10px 0px;
+}
+
+#clock {
+    padding-left: 16px;
+    padding-right: 16px;
+    transition: none;
+    color: #ffffff;
+    background: #383c4a;
+    border-radius: 10px;
+}
+
+
+#cava {
+    transition: none;
+    color: #40E0D0;
+    background: #383c4a;
+}
+
+
+#mpris {
+    padding-left: 8px;
+    padding-right: 8px;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+.modules-right > widget:last-child {
+    /* border-radius: 10px; */
+}
+
+#cpu {
+    padding-left: 16px;
+    border-radius: 10px 0px 0px 10px;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#memory {
+    padding-left: 16px;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#disk {
+    padding-left: 16px;
+    padding-right: 16px;
+    margin-right: 16px;
+    border-radius: 0px 10px 10px 0px;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#idle_inhibitor {
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 10px 0px 0px 10px;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#idle_inhibitor.activated {
+    background-color: #90b1b1;
+    color: #2a5c45;
+}
+
+#network {
+    padding-left: 8px;
+    padding-right: 8px;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#pulseaudio {
+    padding-left: 8px;
+    padding-right: 8px;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#pulseaudio.muted {
+    background-color: #90b1b1;
+    color: #2a5c45;
+}
+
+#bluetooth {
+    padding-left: 8px;
+    padding-right: 8px;
+    /* border-radius: 0px 10px 10px 0px; */
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#battery {
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-right: 8px;
+    border-radius: 0px 10px 10px 0px;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#custom-mem {
+    margin-right: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 10px;
+    transition: none;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#temperature {
+    margin-right: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 10px;
+    transition: none;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#temperature.critical {
+    background-color: #eb4d4b;
+}
+
+#tray {
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 10px;
+    margin-right: 8px;
+    transition: none;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+
+#custom-power {
+    margin-right: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 10px;
+    transition: none;
+    color: #ffffff;
+    background: #383c4a;
+
+}

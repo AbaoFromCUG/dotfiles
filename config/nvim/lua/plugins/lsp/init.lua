@@ -24,8 +24,20 @@ local function blink()
             ["<CR>"] = { "accept", "fallback" },
         },
         cmdline = {
+            enabled = true,
+
+            completion = {
+
+                list = {
+                    selection = {
+                        preselect = false,
+                    },
+                },
+                menu = {
+                    auto_show = true,
+                },
+            },
             keymap = {
-                preset = "super-tab",
                 ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
                 ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
                 ["<Up>"] = { "fallback" },
@@ -40,6 +52,7 @@ local function blink()
                 },
             },
             menu = {
+                auto_show = true,
                 draw = {
                     padding = { 1, 1 },
                     columns = { { "label" }, { "kind_icon", "kind", gap = 1 }, { "label_description" }, { "source" } },
@@ -66,26 +79,21 @@ local function blink()
         appearance = {
             -- use_nvim_cmp_as_default = true,
         },
+        snippets = { preset = "luasnip" },
         sources = {
             default = {
                 "lsp",
                 "buffer",
                 "path",
+                "avante",
                 "snippets",
-                "avante_commands",
-                "avante_mentions",
-                "avante_files",
             },
             per_filetype = {
                 python = {
-
                     "lsp",
                     "buffer",
                     "path",
                     "snippets",
-                    "avante_commands",
-                    "avante_mentions",
-                    "avante_files",
                     "neopyter",
                 },
             },
@@ -97,23 +105,12 @@ local function blink()
                     ---@type neopyter.CompleterOption
                     opts = {},
                 },
-                avante_commands = {
-                    name = "avante_commands",
-                    module = "blink.compat.source",
-                    score_offset = 90, -- show at a higher priority than lsp
-                    opts = {},
-                },
-                avante_files = {
-                    name = "avante_commands",
-                    module = "blink.compat.source",
-                    score_offset = 100, -- show at a higher priority than lsp
-                    opts = {},
-                },
-                avante_mentions = {
-                    name = "avante_mentions",
-                    module = "blink.compat.source",
-                    score_offset = 1000, -- show at a higher priority than lsp
-                    opts = {},
+                avante = {
+                    module = "blink-cmp-avante",
+                    name = "Avante",
+                    opts = {
+                        -- options for blink-cmp-avante
+                    },
                 },
             },
         },
@@ -137,12 +134,20 @@ return {
         "saghen/blink.cmp",
         event = "InsertEnter",
         build = "cargo build --release",
-        version = "v0.12.4",
+        version = "v0.13.0",
         dependencies = {
             "rafamadriz/friendly-snippets",
-            "saghen/blink.compat",
+            "Kaiser-Yang/blink-cmp-avante",
         },
         config = blink,
+    },
+
+    {
+        "L3MON4D3/LuaSnip",
+        config = function()
+            require("luasnip").filetype_extend("yaml", { "kubernetes" })
+            require("luasnip.loaders.from_vscode").lazy_load()
+        end,
     },
     {
         "jmbuhr/otter.nvim",
@@ -157,7 +162,6 @@ return {
     },
     {
         "nvimtools/none-ls.nvim",
-        commit = "980361",
         config = function()
             local null_ls = require("null-ls")
             null_ls.setup({
