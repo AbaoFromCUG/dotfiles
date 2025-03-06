@@ -24,6 +24,88 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 ### End of Zinit's installer chunk
 
+### Start of programs
+zinit light-mode for zdharma-continuum/zinit-annex-bin-gem-node
+zinit light zdharma-continuum/zinit-annex-binary-symlink
+
+zi for \
+    from'gh-r'  \
+    lbin'!fzf'  \
+    id-as \
+    atclone'fzf --zsh > fzf.zsh' \
+    atpull'%atclone' \
+    src'fzf.zsh' \
+  junegunn/fzf
+
+zi for \
+    from'gh-r' \
+    lbin'!' \
+    id-as \
+    null \
+  @sharkdp/bat
+
+zi for \
+    from'gh-r' \
+    lbin'!' \
+    id-as \
+    null \
+  @sharkdp/fd
+
+zi for \
+    from'gh-r' \
+    sbin'**/rg -> rg' \
+  BurntSushi/ripgrep
+
+zi for \
+    from'gh-r' \
+    sbin'lazygit' \
+  jesseduffield/lazygit
+
+zi for \
+    from'gh-r' \
+    sbin'**/nvim-** -> nvim' \
+    ver'nightly' \
+  neovim/neovim
+
+zinit for \
+    configure \
+    make \
+    sbin'tmux' \
+    ver'3.5a' \
+  @tmux/tmux
+
+zi for \
+    from'gh-r' \
+    sbin'* -> jq' \
+    nocompile \
+  @jqlang/jq
+
+zi for \
+    from'gh-r' \
+    sbin'eza' \
+    nocompile \
+  @eza-community/eza
+
+zi for \
+    from'gh-r' \
+    sbin'asdf' \
+    nocompile \
+  @asdf-vm/asdf
+
+zi for \
+    from'gh-r' \
+    sbin'uv;uvx' \
+    nocompile \
+  @astral-sh/uv
+
+zi for \
+    from'gh-r' \
+    sbin'yazi' \
+    nocompile \
+  @sxyazi/yazi
+
+### End of programs
+
 # Zinit configure
 zinit snippet OMZL::clipboard.zsh
 zinit snippet OMZL::completion.zsh
@@ -31,11 +113,28 @@ zinit snippet OMZL::history.zsh
 zinit snippet OMZL::key-bindings.zsh
 zinit snippet OMZL::git.zsh
 zinit snippet OMZL::grep.zsh
+
 zinit snippet OMZP::python
+zinit snippet OMZP::pip
+zinit snippet OMZP::pyenv
 zinit snippet OMZP::kubectl
+zinit snippet OMZP::docker
 zinit snippet OMZP::eza
 zinit snippet OMZP::command-not-found
 zinit snippet OMZP::poetry
+zinit snippet OMZP::bun
+zinit snippet OMZP::zoxide
+zinit snippet OMZP::git
+zinit snippet OMZP::asdf
+zinit snippet OMZP::uv
+zinit snippet OMZP::tmux
+zinit snippet OMZP::docker
+
+
+# some plugins
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-autosuggestions
+
 
 # some plugins
 zinit light zsh-users/zsh-syntax-highlighting
@@ -55,6 +154,7 @@ zinit light romkatv/powerlevel10k
 
 zinit ice depth=1
 zinit light jeffreytse/zsh-vi-mode
+
 
 # For postponing loading `fzf`
 zinit ice lucid wait
@@ -80,10 +180,16 @@ function yay() {
      ASDF_RUST_VERSION=system  ASDF_NODEJS_VERSION=system PYENV_VERSION=system /usr/bin/yay "${@}"
 }
 
+function genpwd() {
+    echo $(LC_ALL=C tr -dc 'A-Za-z0-9!"#$%&'\''()*+,-./:;<=>?@[\]^_`{|}~' </dev/urandom | head -c 13; echo)
+}
+
 alias vim=nvim
-alias ranger=joshuto
-alias s='fastfetch'
 alias cat='bat --paging=never'
 
-# bun completions
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+export FZF_COMPLETION_TRIGGER=','
+
+export NVM_NODEJS_ORG_MIRROR=https://mirrors.ustc.edu.cn/node/
+
+[[ ! -f ~/.zshrc.local ]] || source ~/.zshrc.local
+

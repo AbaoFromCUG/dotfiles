@@ -96,9 +96,14 @@ local function blink()
                     "snippets",
                     "neopyter",
                 },
+                sql = { "snippets", "dadbod", "buffer" },
             },
 
             providers = {
+                dadbod = {
+                    name = "Dadbod",
+                    module = "vim_dadbod_completion.blink",
+                },
                 neopyter = {
                     name = "Neopyter",
                     module = "neopyter.blink",
@@ -126,15 +131,15 @@ return {
         dependencies = {
             "neoconf.nvim",
         },
-        event = { "VeryLazy" },
+        event = "LazyFile",
     },
 
     -- completion engine
     {
         "saghen/blink.cmp",
         event = "InsertEnter",
-        build = "cargo build --release",
-        version = "v0.13.0",
+        -- build = "cargo build --release",
+        version = "v0.13.1",
         dependencies = {
             "rafamadriz/friendly-snippets",
             "Kaiser-Yang/blink-cmp-avante",
@@ -145,7 +150,7 @@ return {
     {
         "L3MON4D3/LuaSnip",
         config = function()
-            require("luasnip").filetype_extend("yaml", { "kubernetes" })
+            require("luasnip").filetype_extend("helm", { "yaml" })
             require("luasnip.loaders.from_vscode").lazy_load()
         end,
     },

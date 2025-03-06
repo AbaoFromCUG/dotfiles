@@ -296,7 +296,6 @@ return {
             right = {
                 {
                     ft = "aerial",
-                    pinned = true,
                     -- open = "AerialToggle right",
                 },
                 {
@@ -304,6 +303,12 @@ return {
                     size = { width = 120 },
                     -- only show help buffers
                     filter = function(buf) return vim.bo[buf].buftype == "help" end,
+                },
+                {
+                    ft = "dbui",
+                    title="Database",
+                    size = { width = 0.3 },
+                    open = "DBUI",
                 },
             },
             bottom = {

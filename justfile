@@ -3,9 +3,10 @@
 
 install package:
     #!/usr/bin/env bash
-    set -euo pipefail
-    if yay -Qi "^{{package}}$" >/dev/null 2>&1; then
+    # set -euo pipefail
+    if ! yay -Qi "{{package}}" >/dev/null 2>&1; then
         yay -S --noconfirm {{package}}
+        echo install {{package}}
     fi
 
 install-yay:
@@ -55,7 +56,7 @@ config package $config="": (install package)
         ln -s $source $target
     fi
 
-config-nvim  package="neovim-git": (install package) config-rust (link "config/nvim" "~/.config/nvim" )
+config-nvim: config-rust (link "config/nvim" "~/.config/nvim" )
     #!/usr/bin/env bash
     set -euo pipefail
     nvim --headless -c "Lazy! install" \
@@ -66,13 +67,12 @@ config-nvim  package="neovim-git": (install package) config-rust (link "config/n
     
 config-zsh: (install "zsh") \
             (install "git") \
-            (install "fzf") \
             (link "home/zshrc" "~/.zshrc") \
             (link "home/zshenv" "~/.zshenv") \
             (link "home/p10k.zsh" "~/.p10k.zsh")
     # zsh -c "export TERM=xterm && source ~/.zshrc"
 
-config-tmux: (install "tmux") (install "git") && (link "home/tmux.conf.local" "~/.tmux.conf.local")
+config-tmux: (install "git") && (link "home/tmux.conf.local" "~/.tmux.conf.local")
     #!/usr/bin/env bash
     if [ ! -d ~/.tmux ] || [ ! -L ~/.tmux.conf ]; then
         rm -rf ~/.tmux
@@ -103,7 +103,7 @@ config-pyenv: (install "git") config-zsh
     pyenv_plugin pyenv-pyright alefpereira
     pyenv install --skip-existing 3.10 3.11 3.12
 
-config-python: config-pyenv config-zsh (install "uv")   (link "config/pip" "~/.pip")
+config-python: config-pyenv config-zsh (link "config/pip" "~/.pip")
     #!/usr/bin/env zsh
     if  command -v poetry &>/dev/null; then echo "poetry is exists, ignore"; exit 0; fi
     curl -sSL https://install.python-poetry.org | python3 -
@@ -114,15 +114,12 @@ config-rust: (install "rustup")
 
 config-asdf: (install "git")
     #!/usr/bin/env zsh
-    if  command -v asdf &>/dev/null; then exit 0; fi
-    git clone https://github.com/asdf-vm/asdf.git ~/.asdf
-    source "$HOME/.asdf/asdf.sh"
     asdf_plugin() {
         name=$1
         repository=$2
         if [ ! -d ~/.asdf/plugins/${name} ]; then
             echo "installing ${name}..."
-            asdf plugin-add $name https://github.com/${repository}
+            asdf plugin add $name https://github.com/${repository}
         else
             echo "    ${name} installed, skip"
         fi
@@ -134,13 +131,13 @@ config-node: config-asdf
     asdf install nodejs lts 
 
 
-config-fzf: config-zsh (install "git") (install "fzf")
+config-yazi: (link "config/yazi" "~/.config/yazi")
 
-config-yazi: (install "yazi") (link "config/yazi" "~/.config/yazi")
 
+config-waybar:  (link "config/waybar" "~/.config/waybar")
 
 config-apps: \
-    (config "allacritty") (config "kitty") (config "ghostty") \
+    (config "alacritty") (config "kitty") (config "ghostty") \
     (install "sof-firmware") (install "libva-intel-driver") (install "libva-mesa-driver") \
     (install "networkmanager") (install "curl") (install "wget") \
     (install "pipewire") (install "pipewire-pulse") (install "pipewire-jack") (install "pipewire-audio") \
@@ -158,7 +155,7 @@ config-hypr: \
     (install "hyprland") (install "hyprpaper") (install "hyprpicker") (install "hypridle") (install "hyprlock") \
     (install "xdg-desktop-portal-hyprland") (install "hyprpolkitagent-git") \
     (install "dunst") (install "conky") \
-    (install "wofi") (install "quickshell") (install "nwg-displays")
+    (install "wofi") config-waybar (install "nwg-displays")
     hyprpm update
     # hyprpm add https://github.com/levnikmyskin/hyprland-virtual-desktops
     # hyprpm enable virtual-desktops
@@ -168,23 +165,14 @@ config-dev: \
     config-nvim \
     config-yazi  \
     config-asdf \
-    config-fzf \
     config-tmux \
     config-python \
     config-rust \
     (install "git") \
-    (install "neovim-git") \
-    (install "p7z") \
-    (install "yazi") \
-    (install "uv") \
-    (install "zoxide") \
-    (install "eza") \
-    (install "fd") \
     (install "wget") \
     (install "curl") \
     (install "cmake") \
     (install "imagemagick") \
-    (install "ripgrep")
 
 config-desktop: \
     config-apps \
@@ -201,7 +189,7 @@ podman-build:
     #!/usr/bin/env bash
     host=$(ip route |grep docker|awk '{print $(NF-1)}')
     echo $host
-    podman build --env=https_proxy=http://${host}:8092 -t arch .
+    podman build -t arch .
 
 podman-build-full:
     #!/usr/bin/env bash

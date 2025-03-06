@@ -1,3 +1,5 @@
+vim.opt.exrc = true
+
 vim.opt.filetype = "on"
 vim.opt.expandtab = true
 vim.opt.number = true

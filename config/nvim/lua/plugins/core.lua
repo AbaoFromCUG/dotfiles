@@ -45,7 +45,6 @@ return {
     {
         "williamboman/mason-lspconfig.nvim",
         dependencies = "mason.nvim",
-        event = "VeryLazy",
         opts = {
             ensure_installed = {
                 "lua_ls",
@@ -66,6 +65,7 @@ return {
                 "eslint",
                 "tinymist",
                 "vtsls",
+                "helm_ls",
                 -- "pylance",
             },
             automatic_installation = false,

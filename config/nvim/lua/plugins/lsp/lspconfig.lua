@@ -81,17 +81,14 @@ return function()
             },
         },
         helm_ls = {
-            -- settings = {
-            --     ["helm-ls"] = {
-            --         yamlls = {
-            --             enabled = true,
-            --             path = "yaml-language-server",
-            --             config = {
-            --                 keyOrdering = false,
-            --             },
-            --         },
-            --     },
-            -- },
+            settings = {
+                ["helm-ls"] = {
+                    yamlls = {
+                        enabled = true,
+                        path = "yaml-language-server",
+                    },
+                },
+            },
         },
         qmlls = {
             cmd = { "qmlls6" },

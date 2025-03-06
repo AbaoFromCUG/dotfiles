@@ -91,7 +91,7 @@ local function update_color(client, buf)
     local params = make_document_color_params(buf)
     client:request("textDocument/documentColor", params, function(err, result, context, config)
         if err or result == nil then
-            vim.notify("request documentColor filed")
+            -- vim.notify("request documentColor filed")
             return
         end
         ---@type lsp.ColorInformation[]

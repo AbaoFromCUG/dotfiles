@@ -1,52 +1,31 @@
-
 # version manager
 if [[ -d $HOME/.pyenv ]]; then
     export PATH="$HOME/.pyenv/bin:$PATH"
     eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
-fi
-
-if [[ -d $HOME/.asdf ]]; then
-    . "$HOME/.asdf/asdf.sh"
-    export NVM_NODEJS_ORG_MIRROR=https://mirrors.ustc.edu.cn/node/
+    # eval "$(pyenv virtualenv-init -)"
 fi
 
 # environment variable
 
-export PATH="$PATH:$HOME/.local/bin"
+export PATH="$HOME/.local/bin:$PATH"
 
+if [[ -d $HOME/go/bin ]]; then
+    PATH="$PATH:$HOME/go/bin"
+fi
 if command -v go >/dev/null 2>&1; then
-    path+="$HOME/.local/go/bin"
 	export GOPROXY=https://goproxy.cn
 fi
 
-export PNPM_HOME="$HOME/.local/share/pnpm"
+export PNPM_HOME="$HOME/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
-  *) path+=$PNPM_HOME ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
-if [ -e "$HOME/.bun/bin" ]; then
-
-    path+=$HOME/.bun/bin:$PATH
-fi
-
-if [ -e "$HOME/.cargo/env" ]; then
-    . "$HOME/.cargo/env"
-fi
-
-if [ -e "$HOME/.pixi/bin" ]; then
-    path+="$HOME/.pixi/bin"
-fi
-
-path+="$HOME/.cargo/bin"
 
 export bwBindPar=$HOME/Downloads/
 export NLTK_DATA=$HOME/Documents/nltk_data
 export CPM_SOURCE_CACHE=$HOME/.cache/CPM
 
-
-export PATH
-export EDITOR=nvim
 
 [[ ! -f ~/.zshenv.local ]] || source ~/.zshenv.local

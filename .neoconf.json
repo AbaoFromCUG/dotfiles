@@ -4,6 +4,7 @@
       "Lua.addonManager.addons": [
         "nvim",
         "nvim-tree",
+        "nvim-surround",
         "lazy.nvim",
         "neopyter",
         "pathlib.nvim",
