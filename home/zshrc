@@ -25,6 +25,8 @@ autoload -Uz _zinit
 ### End of Zinit's installer chunk
 
 ### Start of programs
+GLIBC_VER=$(ldd --version | head -n 1 | awk '{print $NF}')
+
 zinit light-mode for zdharma-continuum/zinit-annex-bin-gem-node
 zinit light zdharma-continuum/zinit-annex-binary-symlink
 
@@ -61,11 +63,20 @@ zi for \
     sbin'lazygit' \
   jesseduffield/lazygit
 
-zi for \
-    from'gh-r' \
-    sbin'**/nvim-** -> nvim' \
-    ver'nightly' \
-  neovim/neovim
+if [ "$(printf '2.35\n%s\n' "$GLIBC_VER" | sort -V | head -n 1)" != "2.35" ]; then
+    zi for \
+        from'gh-r' \
+        sbin'**/nvim-** -> nvim' \
+        ver'nightly' \
+      neovim/neovim-releases
+else
+    zi for \
+        from'gh-r' \
+        sbin'**/nvim-** -> nvim' \
+        ver'nightly' \
+      neovim/neovim
+fi
+
 
 zinit for \
     configure \
@@ -103,6 +114,13 @@ zi for \
     sbin'yazi' \
     nocompile \
   @sxyazi/yazi
+
+
+zi for \
+    from'gh-r' \
+    sbin'zoxide' \
+    nocompile \
+  @ajeetdsouza/zoxide
 
 ### End of programs
 
