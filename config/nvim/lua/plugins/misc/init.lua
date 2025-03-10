@@ -1,5 +1,5 @@
+
 local function cmake()
-    local osys = require("cmake-tools.osys")
     require("cmake-tools").setup({
         cmake_command = "cmake", -- this is used to specify cmake command path
         ctest_command = "ctest", -- this
@@ -157,22 +157,41 @@ return {
             { "<leader>tt", "<Cmd>Translate zh-CN<CR>", mode = { "n", "x" }, desc = "translate" },
         },
     },
-    { "qvalentin/helm-ls.nvim", ft = "helm" },
+    { "towolf/vim-helm" },
     {
         "yetone/avante.nvim",
-        event = "VeryLazy",
+        event = "InsertEnter",
         enabled = vim.env.OPENAI_API_BASE,
         opts = {
             provider = "openai",
             openai = {
                 endpoint = vim.env.OPENAI_API_BASE,
-                model = "qwen2.5-coder:32b",
+                api_key_name = "OPENAI_API_KEY",
+                model = "qwq:latest",
             },
         },
         build = "make",
         dependencies = {
             "nvim-lua/plenary.nvim",
             "MunifTanjim/nui.nvim",
+        },
+    },
+    {
+        "tpope/vim-dadbod",
+        dependencies = {
+            "kristijanhusak/vim-dadbod-completion",
+            "kristijanhusak/vim-dadbod-ui",
+        },
+        cmd = {
+            "DB",
+            "DBUI",
+            "DBUIToggle",
+            "DBUIAddConnection",
+            "DBUIFindBuffer",
+        },
+        init = function() vim.g.db_ui_save_location = vim.uv.cwd() end,
+        keys = {
+            { "<leader>tss", "<cmd>DBUI<cr>" },
         },
     },
 }

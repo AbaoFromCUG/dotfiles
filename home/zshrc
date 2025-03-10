@@ -39,38 +39,38 @@ zi for \
     src'fzf.zsh' \
   junegunn/fzf
 
-zi for \
+zi wait lucid for \
     from'gh-r' \
     lbin'!' \
     id-as \
     null \
   @sharkdp/bat
 
-zi for \
+zi wait lucid for \
     from'gh-r' \
     lbin'!' \
     id-as \
     null \
   @sharkdp/fd
 
-zi for \
+zi wait lucid for \
     from'gh-r' \
     sbin'**/rg -> rg' \
   BurntSushi/ripgrep
 
-zi for \
+zi wait lucid for \
     from'gh-r' \
     sbin'lazygit' \
   jesseduffield/lazygit
 
 if [ "$(printf '2.35\n%s\n' "$GLIBC_VER" | sort -V | head -n 1)" != "2.35" ]; then
-    zi for \
+    zi wait lucid for \
         from'gh-r' \
         sbin'**/nvim-** -> nvim' \
         ver'nightly' \
       neovim/neovim-releases
 else
-    zi for \
+    zi wait lucid for \
         from'gh-r' \
         sbin'**/nvim-** -> nvim' \
         ver'nightly' \
@@ -78,45 +78,44 @@ else
 fi
 
 
-zinit for \
+zi wait lucid for \
     configure \
     make \
     sbin'tmux' \
     ver'3.5a' \
   @tmux/tmux
 
-zi for \
+zi wait lucid for \
     from'gh-r' \
     sbin'* -> jq' \
     nocompile \
   @jqlang/jq
 
-zi for \
+zi wait lucid for \
     from'gh-r' \
     sbin'eza' \
     nocompile \
   @eza-community/eza
 
-zi for \
+zi wait lucid for \
     from'gh-r' \
     sbin'asdf' \
     nocompile \
   @asdf-vm/asdf
 
-zi for \
+zi wait lucid for \
     from'gh-r' \
     sbin'uv;uvx' \
     nocompile \
   @astral-sh/uv
 
-zi for \
+zi wait lucid for \
     from'gh-r' \
     sbin'yazi' \
     nocompile \
   @sxyazi/yazi
 
-
-zi for \
+zi wait lucid for \
     from'gh-r' \
     sbin'zoxide' \
     nocompile \
@@ -124,90 +123,85 @@ zi for \
 
 ### End of programs
 
-# Zinit configure
-zinit snippet OMZL::clipboard.zsh
-zinit snippet OMZL::completion.zsh
-zinit snippet OMZL::history.zsh
-zinit snippet OMZL::key-bindings.zsh
-zinit snippet OMZL::git.zsh
-zinit snippet OMZL::grep.zsh
+### Start of plugins
 
-zinit snippet OMZP::python
-zinit snippet OMZP::pip
-zinit snippet OMZP::pyenv
-zinit snippet OMZP::kubectl
-zinit snippet OMZP::docker
-zinit snippet OMZP::eza
-zinit snippet OMZP::command-not-found
-zinit snippet OMZP::poetry
-zinit snippet OMZP::bun
-zinit snippet OMZP::zoxide
-zinit snippet OMZP::git
-zinit snippet OMZP::asdf
-zinit snippet OMZP::uv
-zinit snippet OMZP::tmux
-zinit snippet OMZP::docker
-
-
-# some plugins
-zinit light zsh-users/zsh-syntax-highlighting
-zinit light zsh-users/zsh-autosuggestions
+zinit wait lucid for \
+ OMZL::clipboard.zsh \
+ OMZL::history.zsh \
+ OMZL::key-bindings.zsh \
+ OMZL::completion.zsh \
+ OMZL::git.zsh \
+ OMZL::grep.zsh \
+ OMZP::python \
+ OMZP::pip \
+ OMZP::pyenv \
+ OMZP::kubectl \
+ OMZP::docker \
+ OMZP::eza \
+ OMZP::command-not-found \
+ OMZP::poetry \
+ OMZP::bun \
+ OMZP::zoxide \
+ OMZP::git \
+ OMZP::asdf \
+ OMZP::uv \
+ OMZP::tmux \
+ OMZP::docker
 
 
-# some plugins
-zinit light zsh-users/zsh-syntax-highlighting
-zinit light zsh-users/zsh-autosuggestions
-zinit light soimort/translate-shell
+zi depth"1" for \
+  jeffreytse/zsh-vi-mode \
+  romkatv/powerlevel10k
+
+zi light zsh-users/zsh-syntax-highlighting 
+zi light zsh-users/zsh-autosuggestions 
+zi light soimort/translate-shell
+
 zi for \
     atload"zicompinit; zicdreplay" \
     blockf \
     lucid \
     wait \
   zsh-users/zsh-completions
-zinit light zsh-users/zsh-completions
-
-# theme
-zinit ice depth=1;
-zinit light romkatv/powerlevel10k
-
-zinit ice depth=1
-zinit light jeffreytse/zsh-vi-mode
 
 
 # For postponing loading `fzf`
-zinit ice lucid wait
-zinit snippet OMZP::fzf
+zi wait"2" lucid for \
+    OMZP::fzf
+
+### End of plugins
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 
 
-if command -v zoxide &> /dev/null
-then
-    eval "$(zoxide init zsh)"
+### Additional config
+
+if (( $+commands[yay] )); then
+     # avoid install python package to pyenv python site
+     alias yay="ASDF_RUST_VERSION=system  ASDF_NODEJS_VERSION=system PYENV_VERSION=system /usr/bin/yay"
 fi
 
-if command -v uv >/dev/null 2>&1; then
-    alias pip='uv pip'
+if (( $+commands[apt] )); then
+     # avoid install python package to pyenv python site
+     alias apt="ASDF_RUST_VERSION=system  ASDF_NODEJS_VERSION=system PYENV_VERSION=system /usr/bin/apt"
 fi
 
-
-function yay() {
-    # avoid install python package to pyenv python site
-     ASDF_RUST_VERSION=system  ASDF_NODEJS_VERSION=system PYENV_VERSION=system /usr/bin/yay "${@}"
-}
-
-function genpwd() {
+function passwordgen() {
     echo $(LC_ALL=C tr -dc 'A-Za-z0-9!"#$%&'\''()*+,-./:;<=>?@[\]^_`{|}~' </dev/urandom | head -c 13; echo)
 }
 
+alias pip='uv pip'
 alias vim=nvim
-alias cat='bat --paging=never'
+alias ocat="$(which cat)"
+
+alias cat="$(which bat)"
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+export MANROFFOPT="-c"
 
 export FZF_COMPLETION_TRIGGER=','
 
-export NVM_NODEJS_ORG_MIRROR=https://mirrors.ustc.edu.cn/node/
 
+### Local config
 [[ ! -f ~/.zshrc.local ]] || source ~/.zshrc.local
-

@@ -1,18 +1,18 @@
-# version manager
+
+export PATH="$HOME/.local/bin:$PATH"
+
+### Version manager
 if [[ -d $HOME/.pyenv ]]; then
     export PATH="$HOME/.pyenv/bin:$PATH"
     eval "$(pyenv init -)"
     # eval "$(pyenv virtualenv-init -)"
 fi
 
-# environment variable
 
-export PATH="$HOME/.local/bin:$PATH"
+### Addition config
 
-if [[ -d $HOME/go/bin ]]; then
+if (( $+commands[go] )); then
     PATH="$PATH:$HOME/go/bin"
-fi
-if command -v go >/dev/null 2>&1; then
 	export GOPROXY=https://goproxy.cn
 fi
 
@@ -25,7 +25,7 @@ esac
 
 export bwBindPar=$HOME/Downloads/
 export NLTK_DATA=$HOME/Documents/nltk_data
-export CPM_SOURCE_CACHE=$HOME/.cache/CPM
+export NVM_NODEJS_ORG_MIRROR=https://mirrors.ustc.edu.cn/node/
 
-
+### Local config
 [[ ! -f ~/.zshenv.local ]] || source ~/.zshenv.local
