@@ -103,7 +103,7 @@ config-pyenv: (install "git") config-zsh
     pyenv_plugin pyenv-pyright alefpereira
     pyenv install --skip-existing 3.10 3.11 3.12
 
-config-python: config-pyenv config-zsh (link "config/pip" "~/.config/pip") (link "config/uv/uv.yaml" "~/.config/uv/uv.yaml")
+config-python: config-pyenv config-zsh (link "config/pip" "~/.config/pip") (link "config/uv/uv.toml" "~/.config/uv/uv.toml")
     #!/usr/bin/env zsh
     if  command -v poetry &>/dev/null; then echo "poetry is exists, ignore"; exit 0; fi
     curl -sSL https://install.python-poetry.org | python3 -
