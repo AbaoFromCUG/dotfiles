@@ -124,11 +124,12 @@ zi wait lucid for \
 ### End of programs
 
 ### Start of plugins
-
-zinit wait lucid for \
- OMZL::clipboard.zsh \
- OMZL::history.zsh \
+zi for \
  OMZL::key-bindings.zsh \
+ OMZL::history.zsh
+
+zi wait lucid for \
+ OMZL::clipboard.zsh \
  OMZL::completion.zsh \
  OMZL::git.zsh \
  OMZL::grep.zsh \
@@ -151,11 +152,10 @@ zinit wait lucid for \
 
 zi depth"1" for \
   jeffreytse/zsh-vi-mode \
-  romkatv/powerlevel10k
-
-zi light zsh-users/zsh-syntax-highlighting 
-zi light zsh-users/zsh-autosuggestions 
-zi light soimort/translate-shell
+  romkatv/powerlevel10k \
+  zsh-users/zsh-syntax-highlighting \
+  zsh-users/zsh-autosuggestions \
+  soimort/translate-shell
 
 zi for \
     atload"zicompinit; zicdreplay" \
