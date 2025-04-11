@@ -67,13 +67,11 @@ if [ "$(printf '2.35\n%s\n' "$GLIBC_VER" | sort -V | head -n 1)" != "2.35" ]; th
     zi wait lucid for \
         from'gh-r' \
         sbin'**/nvim-** -> nvim' \
-        ver'nightly' \
       neovim/neovim-releases
 else
     zi wait lucid for \
         from'gh-r' \
         sbin'**/nvim-** -> nvim' \
-        ver'nightly' \
       neovim/neovim
 fi
 
@@ -111,7 +109,7 @@ zi wait lucid for \
 
 zi wait lucid for \
     from'gh-r' \
-    sbin'yazi' \
+    sbin'yazi;ya' \
     nocompile \
   @sxyazi/yazi
 
@@ -140,7 +138,6 @@ zi wait lucid for \
  OMZP::docker \
  OMZP::eza \
  OMZP::command-not-found \
- OMZP::poetry \
  OMZP::bun \
  OMZP::zoxide \
  OMZP::git \
@@ -192,7 +189,8 @@ function passwordgen() {
     echo $(LC_ALL=C tr -dc 'A-Za-z0-9!"#$%&'\''()*+,-./:;<=>?@[\]^_`{|}~' </dev/urandom | head -c 13; echo)
 }
 
-alias pip='uv pip'
+
+alias pip="uv pip"
 alias vim=nvim
 alias ocat="$(which cat)"
 

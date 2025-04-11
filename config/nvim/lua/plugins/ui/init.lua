@@ -113,47 +113,23 @@ local function lualine()
     })
 end
 
-local function yazi()
-    ---@param buf number
-    ---@param config YaziConfig
-    local function set_keymappings_function(buf, config)
-        local helper = require("yazi.keybinding_helpers")
-        local function live_grep()
-            helper.select_current_file_and_close_yazi(config, {
-                on_file_opened = function(chosen_file, _, state)
-                    local success, result_or_error = pcall(config.integrations.grep_in_directory, state.last_directory.filename)
-                    assert(success, result_or_error)
-                end,
-            })
-        end
-        local function find_files()
-            helper.select_current_file_and_close_yazi(config, {
-                on_file_opened = function(chosen_file, _, state)
-                    local directory = state.last_directory.filename
-                    require("telescope.builtin").live_grep({
-                        search = "",
-                        prompt_title = "Grep in " .. directory,
-                        cwd = directory,
-                    })
-                end,
-            })
-        end
-        vim.keymap.set({ "t" }, "<leader>fw", live_grep, { buffer = buf })
-        vim.keymap.set({ "t" }, "<leader>ff", find_files, { buffer = buf })
-    end
-    require("yazi").setup({
-        open_for_directories = false,
-        set_keymappings_function = set_keymappings_function,
-    })
-end
-
 ---@type LazySpec[]
 return {
     {
         "EdenEast/nightfox.nvim",
         lazy = false,
         priority = 1000,
-        config = function() vim.cmd([[colorscheme nightfox]]) end,
+        opts = {
+            options = {
+                -- transparent = true,
+                -- dim_inactive = true,
+            },
+        },
+    },
+    {
+        "nvim-zh/colorful-winsep.nvim",
+        config = true,
+        event = { "WinLeave" },
     },
     {
         "MunifTanjim/nui.nvim",
@@ -168,11 +144,23 @@ return {
         cmd = { "Shades", "Huefy" },
     },
     { "nvchad/menu", lazy = true },
-    -- color text colorizer, e.g. #5F9EA0 Aqua #91f #f101ff11
+    -- color text colorizer, e.g. #5F9EA0 Aqua #91f #f101ff11 oklch(0.147 0.004 49.25)
     {
-        "norcalli/nvim-colorizer.lua",
-        opts = { "qml", "typst", "lua", "vue", "html", "css", user_default_options = { rgb_fn = true, RRGGBBAA = true } },
+        "catgoose/nvim-colorizer.lua",
+        opts = { filetypes = { "qml", "typst", "lua", "vue", "html", "css", "scss", "tsx" }, user_default_options = { rgb_fn = true, RRGGBBAA = true } },
         event = "VeryLazy",
+    },
+    {
+        "eero-lehtinen/oklch-color-picker.nvim",
+        opts = {},
+        event = "LazyFile",
+        keys = {
+            {
+                "<leader>fc",
+                function() require("oklch-color-picker").pick_under_cursor() end,
+                desc = "Color pick under cursor",
+            },
+        },
     },
     {
         "akinsho/bufferline.nvim",
@@ -199,23 +187,15 @@ return {
 
     { "cpea2506/relative-toggle.nvim", event = "VeryLazy" },
 
-    {
-        "nvim-tree/nvim-tree.lua",
-        init = function() end,
-        config = require("plugins.ui.filetree"),
-
-        keys = {
-            { "<leader>b", "<cmd>NvimTreeToggle<cr>", desc = "file manager" },
-            { "<leader>vb", "<cmd>NvimTreeToggle<cr>", desc = "file manager" },
-        },
-    },
     ---@type LazySpec
     {
         "mikavilpas/yazi.nvim",
         dependencies = {
             "nvim-lua/plenary.nvim",
         },
-        config = yazi,
+        opts = {
+            open_for_directories = false,
+        },
         keys = {
             {
                 "<leader>ty",
@@ -228,6 +208,13 @@ return {
                 "<cmd>Yazi cwd<cr>",
                 desc = "yazi:working directory",
             },
+        },
+    },
+    {
+        "mikavilpas/tsugit.nvim",
+        keys = {
+            { "<leader>gg", function() require("tsugit").toggle() end, silent = true, desc = "toggle lazygit" },
+            { "<leader>gf", function() require("tsugit").toggle_for_file() end, desc = "lazygit file commits" },
         },
     },
     {
@@ -257,85 +244,95 @@ return {
         },
     },
     {
-        "stevearc/aerial.nvim",
-        opts = {},
-        cmd = { "AerialToggle", "AerialOpen" },
+        "folke/trouble.nvim",
+        opts = {
+            -- auto_preview = false,
+            symbols = {
+                win = {
+                    position = "right",
+                },
+            },
+        },
         keys = {
-            { "<leader>vt", "<cmd>AerialToggle right<cr>", desc = "outline" },
+            -- { "gO", "<cmd>Trouble symbols toggle focus=true win.position=right<cr>", desc = "Symbols (Trouble)" },
+            { "gO", "<cmd>Trouble symbols toggle focus=true win.position=right<cr>", desc = "Symbols (Trouble)" },
         },
     },
     {
         "folke/edgy.nvim",
-        opts = {
+        opts = function()
+            local opts = {
+                top = {
+                    {
+                        ft = "help",
+                        size = { height = 20 },
+                        -- only show help buffers
+                        filter = function(buf) return vim.bo[buf].buftype == "help" end,
+                    },
+                },
 
-            ---@type Edgy.View.Opts[]
-            left = {
-                {
-                    title = "NvimTree",
-                    ft = "NvimTree",
-                    open = "NvimTreeOpen",
-                    size = { height = 1 },
+                ---@type Edgy.View.Opts[]
+                left = {
+                    {
+                        title = "Scope",
+                        ft = "dapui_scopes",
+                    },
+                    {
+                        title = "Breakpoints",
+                        ft = "dapui_breakpoints",
+                    },
+                    {
+                        title = "Stacks",
+                        ft = "dapui_stacks",
+                    },
+                    {
+                        title = "Watches",
+                        ft = "dapui_watches",
+                    },
                 },
-                {
-                    title = "Scope",
-                    ft = "dapui_scopes",
+                right = {
+                    {
+                        ft = "dbui",
+                        title = "Database",
+                        size = { width = 0.3 },
+                        open = "DBUI",
+                    },
                 },
-                {
-                    title = "Breakpoints",
-                    ft = "dapui_breakpoints",
+                bottom = {
+                    {
+                        title = "Console",
+                        ft = "dapui_console",
+                    },
+                    {
+                        title = "Repl",
+                        ft = "dap-repl",
+                    },
+                    {
+                        ft = "toggleterm",
+                        size = { height = 0.4 },
+                        -- exclude floating windows
+                        filter = function(buf, win) return vim.api.nvim_win_get_config(win).relative == "" end,
+                    },
+                    { ft = "qf", title = "QuickFix" },
+                    { ft = "spectre_panel", size = { height = 0.4 } },
+                    { ft = "httpResult", size = { height = 0.4 } },
                 },
-                {
-                    title = "Stacks",
-                    ft = "dapui_stacks",
-                },
-                {
-                    title = "Watches",
-                    ft = "dapui_watches",
-                },
-            },
-            right = {
-                {
-                    ft = "aerial",
-                    -- open = "AerialToggle right",
-                },
-                {
-                    ft = "help",
-                    size = { width = 120 },
-                    -- only show help buffers
-                    filter = function(buf) return vim.bo[buf].buftype == "help" end,
-                },
-                {
-                    ft = "dbui",
-                    title="Database",
-                    size = { width = 0.3 },
-                    open = "DBUI",
-                },
-            },
-            bottom = {
-                {
-                    title = "Console",
-                    ft = "dapui_console",
-                },
-                {
-                    title = "Repl",
-                    ft = "dap-repl",
-                },
-                {
-                    ft = "toggleterm",
-                    size = { height = 0.4 },
-                    -- exclude floating windows
-                    filter = function(buf, win) return vim.api.nvim_win_get_config(win).relative == "" end,
-                },
-                {
+            }
+            for _, pos in ipairs({ "top", "bottom", "left", "right" }) do
+                opts[pos] = opts[pos] or {}
+                table.insert(opts[pos], {
                     ft = "trouble",
-                    title = "Trouble",
-                    size = { height = 0.4 },
-                },
-                { ft = "qf", title = "QuickFix" },
-                { ft = "spectre_panel", size = { height = 0.4 } },
-                { ft = "httpResult", size = { height = 0.4 } },
-            },
-        },
+                    filter = function(_buf, win)
+                        return vim.w[win].trouble
+                            and vim.w[win].trouble.position == pos
+                            and vim.w[win].trouble.type == "split"
+                            and vim.w[win].trouble.relative == "editor"
+                            and not vim.w[win].trouble_preview
+                    end,
+                })
+            end
+            return opts
+        end,
         event = "VeryLazy",
     },
     {

@@ -10,4 +10,13 @@ prepend_keymap = [
     { on = ["s"], run = "plugin keyjump --args=global" },
     { on = ["\\", "f", "f"], run = "search fd" },
     { on = ["\\", "f", "w"], run = "search rg" },
+
+    { on = "/", run = "filter --smart", desc = "Filter files" },
+    { on = "f", run = "plugin jump-to-char", desc = "Jump to char" },
+]
+[help]
+keymap = [
+    { on = "<Esc>", run = "escape", desc = "Clear the filter, or hide the help" },
+    { on = "/", run = "filter", desc = "Apply a filter for the help items" },
+
 ]

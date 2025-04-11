@@ -1,4 +1,4 @@
-
+typeset -U PATH
 export PATH="$HOME/.local/bin:$PATH"
 
 ### Version manager
@@ -16,11 +16,13 @@ if (( $+commands[go] )); then
 	export GOPROXY=https://goproxy.cn
 fi
 
-export PNPM_HOME="$HOME/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
+if (( $+commands[cargo] )); then
+    PATH="$PATH:$HOME/.cargo/bin"
+fi
+
+PATH="$PATH:$HOME/.local/share/pnpm"
+
+PATH="$PATH:$HOME/.bun/bin"
 
 
 export bwBindPar=$HOME/Downloads/

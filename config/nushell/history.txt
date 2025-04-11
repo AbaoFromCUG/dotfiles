@@ -1,0 +1,42 @@
+ls
+pwd
+ls
+cat
+which cat
+ls
+which ls
+la
+ls --help
+ls -lah
+pwd
+ls
+ip a
+ls
+ls |where name ==js
+ls |where name==js
+ls |where name=="js"
+ls |where name="js"
+ls 
+ls |where name="js"
+ls |where name == "js"
+ls |where name == "js"|table
+ls |where name == "js"
+ls -lah
+ls
+open flow.svg
+which open
+ls
+which python
+cd dot
+z dot
+which z
+zoxide
+zoxide dot
+cd ~/.docker/
+cd ../.dotfiles/
+ls
+open  config/
+open shell.conf.yaml
+vim $nu.config-path
+nvim $nu.config-path
+exit

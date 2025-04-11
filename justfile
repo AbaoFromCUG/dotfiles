@@ -2,17 +2,17 @@
 
 
 install package:
-    #!/usr/bin/env bash
+    #!/usr/bin/env -S zsh --interactive
     # set -euo pipefail
-    if ! yay -Qi "{{package}}" >/dev/null 2>&1; then
+    if ! (( $+commands[yay] )) && ! yay -Qi "{{package}}" >/dev/null 2>&1; then
         yay -S --noconfirm {{package}}
         echo install {{package}}
     fi
 
 install-yay:
-    #!/usr/bin/env bash
+    #!/usr/bin/env -S zsh --interactive
     set -euo pipefail
-    if  command -v yay &>/dev/null; then exit 0; fi
+    if  (( $+commands[yay] )) ; then exit 0; fi
     mkdir /tmp/cache && cd /tmp/cache
     export GOPROXY=https://goproxy.cn
     sudo pacman -S --needed --noconfirm git go base-devel
@@ -24,12 +24,12 @@ install-yay:
 
 
 link $source $target:
-    #!/usr/bin/env bash
+    #!/usr/bin/env -S zsh --interactive
     set -euo pipefail
     source=$(realpath "$source")
     target=$(eval echo "$target")
     if [ -e "${target}" ] && [ ! -L "${target}" ]; then
-        echo "File ${target} exists ant not a symbolic link of ${source}, failed exists"
+        echo "File ${target} exists and not a symbolic link of ${source}, failed exists"
         exit 1
     fi
     if [ ! -L ${target} ] || [ ! "$(readlink ${target})"="${target}" ]; then
@@ -37,7 +37,7 @@ link $source $target:
     fi
 
 config package $config="": (install package)
-    #!/usr/bin/env bash
+    #!/usr/bin/env -S zsh --interactive
     set -euo pipefail
     if [ -z "$config" ]; then
         config={{package}}
@@ -57,7 +57,7 @@ config package $config="": (install package)
     fi
 
 config-nvim: config-rust (link "config/nvim" "~/.config/nvim" )
-    #!/usr/bin/env bash
+    #!/usr/bin/env -S zsh --interactive
     set -euo pipefail
     nvim --headless -c "Lazy! install" \
         --headless -c "Lazy! load all" \
@@ -70,18 +70,21 @@ config-zsh: (install "zsh") \
             (link "home/zshrc" "~/.zshrc") \
             (link "home/zshenv" "~/.zshenv") \
             (link "home/p10k.zsh" "~/.p10k.zsh")
-    # zsh -c "export TERM=xterm && source ~/.zshrc"
+    #!/usr/bin/env -S zsh --interactive
+    echo "Completed"
+    zinit update
 
 config-tmux: (install "git") && (link "home/tmux.conf.local" "~/.tmux.conf.local")
-    #!/usr/bin/env bash
+    #!/usr/bin/env -S zsh --interactive
     if [ ! -d ~/.tmux ] || [ ! -L ~/.tmux.conf ]; then
         rm -rf ~/.tmux
         git clone https://github.com/gpakosz/.tmux.git ~/.tmux
         ln -s -f ~/.tmux/.tmux.conf ~/.tmux.conf
     fi
 
+
 config-pyenv: (install "git") config-zsh
-    #!/usr/bin/env bash
+    #!/usr/bin/env -S zsh --interactive
     set -euo pipefail
     if  command -v pyenv &>/dev/null; then echo "pyenv is exists, ignore"; exit 0; fi
 
@@ -103,11 +106,8 @@ config-pyenv: (install "git") config-zsh
     pyenv_plugin pyenv-pyright alefpereira
     pyenv install --skip-existing 3.10 3.11 3.12
 
-config-python: config-pyenv config-zsh (link "config/pip" "~/.config/pip") (link "config/uv/uv.toml" "~/.config/uv/uv.toml")
-    #!/usr/bin/env zsh
-    if  command -v poetry &>/dev/null; then echo "poetry is exists, ignore"; exit 0; fi
-    curl -sSL https://install.python-poetry.org | python3 -
-    poetry completions zsh >  ~/.local/share/zinit/completions/_poetry
+config-python: config-pyenv config-zsh (config "pip") (config "uv")
+    #!/usr/bin/env -S zsh --interactive
 
 config-rust: (install "rustup")
     rustup default stable
@@ -131,18 +131,13 @@ config-node: config-asdf
     asdf install nodejs lts 
 
 
-config-yazi: (link "config/yazi" "~/.config/yazi")
-
-
-config-waybar:  (link "config/waybar" "~/.config/waybar")
-
 config-apps: \
     (config "alacritty") (config "kitty") (config "ghostty") \
     (install "sof-firmware") (install "libva-intel-driver") (install "libva-mesa-driver") \
     (install "networkmanager") (install "curl") (install "wget") \
     (install "pipewire") (install "pipewire-pulse") (install "pipewire-jack") (install "pipewire-audio") \
     (install "bluez-utils") (install "blueman") \
-    (install "mpd") (install "mpd-mpris") \
+    (config "mpd") (install "mpd-mpris") \
     (install "playerctl") (install "pavucontrol") \
     (install "fcitx5") (install "fcitx5-configtool") \
     (install "fcitx5-pinyin-zhwiki") (install "fcitx5-chinese-addons") \
@@ -154,8 +149,8 @@ config-hypr: \
     (install "meson") (install "cpio") \
     (install "hyprland") (install "hyprpaper") (install "hyprpicker") (install "hypridle") (install "hyprlock") \
     (install "xdg-desktop-portal-hyprland") (install "hyprpolkitagent-git") \
-    (install "dunst") (install "conky") \
-    (install "wofi") config-waybar (install "nwg-displays")
+    (config "dunst") (install "conky") \
+    (config "wofi") (config "waybar") (install "nwg-displays")
     hyprpm update
     # hyprpm add https://github.com/levnikmyskin/hyprland-virtual-desktops
     # hyprpm enable virtual-desktops
@@ -163,16 +158,15 @@ config-hypr: \
 config-dev: \
     config-zsh \
     config-nvim \
-    config-yazi  \
     config-asdf \
     config-tmux \
     config-python \
     config-rust \
-    (install "git") \
+    (config "lazygit") \
     (install "wget") \
     (install "curl") \
     (install "cmake") \
-    (install "imagemagick") \
+    (install "imagemagick")
 
 config-desktop: \
     config-apps \
@@ -186,14 +180,10 @@ bootstrap-docker-full: bootstrap
 bootstrap: install-yay config-dev config-hypr config-desktop
 
 podman-build:
-    #!/usr/bin/env bash
-    host=$(ip route |grep docker|awk '{print $(NF-1)}')
-    echo $host
-    podman build -t arch .
+    #!/usr/bin/env -S zsh --interactive
+    docker build -t arch .
 
 podman-build-full:
-    #!/usr/bin/env bash
-    host=$(ip route |grep docker|awk '{print $(NF-1)}')
-    echo $host
-    podman build --env=https_proxy=http://${host}:8092 -t arch-full . --build-arg RECIPE=bootstrap-docker-full
+    #!/usr/bin/env -S zsh --interactive
+    docker build -t arch-full . --build-arg RECIPE=bootstrap-docker-full
 

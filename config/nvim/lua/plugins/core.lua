@@ -110,6 +110,7 @@ return {
             bigfile = {
                 size = 5 * 1024 * 1024,
             },
+            explorer = {},
             image = {
                 enabled = true,
             },
@@ -119,6 +120,34 @@ return {
             },
             picker = {
                 ui_select = true,
+                formatters = {
+                    file = {
+
+                        -- filename_only = true,
+                        truncate = 60,
+                    },
+                },
+                sources = {
+                    explorer = {
+                        actions = require("plugins.ui.filetree"),
+                        win = {
+                            input = {
+                                keys = {
+                                    ["<Esc>"] = { "focus_list", mode = { "i", "n" } },
+                                },
+                            },
+                            list = {
+                                keys = {
+                                    ["<Esc>"] = "",
+                                    ["/"] = "",
+                                    ["<leader>ff"] = "explorer_find_file",
+                                    ["<leader>fw"] = "explorer_grep",
+                                    ["<leader>ss"] = "explorer_search_and_replace",
+                                },
+                            },
+                        },
+                    },
+                },
             },
 
             notifier = {
@@ -154,14 +183,13 @@ return {
         },
         keys = {
 
-            { "<leader>fp", function() Snacks.picker() end },
-            { "<leader>ff", function() Snacks.picker.files({ ignored = false }) end },
-            { "<leader>fh", function() Snacks.picker.recent() end },
-            { "<leader>fw", function() Snacks.picker.grep() end },
+            { "<leader>b", function() Snacks.explorer() end, desc = "explorer" },
+            { "<leader>fp", function() Snacks.picker() end, desc = "find find" },
+            { "<leader>ff", function() Snacks.picker.files({ ignored = false, hidden = true }) end, desc = "find files" },
+            { "<leader>fh", function() Snacks.picker.recent() end, desc = "find history" },
+            { "<leader>fw", function() Snacks.picker.grep({ regex = false }) end, desc = "find word" },
             -- git
-            { "<leader>gg", function() Snacks.lazygit() end, desc = "lazygit" },
             { "<leader>gB", function() Snacks.gitbrowse() end, desc = "git browse" },
-            { "<leader>gf", function() Snacks.lazygit.log_file() end, desc = "lazygit current file history" },
             { "<leader>gl", function() Snacks.lazygit.log() end, desc = "lazygit log" },
 
             { "<leader>nm", function() Snacks.notifier.hide() end, desc = "dismiss all notifications" },

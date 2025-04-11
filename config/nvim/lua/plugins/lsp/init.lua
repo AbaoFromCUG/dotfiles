@@ -138,8 +138,7 @@ return {
     {
         "saghen/blink.cmp",
         event = "InsertEnter",
-        -- build = "cargo build --release",
-        version = "v0.13.1",
+        version = "v1.1.1",
         dependencies = {
             "rafamadriz/friendly-snippets",
             "Kaiser-Yang/blink-cmp-avante",
@@ -183,6 +182,7 @@ return {
                     -- null_ls.builtins.formatting.cmake_format,
                     null_ls.builtins.formatting.typstyle,
                     null_ls.builtins.formatting.yamlfmt,
+                    null_ls.builtins.formatting.sqlfmt,
                 },
             })
         end,

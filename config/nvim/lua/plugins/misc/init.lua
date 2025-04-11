@@ -167,7 +167,8 @@ return {
             openai = {
                 endpoint = vim.env.OPENAI_API_BASE,
                 api_key_name = "OPENAI_API_KEY",
-                model = "qwq:latest",
+                -- model = "qwq:latest",
+                model = "gpt-3.5-turbo",
             },
         },
         build = "make",

@@ -126,15 +126,6 @@ local function session()
         persistent_bp.load_breakpoints()
         require("dap.ext.vscode").load_launchjs(nil, { cppdbg = { "c", "cpp" } })
     end)
-    require("session").register_hook("post_restore", "restore_nvim_tree", function()
-        local tree_api = require("nvim-tree.api")
-        tree_api.tree.change_root(vim.fn.getcwd())
-        tree_api.tree.reload()
-    end)
-    require("session").register_hook("pre_save", "close_nvim_tree", function()
-        local tree_api = require("nvim-tree.api")
-        tree_api.tree.close()
-    end)
 end
 
 local function comment()
@@ -155,12 +146,12 @@ return {
             { "metiulekm/nvim-treesitter-endwise" },
             { "nvim-treesitter/nvim-treesitter-textobjects" },
         },
-        event = "VeryLazy",
+        event = "LazyFile",
     },
     {
         "windwp/nvim-ts-autotag",
         opts = { opts = { enable_close_on_slash = true } },
-        event = "VeryLazy",
+        event = "LazyFile",
     },
 
     {
@@ -180,7 +171,7 @@ return {
         dependencies = {
             "nvim-treesitter",
         },
-        event = "VeryLazy",
+        event = "LazyFile",
     },
     -- autopairs
     {
@@ -206,7 +197,7 @@ return {
     -- surround edit
     {
         "kylechui/nvim-surround",
-        event = "VeryLazy",
+        event = "LazyFile",
         dependencies = {
             "nvim-treesitter/nvim-treesitter",
             "nvim-treesitter/nvim-treesitter-textobjects",
@@ -227,7 +218,11 @@ return {
     },
 
     -- comment
-    { "numToStr/Comment.nvim", config = comment, event = "VeryLazy" },
+    {
+        "numToStr/Comment.nvim",
+        config = comment,
+        event = "LazyFile",
+    },
     { "JoosepAlviste/nvim-ts-context-commentstring" },
     {
         "folke/todo-comments.nvim",

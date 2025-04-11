@@ -1,35 +1,17 @@
 [user]
-{{#if email}}
-    email = {{email}}
-{{/if}}
-{{#if git_username}}
-    name = {{git_username}}
-{{/if}}
+    email = abaodoit@gmail.com
+    name = Abao Zhang
 
 [credential]
     helper = store
 
+[commit]
+    verbose = true
+
 [core]
-    {{#if (and (not (is_executable "difft")) (is_executable "delta"))}}
-    pager = delta
-    {{/if}}
-    {{#if (eq dotter.os "windows")}}
-    symlinks = true
-    autocrlf = true
-    {{else}}
     autocrlf = input
-    {{/if}}
+	longpaths = true
 
-{{#if (and (not (is_executable "difft")) (is_executable "delta"))}}
-[delta]
-    line-numbers = true
-    hunk-header-style = omit
-    syntax-theme = zenburn
-    file-style = bold yellow ul
-    file-decoration-style = none
-    side-by-side = true
-
-{{/if}}
 [help]
     autocorrect = 20
 
@@ -45,12 +27,7 @@
 [merge]
     conflictstyle = diff3
 
-{{#if (is_executable "difft")}}
-[diff]
-    external = "difft"
-{{/if}}
 
 [init]
     defaultBranch = master
 
-# vim:ft=gitconfig

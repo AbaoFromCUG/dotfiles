@@ -1,6 +1,7 @@
 return function()
     vim.treesitter.language.register("qmljs", "qml")
     vim.treesitter.language.register("bash", "kitty")
+    vim.treesitter.language.register("bash", "zsh")
 
     require("nvim-treesitter.install").prefer_git = true
     local parser_path = vim.fn.stdpath("data") .. "/ts-parsers"
@@ -18,6 +19,7 @@ return function()
         },
         filename = {
             ["vifmrc"] = "vim",
+            ["gitconfig"] = "gitconfig",
             ["justfile"] = "just",
         },
         pattern = {

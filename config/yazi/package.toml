@@ -1,0 +1,12 @@
+[[plugin.deps]]
+use = "yazi-rs/plugins:mime-ext"
+rev = "92f78dc"
+hash = "1f9fc0e55ff859a32e793833403ee7bd"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:jump-to-char"
+rev = "92f78dc"
+hash = "a670c03eb3760812e044a24f94cedc55"
+
+[flavor]
+deps = []
