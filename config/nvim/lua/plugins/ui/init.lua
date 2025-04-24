@@ -262,14 +262,7 @@ return {
         "folke/edgy.nvim",
         opts = function()
             local opts = {
-                top = {
-                    {
-                        ft = "help",
-                        size = { height = 20 },
-                        -- only show help buffers
-                        filter = function(buf) return vim.bo[buf].buftype == "help" end,
-                    },
-                },
+                top = {},
 
                 ---@type Edgy.View.Opts[]
                 left = {
@@ -296,6 +289,13 @@ return {
                         title = "Database",
                         size = { width = 0.3 },
                         open = "DBUI",
+                    },
+
+                    {
+                        ft = "help",
+                        size = { width = 0.6 },
+                        -- only show help buffers
+                        filter = function(buf) return vim.bo[buf].buftype == "help" end,
                     },
                 },
                 bottom = {

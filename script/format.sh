@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-stylua .
+CodeFormat check -w . -d --ignores-file ".gitignore"

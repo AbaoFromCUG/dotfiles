@@ -1,16 +1,8 @@
 {
-  "lspconfig": {
-    "lua_ls": {
-      "Lua.addonManager.addons": [
-        "nvim",
-        "nvim-tree",
-        "nvim-surround",
-        "lazy.nvim",
-        "neopyter",
-        "pathlib.nvim",
-        "which-key.nvim",
-        "snacks.nvim"
-     ]
-    }
+  "lua_ls": {
+    "addons": [
+      "lazy.nvim",
+      "lua_ls.nvim"
+    ]
   }
 }

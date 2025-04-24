@@ -78,7 +78,7 @@ return {
             ensure_installed = {
                 "cppdbg",
                 "python",
-                "node2",
+                -- "node2",
                 "codelldb",
                 "js",
             },

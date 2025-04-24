@@ -137,7 +137,7 @@ return {
     -- completion engine
     {
         "saghen/blink.cmp",
-        event = "InsertEnter",
+        event = "VeryLazy",
         version = "v1.1.1",
         dependencies = {
             "rafamadriz/friendly-snippets",
@@ -170,7 +170,7 @@ return {
             local null_ls = require("null-ls")
             null_ls.setup({
                 sources = {
-                    null_ls.builtins.formatting.stylua,
+                    -- null_ls.builtins.formatting.stylua,
                     null_ls.builtins.formatting.shfmt,
 
                     null_ls.builtins.diagnostics.markdownlint,
@@ -190,29 +190,10 @@ return {
     },
     { "b0o/schemastore.nvim" },
     {
-        "AbaoFromCUG/luals-addonmanager.nvim",
+        "AbaoFromCUG/lua_ls.nvim",
+        dev = true,
         ---@type lua_ls.Config
-        opts = {
-            settings = {
-                Lua = {
-                    hint = {
-                        enable = true,
-                    },
-                    diagnostics = {},
-                    -- Do not send telemetry data containing a randomized but unique identifier
-                    telemetry = {
-                        enable = false,
-                    },
-                    format = {
-                        enable = false,
-                    },
-                    completion = {
-                        autoRequire = true,
-                        callSnippet = "Replace",
-                    },
-                },
-            },
-        },
+        opts = {},
 
         ft = "lua",
     },

@@ -13,12 +13,13 @@ indent_size = 4
 function_next_line = true
 
 [*.lua]
+# https://github.com/CppCXY/EmmyLuaCodeStyle/blob/master/lua.template.editorconfig
 indent_style = space
 indent_size = 4
 tab_width = 4
-call_arg_parentheses = remove
-quote_style = single
-call_arg_parentheses = remove
+
+call_arg_parentheses = keep
+quote_style = double
 align_table_field_to_first_field = true
 
 [*.{json,js}]

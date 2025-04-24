@@ -52,7 +52,7 @@ end
 function utils.tbl_values(t)
     local values = {}
     for _, v in
-        pairs(t --[[@as table<any,any>]])
+    pairs(t --[[@as table<any,any>]])
     do
         table.insert(values, v)
     end

@@ -1,4 +1,3 @@
-
 local function cmake()
     require("cmake-tools").setup({
         cmake_command = "cmake", -- this is used to specify cmake command path
@@ -50,8 +49,8 @@ return {
         cmd = { "CMakeGenerate", "CMakeBuild", "CMakeRun", "CMakeSettings", "CMakeTargetSettings" },
         keys = {
             { "<leader>,c", "<cmd>CMakeSettings<cr>", desc = "cmake settings" },
-            { "<space>cg", "<cmd>CMakeGenerate<cr>", desc = "cmake generate" },
-            { "<space>cb", "<cmd>CMakeBuild<cr>", desc = "cmake generate" },
+            { "<space>cg",  "<cmd>CMakeGenerate<cr>", desc = "cmake generate" },
+            { "<space>cb",  "<cmd>CMakeBuild<cr>",    desc = "cmake generate" },
         },
     },
 
@@ -64,6 +63,16 @@ return {
         ft = "markdown",
     },
     {
+        "iamcco/markdown-preview.nvim",
+        build = function() vim.fn["mkdp#util#install"]() end,
+        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+        keys = {
+            { "<leader>ll", "<cmd>MarkdownPreviewToggle<cr>", desc = "markdown preview" }
+
+        },
+        ft = "markdown",
+    },
+    {
         "SUSTech-data/neopyter",
         ---@type neopyter.Option
         opts = {
@@ -71,10 +80,10 @@ return {
             auto_attach = true,
             on_attach = function(buf)
                 require("which-key").add({
-                    { "<space>nt", "<cmd>Neopyter execute kernelmenu:restart<cr>", desc = "restart kernel" },
-                    { "<C-CR>", "<cmd>Neopyter execute notebook:run-cell<cr>", desc = "run selected" },
-                    { "<space>nr", "<cmd>Neopyter execute notebook:run-cell<cr>", desc = "run selected" },
-                    { "<F5>", "<cmd>Neopyter execute notebook:restart-run-all<cr>", desc = "restart kernel and run all" },
+                    { "<space>nt", "<cmd>Neopyter execute kernelmenu:restart<cr>",       desc = "restart kernel" },
+                    { "<C-CR>",    "<cmd>Neopyter execute notebook:run-cell<cr>",        desc = "run selected" },
+                    { "<space>nr", "<cmd>Neopyter execute notebook:run-cell<cr>",        desc = "run selected" },
+                    { "<F5>",      "<cmd>Neopyter execute notebook:restart-run-all<cr>", desc = "restart kernel and run all" },
 
                     buffer = buf,
                 })
@@ -106,7 +115,7 @@ return {
         build = ":call firenvim#install(0)",
     },
     { "lambdalisue/suda.vim", cmd = { "SudaWrite", "SudaRead" } },
-    { "h-hg/fcitx.nvim", event = "InsertEnter" },
+    { "h-hg/fcitx.nvim",      event = "InsertEnter" },
     {
         "mistweaverco/kulala.nvim",
         ft = "http",
@@ -138,8 +147,8 @@ return {
             bg_theme = "bamboo",
         },
         keys = {
-            { "<leader>tc", desc = "code snapshot" },
-            { "<leader>tcs", "<cmd>CodeSnap<cr>", mode = "x", desc = "save code snapshot into clipboard" },
+            { "<leader>tc",  desc = "code snapshot" },
+            { "<leader>tcs", "<cmd>CodeSnap<cr>",     mode = "x", desc = "save code snapshot into clipboard" },
             { "<leader>tcc", "<cmd>CodeSnapSave<cr>", mode = "x", desc = "save code snapshot in ~/Pictures" },
         },
     },
@@ -157,7 +166,7 @@ return {
             { "<leader>tt", "<Cmd>Translate zh-CN<CR>", mode = { "n", "x" }, desc = "translate" },
         },
     },
-    { "towolf/vim-helm" },
+    { "towolf/vim-helm", lazy = false },
     {
         "yetone/avante.nvim",
         event = "InsertEnter",

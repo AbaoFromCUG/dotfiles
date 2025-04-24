@@ -172,6 +172,9 @@ config-desktop: \
     config-apps \
     config-hypr \
     (link "config/mimeapps.list" "~/.config/mimeapps.list") \
+    (link "config/chromium-flags.conf" "~/.config/chromium-flags.conf") \
+    (link "config/chrome-flags.conf" "~/.config/chrome-flags.conf") \
+    (link "config/chrome-dev-flags.conf" "~/.config/chrome-dev-flags.conf") \
     (link "local/share/applications/file-manager.desktop" "~/.local/share/applications/file-manager.desktop")
 
 bootstrap-docker: install-yay config-dev

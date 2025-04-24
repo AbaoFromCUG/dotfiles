@@ -22,9 +22,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
         if client:supports_method("textDocument/declaration", buf) then
             map("gD", function() Snacks.picker.lsp_declarations() end, "goto declaration")
         end
-        if client:supports_method("textDocument/diagnostic", buf) then
-            map("<space>e", vim.diagnostic.open_float, "open diagnostic")
-        end
+        -- if client:supports_method("textDocument/diagnostic", buf) then
+        map("<space>e", vim.diagnostic.open_float, "open diagnostic")
+        -- end
         if client:supports_method("textDocument/formatting", buf) then
             map("<space>f", smart_format, "format")
         end
