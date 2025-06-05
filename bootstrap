@@ -93,20 +93,12 @@ setup_pyenv() {
 }
 
 setup_asdf() {
-	if [ ! -d ~/.asdf ]; then
-		echo "installing asdf..."
-		git clone https://github.com/asdf-vm/asdf.git ~/.asdf
-		. "$HOME/.asdf/asdf.sh"
-	else
-		echo "asdf installed, skip"
-	fi
-
 	asdf_plugin() {
 		name=$1
 		repository=$2
 		if [ ! -d ~/.asdf/plugins/${name} ]; then
 			echo "installing ${name}..."
-			asdf plugin-add $name https://github.com/${repository}
+			asdf plugin add $name https://github.com/${repository}
 		else
 			echo "    ${name} installed, skip"
 		fi
