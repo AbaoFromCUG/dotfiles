@@ -44,6 +44,18 @@ download() {
 	fi
 }
 
+link() {
+    source=$(realpath "$1")
+    target=$(eval echo "$2")
+    if [ -e "${target}" ] && [ ! -L "${target}" ]; then
+        echo "File ${target} exists and not a symbolic link of ${source}, failed exists"
+        exit 1
+    fi
+    if [ ! -L ${target} ] || [ ! "$(readlink ${target})"="${target}" ]; then
+        ln -s $source $target
+    fi
+}
+
 setup_pyenv() {
 	yay_packages+=(
 		openssl
@@ -71,8 +83,6 @@ setup_pyenv() {
 	if [ ! -d ~/.pyenv ]; then
 		echo "installing pyenv..."
 		git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-	else
-		echo "pyenv installed, skip"
 	fi
 
 	pyenv_plugin() {
@@ -81,8 +91,6 @@ setup_pyenv() {
 		if [ ! -d ~/.pyenv/plugins/${name} ]; then
 			echo "installing ${name}..."
 			git clone https://github.com/${git_user}/${name} ~/.pyenv/plugins/${name}
-		else
-			echo "    ${name} installed, skip"
 		fi
 	}
 
@@ -99,8 +107,6 @@ setup_asdf() {
 		if [ ! -d ~/.asdf/plugins/${name} ]; then
 			echo "installing ${name}..."
 			asdf plugin add $name https://github.com/${repository}
-		else
-			echo "    ${name} installed, skip"
 		fi
 	}
 	asdf_plugin bun cometkim/asdf-bun
@@ -118,9 +124,8 @@ setup_tmux() {
 		rm -rf ~/.tmux.conf
 		git clone https://github.com/gpakosz/.tmux.git ~/.tmux
 		ln -s -f ~/.tmux/.tmux.conf ~/.tmux.conf
-	else
-		echo "oh-my-tmux installed, skip"
 	fi
+    link "home/tmux.conf.local" "~/.tmux.conf.local"
 }
 
 setup_fzf() {
@@ -131,16 +136,12 @@ setup_fzf() {
 }
 
 setup_yazi() {
-	echo "install yazi plugin"
 	yazi_plugin() {
 		name=$1
 		repository=$2
 		if [ ! -d ~/.config/yazi/plugins/${name} ]; then
 			echo "installing ${name}..."
 			git clone https://github.com/$repository ~/.config/yazi/plugins/$name
-
-		else
-			echo "    ${name} installed, skip"
 		fi
 	}
 	yazi_plugin keyjump.yazi DreamMaoMao/keyjump.yazi
@@ -158,6 +159,7 @@ install_terminal() {
 		zsh
 		openssh
 	)
+    link "config/translate-shell" "~/.config/translate-shell"
 }
 
 install_env() {

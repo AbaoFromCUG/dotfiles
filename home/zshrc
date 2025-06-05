@@ -134,7 +134,8 @@ zi wait lucid for \
  OMZP::git \
  OMZP::asdf \
  OMZP::uv \
- OMZP::docker
+ OMZP::docker \
+ soimort/translate-shell
 
 
 zi depth"1" for \
