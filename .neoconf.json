@@ -1,7 +1,9 @@
 {
   "lua_ls": {
     "addons": [
+      "neoconf.nvim",
       "lazy.nvim",
+      "codecompanion.nvim",
       "lua_ls.nvim"
     ]
   }

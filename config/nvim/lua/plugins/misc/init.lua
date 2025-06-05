@@ -56,11 +56,12 @@ return {
 
     {
         "MeanderingProgrammer/render-markdown.nvim",
-        dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
         ---@module 'render-markdown'
         ---@type render.md.UserConfig
         opts = {},
-        ft = "markdown",
+        ft = { "markdown", "codecompanion" },
     },
     {
         "iamcco/markdown-preview.nvim",
@@ -168,23 +169,61 @@ return {
     },
     { "towolf/vim-helm", lazy = false },
     {
-        "yetone/avante.nvim",
-        event = "InsertEnter",
+        "olimorris/codecompanion.nvim",
         enabled = vim.env.OPENAI_API_BASE,
+        cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionCmd", "CodeCompanionActions" },
         opts = {
-            provider = "openai",
-            openai = {
-                endpoint = vim.env.OPENAI_API_BASE,
-                api_key_name = "OPENAI_API_KEY",
-                -- model = "qwq:latest",
-                model = "gpt-3.5-turbo",
+            language = "Chinese",
+            display = {
+                chat = {
+                    show_settings = true
+
+                }
+
             },
+            strategies = {
+                chat = {
+                    adapter = "llm"
+                },
+                inline = {
+                    adapter = "llm",
+                    keymaps = {
+                        accept_change = {
+                            modes = { n = "gaa" }
+                        },
+                        reject_change = {
+                            modes = { n = "gar" }
+                        },
+                    }
+                }
+            },
+            adapters = {
+                llm = function()
+                    return require("codecompanion.adapters").extend("openai_compatible", {
+                        env = {
+                            api_key = "AI_CODE_KEY",
+                            url = vim.env.AI_CODE_URL,
+                            chat_url = "/chat/completions",
+                            models_endpoint = "/models",
+                        },
+                        schema = {
+                            model = {
+                                default = vim.env.AI_CODE_MODEL, -- define llm model to be used
+                                choices = {
+                                    ["qwen3-235b-a22b"] = { opts = { can_reason = true } }
+                                }
+                            },
+                        },
+                    })
+                end
+            }
         },
-        build = "make",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "MunifTanjim/nui.nvim",
-        },
+        keys = {
+            { "<leader>a",  group = true,                    desc = "ai",               mode = { "v", "n" } },
+            { "<leader>ai", "<cmd>CodeCompanion<cr>",        desc = "inline assistant", mode = { "v", "n" } },
+            { "<leader>ac", "<cmd>CodeCompanionChat<cr>",    desc = "chat assistant",   mode = { "v", "n" } },
+            { "<leader>ap", "<cmd>CodeCompanionActions<cr>", desc = "action palette",   mode = { "v", "n" } },
+        }
     },
     {
         "tpope/vim-dadbod",
@@ -203,5 +242,19 @@ return {
         keys = {
             { "<leader>tss", "<cmd>DBUI<cr>" },
         },
+    },
+    {
+        "nvim-java/nvim-java",
+        cmd = {
+            "JavaBuildBuildWorkspace",
+            "JavaBuildCleanWorkspace",
+            "JavaRunnerRunMain",
+            "JavaRunnerStopMain",
+            "JavaRunnerToggleLogs",
+            "JavaDapConfig"
+
+        },
+        opts = {}
+
     },
 }

@@ -30,15 +30,6 @@ GLIBC_VER=$(ldd --version | head -n 1 | awk '{print $NF}')
 zinit light-mode for zdharma-continuum/zinit-annex-bin-gem-node
 zinit light zdharma-continuum/zinit-annex-binary-symlink
 
-zi for \
-    from'gh-r'  \
-    lbin'!fzf'  \
-    id-as \
-    atclone'fzf --zsh > fzf.zsh' \
-    atpull'%atclone' \
-    src'fzf.zsh' \
-  junegunn/fzf
-
 zi wait lucid for \
     from'gh-r' \
     lbin'!' \
@@ -203,3 +194,4 @@ export FZF_COMPLETION_TRIGGER=','
 
 ### Local config
 [[ ! -f ~/.zshrc.local ]] || source ~/.zshrc.local
+

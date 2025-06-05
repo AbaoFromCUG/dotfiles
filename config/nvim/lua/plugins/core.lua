@@ -26,7 +26,7 @@ return {
         "nvim-lua/plenary.nvim",
         keys = {
             { "<leader>ps", profile_start, desc = "profile start" },
-            { "<leader>pe", profile_end, desc = "profile end" },
+            { "<leader>pe", profile_end,   desc = "profile end" },
         },
     },
     "tami5/sqlite.lua",
@@ -35,40 +35,11 @@ return {
     "AbaoFromCUG/websocket.nvim",
 
     {
-        "williamboman/mason.nvim",
+        "mason-org/mason.nvim",
         opts = {
             -- registries = {
             --     "github:fecet/mason-registry",
             -- },
-        },
-    },
-    {
-        "williamboman/mason-lspconfig.nvim",
-        dependencies = "mason.nvim",
-        opts = {
-            ensure_installed = {
-                "lua_ls",
-                -- "pyright",
-                "vimls",
-                "bashls",
-                "clangd",
-                "jsonls",
-                "yamlls",
-                "html",
-                "cssls",
-                "volar",
-                "texlab",
-                "marksman",
-                "taplo",
-                "ruff",
-                "tailwindcss",
-                "eslint",
-                "tinymist",
-                "vtsls",
-                "helm_ls",
-                -- "pylance",
-            },
-            automatic_installation = false,
         },
     },
     {
@@ -178,28 +149,31 @@ return {
                     keys = {
                         i_esc = { "<esc>", { "cmp_close", "cancel" }, mode = "i", expr = true },
                     },
+                    b = {
+                        completion = true
+                    }
                 },
             },
         },
         keys = {
 
-            { "<leader>b", function() Snacks.explorer() end, desc = "explorer" },
-            { "<leader>fp", function() Snacks.picker() end, desc = "find find" },
+            { "<leader>b",  function() Snacks.explorer() end,                                       desc = "explorer" },
+            { "<leader>fp", function() Snacks.picker() end,                                         desc = "find find" },
             { "<leader>ff", function() Snacks.picker.files({ ignored = false, hidden = true }) end, desc = "find files" },
-            { "<leader>fh", function() Snacks.picker.recent() end, desc = "find history" },
-            { "<leader>fw", function() Snacks.picker.grep({ regex = false }) end, desc = "find word" },
+            { "<leader>fh", function() Snacks.picker.recent() end,                                  desc = "find history" },
+            { "<leader>fw", function() Snacks.picker.grep({ regex = false }) end,                   desc = "find word" },
             -- git
-            { "<leader>gB", function() Snacks.gitbrowse() end, desc = "git browse" },
-            { "<leader>gl", function() Snacks.lazygit.log() end, desc = "lazygit log" },
+            { "<leader>gB", function() Snacks.gitbrowse() end,                                      desc = "git browse" },
+            { "<leader>gl", function() Snacks.lazygit.log() end,                                    desc = "lazygit log" },
 
-            { "<leader>nm", function() Snacks.notifier.hide() end, desc = "dismiss all notifications" },
-            { "<leader>nl", function() Snacks.notifier.show_history() end, desc = "show all notifications" },
+            { "<leader>nm", function() Snacks.notifier.hide() end,                                  desc = "dismiss all notifications" },
+            { "<leader>nl", function() Snacks.notifier.show_history() end,                          desc = "show all notifications" },
 
-            { ";x", function() Snacks.bufdelete() end, desc = "close current buffer" },
-            { "<leader>vq", function() Snacks.bufdelete.delete()() end, desc = "close current buffer" },
-            { "<leader>vo", function() Snacks.bufdelete.other() end, desc = "close others buffer" },
+            { ";x",         function() Snacks.bufdelete() end,                                      desc = "close current buffer" },
+            { "<leader>vq", function() Snacks.bufdelete.delete()() end,                             desc = "close current buffer" },
+            { "<leader>vo", function() Snacks.bufdelete.other() end,                                desc = "close others buffer" },
 
-            { "<leader>zz", function() Snacks.zen.zen() end, mode = { "n", "i", "v" }, desc = "zen mode" },
+            { "<leader>zz", function() Snacks.zen.zen() end,                                        mode = { "n", "i", "v" },          desc = "zen mode" },
         },
         init = function()
             vim.api.nvim_create_autocmd("User", {

@@ -5,21 +5,6 @@ local vue_plugin_path = tostring(vls_path / "node_modules/@vue/language-server")
 return {
     cmd = { "vtsls", "--stdio" },
 
-    filetypes = {
-        "javascript",
-        "javascriptreact",
-        "javascript.jsx",
-        "typescript",
-        "typescriptreact",
-        "typescript.tsx",
-    },
-    root_markers = {
-        "tsconfig.json",
-        "package.json",
-        "jsconfig.json",
-        ".git",
-    },
-
     settings = {
         vtsls = {
             tsserver = {

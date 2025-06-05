@@ -12,7 +12,6 @@ local neoconfSchema = {
 }
 
 schemas = vim.list_extend({ neoconfSchema }, schemas)
--- table.insert(schemas, neoconfSchema)
 
 return {
     cmd = { "vscode-json-language-server", "--stdio" },

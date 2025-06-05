@@ -1,7 +1,8 @@
 [
     {
         "layer": "top",
-        "margin": "5 10 0 10",
+        "margin": "2 5 2 5",
+        "height": 30,
         "output": [
             "eDP-1",
             "DP-1",

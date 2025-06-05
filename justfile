@@ -68,6 +68,7 @@ config-nvim: config-rust (link "config/nvim" "~/.config/nvim" )
 config-zsh: (install "zsh") \
             (install "git") \
             (link "home/zshrc" "~/.zshrc") \
+            (link "home/zprofile" "~/.zprofile") \
             (link "home/zshenv" "~/.zshenv") \
             (link "home/p10k.zsh" "~/.p10k.zsh")
     #!/usr/bin/env -S zsh --interactive
@@ -154,6 +155,10 @@ config-hypr: \
     hyprpm update
     # hyprpm add https://github.com/levnikmyskin/hyprland-virtual-desktops
     # hyprpm enable virtual-desktops
+
+config-wayfire: \
+    (link "config/wayfire.ini" "~/.config/wayfire.ini")
+
 
 config-dev: \
     config-zsh \

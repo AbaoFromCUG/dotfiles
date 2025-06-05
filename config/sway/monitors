@@ -1,0 +1,22 @@
+
+# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
+output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+
+
+output eDP-1 {
+    mode 3072x1920@60Hz
+    pos 4000 1900
+    scale 2.0
+}
+output DP-3 {
+    mode 2560x1440
+    pos 0 693
+    scale 1.0
+    transform 270
+
+}
+output DP-1 {
+    mode 5120x2880
+    pos 1440 1420
+    scale 2.0
+}

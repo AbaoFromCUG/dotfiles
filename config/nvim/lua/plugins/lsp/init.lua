@@ -85,7 +85,6 @@ local function blink()
                 "lsp",
                 "buffer",
                 "path",
-                "avante",
                 "snippets",
             },
             per_filetype = {
@@ -97,6 +96,7 @@ local function blink()
                     "neopyter",
                 },
                 sql = { "snippets", "dadbod", "buffer" },
+                codecompanion = { "codecompanion" },
             },
 
             providers = {
@@ -110,13 +110,6 @@ local function blink()
                     ---@type neopyter.CompleterOption
                     opts = {},
                 },
-                avante = {
-                    module = "blink-cmp-avante",
-                    name = "Avante",
-                    opts = {
-                        -- options for blink-cmp-avante
-                    },
-                },
             },
         },
     })
@@ -125,23 +118,52 @@ end
 
 ---@type LazySpec[]
 return {
+    "neovim/nvim-lspconfig",
     {
-        "neovim/nvim-lspconfig",
-        config = require("plugins.lsp.lspconfig"),
+        "mason-org/mason-lspconfig.nvim",
         dependencies = {
-            "neoconf.nvim",
+            "mason.nvim",
+            "nvim-lspconfig",
         },
         event = "LazyFile",
+        opts = {
+            ensure_installed = {
+                "lua_ls",
+                "pyright",
+                "vimls",
+                "bashls",
+                "clangd",
+                "jsonls",
+                "yamlls",
+                "html",
+                "cssls",
+                "vue_ls",
+                "texlab",
+                "marksman",
+                "taplo",
+                "ruff",
+                "tailwindcss",
+                "eslint",
+                "tinymist",
+                "vtsls",
+                "helm_ls",
+            },
+            automatic_enable = {
+                exclude = {
+                    "lua_ls",
+                    "jdtls",
+                }
+            },
+        },
     },
 
     -- completion engine
     {
         "saghen/blink.cmp",
         event = "VeryLazy",
-        version = "v1.1.1",
+        version = "v1.3.1",
         dependencies = {
             "rafamadriz/friendly-snippets",
-            "Kaiser-Yang/blink-cmp-avante",
         },
         config = blink,
     },
@@ -171,7 +193,7 @@ return {
             null_ls.setup({
                 sources = {
                     -- null_ls.builtins.formatting.stylua,
-                    null_ls.builtins.formatting.shfmt,
+                    null_ls.builtins.formatting.shfmt.with({ filetypes = { "sh", "bash", "zsh", "shell" } }),
 
                     null_ls.builtins.diagnostics.markdownlint,
                     null_ls.builtins.diagnostics.qmllint,
@@ -194,16 +216,18 @@ return {
         dev = true,
         ---@type lua_ls.Config
         opts = {},
-
         ft = "lua",
     },
     {
         "nvimdev/lspsaga.nvim",
-        opts = {
-            symbol_in_winbar = {
+        opts =
+        {
+            symbol_in_winbar =
+            {
                 enable = false,
             },
-            lightbulb = {
+            lightbulb =
+            {
                 sign = false,
             },
         },
