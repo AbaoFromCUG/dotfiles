@@ -122,6 +122,9 @@ zi wait lucid for \
  OMZL::completion.zsh \
  OMZL::git.zsh \
  OMZL::grep.zsh \
+ OMZP::zoxide \
+
+zi wait"2" lucid for \
  OMZP::python \
  OMZP::pip \
  OMZP::pyenv \
@@ -130,7 +133,6 @@ zi wait lucid for \
  OMZP::eza \
  OMZP::command-not-found \
  OMZP::bun \
- OMZP::zoxide \
  OMZP::git \
  OMZP::asdf \
  OMZP::uv \

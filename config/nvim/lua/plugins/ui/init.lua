@@ -151,18 +151,6 @@ return {
         event = "VeryLazy",
     },
     {
-        "eero-lehtinen/oklch-color-picker.nvim",
-        opts = {},
-        event = "LazyFile",
-        keys = {
-            {
-                "<leader>fc",
-                function() require("oklch-color-picker").pick_under_cursor() end,
-                desc = "Color pick under cursor",
-            },
-        },
-    },
-    {
         "akinsho/bufferline.nvim",
         config = bufferline,
         event = "VeryLazy",
