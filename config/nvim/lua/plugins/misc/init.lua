@@ -164,8 +164,20 @@ return {
         "uga-rosa/translate.nvim",
         cmd = "Translate",
         keys = {
-            { "<leader>tt", "<Cmd>Translate zh-CN<CR>", mode = { "n", "x" }, desc = "translate" },
+            { "<leader>tt", "<Cmd>Translate ZH<CR>", mode = { "n", "x" }, desc = "translate" },
         },
+        opts = {
+            default = {
+                command = "translate_shell"
+            },
+            preset = {
+                output = {
+                    split = {
+                        append = true,
+                    },
+                },
+            },
+        }
     },
     { "towolf/vim-helm", lazy = false },
     {

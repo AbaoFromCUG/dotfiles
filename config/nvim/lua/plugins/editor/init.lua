@@ -121,11 +121,6 @@ local function session()
             end
         end
     end)
-    require("session").register_hook("post_restore", "restore_breakpoints", function()
-        local persistent_bp = require("persistent-breakpoints.api")
-        persistent_bp.load_breakpoints()
-        require("dap.ext.vscode").load_launchjs(nil, { cppdbg = { "c", "cpp" } })
-    end)
 end
 
 local function comment()

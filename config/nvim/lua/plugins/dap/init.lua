@@ -1,11 +1,3 @@
-local function smart_run()
-    local dap = require("dap")
-    if dap.session() then
-        dap.continue()
-    else
-        dap.run_last()
-    end
-end
 
 local function overseer()
     ---@diagnostic disable-next-line: missing-fields
@@ -70,7 +62,6 @@ return {
         config = require("plugins.dap.dapui"),
     },
     { "theHamsta/nvim-dap-virtual-text", config = true },
-    { "Weissle/persistent-breakpoints.nvim", config = true },
     {
         "stevearc/overseer.nvim",
         config = overseer,

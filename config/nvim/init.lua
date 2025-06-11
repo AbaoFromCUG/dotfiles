@@ -39,7 +39,13 @@ vim.o.foldcolumn = "1"
 vim.o.foldlevel = 99
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
-vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+vim.opt.fillchars = {
+    eob = " ",
+    fold = " ",
+    foldopen = "",
+    foldsep = " ",
+    foldclose = ""
+}
 
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0

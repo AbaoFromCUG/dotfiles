@@ -136,16 +136,14 @@ zi wait"2" lucid for \
  OMZP::git \
  OMZP::asdf \
  OMZP::uv \
- OMZP::docker \
- soimort/translate-shell
+ OMZP::docker
 
 
 zi depth"1" for \
   jeffreytse/zsh-vi-mode \
   romkatv/powerlevel10k \
   zsh-users/zsh-syntax-highlighting \
-  zsh-users/zsh-autosuggestions \
-  soimort/translate-shell
+  zsh-users/zsh-autosuggestions
 
 zi for \
     atload"zicompinit; zicdreplay" \
