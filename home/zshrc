@@ -12,11 +12,6 @@ if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
     command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
         print -P "%F{33} %F{34}Installation successful.%f%b" || \
         print -P "%F{160} The clone has failed.%f%b"
-
-    # temporary solution
-    mkdir -p "$ZSH_CACHE_DIR/completions"
-    (( ${fpath[(Ie)"$ZSH_CACHE_DIR/completions"]} )) || fpath=("$ZSH_CACHE_DIR/completions" $fpath)
-
 fi
 
 source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
@@ -29,86 +24,6 @@ GLIBC_VER=$(ldd --version | head -n 1 | awk '{print $NF}')
 
 zinit light-mode for zdharma-continuum/zinit-annex-bin-gem-node
 zinit light zdharma-continuum/zinit-annex-binary-symlink
-
-zi wait lucid for \
-    from'gh-r' \
-    lbin'!' \
-    id-as \
-    null \
-  @sharkdp/bat
-
-zi wait lucid for \
-    from'gh-r' \
-    lbin'!' \
-    id-as \
-    null \
-  @sharkdp/fd
-
-zi wait lucid for \
-    from'gh-r' \
-    sbin'**/rg -> rg' \
-  BurntSushi/ripgrep
-
-zi wait lucid for \
-    from'gh-r' \
-    sbin'lazygit' \
-  jesseduffield/lazygit
-
-if [ "$(printf '2.35\n%s\n' "$GLIBC_VER" | sort -V | head -n 1)" != "2.35" ]; then
-    zi wait lucid for \
-        from'gh-r' \
-        sbin'**/nvim-** -> nvim' \
-      neovim/neovim-releases
-else
-    zi wait lucid for \
-        from'gh-r' \
-        sbin'**/nvim-** -> nvim' \
-      neovim/neovim
-fi
-
-
-zi wait lucid for \
-    configure \
-    make \
-    sbin'tmux' \
-    ver'3.5a' \
-  @tmux/tmux
-
-zi wait lucid for \
-    from'gh-r' \
-    sbin'* -> jq' \
-    nocompile \
-  @jqlang/jq
-
-zi wait lucid for \
-    from'gh-r' \
-    sbin'eza' \
-    nocompile \
-  @eza-community/eza
-
-zi wait lucid for \
-    from'gh-r' \
-    sbin'asdf' \
-    nocompile \
-  @asdf-vm/asdf
-
-zi wait lucid for \
-    from'gh-r' \
-    sbin'uv;uvx' \
-    nocompile \
-  @astral-sh/uv
-
-zi wait lucid for \
-    from'gh-r' \
-    sbin'yazi;ya' \
-    nocompile \
-  @sxyazi/yazi
-
-zi wait lucid for \
-    from'gh-r' \
-    sbin'zoxide' \
-    nocompile \
-  @ajeetdsouza/zoxide
 
 ### End of programs
 
@@ -127,14 +42,13 @@ zi wait lucid for \
 zi wait"2" lucid for \
  OMZP::python \
  OMZP::pip \
- OMZP::pyenv \
  OMZP::kubectl \
  OMZP::docker \
  OMZP::eza \
  OMZP::command-not-found \
  OMZP::bun \
  OMZP::git \
- OMZP::asdf \
+ OMZP::mise \
  OMZP::uv \
  OMZP::docker
 
@@ -160,7 +74,8 @@ zi wait"2" lucid for \
 ### End of plugins
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ ! -f ~/.config/shell/p10k.mise.zsh ]] || source ~/.config/shell/p10k.mise.zsh
+[[ ! -f ~/.config/shell/p10k.zsh ]] || source ~/.config/shell/p10k.zsh
 
 
 

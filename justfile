@@ -1,12 +1,17 @@
 #!/usr/bin/env just --justfile
 
 
-install package:
-    #!/usr/bin/env -S zsh --interactive
+yay-update:
+    yay -Syu --noconfirm
+
+install package: yay-update
+    #!/usr/bin/env -S zsh
     # set -euo pipefail
-    if ! (( $+commands[yay] )) && ! yay -Qi "{{package}}" >/dev/null 2>&1; then
-        yay -S --noconfirm {{package}}
-        echo install {{package}}
+    if (( $+commands[yay] )); then
+        if  ! yay -Qi "{{package}}" >/dev/null 2>&1; then
+            yay -S --noconfirm {{package}}
+            echo install {{package}}
+        fi
     fi
 
 install-yay:
@@ -33,6 +38,7 @@ link $source $target:
         exit 1
     fi
     if [ ! -L ${target} ] || [ ! "$(readlink ${target})"="${target}" ]; then
+        mkdir -p $(dirname ${target})
         ln -s $source $target
     fi
 
@@ -56,13 +62,13 @@ config package $config="": (install package)
         ln -s $source $target
     fi
 
-config-nvim: config-rust (link "config/nvim" "~/.config/nvim" )
+config-nvim: config-rust (install "neovim") (link "config/nvim" "~/.config/nvim" )
     #!/usr/bin/env -S zsh --interactive
     set -euo pipefail
     nvim --headless -c "Lazy! install" \
         --headless -c "Lazy! load all" \
         --headless -c "TSUpdateSync" \
-        -c 'lua print(string.format("Install %s plugins", require("lazy").stats().count))' \
+        -c 'lua print(string.format("Install %s neovim plugins \n", require("lazy").stats().count))' \
         -c "quit"
     
 config-zsh: (install "zsh") \
@@ -70,12 +76,11 @@ config-zsh: (install "zsh") \
             (link "home/zshrc" "~/.zshrc") \
             (link "home/zprofile" "~/.zprofile") \
             (link "home/zshenv" "~/.zshenv") \
-            (link "home/p10k.zsh" "~/.p10k.zsh")
+            (link "config/shell" "~/.config/shell")
     #!/usr/bin/env -S zsh --interactive
-    echo "Completed"
-    zinit update
+    echo "zsh setup..."
 
-config-tmux: (install "git") && (link "home/tmux.conf.local" "~/.tmux.conf.local")
+config-tmux: (install "git") (install "tmux") (link "home/tmux.conf.local" "~/.tmux.conf.local")
     #!/usr/bin/env -S zsh --interactive
     if [ ! -d ~/.tmux ] || [ ! -L ~/.tmux.conf ]; then
         rm -rf ~/.tmux
@@ -84,10 +89,10 @@ config-tmux: (install "git") && (link "home/tmux.conf.local" "~/.tmux.conf.local
     fi
 
 
-config-pyenv: (install "git") config-zsh
+config-pyenv: (install "git") (install "pyenv") config-zsh
     #!/usr/bin/env -S zsh --interactive
     set -euo pipefail
-    if  command -v pyenv &>/dev/null; then echo "pyenv is exists, ignore"; exit 0; fi
+    if  command -v pyenv &>/dev/null; then exit 0; fi
 
     pyenv_plugin() {
         name=$1
@@ -95,8 +100,6 @@ config-pyenv: (install "git") config-zsh
         if [ ! -d ~/.pyenv/plugins/${name} ]; then
             echo "installing ${name}..."
             git clone https://github.com/${git_user}/${name} ~/.pyenv/plugins/${name}
-        else
-            echo "    ${name} installed, skip"
         fi
     }
 
@@ -107,29 +110,44 @@ config-pyenv: (install "git") config-zsh
     pyenv_plugin pyenv-pyright alefpereira
     pyenv install --skip-existing 3.10 3.11 3.12
 
-config-python: config-pyenv config-zsh (config "pip") (config "uv")
-    #!/usr/bin/env -S zsh --interactive
+config-python: config-pyenv config-zsh (link "config/pip" "~/.config/pip") (config "uv")
+    #!/usr/bin/env -S zsh
 
-config-rust: (install "rustup")
-    rustup default stable
+    if ! pyenv versions | grep -q '3.10'; then
+        pyenv install 3.10
+    fi
+    if ! pyenv versions | grep -q '3.11'; then
+        pyenv install 3.11
+    fi
+    if ! pyenv versions | grep -q '3.12'; then
+        pyenv install 3.12
+    fi
 
-config-asdf: (install "git")
-    #!/usr/bin/env zsh
-    asdf_plugin() {
-        name=$1
-        repository=$2
-        if [ ! -d ~/.asdf/plugins/${name} ]; then
-            echo "installing ${name}..."
-            asdf plugin add $name https://github.com/${repository}
-        else
-            echo "    ${name} installed, skip"
-        fi
-    }
-    asdf_plugin bun cometkim/asdf-bun
-    asdf_plugin nodejs asdf-vm/asdf-nodejs
+config-mise: (install "git") (install "usage") (install "mise") (link "config/mise" "~/.config/mise")
 
-config-node: config-asdf
-    asdf install nodejs lts 
+config-bun: config-mise
+    #!/usr/bin/env -S zsh
+    if ! mise ls bun | grep -q 'latest'; then
+        mise install bun@latest
+    fi
+
+config-rust: config-mise (link "home/cargo/config.toml" "~/.cargo/config.toml")
+    #!/usr/bin/env -S zsh
+    if ! mise ls rust | grep -q 'stable'; then
+        mise install rust@stable
+    fi
+
+config-node: config-mise
+    #!/usr/bin/env -S zsh
+    if ! mise ls node | grep -q '20'; then
+        mise install node@20
+    fi
+    if ! mise ls node | grep -q '22'; then
+        mise install node@22
+    fi
+    if ! mise ls node | grep -q 'latest'; then
+        mise install node@latest
+    fi
 
 
 config-apps: \
@@ -152,7 +170,7 @@ config-hypr: \
     (install "xdg-desktop-portal-hyprland") (install "hyprpolkitagent-git") \
     (config "dunst") (install "conky") \
     (config "wofi") (config "waybar") (install "nwg-displays")
-    hyprpm update
+    # hyprpm update
     # hyprpm add https://github.com/levnikmyskin/hyprland-virtual-desktops
     # hyprpm enable virtual-desktops
 
@@ -163,12 +181,20 @@ config-wayfire: \
 config-dev: \
     config-zsh \
     config-nvim \
-    config-asdf \
+    config-mise \
     config-tmux \
     config-python \
+    config-node \
     config-rust \
     (config "lazygit") \
     (install "wget") \
+    (install "ripgrep") \
+    (install "yazi") \
+    (install "jq") \
+    (install "fd") \
+    (install "bat") \
+    (install "eza") \
+    (install "zoxide") \
     (install "curl") \
     (install "cmake") \
     (install "imagemagick")
@@ -182,16 +208,19 @@ config-desktop: \
     (link "config/chrome-dev-flags.conf" "~/.config/chrome-dev-flags.conf") \
     (link "local/share/applications/file-manager.desktop" "~/.local/share/applications/file-manager.desktop")
 
+
 bootstrap-docker: install-yay config-dev
 bootstrap-docker-full: bootstrap
 
-bootstrap: install-yay config-dev config-hypr config-desktop
+bootstrap: install-yay config-dev
+
+bootstrap-desktop: install-yay config-dev config-hypr config-desktop
 
 podman-build:
     #!/usr/bin/env -S zsh --interactive
-    docker build -t arch .
+    podman build -t arch .
 
 podman-build-full:
     #!/usr/bin/env -S zsh --interactive
-    docker build -t arch-full . --build-arg RECIPE=bootstrap-docker-full
+    podman build -t arch-full . --build-arg RECIPE=bootstrap-docker-full
 

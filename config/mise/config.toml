@@ -1,0 +1,11 @@
+
+[env]
+RUSTUP_DIST_SERVER="https://mirrors.tuna.tsinghua.edu.cn/rustup"
+
+
+[settings]
+idiomatic_version_file_enable_tools = ["python"]
+
+
+node.mirror_url="https://mirrors.ustc.edu.cn/node/"
+npm.bun=true

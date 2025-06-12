@@ -2,11 +2,11 @@ typeset -U PATH
 export PATH="$HOME/.local/bin:$PATH"
 
 ### Version manager
-if [[ -d $HOME/.pyenv ]]; then
-    export PATH="$HOME/.pyenv/bin:$PATH"
-    eval "$(pyenv init -)"
-    # eval "$(pyenv virtualenv-init -)"
-fi
+# if [[ -d $HOME/.pyenv ]]; then
+#     export PATH="$HOME/.pyenv/bin:$PATH"
+#     eval "$(pyenv init -)"
+#     # eval "$(pyenv virtualenv-init -)"
+# fi
 
 
 ### Addition config
