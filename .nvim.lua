@@ -7,6 +7,6 @@ vim.filetype.add({
         ["zshenv"] = "zsh",
     },
     pattern = {
-        [".*/sway/.*"]= "swayconfig"
+        [".*/sway/.*"] = "swayconfig"
     }
 })

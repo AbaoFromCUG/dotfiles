@@ -1,6 +1,8 @@
 {
   "lua_ls": {
     "addons": [
+      "LuaSnip",
+      "snacks.nvim",
       "neoconf.nvim",
       "lazy.nvim",
       "codecompanion.nvim",

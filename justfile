@@ -2,7 +2,7 @@
 
 
 yay-update:
-    yay -Syu --noconfirm
+    yay -Syy --noconfirm
 
 install package: yay-update
     #!/usr/bin/env -S zsh
@@ -92,7 +92,6 @@ config-tmux: (install "git") (install "tmux") (link "home/tmux.conf.local" "~/.t
 config-pyenv: (install "git") (install "pyenv") config-zsh
     #!/usr/bin/env -S zsh --interactive
     set -euo pipefail
-    if  command -v pyenv &>/dev/null; then exit 0; fi
 
     pyenv_plugin() {
         name=$1
@@ -103,7 +102,6 @@ config-pyenv: (install "git") (install "pyenv") config-zsh
         fi
     }
 
-    git clone https://github.com/pyenv/pyenv.git ~/.pyenv
     pyenv_plugin pyenv-virtualenv AbaoFromCUG
     pyenv_plugin pyenv-doctor pyenv
     pyenv_plugin pyenv-update pyenv

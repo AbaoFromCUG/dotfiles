@@ -118,6 +118,7 @@ return {
                             },
                         },
                     },
+                    luasnip = require("plugins.lsp.luasnip")
                 },
             },
 
@@ -175,22 +176,5 @@ return {
 
             { "<leader>zz", function() Snacks.zen.zen() end,                                        mode = { "n", "i", "v" },          desc = "zen mode" },
         },
-        init = function()
-            vim.api.nvim_create_autocmd("User", {
-                pattern = "VeryLazy",
-                callback = function()
-                    -- _G.dd = function(...) Snacks.debug.inspect(...) end
-                    -- _G.bt = function() Snacks.debug.backtrace() end
-                    -- vim.print = _G.dd
-
-                    Snacks.toggle.diagnostics():map("<leader>,d")
-                    Snacks.toggle.line_number():map("<leader>,l")
-                    Snacks.toggle.treesitter():map("<leader>,t")
-                    Snacks.toggle.inlay_hints():map("<leader>,i")
-
-                    Snacks.toggle.dim():map("<leader>uD")
-                end,
-            })
-        end,
     },
 }

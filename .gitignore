@@ -27,3 +27,4 @@ config/quickshell/.qmlls.ini
 .dotter/local.toml
 .repro
 repro.lua
+.aider*

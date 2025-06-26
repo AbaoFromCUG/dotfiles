@@ -63,7 +63,6 @@ local function surround()
     })
 end
 
-local is_inside_work_tree = {}
 
 local function gitsigns()
     local gs = require("gitsigns")
@@ -77,34 +76,34 @@ local function gitsigns()
         },
         on_attach = function(bufnr)
             require("which-key").add({
-                { mode = { "n", "v" }, "g", group = "git" },
+                { mode = { "n", "v" }, "g",                                group = "git" },
                 -- Navigation
-                { "]h", "<cmd>Gitsigns next_hunk<cr>", desc = "next hunk" },
-                { "[h", "<cmd>Gitsigns prev_hunk<cr>", desc = "prev hunk" },
+                { "]h",                "<cmd>Gitsigns next_hunk<cr>",      desc = "next hunk" },
+                { "[h",                "<cmd>Gitsigns prev_hunk<cr>",      desc = "prev hunk" },
 
                 -- Actions
-                { "<leader>gh", desc = "git operation" },
-                { mode = "n", "<leader>ghs", gs.stage_hunk, desc = "stage hunk" },
-                { mode = "v", "<leader>ghs", function() gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, desc = "stage hunk" },
+                { "<leader>gh",        desc = "git operation" },
+                { mode = "n",          "<leader>ghs",                      gs.stage_hunk,                                                             desc = "stage hunk" },
+                { mode = "v",          "<leader>ghs",                      function() gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end,      desc = "stage hunk" },
 
-                { mode = "n", "<leader>ghu", gs.undo_stage_hunk, desc = "unstage hunk" },
-                { mode = "v", "<leader>ghu", function() gs.undo_stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, desc = "unstage hunk" },
+                { mode = "n",          "<leader>ghu",                      gs.undo_stage_hunk,                                                        desc = "unstage hunk" },
+                { mode = "v",          "<leader>ghu",                      function() gs.undo_stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, desc = "unstage hunk" },
 
-                { mode = "n", "<leader>ghr", gs.reset_hunk, desc = "reset hunk" },
-                { mode = "v", "<leader>ghr", function() gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, desc = "reset hunk" },
+                { mode = "n",          "<leader>ghr",                      gs.reset_hunk,                                                             desc = "reset hunk" },
+                { mode = "v",          "<leader>ghr",                      function() gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") }) end,      desc = "reset hunk" },
 
-                { mode = "n", "<leader>ghS", gs.stage_buffer, desc = "stage buffer" },
-                { mode = "n", "<leader>ghR", gs.reset_buffer, desc = "reset buffer" },
+                { mode = "n",          "<leader>ghS",                      gs.stage_buffer,                                                           desc = "stage buffer" },
+                { mode = "n",          "<leader>ghR",                      gs.reset_buffer,                                                           desc = "reset buffer" },
 
                 -- view
-                { "<leader>gtb", "<cmd>Gitsigns blame<CR>", desc = "toggle blame" },
-                { "<leader>gtt", "<cmd>Gitsigns diffthis<CR>", desc = "diff this" },
-                { "<leader>gtD", "<cmd>Gitsigns diffthis ~<CR>", desc = "diff last commit" },
-                { "<leader>gtd", "<cmd>Gitsigns toggle_deleted<CR>", desc = "reset hunk" },
+                { "<leader>gtb",       "<cmd>Gitsigns blame<CR>",          desc = "toggle blame" },
+                { "<leader>gtt",       "<cmd>Gitsigns diffthis<CR>",       desc = "diff this" },
+                { "<leader>gtD",       "<cmd>Gitsigns diffthis ~<CR>",     desc = "diff last commit" },
+                { "<leader>gtd",       "<cmd>Gitsigns toggle_deleted<CR>", desc = "reset hunk" },
 
                 -- Text object
-                { "ih", ":<C-U>Gitsigns select_hunk<CR>", desc = "reset hunk", mode = "o" },
-                { "ih", ":<C-U>Gitsigns select_hunk<CR>", desc = "reset hunk", mode = "x" },
+                { "ih",                ":<C-U>Gitsigns select_hunk<CR>",   desc = "reset hunk",                                                       mode = "o" },
+                { "ih",                ":<C-U>Gitsigns select_hunk<CR>",   desc = "reset hunk",                                                       mode = "x" },
                 buffer = bufnr,
             })
         end,
@@ -130,19 +129,139 @@ local function comment()
     })
 end
 
+local languages = {
+    "jsdoc",
+    "markdown_inline",
+    "wgsl",
+    "regex",
+    "comment",
+    "gitcommit",
+    "python",
+    "typescript",
+    "tsx",
+    "javascript",
+    "jsx",
+    "vue",
+    "yaml",
+    "json",
+    "html",
+    "xml",
+    "toml",
+
+}
+
 ---@type LazySpec[]
 return {
-    -- tree-sitter highlight
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
         config = require("plugins.editor.treesitter"),
         dependencies = {
-            { "metiulekm/nvim-treesitter-endwise" },
-            { "nvim-treesitter/nvim-treesitter-textobjects" },
+            -- { "metiulekm/nvim-treesitter-endwise" },
         },
-        event = "LazyFile",
+        branch = "main",
+        lazy = false
     },
+
+    {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        branch = "main",
+        opts = {
+            select = {
+                enable = true,
+                lookahead = true,
+                selection_modes = {
+                    ["@parameter.outer"] = "v", -- charwise
+                    ["@function.outer"] = "V", -- linewise
+                    ["@class.outer"] = "<c-v>", -- blockwise
+                },
+            },
+            move = {
+                enable = true,
+                set_jumps = true,
+            },
+
+            include_surrounding_whitespace = true,
+        },
+        keys = vim.iter(vim.iter({
+            select = {
+                ["af"] = { query = "@function.outer", desc = "function outer" },
+                ["if"] = { query = "@function.inner", desc = "function innner" },
+                ["ac"] = { query = "@class.outer", desc = "class outer" },
+                ["ic"] = { query = "@class.inner", desc = "class inner" },
+
+                ["aj"] = { query = "@cell", desc = "cell outer" },
+                ["ij"] = { query = "@cellcontent", desc = "cell inner" },
+
+                ["as"] = { query = "@local.scope", desc = "locals" },
+            },
+            move = {
+                goto_next_start = {
+                    ["]f"] = { query = "@function.outer", desc = "function start" },
+                    ["]c"] = { query = "@class.outer", desc = "class start" },
+                    ["]z"] = { query = "@fold", query_group = "folds", desc = "fold" },
+                    ["]j"] = { query = "@cellseparator", desc = "cell separator" },
+                },
+                goto_previous_start = {
+                    ["[f"] = { query = "@function.outer", desc = "function start" },
+                    ["[c"] = { query = "@class.outer", desc = "class start" },
+                    ["[z"] = { query = "@fold", query_group = "folds", desc = "fold" },
+                    ["[j"] = { query = "@cellseparator", desc = "cell separator" },
+                },
+            },
+        }):map(function(feat, v)
+            if feat == "select" then
+                return vim.iter(v):map(function(key, opts)
+                    return {
+                        key,
+                        function()
+                            require("nvim-treesitter-textobjects.select").select_textobject(opts.query, "textobjects")
+                        end,
+                        desc = opts.desc,
+                        mode = { "x", "o" }
+                    }
+                end):totable()
+            end
+            if feat == "move" then
+                local bb = vim.iter(pairs(v)):map(function(func, maps)
+                    return vim.iter(maps):map(function(key, opts)
+                        return {
+                            key,
+                            function()
+                                require("nvim-treesitter-textobjects.move")[func](opts.query, "textobjects")
+                            end,
+                            desc = opts.desc,
+                            mode = { "n", "x", "o" }
+                        }
+                    end):totable()
+                end):totable()
+                return vim.iter(bb):flatten():totable()
+            end
+            return {}
+        end):totable()):flatten():totable()
+    },
+    {
+        "MeanderingProgrammer/treesitter-modules.nvim",
+        dependencies = { "nvim-treesitter/nvim-treesitter" },
+        opts = {
+            ensure_installed = languages,
+            fold = { enable = true },
+            highlight = { enable = true },
+            indent = { enable = true },
+
+            incremental_selection = {
+                enable = true,
+                keymaps = {
+                    init_selection = "gnn",
+                    node_incremental = "grn",
+                    scope_incremental = "grc",
+                    node_decremental = "grm",
+                },
+            },
+        },
+        event = "VeryLazy"
+    },
+
     {
         "windwp/nvim-ts-autotag",
         opts = { opts = { enable_close_on_slash = true } },
@@ -161,7 +280,7 @@ return {
         end,
     },
     {
-        "nvim-treesitter/nvim-treesitter-context",
+        "nvim-treesitter-context",
         opts = { max_lines = 1 },
         dependencies = {
             "nvim-treesitter",
@@ -185,7 +304,7 @@ return {
             provider_selector = function() return { "treesitter", "indent" } end,
         },
         keys = {
-            { "zR", function() require("ufo").openAllFolds() end, desc = "Open all folds" },
+            { "zR", function() require("ufo").openAllFolds() end,  desc = "Open all folds" },
             { "zM", function() require("ufo").closeAllFolds() end, desc = "Close all folds" },
         },
     },
@@ -194,8 +313,8 @@ return {
         "kylechui/nvim-surround",
         event = "LazyFile",
         dependencies = {
-            "nvim-treesitter/nvim-treesitter",
-            "nvim-treesitter/nvim-treesitter-textobjects",
+            "nvim-treesitter",
+            "nvim-treesitter-textobjects",
         },
         config = surround,
     },
@@ -205,10 +324,10 @@ return {
         opts = { snippet_engine = "nvim" },
         cmd = "Neogen",
         keys = {
-            { "<space>cn", "<cmd>Neogen<cr>", desc = "neogen" },
-            { "<space>cf", "<cmd>Neogen func<cr>", desc = "neogen function" },
+            { "<space>cn", "<cmd>Neogen<cr>",       desc = "neogen" },
+            { "<space>cf", "<cmd>Neogen func<cr>",  desc = "neogen function" },
             { "<space>cc", "<cmd>Neogen class<cr>", desc = "neogen class" },
-            { "<space>ct", "<cmd>Neogen type<cr>", desc = "neogen type" },
+            { "<space>ct", "<cmd>Neogen type<cr>",  desc = "neogen type" },
         },
     },
 
@@ -250,7 +369,13 @@ return {
     {
         "folke/flash.nvim",
         ---@type Flash.Config
-        opts = {},
+        opts = {
+            modes = {
+                search = {
+                    enabled = true
+                }
+            }
+        },
         keys = {
             {
                 "s",
@@ -259,7 +384,7 @@ return {
                 desc = "Flash",
             },
             {
-                "F",
+                "S",
                 mode = { "n", "x", "o" },
                 function() require("flash").treesitter() end,
                 desc = "Flash Treesitter",
@@ -283,6 +408,7 @@ return {
                 desc = "Toggle Flash Search",
             },
         },
+        event = "VeryLazy"
     },
 
     -- session & project
@@ -303,9 +429,9 @@ return {
         config = true,
         cmd = "Spectre",
         keys = {
-            { mode = "n", "<leader>ss", '<cmd>lua require("spectre").toggle()<cr>', desc = "toggle spectre" },
-            { mode = "n", "<leader>sw", '<cmd>lua require("spectre").open_visual({select_word=true})<cr>', desc = "search current word" },
-            { mode = "v", "<leader>sw", '<esc><cmd>lua require("spectre").open_visual()<cr>', desc = "search current word" },
+            { mode = "n", "<leader>ss", '<cmd>lua require("spectre").toggle()<cr>',                             desc = "toggle spectre" },
+            { mode = "n", "<leader>sw", '<cmd>lua require("spectre").open_visual({select_word=true})<cr>',      desc = "search current word" },
+            { mode = "v", "<leader>sw", '<esc><cmd>lua require("spectre").open_visual()<cr>',                   desc = "search current word" },
             { mode = "n", "<leader>sp", '<cmd>lua require("spectre").open_file_search({select_word=true})<cr>', desc = "search on current file" },
         },
     },
@@ -327,6 +453,7 @@ return {
     },
     {
         "nvimdev/template.nvim",
+        cmd = "Template"
     },
     {
         "jake-stewart/multicursor.nvim",

@@ -1,9 +1,10 @@
 local function blink()
     local source_map = {
         Snippets = "Snip",
-        LSP = "LSP",
+        LSP = "Lsp",
         Buffer = "Buf",
         Path = "Path",
+        Cmdline = "Cmd",
     }
 
     ---@type blink.cmp.DrawComponent
@@ -17,42 +18,18 @@ local function blink()
     ---@diagnostic disable: missing-fields
     require("blink-cmp").setup({
         keymap = {
-            ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
-            ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
-            ["<Down>"] = { "select_next", "snippet_forward", "fallback" },
-            ["<Up>"] = { "select_prev", "snippet_backward", "fallback" },
-            ["<CR>"] = { "accept", "fallback" },
+            preset = "enter",
+            ["<C-y>"] = { "select_and_accept" },
         },
-        cmdline = {
-            enabled = true,
 
-            completion = {
-
-                list = {
-                    selection = {
-                        preselect = false,
-                    },
-                },
-                menu = {
-                    auto_show = true,
-                },
-            },
-            keymap = {
-                ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
-                ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
-                ["<Up>"] = { "fallback" },
-                ["<Down>"] = { "fallback" },
-                ["<CR>"] = { "accept", "fallback" },
-            },
-        },
         completion = {
             list = {
                 selection = {
                     preselect = false,
+                    auto_insert = false
                 },
             },
             menu = {
-                auto_show = true,
                 draw = {
                     padding = { 1, 1 },
                     columns = { { "label" }, { "kind_icon", "kind", gap = 1 }, { "label_description" }, { "source" } },
@@ -63,21 +40,18 @@ local function blink()
                 },
             },
 
-            -- experimental auto-brackets support
-            accept = { auto_brackets = { enabled = false } },
+            -- accept = { auto_brackets = { enabled = false } },
 
             documentation = {
                 auto_show = true,
             },
             ghost_text = {
                 enabled = true,
+                auto_show = true,
             },
         },
         signature = {
-            enabled = false,
-        },
-        appearance = {
-            -- use_nvim_cmp_as_default = true,
+            enabled = true,
         },
         snippets = { preset = "luasnip" },
         sources = {
@@ -88,17 +62,11 @@ local function blink()
                 "snippets",
             },
             per_filetype = {
-                python = {
-                    "lsp",
-                    "buffer",
-                    "path",
-                    "snippets",
-                    "neopyter",
-                },
-                sql = { "snippets", "dadbod", "buffer" },
-                codecompanion = { "codecompanion" },
+                python = { inherit_defaults = true, "neopyter" },
+                sql = { inherit_defaults = true, "dadbod" },
+                codecompanion = { "buffer", "codecompanion" },
+                snacks_input = { "path" }
             },
-
             providers = {
                 dadbod = {
                     name = "Dadbod",
@@ -110,6 +78,24 @@ local function blink()
                     ---@type neopyter.CompleterOption
                     opts = {},
                 },
+            },
+        },
+        cmdline = {
+            enabled = true,
+
+            completion = {
+                list = { selection = { preselect = false } },
+                menu = { auto_show = true }
+            },
+            keymap = {
+                preset = "none",
+                ["<Tab>"] = { "select_next", "fallback" },
+                ["<S-Tab>"] = { "select_prev", "fallback" },
+                ["<Up>"] = { "fallback" },
+                ["<Down>"] = { "fallback" },
+                ["<CR>"] = { "accept", "fallback" },
+                ["<left>"] = { "fallback" },
+                ["<right>"] = { "fallback" },
             },
         },
     })
@@ -125,7 +111,7 @@ return {
             "mason.nvim",
             "nvim-lspconfig",
         },
-        event = "LazyFile",
+        event = "VeryLazy",
         opts = {
             ensure_installed = {
                 "lua_ls",
@@ -161,24 +147,28 @@ return {
     {
         "saghen/blink.cmp",
         event = "VeryLazy",
-        version = "v1.3.1",
-        dependencies = {
-            "rafamadriz/friendly-snippets",
-        },
+        version = "v1.4.1",
         config = blink,
     },
 
     {
         "L3MON4D3/LuaSnip",
+        dependencies = {
+            "rafamadriz/friendly-snippets",
+        },
         config = function()
             require("luasnip").filetype_extend("helm", { "yaml" })
             require("luasnip.loaders.from_vscode").lazy_load()
+            require("luasnip").setup()
         end,
+        build = "make install_jsregexp",
+        cmd = "LuaSnipListAvailable",
+        event = "LazyFile"
     },
     {
         "jmbuhr/otter.nvim",
         dependencies = {
-            "nvim-treesitter/nvim-treesitter",
+            "nvim-treesitter",
         },
         opts = {
             lsp = {

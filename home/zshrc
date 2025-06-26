@@ -96,7 +96,7 @@ function passwordgen() {
 }
 
 
-alias pip="uv pip"
+# alias pip="uv pip"
 alias vim=nvim
 alias ocat="$(which cat)"
 
