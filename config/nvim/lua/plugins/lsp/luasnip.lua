@@ -60,4 +60,10 @@ return {
             ctx.preview:highlight({ ft = ft })
         end
     end,
+    confirm = function(picker, item, action)
+        picker:close()
+        ---@type LuaSnip.Snippet
+        local snip = item.snip
+        require("luasnip").snip_expand(snip)
+    end
 }
