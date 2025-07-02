@@ -172,7 +172,7 @@ return {
                 lookahead = true,
                 selection_modes = {
                     ["@parameter.outer"] = "v", -- charwise
-                    ["@function.outer"] = "V", -- linewise
+                    ["@function.outer"] = "V",  -- linewise
                     ["@class.outer"] = "<c-v>", -- blockwise
                 },
             },
@@ -200,13 +200,13 @@ return {
                     ["]f"] = { query = "@function.outer", desc = "function start" },
                     ["]c"] = { query = "@class.outer", desc = "class start" },
                     ["]z"] = { query = "@fold", query_group = "folds", desc = "fold" },
-                    ["]j"] = { query = "@cellseparator", desc = "cell separator" },
+                    ["]j"] = { query = { "@cellseparator.code", "@cellseparator.markdown", "@cellseparator.raw" }, desc = "cell separator" },
                 },
                 goto_previous_start = {
                     ["[f"] = { query = "@function.outer", desc = "function start" },
                     ["[c"] = { query = "@class.outer", desc = "class start" },
                     ["[z"] = { query = "@fold", query_group = "folds", desc = "fold" },
-                    ["[j"] = { query = "@cellseparator", desc = "cell separator" },
+                    ["[j"] = { query = { "@cellseparator.code", "@cellseparator.markdown", "@cellseparator.raw" }, desc = "cell separator" },
                 },
             },
         }):map(function(feat, v)
@@ -267,10 +267,8 @@ return {
         opts = { opts = { enable_close_on_slash = true } },
         event = "LazyFile",
     },
-
     {
         "monkoose/matchparen.nvim",
-        event = "VeryLazy",
         opts = {
             -- config
         },
@@ -278,6 +276,7 @@ return {
             -- `matchparen.vim` needs to be disabled manually in case of lazy loading
             vim.g.loaded_matchparen = 1
         end,
+        event = "LazyFile",
     },
     {
         "nvim-treesitter-context",

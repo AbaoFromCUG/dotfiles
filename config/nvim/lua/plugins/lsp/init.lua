@@ -47,7 +47,6 @@ local function blink()
             },
             ghost_text = {
                 enabled = true,
-                auto_show = true,
             },
         },
         signature = {
