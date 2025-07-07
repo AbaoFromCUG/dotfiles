@@ -80,7 +80,7 @@ local function lualine()
         end
         return ""
     end
-    require("lualine").setup({
+    return {
         options = {
             icons_enabled = true,
             icon_only = true,
@@ -97,20 +97,20 @@ local function lualine()
                 symbol_component,
                 "diff",
                 -- {
-                --     symbols.get,
-                --     cond = symbols.has,
-                -- },
+                    --     symbols.get,
+                    --     cond = symbols.has,
+                    -- },
+                },
+                lualine_c = {
+                    -- "launcher",
+                    -- "overseer",
+                },
+                lualine_x = { "diagnostics" },
+                lualine_y = { "encoding", "fileformat", "filetype" },
+                lualine_z = { "progress", "location" },
             },
-            lualine_c = {
-                -- "launcher",
-                -- "overseer",
-            },
-            lualine_x = { "diagnostics" },
-            lualine_y = { "encoding", "fileformat", "filetype" },
-            lualine_z = { "progress", "location" },
-        },
-        extensions = {},
-    })
+            extensions = {},
+        }
 end
 
 ---@type LazySpec[]
@@ -169,7 +169,7 @@ return {
     -- status line
     {
         "hoob3rt/lualine.nvim",
-        config = lualine,
+        opts = lualine,
         event = "VeryLazy",
     },
 
@@ -229,21 +229,6 @@ return {
             window = {
                 open = "smart",
             },
-        },
-    },
-    {
-        "folke/trouble.nvim",
-        opts = {
-            -- auto_preview = false,
-            symbols = {
-                win = {
-                    position = "right",
-                },
-            },
-        },
-        keys = {
-            -- { "gO", "<cmd>Trouble symbols toggle focus=true win.position=right<cr>", desc = "Symbols (Trouble)" },
-            { "gO", "<cmd>Trouble symbols toggle focus=true win.position=right<cr>", desc = "Symbols (Trouble)" },
         },
     },
     {

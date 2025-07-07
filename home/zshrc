@@ -95,6 +95,12 @@ function passwordgen() {
     echo $(LC_ALL=C tr -dc 'A-Za-z0-9!"#$%&'\''()*+,-./:;<=>?@[\]^_`{|}~' </dev/urandom | head -c 13; echo)
 }
 
+function sshr() {
+    eval $(fzf --zsh)
+    host=$(__fzf_list_hosts|fzf)
+    ssh -t $host zsh --login -c "tmux attach || tmux new -s work"
+}
+
 
 # alias pip="uv pip"
 alias vim=nvim

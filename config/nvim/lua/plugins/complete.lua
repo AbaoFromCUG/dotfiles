@@ -5,6 +5,7 @@ local function blink()
         Buffer = "Buf",
         Path = "Path",
         Cmdline = "Cmd",
+        Neopyter = "Jupy",
     }
 
     ---@type blink.cmp.DrawComponent
@@ -16,13 +17,15 @@ local function blink()
     }
 
     ---@diagnostic disable: missing-fields
-    require("blink-cmp").setup({
+    return {
         keymap = {
             preset = "enter",
             ["<C-y>"] = { "select_and_accept" },
+            ["<A-space>"] = { "show", "show_documentation", "hide_documentation" },
         },
 
         completion = {
+            trigger = {},
             list = {
                 selection = {
                     preselect = false,
@@ -52,7 +55,6 @@ local function blink()
         signature = {
             enabled = true,
         },
-        snippets = { preset = "luasnip" },
         sources = {
             default = {
                 "lsp",
@@ -97,7 +99,7 @@ local function blink()
                 ["<right>"] = { "fallback" },
             },
         },
-    })
+    }
     ---@diagnostic enable: missing-fields
 end
 
@@ -147,22 +149,7 @@ return {
         "saghen/blink.cmp",
         event = "VeryLazy",
         version = "v1.4.1",
-        config = blink,
-    },
-
-    {
-        "L3MON4D3/LuaSnip",
-        dependencies = {
-            "rafamadriz/friendly-snippets",
-        },
-        config = function()
-            require("luasnip").filetype_extend("helm", { "yaml" })
-            require("luasnip.loaders.from_vscode").lazy_load()
-            require("luasnip").setup()
-        end,
-        build = "make install_jsregexp",
-        cmd = "LuaSnipListAvailable",
-        event = "LazyFile"
+        opts = blink,
     },
     {
         "jmbuhr/otter.nvim",
@@ -202,7 +189,7 @@ return {
     { "b0o/schemastore.nvim" },
     {
         "AbaoFromCUG/lua_ls.nvim",
-        dev = true,
+        -- dev = true,
         ---@type lua_ls.Config
         opts = {},
         ft = "lua",

@@ -1,25 +1,3 @@
-local function cmake()
-    require("cmake-tools").setup({
-        cmake_command = "cmake", -- this is used to specify cmake command path
-        ctest_command = "ctest", -- this
-        cmake_build_directory = function() return "build/${variant:buildType}" end,
-        cmake_executor = {
-            name = "overseer",
-
-            opts = {
-                new_task_opts = {
-                    strategy = {
-                        "toggleterm",
-                        direction = "horizontal",
-                        autos_croll = true,
-                        quit_on_exit = "never",
-                    },
-                },
-            },
-        },
-    })
-end
-
 local function toggle_venn()
     local venn_enabled = vim.inspect(vim.b.venn_enabled)
     if venn_enabled == "nil" then
@@ -45,7 +23,25 @@ end
 return {
     {
         "Civitasv/cmake-tools.nvim",
-        config = cmake,
+        opts = {
+            cmake_command = "cmake", -- this is used to specify cmake command path
+            ctest_command = "ctest", -- this
+            cmake_build_directory = function() return "build/${variant:buildType}" end,
+            cmake_executor = {
+                name = "overseer",
+
+                opts = {
+                    new_task_opts = {
+                        strategy = {
+                            "toggleterm",
+                            direction = "horizontal",
+                            autos_croll = true,
+                            quit_on_exit = "never",
+                        },
+                    },
+                },
+            },
+        },
         cmd = { "CMakeGenerate", "CMakeBuild", "CMakeRun", "CMakeSettings", "CMakeTargetSettings" },
         keys = {
             { "<leader>,c", "<cmd>CMakeSettings<cr>", desc = "cmake settings" },
@@ -78,7 +74,6 @@ return {
         "SUSTech-data/neopyter",
         ---@type neopyter.Option
         opts = {
-            remote_address = "127.0.0.1:9001",
             auto_attach = true,
             on_attach = function(buf)
                 require("which-key").add({
@@ -98,11 +93,11 @@ return {
             },
             highlight = {
                 enable = true,
-                mode = "zen",
+                mode = "separator",
             },
             textobject = {
                 enable = true,
-                queries = { "linemagic", "cellseparator", "cellcontent", "cell" },
+                queries = { "cellseparator", "cellcontent", "cell" },
             },
             parser = {
                 trim_whitespace = true,
@@ -181,63 +176,7 @@ return {
         }
     },
     { "towolf/vim-helm", lazy = false },
-    {
-        "olimorris/codecompanion.nvim",
-        enabled = vim.env.OPENAI_API_BASE,
-        cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionCmd", "CodeCompanionActions" },
-        opts = {
-            language = "Chinese",
-            display = {
-                chat = {
-                    show_settings = true
 
-                }
-
-            },
-            strategies = {
-                chat = {
-                    adapter = "llm"
-                },
-                inline = {
-                    adapter = "llm",
-                    keymaps = {
-                        accept_change = {
-                            modes = { n = "gaa" }
-                        },
-                        reject_change = {
-                            modes = { n = "gar" }
-                        },
-                    }
-                }
-            },
-            adapters = {
-                llm = function()
-                    return require("codecompanion.adapters").extend("openai_compatible", {
-                        env = {
-                            api_key = "AI_CODE_KEY",
-                            url = vim.env.AI_CODE_URL,
-                            chat_url = "/chat/completions",
-                            models_endpoint = "/models",
-                        },
-                        schema = {
-                            model = {
-                                default = vim.env.AI_CODE_MODEL, -- define llm model to be used
-                                choices = {
-                                    ["qwen3-235b-a22b"] = { opts = { can_reason = true } }
-                                }
-                            },
-                        },
-                    })
-                end
-            }
-        },
-        keys = {
-            { "<leader>a",  group = true,                    desc = "ai",               mode = { "v", "n" } },
-            { "<leader>ai", "<cmd>CodeCompanion<cr>",        desc = "inline assistant", mode = { "v", "n" } },
-            { "<leader>ac", "<cmd>CodeCompanionChat<cr>",    desc = "chat assistant",   mode = { "v", "n" } },
-            { "<leader>ap", "<cmd>CodeCompanionActions<cr>", desc = "action palette",   mode = { "v", "n" } },
-        }
-    },
     {
         "tpope/vim-dadbod",
         dependencies = {

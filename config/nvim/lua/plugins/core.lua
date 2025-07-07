@@ -43,20 +43,6 @@ return {
         },
     },
     {
-        "jay-babu/mason-nvim-dap.nvim",
-        dependencies = "mason.nvim",
-        opts = {
-            ensure_installed = {
-                "cppdbg",
-                "python",
-                -- "node2",
-                "codelldb",
-                "js",
-            },
-            automatic_installation = true,
-        },
-    },
-    {
         "jay-babu/mason-null-ls.nvim",
         event = { "VeryLazy" },
         dependencies = {
@@ -77,87 +63,87 @@ return {
         priority = 1000,
         lazy = false,
         ---@type snacks.Config
-        opts = {
-            bigfile = {
-                size = 5 * 1024 * 1024,
-            },
-            explorer = {},
-            image = {
-                enabled = true,
-            },
-            indent = { enabled = true },
-            input = {
-                enabled = true,
-            },
-            picker = {
-                ui_select = true,
-                formatters = {
-                    file = {
-
-                        -- filename_only = true,
-                        truncate = 60,
-                    },
+        opts = function()
+            return {
+                bigfile = {
+                    size = 5 * 1024 * 1024,
                 },
-                sources = {
-                    explorer = {
-                        actions = require("plugins.ui.filetree"),
-                        win = {
-                            input = {
-                                keys = {
-                                    ["<Esc>"] = { "focus_list", mode = { "i", "n" } },
+                explorer = {},
+                image = {
+                    enabled = true,
+                },
+                indent = { enabled = true },
+                input = {
+                    enabled = true,
+                },
+                picker = {
+                    ui_select = true,
+                    formatters = {
+                        file = {
+
+                            -- filename_only = true,
+                            truncate = 60,
+                        },
+                    },
+                    sources = {
+                        explorer = {
+                            actions = require("filetree"),
+                            win = {
+                                input = {
+                                    keys = {
+                                        ["<Esc>"] = { "focus_list", mode = { "i", "n" } },
+                                    },
                                 },
-                            },
-                            list = {
-                                keys = {
-                                    ["<Esc>"] = "",
-                                    ["/"] = "",
-                                    ["<leader>ff"] = "explorer_find_file",
-                                    ["<leader>fw"] = "explorer_grep",
-                                    ["<leader>ss"] = "explorer_search_and_replace",
+                                list = {
+                                    keys = {
+                                        ["<Esc>"] = "",
+                                        ["/"] = "",
+                                        ["<leader>ff"] = "explorer_find_file",
+                                        ["<leader>fw"] = "explorer_grep",
+                                        ["<leader>ss"] = "explorer_search_and_replace",
+                                    },
                                 },
                             },
                         },
                     },
-                    luasnip = require("plugins.lsp.luasnip")
                 },
-            },
 
-            notifier = {
-                -- style = "fancy",
-            },
-            scroll = { enabled = true },
-            statuscolumn = {
-                left = { "sign", "git" },
-                right = { "fold" },
-                -- right = { "mark" },
-                folds = {
-                    open = true,
-                    git_hl = true,
+                notifier = {
+                    -- style = "fancy",
                 },
-                git = {
-                    -- patterns to match Git signs
-                    patterns = { "GitSign", "MiniDiffSign" },
-                },
-                refresh = 50, -- refresh at most every 50ms
-            },
-            styles = {
-                notification = { focusable = false },
-
-                input = {
-                    relative = "cursor",
-                    row = -3,
-                    col = 0,
-                    keys = {
-                        i_esc = { "<esc>", { "cmp_close", "cancel" }, mode = "i", expr = true },
+                scroll = { enabled = true },
+                statuscolumn = {
+                    left = { "sign", "git" },
+                    right = { "fold" },
+                    -- right = { "mark" },
+                    folds = {
+                        open = true,
+                        git_hl = true,
                     },
-                    b = {
-                        completion = true
-                    }
+                    git = {
+                        -- patterns to match Git signs
+                        patterns = { "GitSign", "MiniDiffSign" },
+                    },
+                    refresh = 50, -- refresh at most every 50ms
                 },
-            },
-        },
-        keys = {
+                styles = {
+                    notification = { focusable = false },
 
+                    input = {
+                        relative = "cursor",
+                        row = -3,
+                        col = 0,
+                        keys = {
+                            i_esc = { "<esc>", { "cmp_close", "cancel" }, mode = "i", expr = true },
+                        },
+                        b = {
+                            completion = true
+                        }
+                    },
+                },
+            }
+        end,
+        keys = {
             { "<leader>b",  function() Snacks.explorer() end,                                       desc = "explorer" },
             { "<leader>fp", function() Snacks.picker() end,                                         desc = "find find" },
             { "<leader>ff", function() Snacks.picker.files({ ignored = false, hidden = true }) end, desc = "find files" },
@@ -177,4 +163,5 @@ return {
             { "<leader>zz", function() Snacks.zen.zen() end,                                        mode = { "n", "i", "v" },          desc = "zen mode" },
         },
     },
+
 }

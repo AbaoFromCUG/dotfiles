@@ -3,6 +3,7 @@
     "addons": [
       "LuaSnip",
       "snacks.nvim",
+      "neopyter",
       "neoconf.nvim",
       "lazy.nvim",
       "codecompanion.nvim",

@@ -147,20 +147,27 @@ local languages = {
     "html",
     "xml",
     "toml",
-
 }
+
+-- do
+
+
 
 ---@type LazySpec[]
 return {
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
-        config = require("plugins.editor.treesitter"),
-        dependencies = {
-            -- { "metiulekm/nvim-treesitter-endwise" },
+        opts = {
+            install_dir = vim.fn.stdpath("data") .. "/ts-parsers",
         },
         branch = "main",
         lazy = false
+    },
+    {
+        "metiulekm/nvim-treesitter-endwise",
+        event = "LazyFile",
+        dev = true
     },
 
     {
@@ -438,8 +445,19 @@ return {
         "ThePrimeagen/refactoring.nvim",
         opts = {},
         keys = {
-            { "<space>cr", "<cmd>lua require('refactoring').select_refactor()<cr>", desc = "refactor" },
+
+
+            { "<space>crr",  function() require("refactoring").select_refactor() end, desc = "refactor",         mode = { "n", "x" } },
+            { "<space>cre",  "<cmd>Refactor extract<cr>",                             desc = "extract",          mode = { "n", "x" } },
+            { "<space>crf",  "<cmd>Refactor extract_to_file<cr>",                     desc = "extract to file",  mode = { "n", "x" } },
+            { "<space>crv",  "<cmd>Refactor extract_var<cr>",                         desc = "extract variable", mode = { "n", "x" } },
+            { "<space>crV",  "<cmd>Refactor inline_var<cr>",                          desc = "inline variable",  mode = { "n", "x" } },
+            { "<space>crf",  "<cmd>Refactor extract_func<cr>",                        desc = "extract function", mode = { "n", "x" } },
+            { "<space>crF",  "<cmd>Refactor inline_func<cr>",                         desc = "line function",    mode = { "n", "x" } },
+            { "<space>crbb", "<cmd>Refactor extract_block<cr>",                       desc = "extract",          mode = { "n", "x" } },
+            { "<space>crbf", "<cmd>Refactor extract_block_to_file<cr>",               desc = "extract",          mode = { "n", "x" } },
         },
+        cmd = "Refactor"
     },
     {
         "smjonas/live-command.nvim",

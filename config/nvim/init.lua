@@ -87,7 +87,22 @@ local Event = require("lazy.core.handler.event")
 local lazy_file_events = { "BufReadPost", "BufNewFile", "BufWritePre" }
 Event.mappings.LazyFile = { id = "LazyFile", event = lazy_file_events }
 Event.mappings["User LazyFile"] = Event.mappings.LazyFile
-local opts = {
+
+
+require("lazy").setup({
+    spec = {
+        { import = "plugins.core" },
+        { import = "plugins.ui", },
+        { import = "plugins.editor", },
+        { import = "plugins.misc", },
+        { import = "plugins.complete", },
+        { import = "plugins.diagnostic", },
+        { import = "plugins.dap", },
+        { import = "plugins.test", },
+        { import = "plugins.ai",       enabled = not not vim.env.AI_CODE_KEY },
+        { import = "plugins.luasnip" },
+    },
+
     rocks = {
         hererocks = true,
     },
@@ -98,8 +113,8 @@ local opts = {
     defaults = {
         lazy = true,
     },
-}
 
-require("lazy").setup("plugins", opts)
+})
+
 
 vim.cmd([[colorscheme nightfox]])
