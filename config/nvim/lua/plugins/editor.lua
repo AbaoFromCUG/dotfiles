@@ -149,10 +149,6 @@ local languages = {
     "toml",
 }
 
--- do
-
-
-
 ---@type LazySpec[]
 return {
     {
@@ -165,11 +161,10 @@ return {
         lazy = false
     },
     {
-        "metiulekm/nvim-treesitter-endwise",
+        "AbaoFromCUG/nvim-treesitter-endwise",
+        branch = "main",
         event = "LazyFile",
-        dev = true
     },
-
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
         branch = "main",
@@ -344,12 +339,6 @@ return {
         event = "LazyFile",
     },
     { "JoosepAlviste/nvim-ts-context-commentstring" },
-    {
-        "folke/todo-comments.nvim",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        config = true,
-        event = "VeryLazy",
-    },
     -- git
     {
         "lewis6991/gitsigns.nvim",

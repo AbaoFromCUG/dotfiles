@@ -1,3 +1,4 @@
+---@type vim.lsp.Config
 return {
     capabilities = {
         textDocument = {
@@ -5,5 +6,5 @@ return {
                 dynamicRegistration = true,
             },
         },
-    }
+    },
 }

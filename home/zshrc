@@ -28,18 +28,22 @@ zinit light zdharma-continuum/zinit-annex-binary-symlink
 ### End of programs
 
 ### Start of plugins
-zi for \
+zinit for \
  OMZL::key-bindings.zsh \
  OMZL::history.zsh
 
-zi wait lucid for \
+zinit wait lucid for \
  OMZL::clipboard.zsh \
  OMZL::completion.zsh \
  OMZL::git.zsh \
  OMZL::grep.zsh \
- OMZP::zoxide \
 
-zi wait"2" lucid for \
+
+zinit wait lucid atload'unalias zi' for\
+ OMZP::zoxide
+
+
+zinit wait"2" lucid for \
  OMZP::python \
  OMZP::pip \
  OMZP::kubectl \
@@ -53,13 +57,13 @@ zi wait"2" lucid for \
  OMZP::docker
 
 
-zi depth"1" for \
+zinit depth"1" for \
   jeffreytse/zsh-vi-mode \
   romkatv/powerlevel10k \
   zsh-users/zsh-syntax-highlighting \
   zsh-users/zsh-autosuggestions
 
-zi for \
+zinit for \
     atload"zicompinit; zicdreplay" \
     blockf \
     lucid \
@@ -68,7 +72,7 @@ zi for \
 
 
 # For postponing loading `fzf`
-zi wait"2" lucid for \
+zinit wait"2" lucid for \
     OMZP::fzf
 
 ### End of plugins
