@@ -58,7 +58,7 @@ return {
         ---@module 'render-markdown'
         ---@type render.md.UserConfig
         opts = {},
-        ft = { "markdown", "codecompanion" },
+        ft = { "markdown" },
     },
     {
         "iamcco/markdown-preview.nvim",
@@ -80,6 +80,7 @@ return {
                     { "<space>nt", "<cmd>Neopyter execute kernelmenu:restart<cr>",       desc = "restart kernel" },
                     { "<C-CR>",    "<cmd>Neopyter execute notebook:run-cell<cr>",        desc = "run selected" },
                     { "<space>nr", "<cmd>Neopyter execute notebook:run-cell<cr>",        desc = "run selected" },
+                    { "<space>nR", "<cmd>Neopyter run all<cr>",                          desc = "run all" },
                     { "<F5>",      "<cmd>Neopyter execute notebook:restart-run-all<cr>", desc = "restart kernel and run all" },
 
                     buffer = buf,

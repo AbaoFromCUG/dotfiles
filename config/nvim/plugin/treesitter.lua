@@ -25,7 +25,6 @@ vim.filetype.add({
 vim.treesitter.language.register("qmljs", "qml")
 vim.treesitter.language.register("bash", "kitty")
 vim.treesitter.language.register("bash", "zsh")
--- vim.treesitter.language.register("typescript", { "typescriptreact", "tsx" })
-
+vim.treesitter.language.register("json", "jsonl")
 
 vim.api.nvim_set_hl(0, "@attribute_ref_value.vue", { link = "@variable" })

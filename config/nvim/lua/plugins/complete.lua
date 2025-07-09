@@ -65,7 +65,6 @@ local function blink()
             per_filetype = {
                 python = { inherit_defaults = true, "neopyter" },
                 sql = { inherit_defaults = true, "dadbod" },
-                codecompanion = { "buffer", "codecompanion" },
                 snacks_input = { "path" }
             },
             providers = {

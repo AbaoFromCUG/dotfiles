@@ -1,3 +1,30 @@
+local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
+
+local group = vim.api.nvim_create_augroup("CodeCompanionProgress", { clear = true })
+vim.api.nvim_create_autocmd({ "User" }, {
+    pattern = { "CodeCompanionRequestStarted", "CodeCompanionRequestStreaming", "CodeCompanionRequestFinished" },
+    group = group,
+    callback = function(request)
+        local msg = request.match:gsub("CodeCompanionRequest", "")
+        vim.notify(msg .. "...", vim.log.levels.INFO, {
+            id = request.data.id,
+            title = "Code Companion",
+            opts = function(notif)
+                notif.icon = ""
+                if msg == "Finished" then
+                    notif.icon = " "
+                else
+                    notif.icon = spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
+                end
+            end,
+
+            keep = function()
+                return msg ~= "Finished"
+            end,
+        })
+    end,
+})
+
 ---@type LazySpec[]
 return {
     {
@@ -47,6 +74,39 @@ return {
                         },
                     })
                 end
+            },
+            extensions = {
+                editor = {
+                    enabled = true,
+                    opts = {},
+                    callback = {
+                        setup = function(ext_config)
+                            -- Add a new action to chat keymaps
+                            local open_editor = {
+                                modes = {
+                                    n = "ge", -- Keymap to open editor
+                                },
+                                description = "Open Editor",
+                                callback = function(chat)
+                                    -- Implementation of editor opening logic
+                                    -- You have access to the chat buffer via the chat parameter
+                                    vim.notify("Editor opened for chat " .. chat.id)
+                                end,
+                            }
+
+                            -- Add the action to chat keymaps config
+                            local chat_keymaps = require("codecompanion.config").strategies.chat.keymaps
+                            chat_keymaps.open_editor = open_editor
+                        end,
+
+                        -- Optional: Expose functions
+                        exports = {
+                            is_editor_open = function()
+                                return false -- Implementation
+                            end
+                        }
+                    }
+                }
             }
         },
         keys = {
@@ -87,7 +147,6 @@ return {
             })
         end,
     },
-
     {
         "saghen/blink.cmp",
         opts = function(_, opts)
@@ -107,7 +166,15 @@ return {
             end }
             -- vim.tbl_set
             opts.completion.trigger.prefetch_on_insert = false
+            opts.sources.per_filetype.codecompanion = { "buffer", "codecompanion" }
         end,
-    }
+    },
+    {
+        "MeanderingProgrammer/render-markdown.nvim",
+        ft = function(_, ft)
+            table.insert(ft, "codecompanion")
+            return ft
+        end
+    },
 
 }

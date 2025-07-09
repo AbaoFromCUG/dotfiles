@@ -79,6 +79,7 @@ if not vim.uv.fs_stat(lazypath) then
     })
 end
 
+
 vim.opt.rtp:prepend(lazypath)
 
 -- Add support for the LazyFile event
@@ -99,7 +100,7 @@ require("lazy").setup({
         { import = "plugins.diagnostic", },
         { import = "plugins.dap", },
         { import = "plugins.test", },
-        { import = "plugins.ai",       enabled = not not vim.env.AI_CODE_KEY },
+        { import = "plugins.ai",         enabled = not not vim.env.AI_CODE_KEY },
         { import = "plugins.luasnip" },
     },
 
