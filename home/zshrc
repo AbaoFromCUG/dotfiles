@@ -20,7 +20,6 @@ autoload -Uz _zinit
 ### End of Zinit's installer chunk
 
 ### Start of programs
-GLIBC_VER=$(ldd --version | head -n 1 | awk '{print $NF}')
 
 zinit light-mode for zdharma-continuum/zinit-annex-bin-gem-node
 zinit light zdharma-continuum/zinit-annex-binary-symlink

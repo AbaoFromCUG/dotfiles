@@ -281,7 +281,7 @@ return {
         event = "LazyFile",
     },
     {
-        "nvim-treesitter-context",
+        "nvim-treesitter/nvim-treesitter-context",
         opts = { max_lines = 1 },
         dependencies = {
             "nvim-treesitter",

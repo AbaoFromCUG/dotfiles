@@ -13,4 +13,5 @@ npm.bun=true
 [tools]
 bun = "latest"
 node = "22"
+pnpm = "latest"
 rust = "stable"

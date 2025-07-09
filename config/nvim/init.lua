@@ -56,15 +56,6 @@ vim.g.loaded_python3_provider = 0
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
-local uname = vim.uv.os_uname()
-if uname.release:find("WSL") then -- WSL
-    vim.system({ "/mnt/c/Windows/system32/cmd.exe", "/c", "echo", "%path%" }, { text = true }, function(obj)
-        local paths = string.gsub(obj.stdout, "C:", "/mnt/c")
-        paths = paths:gsub("\\", "/")
-        paths = paths:gsub(";", ":")
-        vim.schedule(function() vim.env.PATH = vim.env.PATH .. ":" .. paths end)
-    end)
-end
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 

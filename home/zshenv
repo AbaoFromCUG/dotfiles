@@ -1,10 +1,17 @@
 typeset -U PATH
 export PATH="$HOME/.local/bin:$PATH"
+export EDITOR=nvim
 
-### Version manager
+if uname | grep -qi Darwin; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+## Version manager
 if (( $+commands[pyenv] )); then
     eval "$(pyenv init -)"
     # eval "$(pyenv virtualenv-init -)"
+else
+    echo "can't find pyenv"
 fi
 
 
@@ -27,6 +34,9 @@ PATH="$PATH:$HOME/.bun/bin"
 export bwBindPar=$HOME/Downloads/
 export NLTK_DATA=$HOME/Documents/nltk_data
 export NVM_NODEJS_ORG_MIRROR=https://mirrors.ustc.edu.cn/node/
+
+export HF_ENDPOINT=https://hf-mirror.com
+export LANG="en_US.UTF-8"
 
 ### Local config
 [[ ! -f ~/.zshenv.local ]] || source ~/.zshenv.local

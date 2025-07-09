@@ -2,14 +2,21 @@
 
 
 yay-update:
-    yay -Syy --noconfirm
+    #!/usr/bin/env -S zsh
+    # yay -Syy --noconfirm
 
 install package: yay-update
     #!/usr/bin/env -S zsh
     # set -euo pipefail
     if (( $+commands[yay] )); then
-        if  ! yay -Qi "{{package}}" >/dev/null 2>&1; then
+        if  ! yay -Qi "{{package}}" >/dev/null 3>&1; then
             yay -S --noconfirm {{package}}
+            echo install {{package}}
+        fi
+    elif (( $+commands[brew] )); then
+        # echo "check {{package}}"
+        if  ! brew ls --version "{{package}}" >/dev/null 3>&1; then
+            brew install {{package}}
             echo install {{package}}
         fi
     fi
@@ -73,6 +80,7 @@ config-nvim: config-rust (install "neovim") (link "config/nvim" "~/.config/nvim"
     
 config-zsh: (install "zsh") \
             (install "git") \
+            (install "git-lfs") \
             (link "home/zshrc" "~/.zshrc") \
             (link "home/zprofile" "~/.zprofile") \
             (link "home/zshenv" "~/.zshenv") \
@@ -146,6 +154,9 @@ config-node: config-mise
     if ! mise ls node | grep -q 'latest'; then
         mise install node@latest
     fi
+    if ! mise ls pnpm | grep -q 'pnpm'; then
+        mise install pnpm
+    fi
 
 
 config-apps: \
@@ -190,6 +201,7 @@ config-dev: \
     (install "yazi") \
     (install "jq") \
     (install "fd") \
+    (install "fzf") \
     (install "bat") \
     (install "eza") \
     (install "zoxide") \
