@@ -1,118 +1,3 @@
-local function bufferline()
-    local blacklist_filetypes = {
-        "dashboard",
-        "checkhealth",
-        "qf",
-        "httpResult",
-    }
-    local blacklist_filenames = {
-        "%[dap%-terminal%].*",
-    }
-    local Offset = require("bufferline.offset")
-    if not Offset.edgy then
-        local get = Offset.get
-        Offset.get = function()
-            if package.loaded.edgy then
-                local layout = require("edgy.config").layout
-                local ret = { left = "", left_size = 0, right = "", right_size = 0 }
-                for _, pos in ipairs({ "left", "right" }) do
-                    local sb = layout[pos]
-                    if sb and #sb.wins > 0 then
-                        local title = " Sidebar" .. string.rep(" ", sb.bounds.width - 8)
-                        ret[pos] = "%#EdgyTitle#" .. title .. "%*" .. "%#WinSeparator#│%*"
-                        ret[pos .. "_size"] = sb.bounds.width
-                    end
-                end
-                ret.total_size = ret.left_size + ret.right_size
-                if ret.total_size > 0 then
-                    return ret
-                end
-            end
-            return get()
-        end
-        Offset.edgy = true
-    end
-
-    require("bufferline").setup({
-        options = {
-            -- mode="tabs",
-            -- close_command="BufDel %d",
-            separator_style = "slant",
-            custom_filter = function(buf_number, buf_numbers)
-                local filetype = vim.bo[buf_number].filetype
-                for _, value in ipairs(blacklist_filetypes) do
-                    if filetype == value then
-                        return false
-                    end
-                end
-                local name = vim.fn.bufname(buf_number)
-                for _, value in ipairs(blacklist_filenames) do
-                    if string.match(name, value) then
-                        return false
-                    end
-                end
-                return true
-            end,
-        },
-    })
-end
-
-local function lualine()
-    local symbol_component = {
-        function()
-            local bar = require("lspsaga.symbol.winbar").get_bar()
-            if bar then
-                return bar
-            end
-            return ""
-        end,
-        cond = function() return not not package.loaded["lspsaga"] end,
-    }
-    local function is_active()
-        local ok, hydra = pcall(require, "hydra.statusline")
-        return ok and hydra.is_active()
-    end
-
-    local function get_name()
-        local ok, hydra = pcall(require, "hydra.statusline")
-        if ok then
-            return hydra.get_name()
-        end
-        return ""
-    end
-    return {
-        options = {
-            icons_enabled = true,
-            icon_only = true,
-            section_separators = "",
-            component_separators = "",
-        },
-        sections = {
-            lualine_a = {
-                "mode",
-                { get_name, cond = is_active },
-            },
-            lualine_b = {
-                -- "filename",
-                symbol_component,
-                "diff",
-                -- {
-                    --     symbols.get,
-                    --     cond = symbols.has,
-                    -- },
-                },
-                lualine_c = {
-                    -- "launcher",
-                    -- "overseer",
-                },
-                lualine_x = { "diagnostics" },
-                lualine_y = { "encoding", "fileformat", "filetype" },
-                lualine_z = { "progress", "location" },
-            },
-            extensions = {},
-        }
-end
-
 ---@type LazySpec[]
 return {
     {
@@ -152,12 +37,40 @@ return {
     },
     {
         "akinsho/bufferline.nvim",
-        config = bufferline,
         event = "VeryLazy",
         keys = {
             { "<S-l>", "<cmd>BufferLineCycleNext<cr>", desc = "focus right tab" },
             { "<S-h>", "<cmd>BufferLineCyclePrev<cr>", desc = "focus left tab" },
         },
+        opts = {
+            options = {
+                -- mode="tabs",
+                -- close_command="BufDel %d",
+                separator_style = "slant",
+                custom_filter = function(buf_number, buf_numbers)
+                    local blacklist_filetypes = {
+                        "dashboard",
+                        "checkhealth",
+                        "qf",
+                        "httpResult",
+                    }
+                    local blacklist_filenames = {
+                        "%[dap%-terminal%].*",
+                    }
+                    local filetype = vim.bo[buf_number].filetype
+                    if vim.tbl_contains(blacklist_filetypes, filetype) then
+                        return false
+                    end
+                    -- local name = vim.fn.bufname(buf_number)
+                    -- for _, value in ipairs(blacklist_filenames) do
+                    --     if string.match(name, value) then
+                    --         return false
+                    --     end
+                    -- end
+                    return true
+                end,
+            },
+        }
     },
     -- winbar
     {
@@ -169,8 +82,62 @@ return {
     -- status line
     {
         "hoob3rt/lualine.nvim",
-        opts = lualine,
         event = "VeryLazy",
+        opts = function()
+            local symbol_component = {
+                function()
+                    local bar = require("lspsaga.symbol.winbar").get_bar()
+                    if bar then
+                        return bar
+                    end
+                    return ""
+                end,
+                cond = function() return not not package.loaded["lspsaga"] end,
+            }
+            local function is_active()
+                local ok, hydra = pcall(require, "hydra.statusline")
+                return ok and hydra.is_active()
+            end
+
+            local function get_name()
+                local ok, hydra = pcall(require, "hydra.statusline")
+                if ok then
+                    return hydra.get_name()
+                end
+                return ""
+            end
+            return {
+                options = {
+                    icons_enabled = true,
+                    icon_only = true,
+                    section_separators = "",
+                    component_separators = "",
+                },
+                sections = {
+                    lualine_a = {
+                        "mode",
+                        { get_name, cond = is_active },
+                    },
+                    lualine_b = {
+                        -- "filename",
+                        symbol_component,
+                        "diff",
+                        -- {
+                        --     symbols.get,
+                        --     cond = symbols.has,
+                        -- },
+                    },
+                    lualine_c = {
+                        -- "launcher",
+                        -- "overseer",
+                    },
+                    lualine_x = { "diagnostics" },
+                    lualine_y = { "encoding", "fileformat", "filetype" },
+                    lualine_z = { "progress", "location" },
+                },
+                extensions = {},
+            }
+        end,
     },
 
     { "cpea2506/relative-toggle.nvim", event = "VeryLazy" },
@@ -201,7 +168,7 @@ return {
     {
         "mikavilpas/tsugit.nvim",
         keys = {
-            { "<leader>gg", function() require("tsugit").toggle() end, silent = true, desc = "toggle lazygit" },
+            { "<leader>gg", function() require("tsugit").toggle() end,          silent = true,                desc = "toggle lazygit" },
             { "<leader>gf", function() require("tsugit").toggle_for_file() end, desc = "lazygit file commits" },
         },
     },
@@ -286,9 +253,9 @@ return {
                         -- exclude floating windows
                         filter = function(buf, win) return vim.api.nvim_win_get_config(win).relative == "" end,
                     },
-                    { ft = "qf", title = "QuickFix" },
+                    { ft = "qf",            title = "QuickFix" },
                     { ft = "spectre_panel", size = { height = 0.4 } },
-                    { ft = "httpResult", size = { height = 0.4 } },
+                    { ft = "httpResult",    size = { height = 0.4 } },
                 },
             }
             for _, pos in ipairs({ "top", "bottom", "left", "right" }) do
@@ -312,4 +279,28 @@ return {
         "RRethy/vim-illuminate",
         event = "VeryLazy",
     },
+    {
+        "nvim-tree/nvim-tree.lua",
+        keys = {
+            { "<leader>b", "<cmd>NvimTreeToggle<cr>", desc = "file explorer" },
+
+        },
+        opts = {
+            sort = {
+                sorter = "case_sensitive",
+            },
+            view = {
+                width = 30,
+            },
+            renderer = {
+                group_empty = true,
+            },
+            filters = {
+                dotfiles = true,
+            },
+            update_focused_file = {
+                enable = true
+            }
+        }
+    }
 }

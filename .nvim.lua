@@ -7,6 +7,10 @@ vim.filetype.add({
         ["zshenv"] = "zsh",
     },
     pattern = {
-        [".*/sway/.*"] = "swayconfig"
+        [".*/sway/.*"] = "swayconfig",
+        [".*/waybar/config"] = "jsonc",
+        [".*/mako/config"] = "dosini",
+        [".*/kitty/.+%.conf"] = "kitty",
+        [".*/hypr/.+%.conf"] = "hyprlang",
     }
 })

@@ -14,10 +14,6 @@ vim.filetype.add({
     },
     pattern = {
         ["**/.vscode/*.json"] = "jsonc",
-        [".*/waybar/config"] = "jsonc",
-        [".*/mako/config"] = "dosini",
-        [".*/kitty/.+%.conf"] = "kitty",
-        [".*/hypr/.+%.conf"] = "hyprlang",
         ["%.env%.[%w_.-]+"] = "sh",
     },
 })

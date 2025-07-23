@@ -101,7 +101,7 @@ function passwordgen() {
 function sshr() {
     eval $(fzf --zsh)
     host=$(__fzf_list_hosts|fzf)
-    ssh -t $host zsh --login -c "tmux attach || tmux new -s work"
+    ssh -t $host zsh --login -c "ulimit -n 50000 && tmux attach || tmux new -s work"
 }
 
 

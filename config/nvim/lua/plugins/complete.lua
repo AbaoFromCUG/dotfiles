@@ -147,7 +147,7 @@ return {
     {
         "saghen/blink.cmp",
         event = "VeryLazy",
-        version = "v1.4.1",
+        version = "v1.5.1",
         opts = blink,
     },
     {

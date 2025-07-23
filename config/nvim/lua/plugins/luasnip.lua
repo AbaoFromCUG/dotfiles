@@ -85,6 +85,7 @@ return {
                     require("luasnip").snip_expand(snip)
                 end
             }
+            opts.picker.sources = opts.picker.sources or {}
             opts.picker.sources.luasnip = action
         end
     },

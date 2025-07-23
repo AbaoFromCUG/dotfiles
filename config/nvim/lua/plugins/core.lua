@@ -68,7 +68,6 @@ return {
                 bigfile = {
                     size = 5 * 1024 * 1024,
                 },
-                explorer = {},
                 image = {
                     enabled = true,
                 },
@@ -85,31 +84,9 @@ return {
                             truncate = 60,
                         },
                     },
-                    sources = {
-                        explorer = {
-                            actions = require("filetree"),
-                            win = {
-                                input = {
-                                    keys = {
-                                        ["<Esc>"] = { "focus_list", mode = { "i", "n" } },
-                                    },
-                                },
-                                list = {
-                                    keys = {
-                                        ["<Esc>"] = "",
-                                        ["/"] = "",
-                                        ["<leader>ff"] = "explorer_find_file",
-                                        ["<leader>fw"] = "explorer_grep",
-                                        ["<leader>ss"] = "explorer_search_and_replace",
-                                    },
-                                },
-                            },
-                        },
-                    },
                 },
 
                 notifier = {
-                    -- style = "fancy",
                 },
                 scroll = { enabled = true },
                 statuscolumn = {
@@ -144,7 +121,6 @@ return {
             }
         end,
         keys = {
-            { "<leader>b",  function() Snacks.explorer() end,                                       desc = "explorer" },
             { "<leader>fp", function() Snacks.picker() end,                                         desc = "find find" },
             { "<leader>ff", function() Snacks.picker.files({ ignored = false, hidden = true }) end, desc = "find files" },
             { "<leader>fh", function() Snacks.picker.recent() end,                                  desc = "find history" },
