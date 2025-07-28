@@ -27,6 +27,11 @@ return {
             cmake_command = "cmake", -- this is used to specify cmake command path
             ctest_command = "ctest", -- this
             cmake_build_directory = function() return "build/${variant:buildType}" end,
+            cmake_dap_configuration = {
+                name = "cpp",
+                type = "cppdbg"
+
+            },
             cmake_executor = {
                 name = "overseer",
 
@@ -42,7 +47,14 @@ return {
                 },
             },
         },
-        cmd = { "CMakeGenerate", "CMakeBuild", "CMakeRun", "CMakeSettings", "CMakeTargetSettings" },
+        cmd = {
+            "CMakeGenerate",
+            "CMakeBuild",
+            "CMakeRun",
+            "CMakeDebug",
+            "CMakeSettings",
+            "CMakeTargetSettings"
+        },
         keys = {
             { "<leader>,c", "<cmd>CMakeSettings<cr>", desc = "cmake settings" },
             { "<space>cg",  "<cmd>CMakeGenerate<cr>", desc = "cmake generate" },
@@ -69,43 +81,6 @@ return {
 
         },
         ft = "markdown",
-    },
-    {
-        "SUSTech-data/neopyter",
-        ---@type neopyter.Option
-        opts = {
-            auto_attach = true,
-            on_attach = function(buf)
-                require("which-key").add({
-                    { "<space>nt", "<cmd>Neopyter execute kernelmenu:restart<cr>",       desc = "restart kernel" },
-                    { "<C-CR>",    "<cmd>Neopyter execute notebook:run-cell<cr>",        desc = "run selected" },
-                    { "<space>nr", "<cmd>Neopyter execute notebook:run-cell<cr>",        desc = "run selected" },
-                    { "<space>nR", "<cmd>Neopyter run all<cr>",                          desc = "run all" },
-                    { "<F5>",      "<cmd>Neopyter execute notebook:restart-run-all<cr>", desc = "restart kernel and run all" },
-
-                    buffer = buf,
-                })
-            end,
-            jupyter = {
-                scroll = {
-                    enable = true,
-                    align = "auto",
-                },
-            },
-            highlight = {
-                enable = true,
-                mode = "separator",
-            },
-            textobject = {
-                enable = true,
-                queries = { "cellseparator", "cellcontent", "cell" },
-            },
-            parser = {
-                trim_whitespace = true,
-            },
-        },
-        ft = { "python" },
-        cmd = "Neopyter",
     },
     {
         "glacambre/firenvim",

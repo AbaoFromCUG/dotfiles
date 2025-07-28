@@ -121,19 +121,33 @@ return {
         enabled = vim.env.AI_CODE_KEY,
         opts = function()
             return {
-                provider = "openai_compatible",
+                -- p
+                provider = "openai_fim_compatible",
                 n_completions = 1,
                 context_window = 1024,
                 provider_options = {
-                    openai_compatible = {
+                    openai_fim_compatible = {
                         api_key = "AI_CODE_KEY",
                         name = "AI",
-                        end_point = vim.env.AI_CODE_URL .. "/chat/completions",
+                        n_completions = 5,
+                        -- v
+                        end_point = vim.env.AI_CODE_URL .. "/completions",
                         model = vim.env.AI_CODE_MODEL,
                         optional = {
                             max_tokens = 256,
                             top_p = 0.9,
                         },
+                        template = {
+                            prompt = function(context_before_cursor, context_after_cursor, _)
+                                return "<|fim_prefix|>"
+                                    .. context_before_cursor
+                                    .. "<|fim_suffix|>"
+                                    .. context_after_cursor
+                                    .. "<|fim_middle|>"
+                            end,
+                            -- vim
+                            -- suffix = false,
+                        }
                     },
                 },
             }
@@ -176,5 +190,4 @@ return {
             return ft
         end
     },
-
 }

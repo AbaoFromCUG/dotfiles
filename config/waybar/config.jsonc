@@ -12,7 +12,9 @@
             "~/.config/waybar/modules.jsonc"
         ],
         "modules-left": [
-            "hyprland/workspaces",
+            // "hyprland/workspaces",
+            "cffi/virtual-desktops",
+
             "hyprland/submap",
         ],
         "modules-center": [

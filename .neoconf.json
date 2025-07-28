@@ -4,6 +4,7 @@
       "LuaSnip",
       "snacks.nvim",
       "neopyter",
+      "blink.pairs",
       "neoconf.nvim",
       "lazy.nvim",
       "codecompanion.nvim",

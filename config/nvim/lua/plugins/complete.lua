@@ -63,7 +63,7 @@ local function blink()
                 "snippets",
             },
             per_filetype = {
-                python = { inherit_defaults = true, "neopyter" },
+                python = { inherit_defaults = true, },
                 sql = { inherit_defaults = true, "dadbod" },
                 snacks_input = { "path" }
             },
@@ -71,12 +71,6 @@ local function blink()
                 dadbod = {
                     name = "Dadbod",
                     module = "vim_dadbod_completion.blink",
-                },
-                neopyter = {
-                    name = "Neopyter",
-                    module = "neopyter.blink",
-                    ---@type neopyter.CompleterOption
-                    opts = {},
                 },
             },
         },
@@ -147,8 +141,32 @@ return {
     {
         "saghen/blink.cmp",
         event = "VeryLazy",
-        version = "v1.5.1",
+        version = "v1.6.0",
         opts = blink,
+    },
+    -- autopairs
+    {
+        "Saghen/blink.pairs",
+        version = "*",
+        dependencies = "saghen/blink.download",
+        opts = {
+            mappings = {
+                pairs = {
+                },
+            },
+            highlights = {
+                groups = {
+                    "RainbowDelimiterBlue",
+                    "RainbowDelimiterCyan",
+                    "RainbowDelimiterGreen",
+                    "RainbowDelimiterOrange",
+                    "RainbowDelimiterRed",
+                    "RainbowDelimiterPurple",
+                    "RainbowDelimiterYellow",
+                },
+            }
+        },
+        event = "InsertEnter",
     },
     {
         "jmbuhr/otter.nvim",
@@ -163,7 +181,7 @@ return {
     },
     {
         "nvimtools/none-ls.nvim",
-        config = function()
+        confmiig = function()
             local null_ls = require("null-ls")
             null_ls.setup({
                 sources = {

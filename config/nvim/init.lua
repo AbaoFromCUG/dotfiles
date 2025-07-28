@@ -80,7 +80,6 @@ local lazy_file_events = { "BufReadPost", "BufNewFile", "BufWritePre" }
 Event.mappings.LazyFile = { id = "LazyFile", event = lazy_file_events }
 Event.mappings["User LazyFile"] = Event.mappings.LazyFile
 
-
 require("lazy").setup({
     spec = {
         { import = "plugins.core" },
@@ -93,6 +92,7 @@ require("lazy").setup({
         { import = "plugins.test", },
         { import = "plugins.ai",         enabled = not not vim.env.AI_CODE_KEY },
         { import = "plugins.luasnip" },
+        { import = "plugins.neopyter" },
     },
 
     rocks = {

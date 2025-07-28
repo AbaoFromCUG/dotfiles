@@ -14,14 +14,14 @@ window#waybar.hidden {
     opacity: 0.2;
 }
 
-#workspaces {
+#waybar-vd {
     margin-right: 8px;
     border-radius: 10px;
     transition: none;
     background: #383c4a;
 }
 
-#workspaces button {
+#waybar-vd button {
     transition: none;
     color: #7c818c;
     background: transparent;
@@ -30,7 +30,7 @@ window#waybar.hidden {
 }
 
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
-#workspaces button:hover {
+#waybar-vd button.hover {
     transition: none;
     box-shadow: inherit;
     text-shadow: inherit;
@@ -39,16 +39,35 @@ window#waybar.hidden {
     background: #7c818c;
 }
 
-#workspaces button.active {
+#waybar-vd button.vdesk-focused {
+    background-color: rgba(205, 189, 255, 0.1);
     color: #90EE90;
 }
 
-#workspaces button.urgent {
+#waybar-vd button.urgent {
     animation-name: blink-urgent;
     animation-duration: 1s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     animation-direction: alternate;
+}
+
+/* Animation States */
+#waybar-vd button.creating {
+    opacity: 0;
+}
+
+#waybar-vd button.destroying {
+    opacity: 0;
+    padding: 0;
+    margin: 0;
+}
+
+/* Hidden Virtual Desktops */
+#waybar-vd button.hidden {
+    opacity: 0;
+    padding: 0;
+    margin: 0;
 }
 
 @keyframes blink-urgent {
@@ -112,11 +131,11 @@ window#waybar.hidden {
     background: #383c4a;
 }
 
-.modules-center > widget:first-child {
+.modules-center>widget:first-child {
     border-radius: 10px 0px 0px 10px;
 }
 
-.modules-center > widget:last-child {
+.modules-center>widget:last-child {
     border-radius: 0px 10px 10px 0px;
 }
 
@@ -144,7 +163,7 @@ window#waybar.hidden {
     background: #383c4a;
 }
 
-.modules-right > widget:last-child {
+.modules-right>widget:last-child {
     /* border-radius: 10px; */
 }
 

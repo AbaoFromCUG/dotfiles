@@ -145,4 +145,21 @@
         "format": "😇",
         "on-click": "sleep 0.1 && nwg-bar",
     },
+    "cffi/virtual-desktops": {
+        "module_path": "./ccfi/libwaybar_vd.so",
+        // "format": "{icon} {name} ({window_count})",
+        "format": "{icon} {name}",
+        "format_icons": {
+            "config": "⚙️",
+            "coding": "🖥️",
+            "work": "💼",
+            "web": "🌐",
+            "misc": "🔨",
+            "media": "🎵",
+            "chat": "🏠",
+            "fish": "🐟"
+        },
+        "show_empty": false,
+        "show_window_count": true
+    }
 }

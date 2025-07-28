@@ -28,3 +28,5 @@ config/quickshell/.qmlls.ini
 .repro
 repro.lua
 .aider*
+config/waybar/modules
+config/waybar/ccfi

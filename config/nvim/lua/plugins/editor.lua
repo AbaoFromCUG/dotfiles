@@ -4,6 +4,7 @@ local function surround()
         ["lua"] = function(text) return { { "function " .. text .. "()" }, { "end" } } end,
         ["python"] = function(text) return { { "def " .. text .. "():", "" }, { "", "" } } end,
         ["default"] = function(text) return { { "function " .. text .. "() {" }, { "}" } } end,
+
     }
 
     require("nvim-surround").setup({
@@ -130,23 +131,11 @@ local function comment()
 end
 
 local languages = {
-    "jsdoc",
-    "markdown_inline",
-    "wgsl",
-    "regex",
     "comment",
-    "gitcommit",
-    "python",
-    "typescript",
-    "tsx",
-    "javascript",
-    "jsx",
-    "vue",
-    "yaml",
     "json",
-    "html",
-    "xml",
-    "toml",
+    "tsx",
+    "typescript",
+    "vue",
 }
 
 ---@type LazySpec[]
@@ -159,11 +148,6 @@ return {
         },
         branch = "main",
         lazy = false
-    },
-    {
-        "AbaoFromCUG/nvim-treesitter-endwise",
-        branch = "main",
-        event = "LazyFile",
     },
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
@@ -246,11 +230,10 @@ return {
         "MeanderingProgrammer/treesitter-modules.nvim",
         dependencies = { "nvim-treesitter/nvim-treesitter" },
         opts = {
+            auto_install = true,
             ensure_installed = languages,
             fold = { enable = true },
             highlight = { enable = true },
-            indent = { enable = true },
-
             incremental_selection = {
                 enable = true,
                 keymaps = {
@@ -260,6 +243,7 @@ return {
                     node_decremental = "grm",
                 },
             },
+            indent = { enable = true },
         },
         event = "VeryLazy"
     },
@@ -287,14 +271,6 @@ return {
             "nvim-treesitter",
         },
         event = "LazyFile",
-    },
-    -- autopairs
-    {
-        "windwp/nvim-autopairs",
-        opts = {
-            check_ts = true,
-        },
-        event = "InsertEnter",
     },
     -- fold
     {

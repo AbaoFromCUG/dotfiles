@@ -67,24 +67,43 @@ return {
                 },
             }
             local dapui = require("dapui")
-            dap.listeners.before.attach.dapui_config = function() dapui.open() end
-            dap.listeners.before.launch.dapui_config = function() dapui.open() end
-            dap.listeners.before.event_terminated.dapui_config = function() dapui.close(1) end
-            dap.listeners.before.event_exited.dapui_config = function() require("dapui").close(1) end
+            -- dap.listeners.before.attach.dapui_config = function() dapui.open() end
+            -- dap.listeners.before.launch.dapui_config = function() dapui.open() end
+            -- dap.listeners.before.event_terminated.dapui_config = function() dapui.close(1) end
+            -- dap.listeners.before.event_exited.dapui_config = function() require("dapui").close(1) end
+            -- local dap, dapui = require("dap"), require("dapui")
+            dap.listeners.before.attach.dapui_config = function()
+                dapui.open()
+            end
+            dap.listeners.before.launch.dapui_config = function()
+                dapui.open()
+            end
+            dap.listeners.before.event_terminated.dapui_config = function()
+                print("terminated")
+                dapui.close()
+            end
+            dap.listeners.before.event_exited.dapui_config = function()
+                print("exited")
+                dapui.close()
+            end
+
             return {}
         end,
         keys = {
-            { "<F5>",  "<cmd>DapContinue<cr>",        mode = { "n", "i" }, desc = "run" },
-            { "<F6>",  "<cmd>DapTerminate<cr>",       mode = { "n", "i" }, desc = "terminate" },
-            { "<F9>",  "<cmd>PBToggleBreakpoint<cr>", mode = { "n", "i" }, desc = "toggle breakpoint" },
-            { "<F11>", "<cmd>DapStepInto<cr>",        mode = { "n", "i" }, desc = "step into" },
-            { "<F12>", "<cmd>DapStepOver<cr>",        mode = { "n", "i" }, desc = "step over" },
+            { "<F5>",  "<cmd>DapContinue<cr>",         mode = { "n", "i" }, desc = "run" },
+            { "<F6>",  "<cmd>DapTerminate<cr>",        mode = { "n", "i" }, desc = "terminate" },
+            { "<F9>",  "<cmd>DapToggleBreakpoint<cr>", mode = { "n", "i" }, desc = "toggle breakpoint" },
+            { "<F11>", "<cmd>DapStepInto<cr>",         mode = { "n", "i" }, desc = "step into" },
+            { "<F12>", "<cmd>DapStepOver<cr>",         mode = { "n", "i" }, desc = "step over" },
         },
     },
     {
         "rcarriga/nvim-dap-ui",
         dependencies = "nvim-dap",
-        opts = {}
+        opts = {},
+        keys = {
+            { "<leader>vdt", function() require("dapui").toggle() end, desc = "dap ui", mode = { "n", "i" } }
+        }
     },
     { "theHamsta/nvim-dap-virtual-text", config = true },
     {
