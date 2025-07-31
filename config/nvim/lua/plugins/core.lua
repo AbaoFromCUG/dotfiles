@@ -68,9 +68,6 @@ return {
                 bigfile = {
                     size = 5 * 1024 * 1024,
                 },
-                image = {
-                    enabled = true,
-                },
                 indent = {
                     enabled = true,
                     hl = {

@@ -147,8 +147,7 @@ return {
     -- autopairs
     {
         "Saghen/blink.pairs",
-        version = "*",
-        dependencies = "saghen/blink.download",
+        build = "cargo build --release",
         opts = {
             mappings = {
                 pairs = {

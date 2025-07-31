@@ -65,52 +65,6 @@ local function surround()
 end
 
 
-local function gitsigns()
-    local gs = require("gitsigns")
-    gs.setup({
-        current_line_blame = true,
-        current_line_blame_opts = {
-            virt_text = true,
-            virt_text_pos = "eol",
-            delay = 100,
-            ignore_whitespace = false,
-        },
-        on_attach = function(bufnr)
-            require("which-key").add({
-                { mode = { "n", "v" }, "g",                                group = "git" },
-                -- Navigation
-                { "]h",                "<cmd>Gitsigns next_hunk<cr>",      desc = "next hunk" },
-                { "[h",                "<cmd>Gitsigns prev_hunk<cr>",      desc = "prev hunk" },
-
-                -- Actions
-                { "<leader>gh",        desc = "git operation" },
-                { mode = "n",          "<leader>ghs",                      gs.stage_hunk,                                                             desc = "stage hunk" },
-                { mode = "v",          "<leader>ghs",                      function() gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end,      desc = "stage hunk" },
-
-                { mode = "n",          "<leader>ghu",                      gs.undo_stage_hunk,                                                        desc = "unstage hunk" },
-                { mode = "v",          "<leader>ghu",                      function() gs.undo_stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, desc = "unstage hunk" },
-
-                { mode = "n",          "<leader>ghr",                      gs.reset_hunk,                                                             desc = "reset hunk" },
-                { mode = "v",          "<leader>ghr",                      function() gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") }) end,      desc = "reset hunk" },
-
-                { mode = "n",          "<leader>ghS",                      gs.stage_buffer,                                                           desc = "stage buffer" },
-                { mode = "n",          "<leader>ghR",                      gs.reset_buffer,                                                           desc = "reset buffer" },
-
-                -- view
-                { "<leader>gtb",       "<cmd>Gitsigns blame<CR>",          desc = "toggle blame" },
-                { "<leader>gtt",       "<cmd>Gitsigns diffthis<CR>",       desc = "diff this" },
-                { "<leader>gtD",       "<cmd>Gitsigns diffthis ~<CR>",     desc = "diff last commit" },
-                { "<leader>gtd",       "<cmd>Gitsigns toggle_deleted<CR>", desc = "reset hunk" },
-
-                -- Text object
-                { "ih",                ":<C-U>Gitsigns select_hunk<CR>",   desc = "reset hunk",                                                       mode = "o" },
-                { "ih",                ":<C-U>Gitsigns select_hunk<CR>",   desc = "reset hunk",                                                       mode = "x" },
-                buffer = bufnr,
-            })
-        end,
-    })
-end
-
 local function session()
     require("session").setup({ silent_restore = false })
     require("session").register_hook("pre_save", "close_all_floating_wins", function()
@@ -121,13 +75,6 @@ local function session()
             end
         end
     end)
-end
-
-local function comment()
-    ---@diagnostic disable-next-line: missing-fields
-    require("Comment").setup({
-        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
-    })
 end
 
 local languages = {
@@ -310,16 +257,67 @@ return {
 
     -- comment
     {
-        "numToStr/Comment.nvim",
-        config = comment,
-        event = "LazyFile",
+        "JoosepAlviste/nvim-ts-context-commentstring",
+        init = function()
+            local get_option = vim.filetype.get_option
+            ---@diagnostic disable-next-line: duplicate-set-field
+            vim.filetype.get_option = function(filetype, option)
+                return option == "commentstring"
+                    and require("ts_context_commentstring.internal").calculate_commentstring()
+                    or get_option(filetype, option)
+            end
+        end,
+        opts = {
+            enable_autocmd = false,
+        }
     },
-    { "JoosepAlviste/nvim-ts-context-commentstring" },
     -- git
     {
         "lewis6991/gitsigns.nvim",
-        config = gitsigns,
         event = "VeryLazy",
+        opts = {
+            current_line_blame = true,
+            current_line_blame_opts = {
+                virt_text = true,
+                virt_text_pos = "eol",
+                delay = 100,
+                ignore_whitespace = false,
+            },
+            on_attach = function(bufnr)
+                local gs = require("gitsigns")
+                require("which-key").add({
+                    { mode = { "n", "v" }, "g",                                group = "git" },
+                    -- Navigation
+                    { "]h",                "<cmd>Gitsigns next_hunk<cr>",      desc = "next hunk" },
+                    { "[h",                "<cmd>Gitsigns prev_hunk<cr>",      desc = "prev hunk" },
+
+                    -- Actions
+                    { "<leader>gh",        group = true,                       desc = "git operation" },
+                    { mode = "n",          "<leader>ghs",                      gs.stage_hunk,                                                             desc = "stage hunk" },
+                    { mode = "v",          "<leader>ghs",                      function() gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end,      desc = "stage hunk" },
+
+                    { mode = "n",          "<leader>ghu",                      gs.undo_stage_hunk,                                                        desc = "unstage hunk" },
+                    { mode = "v",          "<leader>ghu",                      function() gs.undo_stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, desc = "unstage hunk" },
+
+                    { mode = "n",          "<leader>ghr",                      gs.reset_hunk,                                                             desc = "reset hunk" },
+                    { mode = "v",          "<leader>ghr",                      function() gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") }) end,      desc = "reset hunk" },
+
+                    { mode = "n",          "<leader>ghS",                      gs.stage_buffer,                                                           desc = "stage buffer" },
+                    { mode = "n",          "<leader>ghR",                      gs.reset_buffer,                                                           desc = "reset buffer" },
+
+                    -- view
+                    { "<leader>gtb",       "<cmd>Gitsigns blame<CR>",          desc = "toggle blame" },
+                    { "<leader>gtt",       "<cmd>Gitsigns diffthis<CR>",       desc = "diff this" },
+                    { "<leader>gtD",       "<cmd>Gitsigns diffthis ~<CR>",     desc = "diff last commit" },
+                    { "<leader>gtd",       "<cmd>Gitsigns toggle_deleted<CR>", desc = "reset hunk" },
+
+                    -- Text object
+                    { "ih",                ":<C-U>Gitsigns select_hunk<CR>",   desc = "reset hunk",                                                       mode = "o" },
+                    { "ih",                ":<C-U>Gitsigns select_hunk<CR>",   desc = "reset hunk",                                                       mode = "x" },
+                    buffer = bufnr,
+                })
+            end,
+        }
     },
     {
         "sindrets/diffview.nvim",
@@ -441,34 +439,39 @@ return {
         "jake-stewart/multicursor.nvim",
         config = function()
             local mc = require("multicursor-nvim")
-
             mc.setup()
 
-            -- use MultiCursorCursor and MultiCursorVisual to customize
             -- additional cursors appearance
-            vim.cmd.hi("link", "MultiCursorCursor", "Cursor")
-            vim.cmd.hi("link", "MultiCursorVisual", "Visual")
+            local hl = vim.api.nvim_set_hl
+            hl(0, "MultiCursorCursor", { reverse = true })
+            hl(0, "MultiCursorVisual", { link = "Visual" })
+            hl(0, "MultiCursorSign", { link = "SignColumn" })
+            hl(0, "MultiCursorMatchPreview", { link = "Search" })
+            hl(0, "MultiCursorDisabledCursor", { reverse = true })
+            hl(0, "MultiCursorDisabledVisual", { link = "Visual" })
+            hl(0, "MultiCursorDisabledSign", { link = "SignColumn" })
 
-            vim.keymap.set("n", "<esc>", function()
-                if mc.hasCursors() then
-                    mc.clearCursors()
-                else
-                    -- default <esc> handler
-                end
+            local set = vim.keymap.set
+
+            mc.addKeymapLayer(function(layerSet)
+                -- Select a different cursor as the main one.
+                layerSet({ "n", "x" }, "<left>", mc.prevCursor)
+                layerSet({ "n", "x" }, "<right>", mc.nextCursor)
+
+                -- Enable and clear cursors using escape.
+                layerSet("n", "<esc>", function()
+                    if not mc.cursorsEnabled() then
+                        mc.enableCursors()
+                    else
+                        mc.clearCursors()
+                    end
+                end)
             end)
-
-            -- add cursors above/below the main cursor
-            vim.keymap.set("n", "<up>", function() mc.addCursor("k") end)
-            vim.keymap.set("n", "<down>", function() mc.addCursor("j") end)
-
-            -- add a cursor and jump to the next word under cursor
-            vim.keymap.set("n", "<c-n>", function() mc.addCursor("*") end)
-
-            -- jump to the next word under cursor but do not add a cursor
-            vim.keymap.set("n", "<c-s>", function() mc.skipCursor("*") end)
-
-            -- add and remove cursors with control + left click
-            vim.keymap.set("n", "<c-leftmouse>", mc.handleMouse)
         end,
+
+        keys = {
+            { "<leader>mc", function() require("multicursor-nvim").toggleCursor() end, mode = { "n", "x" }, desc = "toggle multi cursor" },
+
+        }
     },
 }

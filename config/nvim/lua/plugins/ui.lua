@@ -1,4 +1,3 @@
-
 ---@type LazySpec[]
 return {
     {
@@ -187,7 +186,6 @@ return {
     {
         "willothy/flatten.nvim",
         lazy = false,
-        version = "v0.5.1",
         priority = 1001,
         opts = {
             integrations = {

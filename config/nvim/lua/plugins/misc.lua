@@ -77,7 +77,6 @@ return {
         build = function() vim.fn["mkdp#util#install"]() end,
         cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
         keys = {
-            { "<leader>ll", "<cmd>MarkdownPreviewToggle<cr>", desc = "markdown preview" }
 
         },
         ft = "markdown",
@@ -100,7 +99,6 @@ return {
     {
         "chomosuke/typst-preview.nvim",
         ft = "typst",
-        -- version = "0.3.*",
         build = function() require("typst-preview").update() end,
         opts = {
             dependencies_bin = {
@@ -169,19 +167,5 @@ return {
         keys = {
             { "<leader>tss", "<cmd>DBUI<cr>" },
         },
-    },
-    {
-        "nvim-java/nvim-java",
-        cmd = {
-            "JavaBuildBuildWorkspace",
-            "JavaBuildCleanWorkspace",
-            "JavaRunnerRunMain",
-            "JavaRunnerStopMain",
-            "JavaRunnerToggleLogs",
-            "JavaDapConfig"
-
-        },
-        opts = {}
-
     },
 }

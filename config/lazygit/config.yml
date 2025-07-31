@@ -2,3 +2,12 @@ os:
   edit: "nvim {{filename}}"
   editAtLine: "nvim +{{line}} {{filename}}"
   editAtLineAndWait: "nvim +{{line}} {{filename}}"
+keybinding:
+  universal:
+    edit: e
+    prevTab: ö
+    nextTab: ä
+  files:
+    commitChanges: C # using the interactive commit dialog
+    commitChangesWithEditor: c # using neovim
+    toggleTreeView: f
