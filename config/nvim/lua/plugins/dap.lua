@@ -1,23 +1,9 @@
-local function overseer()
-    ---@diagnostic disable-next-line: missing-fields
-    require("overseer").setup({
-        templates = { "builtin" },
-        ---@diagnostic disable-next-line: assign-type-mismatch
-        strategy = {
-            "toggleterm",
-            direction = "float",
-            -- use_shell = true,
-        },
-    })
-    ---@diagnostic disable-next-line: duplicate-set-field
-    require("overseer.shell").escape_cmd = function(cmd) return table.concat(vim.tbl_map(vim.fn.shellescape, cmd), " ") end
-end
-
-
 return {
     {
         "mfussenegger/nvim-dap",
         dependencies = { "jay-babu/mason-nvim-dap.nvim" },
+        init = function()
+        end,
         config = function()
             local function enrich_config(finalConfig, on_config)
                 local final_config = vim.deepcopy(finalConfig)
@@ -67,14 +53,10 @@ return {
                 },
             }
             local dapui = require("dapui")
-            -- dap.listeners.before.attach.dapui_config = function() dapui.open() end
-            -- dap.listeners.before.launch.dapui_config = function() dapui.open() end
-            -- dap.listeners.before.event_terminated.dapui_config = function() dapui.close(1) end
-            -- dap.listeners.before.event_exited.dapui_config = function() require("dapui").close(1) end
-            -- local dap, dapui = require("dap"), require("dapui")
             dap.listeners.before.attach.dapui_config = function()
                 dapui.open()
             end
+
             dap.listeners.before.launch.dapui_config = function()
                 dapui.open()
             end
@@ -83,24 +65,33 @@ return {
                 dapui.close()
             end
             dap.listeners.before.event_exited.dapui_config = function()
-                print("exited")
                 dapui.close()
             end
 
             return {}
         end,
         keys = {
-            { "<F5>",  "<cmd>DapContinue<cr>",         mode = { "n", "i" }, desc = "run" },
-            { "<F6>",  "<cmd>DapTerminate<cr>",        mode = { "n", "i" }, desc = "terminate" },
-            { "<F9>",  "<cmd>DapToggleBreakpoint<cr>", mode = { "n", "i" }, desc = "toggle breakpoint" },
-            { "<F11>", "<cmd>DapStepInto<cr>",         mode = { "n", "i" }, desc = "step into" },
-            { "<F12>", "<cmd>DapStepOver<cr>",         mode = { "n", "i" }, desc = "step over" },
+            { "<F5>",  "<cmd>DapContinue<cr>",  mode = { "n", "i" }, desc = "run" },
+            { "<F6>",  "<cmd>DapTerminate<cr>", mode = { "n", "i" }, desc = "terminate" },
+            { "<F9>",  "<cmd>DapToggleBreakpoint<cr>", mode = { "n", "i" }, desc = "terminate" },
+            { "<F11>", "<cmd>DapStepInto<cr>",  mode = { "n", "i" }, desc = "step into" },
+            { "<S-F11>", "<cmd>DapStepOut<cr>",  mode = { "n", "i" }, desc = "step out" },
+            { "<F12>", "<cmd>DapStepOver<cr>",  mode = { "n", "i" }, desc = "step over" },
         },
     },
     {
         "rcarriga/nvim-dap-ui",
-        dependencies = "nvim-dap",
-        opts = {},
+        opts = {
+            mappings = {
+                edit = "e",
+                expand = { "o", "<2-LeftMouse>" },
+                open = "<CR>",
+                remove = "x",
+                repl = "r",
+                toggle = "t"
+            },
+
+        },
         keys = {
             { "<leader>vdt", function() require("dapui").toggle() end, desc = "dap ui", mode = { "n", "i" } }
         }
@@ -108,7 +99,23 @@ return {
     { "theHamsta/nvim-dap-virtual-text", config = true },
     {
         "stevearc/overseer.nvim",
-        config = overseer,
+        cmd = { "OverseerToggle" },
+        opts = {
+            templates = { "builtin" },
+            ---@diagnostic disable-next-line: assign-type-mismatch
+            strategy = {
+                "toggleterm",
+                direction = "float",
+                -- use_shell = true,
+            },
+        },
+        config = function(_, opts)
+            require("overseer").setup(opts)
+            require("overseer.shell").escape_cmd = function(cmd)
+                cmd = table.concat(vim.tbl_map(vim.fn.shellescape, cmd), " ")
+                return cmd
+            end
+        end
     },
 
     {

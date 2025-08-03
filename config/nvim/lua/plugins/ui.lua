@@ -69,6 +69,14 @@ return {
                     -- end
                     return true
                 end,
+                custom_areas = {
+                    left = function()
+                        return vim.tbl_map(
+                            function(item) return { text = item } end,
+                            require("edgy-group.stl").get_statusline("left")
+                        )
+                    end,
+                },
             },
         }
     },
@@ -81,63 +89,50 @@ return {
     },
     -- status line
     {
-        "hoob3rt/lualine.nvim",
+        "nvim-lualine/lualine.nvim",
         event = "VeryLazy",
-        opts = function()
-            local symbol_component = {
-                function()
-                    local bar = require("lspsaga.symbol.winbar").get_bar()
-                    if bar then
-                        return bar
-                    end
-                    return ""
-                end,
-                cond = function() return not not package.loaded["lspsaga"] end,
-            }
-            local function is_active()
-                local ok, hydra = pcall(require, "hydra.statusline")
-                return ok and hydra.is_active()
-            end
 
-            local function get_name()
-                local ok, hydra = pcall(require, "hydra.statusline")
-                if ok then
-                    return hydra.get_name()
-                end
-                return ""
-            end
-            return {
-                options = {
-                    icons_enabled = true,
-                    icon_only = true,
-                    section_separators = "",
-                    component_separators = "",
+        opts_extend = { "sections.lualine_a", "sections.lualine_b", "sections.lualine_c", "sections.lualine_d", "sections.lualine_x", "sections.lualine_y", "sections.lualine_z" },
+        opts = {
+            options = {
+                icons_enabled = true,
+                icon_only = true,
+                section_separators = "",
+                component_separators = "",
+            },
+            sections = {
+                lualine_a = {
+                    "mode",
                 },
-                sections = {
-                    lualine_a = {
-                        "mode",
-                        { get_name, cond = is_active },
+                lualine_b = {
+                    -- "filename",
+                    {
+                        function()
+                            local bar = require("lspsaga.symbol.winbar").get_bar()
+                            if bar then
+                                return bar
+                            end
+                            return ""
+                        end,
+                        cond = function() return not not package.loaded["lspsaga"] end,
                     },
-                    lualine_b = {
-                        -- "filename",
-                        symbol_component,
-                        "diff",
-                        -- {
-                        --     symbols.get,
-                        --     cond = symbols.has,
-                        -- },
-                    },
-                    lualine_c = {
-                        -- "launcher",
-                        -- "overseer",
-                    },
-                    lualine_x = { "diagnostics" },
-                    lualine_y = { "encoding", "fileformat", "filetype" },
-                    lualine_z = { "progress", "location" },
                 },
-                extensions = {},
-            }
-        end,
+                lualine_c = {
+                    "%=",
+                    {
+                        function()
+                            local stl = require("edgy-group.stl")
+                            local bottom_line = stl.get_statusline("bottom")
+                            return table.concat(bottom_line)
+                        end,
+                    },
+                },
+                lualine_x = { "diff", "diagnostics" },
+                lualine_y = { "encoding", "fileformat", "filetype" },
+                lualine_z = { "progress", "location" },
+            },
+            extensions = {},
+        },
     },
 
     { "cpea2506/relative-toggle.nvim", event = "VeryLazy" },
@@ -174,6 +169,7 @@ return {
     },
     {
         "akinsho/toggleterm.nvim",
+        cmd = "ToggleTerm",
         keys = {
             { ";t", '<cmd>exe v:count1 . "ToggleTerm"<CR>', mode = { "i", "n", "t" } },
         },
@@ -187,6 +183,7 @@ return {
         "willothy/flatten.nvim",
         lazy = false,
         priority = 1001,
+        enabled = false,
         opts = {
             integrations = {
                 wezterm = true,
@@ -198,91 +195,168 @@ return {
         },
     },
     {
-        "folke/edgy.nvim",
-        opts = function()
-            local opts = {
-                top = {},
-
-                ---@type Edgy.View.Opts[]
+        "lucobellic/edgy-group.nvim",
+        dependencies = "edgy.nvim",
+        event = "VeryLazy",
+        opts = {
+            groups = {
                 left = {
                     {
-                        title = "Scope",
-                        ft = "dapui_scopes",
+                        icon = "",
+                        titles = { "Neo-Tree", "Neo-Tree Buffers" },
+                        pick_key = "f"
                     },
                     {
-                        title = "Breakpoints",
-                        ft = "dapui_breakpoints",
+                        icon = "",
+                        titles = { "Scope", "Breakpoints", "Stacks", "Watches" },
+                        pick_key = "d"
                     },
                     {
-                        title = "Stacks",
-                        ft = "dapui_stacks",
-                    },
-                    {
-                        title = "Watches",
-                        ft = "dapui_watches",
+                        icon = "",
+                        titles = { "dapui_scopes", "dapui_watches" },
+                        pick_key = "d",
                     },
                 },
                 right = {
                     {
-                        ft = "dbui",
-                        title = "Database",
-                        size = { width = 0.3 },
-                        open = "DBUI",
+                        icon = "󰋖",
+                        titles = { "Help" },
                     },
-
                     {
-                        ft = "help",
-                        size = { width = 0.6 },
-                        -- only show help buffers
-                        filter = function(buf) return vim.bo[buf].buftype == "help" end,
-                    },
+                        icon = "",
+                        titles = { "Database" },
+
+                    }
                 },
                 bottom = {
                     {
-                        title = "Console",
-                        ft = "dapui_console",
+                        icon = "",
+                        titles = { "Terminal" },
                     },
                     {
-                        title = "Repl",
-                        ft = "dap-repl",
-                    },
-                    {
-                        ft = "toggleterm",
-                        size = { height = 0.4 },
-                        -- exclude floating windows
-                        filter = function(buf, win) return vim.api.nvim_win_get_config(win).relative == "" end,
-                    },
-                    { ft = "qf",            title = "QuickFix" },
-                    { ft = "spectre_panel", size = { height = 0.4 } },
-                    { ft = "httpResult",    size = { height = 0.4 } },
+                        icon = "",
+                        titles = { "Console", "Repl" },
+                    }
                 },
-            }
-            for _, pos in ipairs({ "top", "bottom", "left", "right" }) do
-                opts[pos] = opts[pos] or {}
-                table.insert(opts[pos], {
-                    ft = "trouble",
-                    filter = function(_buf, win)
-                        return vim.w[win].trouble
-                            and vim.w[win].trouble.position == pos
-                            and vim.w[win].trouble.type == "split"
-                            and vim.w[win].trouble.relative == "editor"
-                            and not vim.w[win].trouble_preview
+            },
+            statusline = {
+                clickable = true,
+                colored = true,
+                colors = {
+                    active = "Identifier",
+                    inactive = "Directory",
+                    pick_active = "FlashLabel",
+                    pick_inactive = "FlashLabel",
+                    separator_active = "StatusLine",
+                    separator_inactive = "StatusLine",
+                },
+                pick_key_pose = "right_separator",
+                pick_function = function(key)
+                    -- Use upper case to focus all element of the selected group while closing other (disable toggle)
+                    local toggle = not key:match("%u")
+                    local edgy_group = require("edgy-group")
+                    for _, group in ipairs(edgy_group.get_groups_by_key(key:lower())) do
+                        pcall(edgy_group.open_group_index, group.position, group.index, toggle)
+                    end
+                end,
+            },
+        }
+    },
+    {
+        "folke/edgy.nvim",
+        opts = {
+            top = {},
+
+            ---@type Edgy.View.Opts[]
+            left = {
+                {
+                    title = "Neo-Tree",
+                    ft = "neo-tree",
+                    filter = function(buf)
+                        return vim.b[buf].neo_tree_source == "filesystem"
                     end,
-                })
-            end
-            return opts
-        end,
-        event = "VeryLazy",
+                    open = "Neotree filesystem reveal toggle",
+                },
+                {
+                    title = "Neo-Tree Buffers",
+                    ft = "neo-tree",
+                    filter = function(buf)
+                        return vim.b[buf].neo_tree_source == "buffers"
+                    end,
+                    open = "Neotree position=top buffers",
+                },
+                {
+                    title = "Scope",
+                    ft = "dapui_scopes",
+                },
+                {
+                    title = "Breakpoints",
+                    ft = "dapui_breakpoints",
+                },
+                {
+                    title = "Stacks",
+                    ft = "dapui_stacks",
+                },
+                {
+                    title = "Watches",
+                    ft = "dapui_watches",
+                },
+
+            },
+            right = {
+                {
+                    title = "Help",
+                    ft = "help",
+                    size = { width = 0.6 },
+                    -- only show help buffers
+                    filter = function(buf) return vim.bo[buf].buftype == "help" end,
+                },
+                {
+                    title = "Outline",
+                    ft = "Outline",
+                    open = "Outline",
+                },
+                {
+                    title = "Database",
+                    ft = "dbui",
+                    size = { width = 0.3 },
+                    open = "DBUI",
+                },
+            },
+            bottom = {
+
+                {
+                    title = "Terminal",
+                    ft = "toggleterm",
+                    size = { height = 0.4 },
+                    -- exclude floating windows
+                    filter = function(buf, win) return vim.api.nvim_win_get_config(win).relative == "" end,
+                    open = 'exe v:count1 . "ToggleTerm"'
+                },
+                {
+                    title = "Console",
+                    ft = "dapui_console",
+                },
+                {
+                    title = "Repl",
+                    ft = "dap-repl",
+                },
+                { ft = "qf",            title = "QuickFix" },
+                { ft = "spectre_panel", size = { height = 0.4 } },
+                { ft = "httpResult",    size = { height = 0.4 } },
+            },
+        },
     },
     {
         "RRethy/vim-illuminate",
         event = "VeryLazy",
     },
     {
-        "nvim-tree/nvim-tree.lua",
+        "nvim-neo-tree/neo-tree.nvim",
+        cmd = "Neotree",
         keys = {
-            { "<leader>b", "<cmd>NvimTreeToggle<cr>", desc = "file explorer" },
-
+            { "<leader>b",  "<cmd>Neotree filesystem reveal toggle<cr>", desc = "file explorer" },
+            { "<leader>vf", "<cmd>Neotree filesystem reveal toggle<cr>", desc = "file explorer" },
         },
         opts = {
             sort = {
@@ -301,5 +375,14 @@ return {
                 enable = true
             }
         }
-    }
+    },
+
+    {
+        "hedyhli/outline.nvim",
+
+        opts = {},
+        keys = {
+            { "<leader>vo", "<cmd>Outline<cr>", desc = "Toggle Outline" }
+        },
+    },
 }

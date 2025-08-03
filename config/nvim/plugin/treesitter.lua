@@ -13,7 +13,7 @@ vim.filetype.add({
         ["justfile"] = "just",
     },
     pattern = {
-        ["**/.vscode/*.json"] = "jsonc",
+        [".*/.vscode/.*.json"] = "jsonc",
         ["%.env%.[%w_.-]+"] = "sh",
     },
 })

@@ -75,6 +75,10 @@ local function session()
             end
         end
     end)
+
+    require("session").register_hook("extra_save", "save_breakpoints", function()
+        return require("utils.breakpoint").store_breakpoints()
+    end)
 end
 
 local languages = {

@@ -92,6 +92,7 @@ wk.add({
     { ";q",           "<cmd>wincmd q<cr>",     desc = "close window" },
     { ";o",           "<cmd>wincmd o<cr>",     desc = "close other windows" },
     { ";|",           "<cmd>vsplit<cr>",       desc = "split vertical" },
+    { "<leader>qq",   "<cmd>restart<cr>",      desc = "restart" },
     { "<leader>,",    group = "settings" },
     { "<leader>f",    group = "find" },
     { "<leader>g",    group = "git" },

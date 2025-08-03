@@ -34,17 +34,32 @@ return {
             },
             cmake_executor = {
                 name = "overseer",
-
                 opts = {
                     new_task_opts = {
                         strategy = {
                             "toggleterm",
                             direction = "horizontal",
-                            autos_croll = true,
+                            auto_scroll = true,
                             quit_on_exit = "never",
-                        },
+                            use_shell = true,
+                        }
                     },
-                },
+                }
+            },
+            cmake_runner = {
+                name = "overseer",
+
+                opts = {
+                    new_task_opts = {
+                        strategy = {
+                            "toggleterm",
+                            direction = "float",
+                            auto_scroll = true,
+                            quit_on_exit = "never",
+                            use_shell = true,
+                        }
+                    },
+                }
             },
         },
         cmd = {
@@ -56,9 +71,12 @@ return {
             "CMakeTargetSettings"
         },
         keys = {
-            { "<leader>,c", "<cmd>CMakeSettings<cr>", desc = "cmake settings" },
-            { "<space>cg",  "<cmd>CMakeGenerate<cr>", desc = "cmake generate" },
-            { "<space>cb",  "<cmd>CMakeBuild<cr>",    desc = "cmake generate" },
+            { "<leader>o",  group = true,             desc = "cmake" },
+            { "<leader>os", "<cmd>CMakeSettings<cr>", desc = "cmake settings" },
+            { "<leader>og", "<cmd>CMakeGenerate<cr>", desc = "cmake generate" },
+            { "<leader>ob", "<cmd>CMakeBuild<cr>",    desc = "cmake build" },
+            { "<leader>od", "<cmd>CMakeDebug<cr>",    desc = "cmake debug" },
+            { "<leader>or", "<cmd>CMakeRun<cr>",      desc = "cmake run" },
         },
     },
 
@@ -90,11 +108,6 @@ return {
     {
         "mistweaverco/kulala.nvim",
         ft = "http",
-    },
-    {
-        "lervag/vimtex",
-        ft = { "tex", "latex" },
-        init = function() vim.g.vimtex_view_method = "zathura" end,
     },
     {
         "chomosuke/typst-preview.nvim",

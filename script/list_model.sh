@@ -1,1 +1,1 @@
-curl ${AI_CODE_URL}/models -H "Authorization: Bearer $AI_CODE_KEY" |jq
+echo curl ${AI_CODER_URL}/v1/models -H \"Authorization: Bearer $AI_CODER_KEY\" 

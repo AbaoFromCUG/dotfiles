@@ -1,5 +1,6 @@
 local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
 
+
 local group = vim.api.nvim_create_augroup("CodeCompanionProgress", { clear = true })
 vim.api.nvim_create_autocmd({ "User" }, {
     pattern = { "CodeCompanionRequestStarted", "CodeCompanionRequestStreaming", "CodeCompanionRequestFinished" },
@@ -59,14 +60,14 @@ return {
                 llm = function()
                     return require("codecompanion.adapters").extend("openai_compatible", {
                         env = {
-                            api_key = "AI_CODE_KEY",
-                            url = vim.env.AI_CODE_URL,
+                            api_key = "AI_CODER_KEY",
+                            url = vim.env.AI_CODER_URL .. "/v1",
                             chat_url = "/chat/completions",
                             models_endpoint = "/models",
                         },
                         schema = {
                             model = {
-                                default = vim.env.AI_CODE_MODEL, -- define llm model to be used
+                                default = vim.env.AI_CODER_MODEL, -- define llm model to be used
                                 choices = {
                                     ["qwen3-235b-a22b"] = { opts = { can_reason = true } }
                                 }
@@ -117,71 +118,70 @@ return {
         }
     },
     {
-        "milanglacier/minuet-ai.nvim",
-        enabled = vim.env.AI_CODE_KEY,
-        opts = function()
-            return {
-                -- p
-                provider = "openai_fim_compatible",
-                n_completions = 1,
-                context_window = 1024,
-                provider_options = {
-                    openai_fim_compatible = {
-                        api_key = "AI_CODE_KEY",
-                        name = "AI",
-                        n_completions = 5,
-                        -- v
-                        end_point = vim.env.AI_CODE_URL .. "/completions",
-                        model = vim.env.AI_CODE_MODEL,
-                        optional = {
-                            max_tokens = 256,
-                            top_p = 0.9,
-                        },
-                        template = {
-                            prompt = function(context_before_cursor, context_after_cursor, _)
-                                return "<|fim_prefix|>"
-                                    .. context_before_cursor
-                                    .. "<|fim_suffix|>"
-                                    .. context_after_cursor
-                                    .. "<|fim_middle|>"
-                            end,
-                            -- vim
-                            -- suffix = false,
-                        }
-                    },
-                },
-            }
-        end,
+        "zbirenbaum/copilot.lua",
+        event = "InsertEnter",
+        opts = {
+            suggestion = { enabled = false },
+            panel = { enabled = false },
+            filetypes = {
+                markdown = true,
+                cpp = false,
+                javascript = true,
+                typescript = true,
+                typescriptreact = true,
+
+                ["*"] = function()
+                    local forbidden_patterns = { "^.*%.local", "^%.env.*" }
+                    local basename = vim.fs.basename(vim.fn.bufname())
+                    local forbidden = vim.iter(forbidden_patterns):any(function(pattern)
+                        return not not basename:match(pattern)
+                    end)
+                    -- vim.print(forbidden)
+                    return not forbidden
+                end
+            },
+        },
     },
     {
         "nvim-lualine/lualine.nvim",
-        opts = function(_, opts)
-            table.insert(opts.sections.lualine_x, {
-                require "minuet.lualine",
-            })
-        end,
+        dependencies = "AndreM222/copilot-lualine",
+        opts = {
+            sections = {
+                lualine_x = { "copilot" },
+            },
+        },
     },
     {
         "saghen/blink.cmp",
-        opts = function(_, opts)
-            table.insert(opts.sources.default, "minuet")
-            opts.sources.providers.minuet = {
-                name = "minuet",
-                module = "minuet.blink",
-                async = true,
-                -- Should match minuet.config.request_timeout * 1000,
-                -- since minuet.config.request_timeout is in seconds
-                timeout_ms = 3000,
-                score_offset = 50, -- Gives minuet higher priority among suggestions
+        dependencies = { "fang2hou/blink-copilot" },
+        opts = {
+            sources = {
+                default = { "copilot" },
+                per_filetype = {
+                    codecompanion = { "buffer", "codecompanion" }
+                },
+                providers = {
+                    copilot = {
+                        name = "Copilot",
+                        module = "blink-copilot",
+                        score_offset = 100,
+                        async = true,
+                        opts = {
+                            kind_name = "Copilot",
+                            kind_icon = "",
+                        }
+                    },
+                },
+            },
+
+            completion = {
+                trigger = {
+                    prefetch_on_insert = false
+                }
+            },
+            keymap = {
             }
-            opts.keymap["<A-y>"] = { function(cmp)
-                vim.lsp.completion.get()
-                require("minuet").make_blink_map()[1](cmp)
-            end }
-            -- vim.tbl_set
-            opts.completion.trigger.prefetch_on_insert = false
-            opts.sources.per_filetype.codecompanion = { "buffer", "codecompanion" }
-        end,
+        },
     },
     {
         "MeanderingProgrammer/render-markdown.nvim",

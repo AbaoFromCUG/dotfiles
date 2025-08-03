@@ -90,9 +90,10 @@ require("lazy").setup({
         { import = "plugins.diagnostic", },
         { import = "plugins.dap", },
         { import = "plugins.test", },
-        { import = "plugins.ai",         enabled = not not vim.env.AI_CODE_KEY },
+        { import = "plugins.ai",         enabled = not not vim.env.AI_CODER_KEY },
         { import = "plugins.luasnip" },
         { import = "plugins.neopyter" },
+        { import = "plugins.latex" },
     },
 
     rocks = {
