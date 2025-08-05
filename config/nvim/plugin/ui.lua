@@ -4,7 +4,7 @@ end
 
 
 require("vim._extui").enable({
-    enable = false, -- Whether to enable or disable the UI.
+    enable = true, -- Whether to enable or disable the UI.
     msg = {        -- Options related to the message module.
         ---@type 'cmd'|'msg' Where to place regular messages, either in the
         ---cmdline or in a separate ephemeral message window.

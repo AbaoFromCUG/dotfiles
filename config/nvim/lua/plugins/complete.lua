@@ -206,19 +206,13 @@ return {
         ft = "lua",
     },
     {
-        "nvimdev/lspsaga.nvim",
-        opts =
-        {
-            symbol_in_winbar =
-            {
-                enable = false,
+        "SmiteshP/nvim-navic",
+        opts = {
+            lsp = {
+                auto_attach = true
             },
-            lightbulb =
-            {
-                sign = false,
-            },
+            depth_limit = 5,
         },
         event = "LspAttach",
-
     },
 }

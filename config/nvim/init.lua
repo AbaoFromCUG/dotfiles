@@ -33,7 +33,7 @@ vim.opt.laststatus = 3
 vim.opt.splitkeep = "screen"
 
 vim.opt.swapfile = false
-vim.opt.sessionoptions = { "buffers", "curdir", "winsize", "winpos", "terminal" }
+vim.opt.sessionoptions = { "buffers", "folds", "curdir", "winsize", "winpos", "terminal" }
 
 vim.o.foldcolumn = "1"
 vim.o.foldlevel = 99
@@ -84,6 +84,7 @@ require("lazy").setup({
     spec = {
         { import = "plugins.core" },
         { import = "plugins.ui", },
+        { import = "plugins.heirline", },
         { import = "plugins.editor", },
         { import = "plugins.misc", },
         { import = "plugins.complete", },
