@@ -299,6 +299,9 @@ local function statusline()
     }
 
     local BottomEdgyGroup = {
+        condition = function()
+            return not not package.loaded["edgy-group"]
+        end,
         provider = function()
             local stl = require("edgy-group.stl")
             local bottom_line = stl.get_statusline("bottom")
@@ -511,8 +514,8 @@ local function tabline()
     -- by the way, open a lot of buffers and try clicking them ;)
     )
     local TabLineLeftOffset = {
-        condition = function(self)
-            return true
+        condition = function()
+            return not not package.loaded["edgy-group"]
         end,
 
         provider = function(self)
@@ -568,8 +571,8 @@ local function tabline()
     }
 
     local TabLineRightOffset = {
-        condition = function(self)
-            return true
+        condition = function()
+            return not not package.loaded["edgy-group"]
         end,
 
         provider = function(self)
@@ -596,7 +599,11 @@ local function tabline()
         end,
     }
 
-    local TabLine = { TabLineLeftOffset, BufferLine, TabPages,Align, TabLineRightOffset }
+    local TabLine = {
+        TabLineLeftOffset,
+        BufferLine, TabPages, Align,
+        TabLineRightOffset,
+    }
     return TabLine
 end
 

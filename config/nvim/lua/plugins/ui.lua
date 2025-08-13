@@ -106,7 +106,7 @@ return {
                 left = {
                     {
                         icon = " ",
-                        titles = { "Scope", "Breakpoints", "Stacks", "Watches" },
+                        titles = { "Scope", "Breakpoints" },
                         pick_key = "d"
                     },
                     {
@@ -183,10 +183,11 @@ return {
     },
     {
         "folke/edgy.nvim",
+        event = "VeryLazy",
+        -- cond = false,
         opts = {
             wo = {
-                winbar = false,
-
+                -- winbar = false,
             },
             close_when_all_hidden = false,
             top = {},
@@ -212,17 +213,19 @@ return {
                 {
                     title = "Scope",
                     ft = "dapui_scopes",
+                    size = { height = 0.5, width = 0.2 },
                 },
                 {
                     title = "Breakpoints",
                     ft = "dapui_breakpoints",
+                    size = { height = 0.5, width = 0.2 },
                 },
             },
             right = {
                 {
                     title = "Help",
                     ft = "help",
-                    size = { width = 0.4 },
+                    size = { width = 0.5 },
                     -- only show help buffers
                     filter = function(buf) return vim.bo[buf].buftype == "help" end,
                 },
@@ -241,14 +244,15 @@ return {
                 {
                     title = "Stacks",
                     ft = "dapui_stacks",
+                    size = { height = 0.5, width = 0.2 },
                 },
                 {
                     title = "Watches",
                     ft = "dapui_watches",
+                    size = { height = 0.5, width = 0.2 },
                 },
             },
             bottom = {
-
                 {
                     title = "Terminal",
                     ft = "toggleterm",
@@ -285,17 +289,9 @@ return {
             { "<leader>vf", "<cmd>Neotree filesystem reveal toggle<cr>", desc = "file explorer" },
         },
         opts = {
-            sort = {
-                sorter = "case_sensitive",
-            },
-            view = {
-                width = 30,
-            },
-            renderer = {
-                group_empty = true,
-            },
-            filters = {
-                dotfiles = true,
+            sort_case_insensitive = false,
+            window = {
+                width = 20,
             },
             update_focused_file = {
                 enable = true

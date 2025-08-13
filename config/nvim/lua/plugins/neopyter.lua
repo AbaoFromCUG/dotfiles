@@ -1,6 +1,9 @@
 return {
     {
         "SUSTech-data/neopyter",
+        dependencies = {
+            "AbaoFromCUG/websocket.nvim",
+        },
         ---@type neopyter.Option
         opts = {
             auto_attach = true,
@@ -33,7 +36,7 @@ return {
                 trim_whitespace = true,
             },
         },
-        ft = { "python" },
+        ft = { "python", "r" },
         cmd = "Neopyter",
         dev = true
     },

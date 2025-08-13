@@ -1,16 +1,13 @@
 {
   "lua_ls": {
     "addons": [
-      "LuaSnip",
+      "leetcode.nvim",
       "snacks.nvim",
       "heirline.nvim",
       "neopyter",
       "blink.pairs",
-      "edgy.nvim",
-      "neoconf.nvim",
       "lazy.nvim",
-      "codecompanion.nvim",
-      "lua_ls.nvim"
+      "nvim-dap-ui"
     ]
   }
 }

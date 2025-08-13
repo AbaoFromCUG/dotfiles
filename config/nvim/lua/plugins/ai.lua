@@ -120,9 +120,11 @@ return {
     {
         "zbirenbaum/copilot.lua",
         event = "InsertEnter",
+        dev = true,
         opts = {
             suggestion = { enabled = false },
             panel = { enabled = false },
+            disable_limit_reached_message=true,
             filetypes = {
                 markdown = true,
                 cpp = false,
@@ -141,6 +143,9 @@ return {
                 end
             },
         },
+        config = function(_, opts)
+            require("copilot").setup(opts)
+        end
     },
     {
         "nvim-lualine/lualine.nvim",

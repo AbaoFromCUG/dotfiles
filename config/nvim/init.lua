@@ -82,19 +82,22 @@ Event.mappings["User LazyFile"] = Event.mappings.LazyFile
 
 require("lazy").setup({
     spec = {
-        { import = "plugins.core" },
-        { import = "plugins.ui", },
-        { import = "plugins.heirline", },
-        { import = "plugins.editor", },
-        { import = "plugins.misc", },
-        { import = "plugins.complete", },
-        { import = "plugins.diagnostic", },
-        { import = "plugins.dap", },
-        { import = "plugins.test", },
-        { import = "plugins.ai",         enabled = not not vim.env.AI_CODER_KEY },
-        { import = "plugins.luasnip" },
-        { import = "plugins.neopyter" },
-        { import = "plugins.latex" },
+        { import = "plugins.core",       cond = not vim.g.vscode },
+        { import = "plugins.snacks",     cond = not vim.g.vscode },
+        { import = "plugins.ui",         cond = not vim.g.vscode },
+        { import = "plugins.heirline",   cond = not vim.g.vscode },
+        { import = "plugins.editor",     cond = not vim.g.vscode },
+        { import = "plugins.misc",       cond = not vim.g.vscode },
+        { import = "plugins.complete",   cond = not vim.g.vscode },
+        { import = "plugins.diagnostic", cond = not vim.g.vscode },
+        { import = "plugins.dap",        cond = not vim.g.vscode },
+        { import = "plugins.test",       cond = not vim.g.vscode },
+        { import = "plugins.ai",         cond = (not not vim.env.AI_CODER_KEY) and (not vim.g.vscode) },
+        { import = "plugins.luasnip",    cond = not vim.g.vscode },
+        { import = "plugins.neopyter",   cond = not vim.g.vscode },
+        { import = "plugins.latex",      cond = not vim.g.vscode },
+        { import = "plugins.leetcode",   cond = not vim.g.vscode },
+
     },
 
     rocks = {
