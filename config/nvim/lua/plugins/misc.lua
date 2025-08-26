@@ -29,8 +29,14 @@ return {
             cmake_build_directory = function() return "build/${variant:buildType}" end,
             cmake_dap_configuration = {
                 name = "cpp",
-                type = "cppdbg"
-
+                type = "cppdbg",
+                setupCommands = {
+                    {
+                        text = "-enable-pretty-printing",
+                        description = "enable pretty printing",
+                        ignoreFailures = false
+                    },
+                },
             },
             cmake_executor = {
                 name = "overseer",
@@ -41,9 +47,12 @@ return {
                             direction = "horizontal",
                             auto_scroll = true,
                             quit_on_exit = "never",
-                            use_shell = true,
+                            -- use_shell = true,
                         }
                     },
+                    on_new_task = function()
+
+                    end
                 }
             },
             cmake_runner = {
@@ -56,7 +65,7 @@ return {
                             direction = "float",
                             auto_scroll = true,
                             quit_on_exit = "never",
-                            use_shell = true,
+                            -- use_shell = true,
                         }
                     },
                 }

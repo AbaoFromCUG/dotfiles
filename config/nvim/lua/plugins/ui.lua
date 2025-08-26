@@ -13,7 +13,6 @@ return {
     },
     {
         "nvim-zh/colorful-winsep.nvim",
-        enabled = false,
         config = true,
         event = { "WinLeave" },
     },
@@ -288,14 +287,18 @@ return {
             { "<leader>b",  "<cmd>Neotree filesystem reveal toggle<cr>", desc = "file explorer" },
             { "<leader>vf", "<cmd>Neotree filesystem reveal toggle<cr>", desc = "file explorer" },
         },
+        ---@type neotree.Config
         opts = {
             sort_case_insensitive = false,
+            filesystem = {
+                follow_current_file = {
+                    enabled = true,
+                    leave_dirs_open = true,
+                },
+            },
             window = {
                 width = 20,
             },
-            update_focused_file = {
-                enable = true
-            }
         }
     },
 

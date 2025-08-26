@@ -1,7 +1,7 @@
 return {
     {
         "mfussenegger/nvim-dap",
-        dependencies = { "jay-babu/mason-nvim-dap.nvim", "rcarriga/nvim-dap-ui" },
+        dependencies = { "jay-babu/mason-nvim-dap.nvim", "nvim-dap-ui" },
         init = function()
         end,
         config = function()
@@ -26,10 +26,19 @@ return {
             local dap = require("dap")
 
             require("dap.ext.vscode").json_decode = require("overseer.json").decode
+            local signs = {
+                DapBreakpoint = "",
+                DapBreakpointCondition = "",
+                DapLogPoint = "",
+                DapStopped = "",
+                DapBreakpointRejected = ""
+            }
+            vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "", linehl = "", numhl = "" })
+            vim.fn.sign_define("DapBreakpointCondition", { text = "", texthl = "", linehl = "", numhl = "" })
+            vim.fn.sign_define("DapLogPoint", { text = "", texthl = "", linehl = "", numhl = "" })
+            vim.fn.sign_define("DapStopped", { text = "", texthl = "DapUIBreakpointsCurrentLine", linehl = "", numhl = "" })
+            vim.fn.sign_define("DapBreakpointRejected", { text = "", texthl = "", linehl = "", numhl = "" })
 
-            vim.fn.sign_define("DapBreakpoint", { text = "⚫", texthl = "", linehl = "", numhl = "" })
-            vim.fn.sign_define("DapBreakpointRejected", { text = "⚪", texthl = "", linehl = "", numhl = "" })
-            vim.fn.sign_define("DapBreakpointRejected", { text = "❓", texthl = "", linehl = "", numhl = "" })
 
             dap.adapters.cppdbg = {
                 id = "cppdbg",
@@ -80,7 +89,6 @@ return {
     },
     {
         "rcarriga/nvim-dap-ui",
-        dev = true,
         opts = {
             mappings = {
                 edit = "e",

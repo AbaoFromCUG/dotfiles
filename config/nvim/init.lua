@@ -33,7 +33,7 @@ vim.opt.laststatus = 3
 vim.opt.splitkeep = "screen"
 
 vim.opt.swapfile = false
-vim.opt.sessionoptions = { "buffers", "folds", "curdir", "winsize", "winpos", "terminal" }
+vim.opt.sessionoptions = { "buffers", "folds", "curdir", "winsize", "winpos" }
 
 vim.o.foldcolumn = "1"
 vim.o.foldlevel = 99
@@ -56,6 +56,7 @@ vim.g.loaded_python3_provider = 0
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+-- vim.o.switchbuf = "useopen"
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 

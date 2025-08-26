@@ -42,7 +42,7 @@ return {
             },
             strategies = {
                 chat = {
-                    adapter = "llm"
+                    adapter = "copilot"
                 },
                 inline = {
                     adapter = "llm",
@@ -56,59 +56,6 @@ return {
                     }
                 }
             },
-            adapters = {
-                llm = function()
-                    return require("codecompanion.adapters").extend("openai_compatible", {
-                        env = {
-                            api_key = "AI_CODER_KEY",
-                            url = vim.env.AI_CODER_URL .. "/v1",
-                            chat_url = "/chat/completions",
-                            models_endpoint = "/models",
-                        },
-                        schema = {
-                            model = {
-                                default = vim.env.AI_CODER_MODEL, -- define llm model to be used
-                                choices = {
-                                    ["qwen3-235b-a22b"] = { opts = { can_reason = true } }
-                                }
-                            },
-                        },
-                    })
-                end
-            },
-            extensions = {
-                editor = {
-                    enabled = true,
-                    opts = {},
-                    callback = {
-                        setup = function(ext_config)
-                            -- Add a new action to chat keymaps
-                            local open_editor = {
-                                modes = {
-                                    n = "ge", -- Keymap to open editor
-                                },
-                                description = "Open Editor",
-                                callback = function(chat)
-                                    -- Implementation of editor opening logic
-                                    -- You have access to the chat buffer via the chat parameter
-                                    vim.notify("Editor opened for chat " .. chat.id)
-                                end,
-                            }
-
-                            -- Add the action to chat keymaps config
-                            local chat_keymaps = require("codecompanion.config").strategies.chat.keymaps
-                            chat_keymaps.open_editor = open_editor
-                        end,
-
-                        -- Optional: Expose functions
-                        exports = {
-                            is_editor_open = function()
-                                return false -- Implementation
-                            end
-                        }
-                    }
-                }
-            }
         },
         keys = {
             { "<leader>a",  group = true,                    desc = "ai",               mode = { "v", "n" } },
@@ -120,11 +67,10 @@ return {
     {
         "zbirenbaum/copilot.lua",
         event = "InsertEnter",
-        dev = true,
         opts = {
             suggestion = { enabled = false },
             panel = { enabled = false },
-            disable_limit_reached_message=true,
+            disable_limit_reached_message = true,
             filetypes = {
                 markdown = true,
                 cpp = false,

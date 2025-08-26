@@ -1,4 +1,3 @@
-
 return {
     {
         "folke/snacks.nvim",
@@ -90,4 +89,49 @@ return {
             { "<leader>zz", function() Snacks.zen.zen() end,                                        mode = { "n", "i", "v" },          desc = "zen mode" },
         },
     },
+    {
+        "nvim-neo-tree/neo-tree.nvim",
+        opts = function(_, opts)
+            local function on_move(data)
+                vim.print("on_move")
+                Snacks.rename.on_rename_file(data.source, data.destination)
+            end
+            local events = require("neo-tree.events")
+            opts.event_handlers = opts.event_handlers or {}
+            vim.list_extend(opts.event_handlers, {
+                { event = events.FILE_MOVED,   handler = on_move },
+                { event = events.FILE_RENAMED, handler = on_move },
+            })
+        end,
+    },
+
+    {
+        "nvim-neo-tree/neo-tree.nvim",
+        opts = {
+            filesystem = {
+                window = {
+                    mappings = {
+                        ["<leader>ss"] = function(state)
+                            local node = state.tree:get_node()
+                            local path
+                            if node.type == "directory" then
+                                path = node.path
+                            else
+                                path = node:get_parent_id()
+                            end
+
+                            path = vim.fs.relpath(vim.uv.cwd(), path)
+                            require("spectre").open({
+                                search_paths = { path },
+                                hidden = true,
+                                search_pattern = "",
+                                select_word = false,
+                            })
+                        end,
+                    }
+                }
+            }
+        }
+    },
+
 }

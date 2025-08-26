@@ -1,3 +1,4 @@
+---{command:"github.copilot.openModelPicker",title:"Change Completions Model",category:"GitHub Copilot",enablement:"!isWeb"}
 ---@type LazySpec[]
 return {
     "neovim/nvim-lspconfig",

@@ -177,7 +177,7 @@ config-hypr: \
     (install "meson") (install "cpio") \
     (install "hyprland") (install "hyprpaper") (install "hyprpicker") (install "hypridle") (install "hyprlock") \
     (install "xdg-desktop-portal-hyprland") (install "hyprpolkitagent-git") \
-    (config "dunst") (install "conky") \
+    (config "swaync") (install "conky") \
     (config "wofi") (config "waybar") (install "nwg-displays")
     # hyprpm update
     # hyprpm add https://github.com/levnikmyskin/hyprland-virtual-desktops
@@ -216,6 +216,7 @@ config-desktop: \
     (link "config/chromium-flags.conf" "~/.config/chromium-flags.conf") \
     (link "config/chrome-flags.conf" "~/.config/chrome-flags.conf") \
     (link "config/chrome-dev-flags.conf" "~/.config/chrome-dev-flags.conf") \
+    (link "config/electron-flags.conf" "~/.config/electron-flags.conf") \
     (link "local/share/applications/file-manager.desktop" "~/.local/share/applications/file-manager.desktop")
 
 
