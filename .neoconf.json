@@ -1,7 +1,7 @@
 {
   "lua_ls": {
     "addons": [
-      "heirline-components.nvim",
+      "neoconf.nvim",
       "neo-tree.nvim",
       "leetcode.nvim",
       "snacks.nvim",

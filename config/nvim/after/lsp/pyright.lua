@@ -8,7 +8,7 @@ elseif vim.fn.executable("pyenv") == 1 then
     pythonPath = vim.trim(vim.system({ "pyenv", "which", "python" }):wait().stdout)
 end
 
----@diagnostic disable-next-line: missing-fields
+---@diagnostic disable: missing-fields
 ---@type lspconfig.options.pyright
 return {
     cmd = cmd,

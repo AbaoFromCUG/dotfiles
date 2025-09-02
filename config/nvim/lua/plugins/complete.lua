@@ -8,7 +8,8 @@ return {
             "mason.nvim",
             "nvim-lspconfig",
         },
-        event = "VeryLazy",
+        -- event = "VeryLazy",
+        lazy = false,
         opts = {
             ensure_installed = {
                 "lua_ls",
@@ -201,7 +202,7 @@ return {
     { "b0o/schemastore.nvim" },
     {
         "AbaoFromCUG/lua_ls.nvim",
-        -- dev = true,
+        dev = true,
         ---@type lua_ls.Config
         opts = {},
         ft = "lua",

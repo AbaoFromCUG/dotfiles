@@ -83,9 +83,10 @@ return {
     },
     {
         "willothy/flatten.nvim",
+        version = "0.5.1",
         lazy = false,
         priority = 1001,
-        enabled = false,
+        -- enabled = false,
         opts = {
             integrations = {
                 wezterm = true,
@@ -99,7 +100,8 @@ return {
     {
         "lucobellic/edgy-group.nvim",
         dependencies = { "folke/edgy.nvim" },
-        event = "VeryLazy",
+        -- event = "VeryLazy",
+        cond = false,
         opts = {
             groups = {
                 left = {
@@ -183,7 +185,7 @@ return {
     {
         "folke/edgy.nvim",
         event = "VeryLazy",
-        -- cond = false,
+        cond = false,
         opts = {
             wo = {
                 -- winbar = false,
@@ -297,7 +299,9 @@ return {
                 },
             },
             window = {
-                width = 20,
+                -- width = "fit_content",
+                -- max_width = "30%",
+                -- min_width = 20
             },
         }
     },

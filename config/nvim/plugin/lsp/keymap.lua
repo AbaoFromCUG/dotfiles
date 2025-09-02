@@ -25,14 +25,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
         end
 
         if client:supports_method("textDocument/documentColor", buf) and vim.lsp.document_color then
-            vim.lsp.document_color.enable(true, buf, {
-                style = "virtual"
-            })
+            vim.lsp.document_color.enable(true, buf, { style = "virtual" })
         end
         if client:supports_method("textDocument/inlayHint", buf) then
-            vim.lsp.inlay_hint.enable(true, {
-                bufnr = buf
-            })
+            vim.lsp.inlay_hint.enable(true, { bufnr = buf })
+        end
+
+        if client:supports_method("textDocument/onTypeFormatting", buf) and vim.lsp.on_type_formatting then
+            vim.notify(string.format("Enabling on-type formatting for %s", client.name), vim.log.levels.INFO, { title = "LSP" })
+            vim.lsp.on_type_formatting.enable(true, { client_id = client.id })
         end
     end,
 })
