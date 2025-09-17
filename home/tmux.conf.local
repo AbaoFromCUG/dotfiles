@@ -382,7 +382,7 @@ set -g mouse on
 
 set -gq allow-passthrough on
 set -g visual-activity off
-
+set-window-option -g allow-passthrough on
 
 # split-window
 unbind _

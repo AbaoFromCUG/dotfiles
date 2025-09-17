@@ -7,6 +7,7 @@
       "snacks.nvim",
       "heirline.nvim",
       "neopyter",
+      "blink.cmp",
       "blink.pairs",
       "lazy.nvim",
       "nvim-dap-ui"

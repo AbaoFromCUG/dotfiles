@@ -172,6 +172,8 @@ config-apps: \
     (install "fcitx5-gtk") (install "fcitx5-qt")
     echo "install basic tool"
 
+config-office: \
+    (install "wemeet-bwrap") (install "feishu-portable")
     
 config-hypr: \
     (install "meson") (install "cpio") \
