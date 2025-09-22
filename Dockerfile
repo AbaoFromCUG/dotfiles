@@ -14,7 +14,6 @@ RUN useradd --groups wheel,audio,input,lp,video --shell /usr/bin/zsh --uid 1000 
 USER ${USER_NAME}
 
 RUN mkdir /tmp/cache && cd /tmp/cache && \
-    export GOPROXY=https://goproxy.cn && \
     git clone https://aur.archlinux.org/yay.git && \
     cd yay && \
     makepkg -s --noconfirm
