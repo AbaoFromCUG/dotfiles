@@ -2,12 +2,12 @@
 
 
 yay-update:
-    #!/usr/bin/env -S zsh
+    #!/usr/bin/env zsh
     # yay -Syy --noconfirm
 
 install package: yay-update
-    #!/usr/bin/env -S zsh
-    # set -euo pipefail
+    #!/usr/bin/env zsh
+    set -euo pipefail
     if (( $+commands[yay] )); then
         if  ! yay -Qi "{{package}}" >/dev/null 3>&1; then
             yay -S --noconfirm {{package}}
@@ -22,7 +22,7 @@ install package: yay-update
     fi
 
 install-yay:
-    #!/usr/bin/env -S zsh --interactive
+    #!/usr/bin/env zsh
     set -euo pipefail
     if  (( $+commands[yay] )) ; then exit 0; fi
     mkdir /tmp/cache && cd /tmp/cache
@@ -36,7 +36,7 @@ install-yay:
 
 
 link $source $target:
-    #!/usr/bin/env -S zsh --interactive
+    #!/usr/bin/env zsh
     set -euo pipefail
     source=$(realpath "$source")
     target=$(eval echo "$target")
@@ -50,7 +50,7 @@ link $source $target:
     fi
 
 config package $config="": (install package)
-    #!/usr/bin/env -S zsh --interactive
+    #!/usr/bin/env zsh
     set -euo pipefail
     if [ -z "$config" ]; then
         config={{package}}
@@ -69,8 +69,8 @@ config package $config="": (install package)
         ln -s $source $target
     fi
 
-config-nvim: config-rust (install "neovim") (link "config/nvim" "~/.config/nvim" )
-    #!/usr/bin/env -S zsh --interactive
+config-nvim: config-rust (install "neovim") (install "unzip") (link "config/nvim" "~/.config/nvim" )
+    #!/usr/bin/env zsh
     set -euo pipefail
     nvim --headless -c "Lazy! install" \
         --headless -c "Lazy! load all" \
@@ -85,11 +85,9 @@ config-zsh: (install "zsh") \
             (link "home/zprofile" "~/.zprofile") \
             (link "home/zshenv" "~/.zshenv") \
             (link "config/shell" "~/.config/shell")
-    #!/usr/bin/env -S zsh --interactive
-    echo "zsh setup..."
 
 config-tmux: (install "git") (install "tmux") (link "home/tmux.conf.local" "~/.tmux.conf.local")
-    #!/usr/bin/env -S zsh --interactive
+    #!/usr/bin/env zsh
     if [ ! -d ~/.tmux ] || [ ! -L ~/.tmux.conf ]; then
         rm -rf ~/.tmux
         git clone https://github.com/gpakosz/.tmux.git ~/.tmux
@@ -98,7 +96,7 @@ config-tmux: (install "git") (install "tmux") (link "home/tmux.conf.local" "~/.t
 
 
 config-pyenv: (install "git") (install "pyenv") config-zsh
-    #!/usr/bin/env -S zsh --interactive
+    #!/usr/bin/env zsh
     set -euo pipefail
 
     pyenv_plugin() {
@@ -114,47 +112,39 @@ config-pyenv: (install "git") (install "pyenv") config-zsh
     pyenv_plugin pyenv-doctor pyenv
     pyenv_plugin pyenv-update pyenv
     pyenv_plugin pyenv-pyright alefpereira
-    pyenv install --skip-existing 3.10 3.11 3.12
 
 config-python: config-pyenv config-zsh (link "config/pip" "~/.config/pip") (config "uv")
-    #!/usr/bin/env -S zsh
-
-    if ! pyenv versions | grep -q '3.10'; then
-        pyenv install 3.10
-    fi
-    if ! pyenv versions | grep -q '3.11'; then
-        pyenv install 3.11
-    fi
-    if ! pyenv versions | grep -q '3.12'; then
-        pyenv install 3.12
-    fi
+    #!/usr/bin/env zsh
+    pyenv update
+    # pyenv install --skip-existing 3.10 3.11 3.12
+    pyenv install --skip-existing 3.12
 
 config-mise: (install "git") (install "usage") (install "mise") (link "config/mise" "~/.config/mise")
 
 config-bun: config-mise
-    #!/usr/bin/env -S zsh
-    if ! mise ls bun | grep -q 'latest'; then
+    #!/usr/bin/env zsh
+    if ! mise ls bun -i | grep -q 'latest'; then
         mise install bun@latest
     fi
 
 config-rust: config-mise (link "home/cargo/config.toml" "~/.cargo/config.toml")
-    #!/usr/bin/env -S zsh
-    if ! mise ls rust | grep -q 'stable'; then
+    #!/usr/bin/env zsh
+    if ! mise ls rust -i | grep -q 'stable'; then
         mise install rust@stable
+    fi
+    if ! mise ls rust -i | grep -q 'nightly'; then
+        mise install rust@nightly
     fi
 
 config-node: config-mise
-    #!/usr/bin/env -S zsh
-    if ! mise ls node | grep -q '20'; then
-        mise install node@20
-    fi
-    if ! mise ls node | grep -q '22'; then
-        mise install node@22
-    fi
-    if ! mise ls node | grep -q 'latest'; then
-        mise install node@latest
-    fi
-    if ! mise ls pnpm | grep -q 'pnpm'; then
+    #!/usr/bin/env zsh
+    versions=("20" "22" "24")
+    for version in ${versions[@]}; do
+        if ! mise ls node -i | grep -q "${version}"; then
+            mise install node@${version}
+        fi
+    done
+    if ! mise ls pnpm -i | grep -q 'pnpm'; then
         mise install pnpm
     fi
 
@@ -196,6 +186,7 @@ config-dev: \
     config-tmux \
     config-python \
     config-node \
+    config-bun \
     config-rust \
     (config "lazygit") \
     (install "wget") \
@@ -230,10 +221,10 @@ bootstrap: install-yay config-dev
 bootstrap-desktop: install-yay config-dev config-hypr config-desktop
 
 podman-build:
-    #!/usr/bin/env -S zsh --interactive
+    #!/usr/bin/env zsh
     podman build -t arch .
 
 podman-build-full:
-    #!/usr/bin/env -S zsh --interactive
+    #!/usr/bin/env zsh
     podman build -t arch-full . --build-arg RECIPE=bootstrap-docker-full
 

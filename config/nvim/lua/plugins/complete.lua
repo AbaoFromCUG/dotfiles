@@ -45,7 +45,7 @@ return {
     {
         "saghen/blink.cmp",
         event = "VeryLazy",
-        version = "v1.6.0",
+        version = "v1.7.0",
         opts_extend = { "sources.default" },
         opts = {
             keymap = {

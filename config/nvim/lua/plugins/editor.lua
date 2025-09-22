@@ -84,9 +84,6 @@ end
 local languages = {
     "comment",
     "json",
-    "tsx",
-    "typescript",
-    "vue",
 }
 
 ---@type LazySpec[]

@@ -79,7 +79,7 @@ return {
                 typescriptreact = true,
 
                 ["*"] = function()
-                    local forbidden_patterns = { "^.*%.local", "^%.env.*" }
+                    local forbidden_patterns = { "^.*%.local", "^%.env.*", ".*interview.*" }
                     local basename = vim.fs.basename(vim.fn.bufname())
                     local forbidden = vim.iter(forbidden_patterns):any(function(pattern)
                         return not not basename:match(pattern)
