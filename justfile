@@ -1,17 +1,19 @@
 #!/usr/bin/env just --justfile
 
+set unstable
 
-yay-update:
-    #!/usr/bin/env zsh
-    # yay -Syy --noconfirm
 
-install package: yay-update
+install package:
     #!/usr/bin/env zsh
     set -euo pipefail
     if (( $+commands[yay] )); then
         if  ! yay -Qi "{{package}}" >/dev/null 3>&1; then
             yay -S --noconfirm {{package}}
             echo install {{package}}
+        fi
+    elif (( $+commands[apt-get] )); then
+        if ! dpkg -s "{{package}}" >/dev/null 3>&1; then
+            sudo apt-get install -y "{{package}}"
         fi
     elif (( $+commands[brew] )); then
         # echo "check {{package}}"
@@ -80,7 +82,6 @@ config-nvim: config-rust (install "neovim") (install "unzip") (link "config/nvim
     
 config-zsh: (install "zsh") \
             (install "git") \
-            (install "git-lfs") \
             (link "home/zshrc" "~/.zshrc") \
             (link "home/zprofile" "~/.zprofile") \
             (link "home/zshenv" "~/.zshenv") \
@@ -94,10 +95,12 @@ config-tmux: (install "git") (install "tmux") (link "home/tmux.conf.local" "~/.t
         ln -s -f ~/.tmux/.tmux.conf ~/.tmux.conf
     fi
 
-
-config-pyenv: (install "git") (install "pyenv") config-zsh
+[unix]
+config-pyenv: (install "git") config-zsh
     #!/usr/bin/env zsh
     set -euo pipefail
+    if  (( $+commands[pyenv] )) || [ -d ~/.pyenv ]; then exit 0; fi
+    git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 
     pyenv_plugin() {
         name=$1
@@ -119,7 +122,17 @@ config-python: config-pyenv config-zsh (link "config/pip" "~/.config/pip") (conf
     # pyenv install --skip-existing 3.10 3.11 3.12
     pyenv install --skip-existing 3.12
 
-config-mise: (install "git") (install "usage") (install "mise") (link "config/mise" "~/.config/mise")
+[unix]
+config-mise: config-zsh (install "curl") (link "config/mise" "~/.config/mise")
+    #!/usr/bin/env -S zsh
+    if  (( $+commands[mise] )) ; then exit 0; fi
+    curl https://mise.run | sh
+    mise use -g usage
+
+[windows]
+config-mise: (install "curl") (link "config/mise" "~/.config/mise")
+    winget install jdx.mise
+    mise use -g usage
 
 config-bun: config-mise
     #!/usr/bin/env zsh
@@ -148,6 +161,9 @@ config-node: config-mise
         mise install pnpm
     fi
 
+config-git: (install "open-ssh")
+    git config user.name
+    
 
 config-apps: \
     (config "alacritty") (config "kitty") (config "ghostty") \
@@ -213,7 +229,7 @@ config-desktop: \
     (link "local/share/applications/file-manager.desktop" "~/.local/share/applications/file-manager.desktop")
 
 
-bootstrap-docker: install-yay config-dev
+bootstrap-docker: config-dev
 bootstrap-docker-full: bootstrap
 
 bootstrap: install-yay config-dev
