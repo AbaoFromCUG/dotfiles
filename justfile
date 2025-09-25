@@ -2,27 +2,6 @@
 
 set unstable
 
-
-install package:
-    #!/usr/bin/env zsh
-    set -euo pipefail
-    if (( $+commands[yay] )); then
-        if  ! yay -Qi "{{package}}" >/dev/null 3>&1; then
-            yay -S --noconfirm {{package}}
-            echo install {{package}}
-        fi
-    elif (( $+commands[apt-get] )); then
-        if ! dpkg -s "{{package}}" >/dev/null 3>&1; then
-            sudo apt-get install -y "{{package}}"
-        fi
-    elif (( $+commands[brew] )); then
-        # echo "check {{package}}"
-        if  ! brew ls --version "{{package}}" >/dev/null 3>&1; then
-            brew install {{package}}
-            echo install {{package}}
-        fi
-    fi
-
 install-yay:
     #!/usr/bin/env zsh
     set -euo pipefail
@@ -34,6 +13,53 @@ install-yay:
     cd yay
     makepkg -si --noconfirm
     yay -Syuu --noconfirm
+
+install-lazygit:
+    #!/usr/bin/env zsh
+    if  (( $+commands[lazygit] )) ; then exit 0; fi
+    mkdir /tmp/lazygit && cd /tmp/lazygit
+    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
+    curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+    tar xf lazygit.tar.gz lazygit
+    sudo install lazygit -D -t /usr/local/bin/
+
+
+install package:
+    #!/usr/bin/env zsh
+    set -euo pipefail
+    if (( $+commands[yay] )); then
+        if  ! yay -Qi "{{package}}" >/dev/null 3>&1; then
+            yay -S --noconfirm {{package}}
+            echo install {{package}}
+        fi
+    elif (( $+commands[apt-get] )); then
+        declare -A alias_names
+        alias_names=(["fd"]="fd-find" ["github-cli"]="gh")
+        name="${alias_names[{{package}}]:-{{package}}}"
+
+        if ! dpkg -s "$name" >/dev/null 3>&1; then
+            sudo apt-get install -y "$name"
+        fi
+    elif (( $+commands[brew] )); then
+        # echo "check {{package}}"
+        if  ! brew ls --version "{{package}}" >/dev/null 3>&1; then
+            brew install {{package}}
+            echo install {{package}}
+        fi
+    fi
+
+config-ubuntu:
+    #!/usr/bin/env bash
+    sudo add-apt-repository ppa:neovim-ppa/unstable -y
+    type -p wget >/dev/null || (sudo apt update && sudo apt install wget -y)
+    mkdir -p -m 755 /etc/apt/keyrings
+    out=$(mktemp)
+    wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg 
+    cat $out | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null 
+    sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg 
+    sudo mkdir -p -m 755 /etc/apt/sources.list.d 
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+    sudo apt-get update
 
 
 
@@ -71,7 +97,7 @@ config package $config="": (install package)
         ln -s $source $target
     fi
 
-config-nvim: config-rust (install "neovim") (install "unzip") (link "config/nvim" "~/.config/nvim" )
+config-nvim: config-rust (install "gcc") (install "neovim") (install "unzip") (link "config/nvim" "~/.config/nvim" )
     #!/usr/bin/env zsh
     set -euo pipefail
     nvim --headless -c "Lazy! install" \
@@ -79,7 +105,7 @@ config-nvim: config-rust (install "neovim") (install "unzip") (link "config/nvim
         --headless -c "TSUpdateSync" \
         -c 'lua print(string.format("Install %s neovim plugins \n", require("lazy").stats().count))' \
         -c "quit"
-    
+
 config-zsh: (install "zsh") \
             (install "git") \
             (link "home/zshrc" "~/.zshrc") \
@@ -98,6 +124,13 @@ config-tmux: (install "git") (install "tmux") (link "home/tmux.conf.local" "~/.t
 [unix]
 config-pyenv: (install "git") config-zsh
     #!/usr/bin/env zsh
+
+    if  (( $+commands[apt] )) ; then 
+        packages=(make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev curl git libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev)
+        for package in "${packages[@]}"; do
+            just install "$package"
+        done
+    fi
     set -euo pipefail
     if  (( $+commands[pyenv] )) || [ -d ~/.pyenv ]; then exit 0; fi
     git clone https://github.com/pyenv/pyenv.git ~/.pyenv
@@ -116,8 +149,13 @@ config-pyenv: (install "git") config-zsh
     pyenv_plugin pyenv-update pyenv
     pyenv_plugin pyenv-pyright alefpereira
 
-config-python: config-pyenv config-zsh (link "config/pip" "~/.config/pip") (config "uv")
+
+config-python: config-pyenv config-zsh (link "config/pip" "~/.config/pip") (link "config/uv" "~/.config/uv")
     #!/usr/bin/env zsh
+    if  (( ! $+commands[uv] )) ; then 
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+    fi
+    
     pyenv update
     # pyenv install --skip-existing 3.10 3.11 3.12
     pyenv install --skip-existing 3.12
@@ -161,7 +199,7 @@ config-node: config-mise
         mise install pnpm
     fi
 
-config-git scope="global": (install "openssh")
+config-git scope="global":
     #!/usr/bin/env zsh
     declare -A keys
     keys=(
@@ -184,7 +222,7 @@ config-git scope="global": (install "openssh")
     done
 
     echo "Please check your {{scope}} configurations of git:\n"
-    git config list --{{scope}}
+    git config list
 
 config-apps: \
     (config "alacritty") (config "kitty") (config "ghostty") \
@@ -215,6 +253,23 @@ config-hypr: \
 config-wayfire: \
     (link "config/wayfire.ini" "~/.config/wayfire.ini")
 
+config-lazygit: (link "config/lazygit" "~/.config/lazygit")
+    #!/usr/bin/env zsh
+    if (( $+commands[apt-get] )); then
+        just install-lazygit
+    else
+        just install lazygit
+    fi
+
+
+config-yazi: (link "config/yazi" "~/.config/yazi") config-rust
+    #!/usr/bin/env zsh
+    if (( $+commands[apt-get] )); then
+        cargo install --locked yazi-build
+    else
+        just install yazi
+    fi
+
 
 config-dev: \
     config-zsh \
@@ -225,10 +280,10 @@ config-dev: \
     config-node \
     config-bun \
     config-rust \
-    (config "lazygit") \
+    config-lazygit \
+    config-yazi \
     (install "wget") \
     (install "ripgrep") \
-    (install "yazi") \
     (install "jq") \
     (install "fd") \
     (install "fzf") \
