@@ -161,9 +161,30 @@ config-node: config-mise
         mise install pnpm
     fi
 
-config-git: (install "open-ssh")
-    git config user.name
-    
+config-git scope="global": (install "openssh")
+    #!/usr/bin/env zsh
+    declare -A keys
+    keys=(
+        ["user.name"]="John Doe" 
+        ["user.email"]="user@example.com"
+    )
+    for key in "${(@k)keys[@]}"; do
+        default_value="$(eval git config get $key)"
+        if [ -z "$default_value" ]; then
+            read -r "value?please input your git's $key of {{scope}}, e.g. (${keys[$key]}):"
+        else
+            read -r "value?please input your git's $key of {{scope}} (default: $default_value):"
+            value=${value:-$default_value}
+        fi
+        if [ -z "$value" ]; then 
+            echo "you don't input anything, existing..."
+            exit 1
+        fi;
+        git config --{{scope}} $key $value
+    done
+
+    echo "Please check your {{scope}} configurations of git:\n"
+    git config list --{{scope}}
 
 config-apps: \
     (config "alacritty") (config "kitty") (config "ghostty") \
@@ -216,6 +237,8 @@ config-dev: \
     (install "zoxide") \
     (install "curl") \
     (install "cmake") \
+    (install "man-db") \
+    (install "github-cli") \
     (install "imagemagick")
 
 config-desktop: \
