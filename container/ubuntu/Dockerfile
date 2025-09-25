@@ -22,7 +22,7 @@ WORKDIR /home/${USER_NAME}/.dotfiles
 
 COPY --chown=abao:abao . /home/${USER_NAME}/.dotfiles
 
-RUN sudo apt-get update && \
+RUN just config-ubuntu && \
     just ${RECIPE} && \
     zsh --interactive -c "echo Installing..." && \
     sudo sed -i '$d' /etc/sudoers && \
