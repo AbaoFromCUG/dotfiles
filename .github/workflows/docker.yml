@@ -4,6 +4,8 @@ on:
   release:
     types: [published]
 
+  workflow_dispatch:
+
 jobs:
   push_archlinux:
     name: Push ArchLinux Docker image to Docker Hub
@@ -35,7 +37,7 @@ jobs:
         with:
           context: .
           file: ./container/archlinux/Dockerfile
-          push: true
+          push: ${{ github.event_name == 'release' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
@@ -44,7 +46,7 @@ jobs:
         with:
           subject-name: index.docker.io/abaozhang/archlinux
           subject-digest: ${{ steps.push.outputs.digest }}
-          push-to-registry: true
+          push-to-registry: ${{ github.event_name == 'release' }}
 
   push_ubuntu:
     name: Push Ubuntu Docker image to Docker Hub
@@ -76,7 +78,7 @@ jobs:
         with:
           context: .
           file: ./container/ubuntu/Dockerfile
-          push: true
+          push: ${{ github.event_name == 'release' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
@@ -85,4 +87,4 @@ jobs:
         with:
           subject-name: index.docker.io/abaozhang/ubuntu
           subject-digest: ${{ steps.push.outputs.digest }}
-          push-to-registry: true
+          push-to-registry: ${{ github.event_name == 'release' }}
