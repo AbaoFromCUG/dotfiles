@@ -30,9 +30,6 @@ RUN cd /home/${USER_NAME}/.dotfiles && \
     echo "${USER_NAME}:${USER_PASSWORD}" |chpasswd && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /home/${USER_NAME}/.cache
 
-
 USER ${USER_NAME}
 WORKDIR /home/${USER_NAME}
 CMD ["zsh"]
-
-

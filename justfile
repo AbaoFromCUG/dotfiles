@@ -102,6 +102,16 @@ config package $config="": (install package)
 config-nvim: config-rust (install "gcc") (install "neovim") (install "unzip") (link "config/nvim" "~/.config/nvim" )
     #!/usr/bin/env zsh
     set -euo pipefail
+    if (( ! $+commands[tree-sitter] )); then 
+        mise install tree-sitter
+        mise use -g tree-sitter
+    fi
+
+    if (( ! $+commands[ruff] )); then 
+        mise install ruff
+        mise use -g ruff
+    fi
+
     nvim --headless -c "Lazy! install" \
         --headless -c "Lazy! load all" \
         --headless -c "TSUpdateSync" \

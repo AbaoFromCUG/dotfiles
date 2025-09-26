@@ -109,7 +109,11 @@ function sshr() {
 alias vim=nvim
 alias ocat="$(which cat)"
 
-alias cat="$(which bat)"
+if (( $+commands[bat] )); then
+    alias cat="$(which bat)"
+elif (( $+commands[batcat]  )); then
+    alias cat="$(which batcat)"
+fi
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export MANROFFOPT="-c"
 

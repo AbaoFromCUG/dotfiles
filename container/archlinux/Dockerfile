@@ -31,5 +31,3 @@ RUN cd /home/${USER_NAME}/.dotfiles && \
 USER ${USER_NAME}
 WORKDIR /home/${USER_NAME}
 CMD ["zsh"]
-
-

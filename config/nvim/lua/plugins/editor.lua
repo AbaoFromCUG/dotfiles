@@ -84,6 +84,8 @@ end
 local languages = {
     "comment",
     "json",
+    "vim",
+    "lua",
 }
 
 ---@type LazySpec[]

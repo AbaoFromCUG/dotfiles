@@ -25,7 +25,6 @@ return {
                 "texlab",
                 "marksman",
                 "taplo",
-                "ruff",
                 "tailwindcss",
                 "eslint",
                 "tinymist",
@@ -39,6 +38,12 @@ return {
                 }
             },
         },
+        config = function(_, opts)
+            require("mason-lspconfig").setup(opts)
+            vim.iter({
+                "ruff",
+            }):each(vim.lsp.enable)
+        end
     },
 
     -- completion engine
