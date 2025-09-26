@@ -50,6 +50,7 @@ install package:
 
 config-ubuntu:
     #!/usr/bin/env bash
+    type -p add-apt-repository >/dev/null || (sudo apt-get update && sudo apt-get install software-properties-common -y)
     sudo add-apt-repository ppa:neovim-ppa/stable -y
     sudo add-apt-repository ppa:neovim-ppa/unstable -y
     type -p wget >/dev/null || (sudo apt update && sudo apt install wget -y)
