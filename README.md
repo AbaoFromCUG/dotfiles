@@ -1,17 +1,31 @@
 # dotfiles
 
-My dotfiles for Neovim, zsh,...  optimized for ArchLinux and WSL. Managed with [Dotter](https://github.com/SuperCuber/dotter).
+My dotfiles for Neovim, zsh,...  optimized for ArchLinux and WSL. Managed with [justfile](https://just.systems/).
 
 ![screenshot](./screenshot.png)
 
 ## QuickStart
 
-```bash
-git clone https://github.com/AbaoFromCUG/dotfiles ~/.dotfiles
-yay -S dotter
-cp .dotter/local.template.toml .dotter/local.toml
-dotter
-```
+* For `local` user
+    ```bash
+    # archlinux user
+    just install-yay
+    just config-dev
+
+    # or ubuntu user
+    just config-ubuntu
+    just config-dev
+    ```
+
+* For `docker/podman` user
+    ```bash
+    # archlinux container
+    podman run -it --rm --name abao-archlinux abaozhang/archlinux:latest 
+    
+    # or ubuntu container
+    
+    podman run -it --rm --name abao-ubuntu abaozhang/ubuntu:latest 
+    ```
 
 ## Desktop Environment
 

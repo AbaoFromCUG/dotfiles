@@ -1,5 +1,5 @@
 require("which-key").add({
-    { "<leader>llk", "<cmd>MarkdownPreviewToggle<cr>", desc = "preview markdown" },
+    { "<leader>ll", "<cmd>MarkdownPreviewToggle<cr>", desc = "preview markdown" },
     buffer = 0,
 })
 
