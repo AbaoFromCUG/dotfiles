@@ -262,13 +262,12 @@ config-lazygit: (link "config/lazygit" "~/.config/lazygit")
     fi
 
 
-config-yazi: (link "config/yazi" "~/.config/yazi") config-rust
+config-yazi: (link "config/yazi" "~/.config/yazi")
     #!/usr/bin/env zsh
-    if (( $+commands[apt-get] )); then
-        cargo install --locked yazi-build
-    else
-        just install yazi
-    fi
+    if (( $+commands[yazi] )); then  exit 0;  fi
+
+    mise install yazi@latest
+    mise use -g yazi@latest
 
 
 config-dev: \
