@@ -1,6 +1,7 @@
 FROM archlinux:latest
 
 ARG USER_NAME=abao
+ARG USER_PASSWORD=password
 ARG RECIPE=bootstrap-docker
 
 RUN echo 'Server = https://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch' | tee -a /etc/pacman.d/mirrorlist && \
@@ -14,25 +15,21 @@ RUN echo 'Server = https://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch' | tee -
     pacman -Scc --noconfirm && \
     rm -rf /var/cache/pacman/pkg/* /var/lib/pacman/sync/* /tmp/* /var/tmp/*
 
-USER ${USER_NAME}
-WORKDIR /home/${USER_NAME}/.dotfiles
-
 COPY --chown=abao:abao . /home/${USER_NAME}/.dotfiles
 
-RUN sudo pacman -Syy && \
-    just install-yay && \
-    just ${RECIPE} && \
-    zsh --interactive -c "echo Installing..." && \
+RUN cd /home/${USER_NAME}/.dotfiles && \
+    sudo pacman -Syy && \
+    sudo -u abao just install-yay && \
+    sudo -u abao just ${RECIPE} && \
+    sudo -u abao zsh --interactive -c "echo Installing..." && \
     pacman -Scc --noconfirm && \
-    rm -rf /var/cache/pacman/pkg/* /var/lib/pacman/sync/* /tmp/* /var/tmp/*
-
-USER root
-
-RUN sed -i '/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL$/s/^/# /' /etc/sudoers && \
-    sed -i '/^# %wheel ALL=(ALL:ALL) ALL$/s/^# //' /etc/sudoers
+    sed -i '/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL$/s/^/# /' /etc/sudoers && \
+    sed -i '/^# %wheel ALL=(ALL:ALL) ALL$/s/^# //' /etc/sudoers && \
+    echo "${USER_NAME}:${USER_PASSWORD}" |chpasswd && \
+    rm -rf /var/cache/pacman/pkg/* /var/lib/pacman/sync/* /tmp/* /var/tmp/* /home/${USER_NAME}/.cache
 
 USER ${USER_NAME}
-
+WORKDIR /home/${USER_NAME}
 CMD ["zsh"]
 
 

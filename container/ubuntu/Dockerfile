@@ -1,6 +1,7 @@
 FROM ubuntu:latest
 
 ARG USER_NAME=abao
+ARG USER_PASSWORD=password
 ARG RECIPE=bootstrap-docker
 
 RUN sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list.d/ubuntu.sources && \
@@ -17,17 +18,21 @@ RUN sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.l
     update-locale LANG=en_US.UTF-8 && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-USER ${USER_NAME}
-WORKDIR /home/${USER_NAME}/.dotfiles
-
 COPY --chown=abao:abao . /home/${USER_NAME}/.dotfiles
 
-RUN just config-ubuntu && \
-    just ${RECIPE} && \
-    zsh --interactive -c "echo Installing..." && \
-    sudo sed -i '$d' /etc/sudoers && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN cd /home/${USER_NAME}/.dotfiles && \
+    sudo -u abao just config-ubuntu && \
+    sudo -u abao just ${RECIPE} && \
+    sudo -u abao zsh --interactive -c "echo Installing..." && \
+    sed -i '$d' /etc/sudoers && \
+    sed -i '/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL$/s/^/# /' /etc/sudoers && \
+    sed -i '/^# %wheel ALL=(ALL:ALL) ALL$/s/^# //' /etc/sudoers && \
+    echo "${USER_NAME}:${USER_PASSWORD}" |chpasswd && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /home/${USER_NAME}/.cache
 
+
+USER ${USER_NAME}
+WORKDIR /home/${USER_NAME}
 CMD ["zsh"]
 
 

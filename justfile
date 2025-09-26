@@ -50,6 +50,7 @@ install package:
 
 config-ubuntu:
     #!/usr/bin/env bash
+    sudo add-apt-repository ppa:neovim-ppa/stable -y
     sudo add-apt-repository ppa:neovim-ppa/unstable -y
     type -p wget >/dev/null || (sudo apt update && sudo apt install wget -y)
     mkdir -p -m 755 /etc/apt/keyrings
