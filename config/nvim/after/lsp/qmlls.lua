@@ -6,12 +6,11 @@ local function executable(exe_list)
     end
 end
 
-
 local cmd = {
     executable({
         "qmlls",
         "qmlls6",
-    })
+    }),
 }
 
 return {

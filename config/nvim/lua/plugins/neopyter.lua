@@ -9,11 +9,11 @@ return {
             auto_attach = true,
             on_attach = function(buf)
                 require("which-key").add({
-                    { "<space>nt", "<cmd>Neopyter execute kernelmenu:restart<cr>",       desc = "restart kernel" },
-                    { "<C-CR>",    "<cmd>Neopyter execute notebook:run-cell<cr>",        desc = "run selected" },
-                    { "<space>nr", "<cmd>Neopyter execute notebook:run-cell<cr>",        desc = "run selected" },
-                    { "<space>nR", "<cmd>Neopyter run all<cr>",                          desc = "run all" },
-                    { "<F5>",      "<cmd>Neopyter execute notebook:restart-run-all<cr>", desc = "restart kernel and run all" },
+                    { "<space>nt", "<cmd>Neopyter execute kernelmenu:restart<cr>", desc = "restart kernel" },
+                    { "<C-CR>", "<cmd>Neopyter execute notebook:run-cell<cr>", desc = "run selected" },
+                    { "<space>nr", "<cmd>Neopyter execute notebook:run-cell<cr>", desc = "run selected" },
+                    { "<space>nR", "<cmd>Neopyter run all<cr>", desc = "run all" },
+                    { "<F5>", "<cmd>Neopyter execute notebook:restart-run-all<cr>", desc = "restart kernel and run all" },
 
                     buffer = buf,
                 })
@@ -38,7 +38,7 @@ return {
         },
         ft = { "python", "r" },
         cmd = "Neopyter",
-        dev = true
+        dev = true,
     },
     {
         "saghen/blink.cmp",

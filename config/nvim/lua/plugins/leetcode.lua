@@ -12,7 +12,7 @@ return {
             ---@type lc.picker
             picker = { provider = "snacks-picker" },
             storage = {
-                home = vim.fs.normalize("~/Documents/leetcode")
+                home = vim.fs.normalize("~/Documents/leetcode"),
             },
             plugins = {
                 non_standalone = true,
@@ -31,9 +31,8 @@ return {
                         vim.print(status)
                         return "int main() {}"
                     end,
-                }
-            }
+                },
+            },
         },
-    }
-
+    },
 }

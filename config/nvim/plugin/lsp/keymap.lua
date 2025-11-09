@@ -1,7 +1,5 @@
 vim.lsp.config("clangd", {
-    reuse_client = function(client, config)
-        return true
-    end
+    reuse_client = function(client, config) return true end,
 })
 
 vim.api.nvim_create_autocmd("LspAttach", {

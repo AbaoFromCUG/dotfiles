@@ -2,10 +2,9 @@ if vim.fn.has("nvim-0.12") ~= 1 then
     return
 end
 
-
 require("vim._extui").enable({
     enable = true, -- Whether to enable or disable the UI.
-    msg = {        -- Options related to the message module.
+    msg = { -- Options related to the message module.
         ---@type 'cmd'|'msg' Where to place regular messages, either in the
         ---cmdline or in a separate ephemeral message window.
         target = "cmd",

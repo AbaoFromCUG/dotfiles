@@ -26,7 +26,7 @@ return {
         "nvim-lua/plenary.nvim",
         keys = {
             { "<leader>ps", profile_start, desc = "profile start" },
-            { "<leader>pe", profile_end,   desc = "profile end" },
+            { "<leader>pe", profile_end, desc = "profile end" },
         },
     },
     "tami5/sqlite.lua",
@@ -56,5 +56,4 @@ return {
             automatic_installation = true,
         },
     },
-
 }

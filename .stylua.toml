@@ -7,6 +7,5 @@ quote_style = "AutoPreferDouble"
 call_parentheses = "Always"
 collapse_simple_statement = "FunctionOnly"
 
-
 [sort_requires]
 enabled = true

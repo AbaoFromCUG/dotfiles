@@ -8,7 +8,6 @@ local neoconfSchema = {
         vim.fs.joinpath(vim.fn.stdpath("config"), "neoconf.json"),
         ".neoconf.json",
     },
-
 }
 
 schemas = vim.list_extend({ neoconfSchema }, schemas)

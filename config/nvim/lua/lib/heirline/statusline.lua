@@ -1,6 +1,6 @@
+local common = require("lib.heirline.common")
 local conditions = require("heirline.conditions")
 local utils = require("heirline.utils")
-local common = require("lib.heirline.common")
 local Space = common.Space
 local Align = common.Align
 local FileNameView = common.FileNameView
@@ -59,45 +59,37 @@ local ViMode = {
             r = "orange",
             ["!"] = "red",
             t = "red",
-        }
+        },
     },
-    init = function(self)
-        self.mode = vim.fn.mode(1)
-    end,
-    provider = function(self)
-        return " %2(" .. self.mode_names[self.mode] .. "%)"
-    end,
+    init = function(self) self.mode = vim.fn.mode(1) end,
+    provider = function(self) return " %2(" .. self.mode_names[self.mode] .. "%)" end,
     hl = function(self)
         local mode = self.mode:sub(1, 1) -- get only the first mode character
-        return { fg = self.mode_colors[mode], bold = true, }
+        return { fg = self.mode_colors[mode], bold = true }
     end,
     update = {
         "ModeChanged",
         pattern = "*:*",
-        callback = vim.schedule_wrap(function()
-            vim.cmd("redrawstatus")
-        end),
+        callback = vim.schedule_wrap(function() vim.cmd("redrawstatus") end),
     },
 }
 
 local FileName = {
     init = function(self)
         self.lfilename = vim.fn.fnamemodify(self.filename, ":.")
-        if self.lfilename == "" then self.lfilename = "[No Name]" end
+        if self.lfilename == "" then
+            self.lfilename = "[No Name]"
+        end
     end,
     hl = { fg = utils.get_highlight("Directory").fg },
 
     flexible = 2,
 
     {
-        provider = function(self)
-            return self.lfilename
-        end,
+        provider = function(self) return self.lfilename end,
     },
     {
-        provider = function(self)
-            return vim.fn.pathshorten(self.lfilename, 2)
-        end,
+        provider = function(self) return vim.fn.pathshorten(self.lfilename, 2) end,
     },
 }
 
@@ -105,10 +97,8 @@ FileName = utils.insert(FileNameView, FileName)
 
 local Navic = {
     condition = function() return require("nvim-navic").is_available() end,
-    provider = function()
-        return require("nvim-navic").get_location({ highlight = true })
-    end,
-    update = "CursorMoved"
+    provider = function() return require("nvim-navic").get_location({ highlight = true }) end,
+    update = "CursorMoved",
 }
 
 local Git = {
@@ -126,17 +116,13 @@ local Git = {
 
     -- git branch name
     {
-        provider = function(self)
-            return " " .. self.status_dict.head
-        end,
-        hl = { bold = true }
+        provider = function(self) return " " .. self.status_dict.head end,
+        hl = { bold = true },
     },
     -- You could handle delimiters, icons and counts similar to Diagnostics
     {
-        condition = function(self)
-            return self.has_changes
-        end,
-        provider = "("
+        condition = function(self) return self.has_changes end,
+        provider = "(",
     },
     {
         provider = function(self)
@@ -160,9 +146,7 @@ local Git = {
         hl = { fg = "git_change" },
     },
     {
-        condition = function(self)
-            return self.has_changes
-        end,
+        condition = function(self) return self.has_changes end,
         provider = ")",
     },
 }
@@ -196,42 +180,33 @@ local Diagnostics = {
         hl = { fg = "diag_error" },
     },
     {
-        provider = function(self)
-            return self.warnings > 0 and (self.warn_icon .. self.warnings .. " ")
-        end,
+        provider = function(self) return self.warnings > 0 and (self.warn_icon .. self.warnings .. " ") end,
         hl = { fg = "diag_warn" },
     },
     {
-        provider = function(self)
-            return self.info > 0 and (self.info_icon .. self.info .. " ")
-        end,
+        provider = function(self) return self.info > 0 and (self.info_icon .. self.info .. " ") end,
         hl = { fg = "diag_info" },
     },
     {
-        provider = function(self)
-            return self.hints > 0 and (self.hint_icon .. self.hints)
-        end,
+        provider = function(self) return self.hints > 0 and (self.hint_icon .. self.hints) end,
         hl = { fg = "diag_hint" },
     },
 }
 
 local BottomEdgyGroup = {
-    condition = function()
-        return not not package.loaded["edgy-group"]
-    end,
+    condition = function() return not not package.loaded["edgy-group"] end,
     provider = function()
         local stl = require("edgy-group.stl")
         local bottom_line = stl.get_statusline("bottom")
         return table.concat(bottom_line)
-    end
+    end,
 }
-
 
 local FileEncoding = {
     provider = function()
         local enc = (vim.bo.fenc ~= "" and vim.bo.fenc) or vim.o.enc -- :h 'enc'
         return enc
-    end
+    end,
 }
 
 local FileFormat = {
@@ -243,24 +218,14 @@ local FileFormat = {
         }
         local fmt = vim.bo.fileformat
         return symbols[fmt]
-    end
+    end,
 }
-local FileStatus = utils.insert(FileNameView,
-    FileEncoding,
-    Space,
-    FileFormat,
-    Space,
-    FileIcon,
-    Space
-)
+local FileStatus = utils.insert(FileNameView, FileEncoding, Space, FileFormat, Space, FileIcon, Space)
 
 local FileType = {
-    provider = function()
-        return string.upper(vim.bo.filetype)
-    end,
+    provider = function() return string.upper(vim.bo.filetype) end,
     hl = { fg = utils.get_highlight("Type").fg, bold = true },
 }
-
 
 local Ruler = {
     -- %l = current line number
@@ -270,15 +235,22 @@ local Ruler = {
     provider = "%7(%l/%3L%):%2c %P",
 }
 
-
-
 local DefaultStatusline = {
-    ViMode, Space, FileName, Space, Navic, Space, Git, Space, Diagnostics,
+    ViMode,
+    Space,
+    FileName,
+    Space,
+    Navic,
+    Space,
+    Git,
+    Space,
+    Diagnostics,
     Align,
     BottomEdgyGroup,
     Align,
     FileStatus,
-    Space, Ruler,
+    Space,
+    Ruler,
 }
 
 local SpecialStatusline = {
@@ -297,9 +269,7 @@ local SpecialStatusline = {
 }
 local TerminalStatusline = {
 
-    condition = function()
-        return conditions.buffer_matches({ buftype = { "terminal" } })
-    end,
+    condition = function() return conditions.buffer_matches({ buftype = { "terminal" } }) end,
 
     hl = { bg = "dark_red" },
 

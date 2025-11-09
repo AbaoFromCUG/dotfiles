@@ -1,5 +1,5 @@
-local utils = require("heirline.utils")
 local common = require("lib.heirline.common")
+local utils = require("heirline.utils")
 local Space = common.Space
 local Align = common.Align
 local FileNameView = common.FileNameView
@@ -13,11 +13,8 @@ local function edge_has_open(pos)
     return #edgebar.wins > 0, edgebar.bounds.width, edgebar.bounds.height
 end
 
-
 local TablineBufnr = {
-    provider = function(self)
-        return tostring(self.bufnr) .. ". "
-    end,
+    provider = function(self) return tostring(self.bufnr) .. ". " end,
     hl = "Comment",
 }
 
@@ -26,8 +23,7 @@ local FileName = {
         if self.filename == "" then
             return "[No Name]"
         end
-        local filenames = vim.iter(vim.api.nvim_list_bufs()):filter(function(buf) return vim.bo[buf].buflisted end):map(vim.api.nvim_buf_get_name)
-            :totable()
+        local filenames = vim.iter(vim.api.nvim_list_bufs()):filter(function(buf) return vim.bo[buf].buflisted end):map(vim.api.nvim_buf_get_name):totable()
         local shortest_filenames = require("utils.path").shortest_suffixes(filenames)
         return shortest_filenames[self.filename]
     end,
@@ -46,9 +42,7 @@ local FileName = {
 
 -- Here the filename block finally comes together
 local TablineFileNameBlock = {
-    init = function(self)
-        self.filename = vim.api.nvim_buf_get_name(self.bufnr)
-    end,
+    init = function(self) self.filename = vim.api.nvim_buf_get_name(self.bufnr) end,
     hl = function(self)
         if self.is_active then
             return "tabsel_bg"
@@ -58,17 +52,13 @@ local TablineFileNameBlock = {
     end,
     on_click = {
         callback = function(_, minwid, _, button)
-            if (button == "m") then -- close on mouse middle click
-                vim.schedule(function()
-                    vim.api.nvim_buf_delete(minwid, { force = false })
-                end)
+            if button == "m" then -- close on mouse middle click
+                vim.schedule(function() vim.api.nvim_buf_delete(minwid, { force = false }) end)
             else
                 vim.api.nvim_win_set_buf(0, minwid)
             end
         end,
-        minwid = function(self)
-            return self.bufnr
-        end,
+        minwid = function(self) return self.bufnr end,
         name = "heirline_tabline_buffer_callback",
     },
     TablineBufnr,
@@ -79,9 +69,7 @@ local TablineFileNameBlock = {
 
 -- a nice "x" button to close the buffer
 local TablineCloseButton = {
-    condition = function(self)
-        return not vim.api.nvim_get_option_value("modified", { buf = self.bufnr })
-    end,
+    condition = function(self) return not vim.api.nvim_get_option_value("modified", { buf = self.bufnr }) end,
     { provider = " " },
     {
         provider = "",
@@ -93,9 +81,7 @@ local TablineCloseButton = {
                     vim.cmd.redrawtabline()
                 end)
             end,
-            minwid = function(self)
-                return self.bufnr
-            end,
+            minwid = function(self) return self.bufnr end,
             name = "heirline_tabline_close_buffer_callback",
         },
     },
@@ -115,19 +101,16 @@ local BufferLine = utils.make_buflist(
     TablineBufferBlock,
     { provider = "", hl = { fg = "gray" } }, -- left truncation, optional (defaults to "<")
     { provider = "", hl = { fg = "gray" } } -- right trunctation, also optional (defaults to ...... yep, ">")
--- by the way, open a lot of buffers and try clicking them ;)
+    -- by the way, open a lot of buffers and try clicking them ;)
 )
 local TabLineLeftOffset = {
-    condition = function()
-        return not not package.loaded["edgy-group"]
-    end,
+    condition = function() return not not package.loaded["edgy-group"] end,
 
     provider = function(self)
         local stl = require("edgy-group.stl")
         local left_line = stl.get_statusline("left")
         local content = table.concat(left_line)
         local icons = vim.iter(stl.cache.statuslines.left):map(function(item) return item.icon end):join("")
-
 
         local has_open, width = edge_has_open("left")
         if has_open then
@@ -147,9 +130,7 @@ local TabLineLeftOffset = {
 }
 
 local Tabpage = {
-    provider = function(self)
-        return "%" .. self.tabnr .. "T " .. self.tabpage .. " %T"
-    end,
+    provider = function(self) return "%" .. self.tabnr .. "T " .. self.tabpage .. " %T" end,
     hl = function(self)
         if not self.is_active then
             return "TabLine"
@@ -166,25 +147,20 @@ local TabpageClose = {
 
 local TabPages = {
     -- only show this component if there's 2 or more tabpages
-    condition = function()
-        return #vim.api.nvim_list_tabpages() >= 2
-    end,
+    condition = function() return #vim.api.nvim_list_tabpages() >= 2 end,
     { provider = "%=" },
     utils.make_tablist(Tabpage),
     TabpageClose,
 }
 
 local TabLineRightOffset = {
-    condition = function()
-        return not not package.loaded["edgy-group"]
-    end,
+    condition = function() return not not package.loaded["edgy-group"] end,
 
     provider = function(self)
         local stl = require("edgy-group.stl")
         local left_line = stl.get_statusline("right")
         local content = table.concat(left_line)
         local icons = vim.iter(stl.cache.statuslines.right):map(function(item) return item.icon end):join("")
-
 
         local has_open, width = edge_has_open("right")
         if has_open then
@@ -206,7 +182,8 @@ local TabLineRightOffset = {
 local TabLine = {
     TabLineLeftOffset,
     BufferLine,
-    TabPages, Align,
+    TabPages,
+    Align,
     TabLineRightOffset,
 }
 return TabLine

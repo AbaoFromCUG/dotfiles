@@ -1,6 +1,5 @@
 local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
 
-
 local group = vim.api.nvim_create_augroup("CodeCompanionProgress", { clear = true })
 vim.api.nvim_create_autocmd({ "User" }, {
     pattern = { "CodeCompanionRequestStarted", "CodeCompanionRequestStreaming", "CodeCompanionRequestFinished" },
@@ -19,9 +18,7 @@ vim.api.nvim_create_autocmd({ "User" }, {
                 end
             end,
 
-            keep = function()
-                return msg ~= "Finished"
-            end,
+            keep = function() return msg ~= "Finished" end,
         })
     end,
 })
@@ -35,34 +32,32 @@ return {
             language = "Chinese",
             display = {
                 chat = {
-                    show_settings = true
-
-                }
-
+                    show_settings = true,
+                },
             },
             strategies = {
                 chat = {
-                    adapter = "copilot"
+                    adapter = "copilot",
                 },
                 inline = {
                     adapter = "llm",
                     keymaps = {
                         accept_change = {
-                            modes = { n = "gaa" }
+                            modes = { n = "gaa" },
                         },
                         reject_change = {
-                            modes = { n = "gar" }
+                            modes = { n = "gar" },
                         },
-                    }
-                }
+                    },
+                },
             },
         },
         keys = {
-            { "<leader>a",  group = true,                    desc = "ai",               mode = { "v", "n" } },
-            { "<leader>ai", "<cmd>CodeCompanion<cr>",        desc = "inline assistant", mode = { "v", "n" } },
-            { "<leader>ac", "<cmd>CodeCompanionChat<cr>",    desc = "chat assistant",   mode = { "v", "n" } },
-            { "<leader>ap", "<cmd>CodeCompanionActions<cr>", desc = "action palette",   mode = { "v", "n" } },
-        }
+            { "<leader>a", group = true, desc = "ai", mode = { "v", "n" } },
+            { "<leader>ai", "<cmd>CodeCompanion<cr>", desc = "inline assistant", mode = { "v", "n" } },
+            { "<leader>ac", "<cmd>CodeCompanionChat<cr>", desc = "chat assistant", mode = { "v", "n" } },
+            { "<leader>ap", "<cmd>CodeCompanionActions<cr>", desc = "action palette", mode = { "v", "n" } },
+        },
     },
     {
         "zbirenbaum/copilot.lua",
@@ -81,17 +76,13 @@ return {
                 ["*"] = function()
                     local forbidden_patterns = { "^.*%.local", "^%.env.*", ".*interview.*" }
                     local basename = vim.fs.basename(vim.fn.bufname())
-                    local forbidden = vim.iter(forbidden_patterns):any(function(pattern)
-                        return not not basename:match(pattern)
-                    end)
+                    local forbidden = vim.iter(forbidden_patterns):any(function(pattern) return not not basename:match(pattern) end)
                     -- vim.print(forbidden)
                     return not forbidden
-                end
+                end,
             },
         },
-        config = function(_, opts)
-            require("copilot").setup(opts)
-        end
+        config = function(_, opts) require("copilot").setup(opts) end,
     },
     {
         "nvim-lualine/lualine.nvim",
@@ -109,7 +100,7 @@ return {
             sources = {
                 default = { "copilot" },
                 per_filetype = {
-                    codecompanion = { "buffer", "codecompanion" }
+                    codecompanion = { "buffer", "codecompanion" },
                 },
                 providers = {
                     copilot = {
@@ -120,18 +111,17 @@ return {
                         opts = {
                             kind_name = "Copilot",
                             kind_icon = "",
-                        }
+                        },
                     },
                 },
             },
 
             completion = {
                 trigger = {
-                    prefetch_on_insert = false
-                }
+                    prefetch_on_insert = false,
+                },
             },
-            keymap = {
-            }
+            keymap = {},
         },
     },
     {
@@ -139,6 +129,6 @@ return {
         ft = function(_, ft)
             table.insert(ft, "codecompanion")
             return ft
-        end
+        end,
     },
 }

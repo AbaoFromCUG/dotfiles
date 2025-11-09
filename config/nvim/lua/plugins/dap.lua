@@ -2,8 +2,7 @@ return {
     {
         "mfussenegger/nvim-dap",
         dependencies = { "jay-babu/mason-nvim-dap.nvim", "nvim-dap-ui" },
-        init = function()
-        end,
+        init = function() end,
         config = function()
             local function enrich_config(finalConfig, on_config)
                 local final_config = vim.deepcopy(finalConfig)
@@ -31,14 +30,13 @@ return {
                 DapBreakpointCondition = "",
                 DapLogPoint = "",
                 DapStopped = "",
-                DapBreakpointRejected = ""
+                DapBreakpointRejected = "",
             }
             vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "", linehl = "", numhl = "" })
             vim.fn.sign_define("DapBreakpointCondition", { text = "", texthl = "", linehl = "", numhl = "" })
             vim.fn.sign_define("DapLogPoint", { text = "", texthl = "", linehl = "", numhl = "" })
             vim.fn.sign_define("DapStopped", { text = "", texthl = "DapUIBreakpointsCurrentLine", linehl = "", numhl = "" })
             vim.fn.sign_define("DapBreakpointRejected", { text = "", texthl = "", linehl = "", numhl = "" })
-
 
             dap.adapters.cppdbg = {
                 id = "cppdbg",
@@ -61,30 +59,24 @@ return {
                     args = { "${port}" },
                 },
             }
-            dap.listeners.before.attach.dapui_config = function()
-                require("dapui").open()
-            end
+            dap.listeners.before.attach.dapui_config = function() require("dapui").open() end
 
-            dap.listeners.before.launch.dapui_config = function()
-                require("dapui").open()
-            end
+            dap.listeners.before.launch.dapui_config = function() require("dapui").open() end
             dap.listeners.before.event_terminated.dapui_config = function()
                 print("terminated")
                 require("dapui").close()
             end
-            dap.listeners.before.event_exited.dapui_config = function()
-                require("dapui").close()
-            end
+            dap.listeners.before.event_exited.dapui_config = function() require("dapui").close() end
 
             return {}
         end,
         keys = {
-            { "<F5>",    "<cmd>DapContinue<cr>",         mode = { "n", "i" }, desc = "run" },
-            { "<F6>",    "<cmd>DapTerminate<cr>",        mode = { "n", "i" }, desc = "terminate" },
-            { "<F9>",    "<cmd>DapToggleBreakpoint<cr>", mode = { "n", "i" }, desc = "terminate" },
-            { "<F11>",   "<cmd>DapStepInto<cr>",         mode = { "n", "i" }, desc = "step into" },
-            { "<S-F11>", "<cmd>DapStepOut<cr>",          mode = { "n", "i" }, desc = "step out" },
-            { "<F12>",   "<cmd>DapStepOver<cr>",         mode = { "n", "i" }, desc = "step over" },
+            { "<F5>", "<cmd>DapContinue<cr>", mode = { "n", "i" }, desc = "run" },
+            { "<F6>", "<cmd>DapTerminate<cr>", mode = { "n", "i" }, desc = "terminate" },
+            { "<F9>", "<cmd>DapToggleBreakpoint<cr>", mode = { "n", "i" }, desc = "terminate" },
+            { "<F11>", "<cmd>DapStepInto<cr>", mode = { "n", "i" }, desc = "step into" },
+            { "<S-F11>", "<cmd>DapStepOut<cr>", mode = { "n", "i" }, desc = "step out" },
+            { "<F12>", "<cmd>DapStepOver<cr>", mode = { "n", "i" }, desc = "step over" },
         },
     },
     {
@@ -96,7 +88,7 @@ return {
                 open = "<CR>",
                 remove = "x",
                 repl = "r",
-                toggle = "t"
+                toggle = "t",
             },
 
             layouts = {
@@ -104,46 +96,49 @@ return {
                     elements = {
                         {
                             id = "scopes",
-                            size = 0.5
+                            size = 0.5,
                         },
                         {
                             id = "breakpoints",
-                            size = 0.5
+                            size = 0.5,
                         },
                     },
                     position = "left",
-                    size = 20
+                    size = 20,
                 },
                 {
                     elements = {
                         {
                             id = "stacks",
-                            size = 0.5
+                            size = 0.5,
                         },
                         {
                             id = "watches",
-                            size = 0.5
-                        }
+                            size = 0.5,
+                        },
                     },
                     position = "right",
-                    size = 20
+                    size = 20,
                 },
                 {
-                    elements = { {
-                        id = "repl",
-                        size = 0.5
-                    }, {
-                        id = "console",
-                        size = 0.5
-                    } },
+                    elements = {
+                        {
+                            id = "repl",
+                            size = 0.5,
+                        },
+                        {
+                            id = "console",
+                            size = 0.5,
+                        },
+                    },
                     position = "bottom",
-                    size = 10
-                } },
-
+                    size = 10,
+                },
+            },
         },
         keys = {
-            { "<leader>vdt", function() require("dapui").toggle() end, desc = "dap ui", mode = { "n", "i" } }
-        }
+            { "<leader>vdt", function() require("dapui").toggle() end, desc = "dap ui", mode = { "n", "i" } },
+        },
     },
     { "theHamsta/nvim-dap-virtual-text", config = true },
     {
@@ -166,7 +161,7 @@ return {
                 cmd = table.concat(vim.tbl_map(vim.fn.shellescape, cmd), " ")
                 return cmd
             end
-        end
+        end,
     },
 
     {

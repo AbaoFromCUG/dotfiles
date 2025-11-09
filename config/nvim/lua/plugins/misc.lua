@@ -34,7 +34,7 @@ return {
                     {
                         text = "-enable-pretty-printing",
                         description = "enable pretty printing",
-                        ignoreFailures = false
+                        ignoreFailures = false,
                     },
                 },
             },
@@ -48,12 +48,10 @@ return {
                             auto_scroll = true,
                             quit_on_exit = "never",
                             -- use_shell = true,
-                        }
+                        },
                     },
-                    on_new_task = function()
-
-                    end
-                }
+                    on_new_task = function() end,
+                },
             },
             cmake_runner = {
                 name = "overseer",
@@ -66,9 +64,9 @@ return {
                             auto_scroll = true,
                             quit_on_exit = "never",
                             -- use_shell = true,
-                        }
+                        },
                     },
-                }
+                },
             },
         },
         cmd = {
@@ -77,15 +75,15 @@ return {
             "CMakeRun",
             "CMakeDebug",
             "CMakeSettings",
-            "CMakeTargetSettings"
+            "CMakeTargetSettings",
         },
         keys = {
-            { "<leader>o",  group = true,             desc = "cmake" },
+            { "<leader>o", group = true, desc = "cmake" },
             { "<leader>os", "<cmd>CMakeSettings<cr>", desc = "cmake settings" },
             { "<leader>og", "<cmd>CMakeGenerate<cr>", desc = "cmake generate" },
-            { "<leader>ob", "<cmd>CMakeBuild<cr>",    desc = "cmake build" },
-            { "<leader>od", "<cmd>CMakeDebug<cr>",    desc = "cmake debug" },
-            { "<leader>or", "<cmd>CMakeRun<cr>",      desc = "cmake run" },
+            { "<leader>ob", "<cmd>CMakeBuild<cr>", desc = "cmake build" },
+            { "<leader>od", "<cmd>CMakeDebug<cr>", desc = "cmake debug" },
+            { "<leader>or", "<cmd>CMakeRun<cr>", desc = "cmake run" },
         },
     },
 
@@ -93,7 +91,8 @@ return {
         "MeanderingProgrammer/render-markdown.nvim",
         dependencies = {
             "nvim-treesitter",
-            "nvim-tree/nvim-web-devicons" },
+            "nvim-tree/nvim-web-devicons",
+        },
         ---@module 'render-markdown'
         ---@type render.md.UserConfig
         opts = {},
@@ -103,9 +102,7 @@ return {
         "iamcco/markdown-preview.nvim",
         build = function() vim.fn["mkdp#util#install"]() end,
         cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-        keys = {
-
-        },
+        keys = {},
         ft = "markdown",
     },
     {
@@ -113,7 +110,7 @@ return {
         build = ":call firenvim#install(0)",
     },
     { "lambdalisue/suda.vim", cmd = { "SudaWrite", "SudaRead" } },
-    { "h-hg/fcitx.nvim",      event = "InsertEnter" },
+    { "h-hg/fcitx.nvim", event = "InsertEnter" },
     {
         "mistweaverco/kulala.nvim",
         ft = "http",
@@ -139,8 +136,8 @@ return {
             bg_theme = "bamboo",
         },
         keys = {
-            { "<leader>tc",  desc = "code snapshot" },
-            { "<leader>tcs", "<cmd>CodeSnap<cr>",     mode = "x", desc = "save code snapshot into clipboard" },
+            { "<leader>tc", desc = "code snapshot" },
+            { "<leader>tcs", "<cmd>CodeSnap<cr>", mode = "x", desc = "save code snapshot into clipboard" },
             { "<leader>tcc", "<cmd>CodeSnapSave<cr>", mode = "x", desc = "save code snapshot in ~/Pictures" },
         },
     },
@@ -159,7 +156,7 @@ return {
         },
         opts = {
             default = {
-                command = "translate_shell"
+                command = "translate_shell",
             },
             preset = {
                 output = {
@@ -168,7 +165,7 @@ return {
                     },
                 },
             },
-        }
+        },
     },
     { "towolf/vim-helm", lazy = false },
 

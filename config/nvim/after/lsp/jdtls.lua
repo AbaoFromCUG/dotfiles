@@ -32,8 +32,7 @@ local default_config = server.get_config({
 
 if config.spring_boot_tools.enable then
     require("spring_boot").setup({
-        ls_path = mason_util.get_pkg_path("spring-boot-tools")
-            .. "/extension/language-server",
+        ls_path = mason_util.get_pkg_path("spring-boot-tools") .. "/extension/language-server",
     })
 
     require("spring_boot").init_lsp_commands()

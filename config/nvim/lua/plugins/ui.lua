@@ -36,7 +36,6 @@ return {
         event = "VeryLazy",
     },
 
-
     { "cpea2506/relative-toggle.nvim", event = "VeryLazy" },
 
     ---@type LazySpec
@@ -65,7 +64,7 @@ return {
     {
         "mikavilpas/tsugit.nvim",
         keys = {
-            { "<leader>gg", function() require("tsugit").toggle() end,          silent = true,                desc = "toggle lazygit" },
+            { "<leader>gg", function() require("tsugit").toggle() end, silent = true, desc = "toggle lazygit" },
             { "<leader>gf", function() require("tsugit").toggle_for_file() end, desc = "lazygit file commits" },
         },
     },
@@ -108,12 +107,12 @@ return {
                     {
                         icon = " ",
                         titles = { "Scope", "Breakpoints" },
-                        pick_key = "d"
+                        pick_key = "d",
                     },
                     {
                         icon = " ",
                         titles = { "Neo-Tree", "Neo-Tree Buffers" },
-                        pick_key = "f"
+                        pick_key = "f",
                     },
                 },
                 right = {
@@ -124,27 +123,24 @@ return {
                     {
                         icon = "",
                         titles = { "Outline" },
-
                     },
 
                     {
                         icon = " ",
                         titles = { "Stacks", "Watches" },
-                        pick_key = "d"
+                        pick_key = "d",
                     },
-
 
                     {
                         icon = "",
                         titles = { "Database" },
-
                     },
                 },
                 bottom = {
                     {
                         icon = "",
                         titles = { "Terminal" },
-                        pick_key = "t"
+                        pick_key = "t",
                     },
                     {
                         icon = "",
@@ -154,8 +150,8 @@ return {
                     {
                         icon = " ",
                         titles = { "Search" },
-                        pick_key = "s"
-                    }
+                        pick_key = "s",
+                    },
                 },
             },
             statusline = {
@@ -198,17 +194,13 @@ return {
                 {
                     title = "Neo-Tree",
                     ft = "neo-tree",
-                    filter = function(buf)
-                        return vim.b[buf].neo_tree_source == "filesystem"
-                    end,
+                    filter = function(buf) return vim.b[buf].neo_tree_source == "filesystem" end,
                     open = "Neotree filesystem reveal toggle",
                 },
                 {
                     title = "Neo-Tree Buffers",
                     ft = "neo-tree",
-                    filter = function(buf)
-                        return vim.b[buf].neo_tree_source == "buffers"
-                    end,
+                    filter = function(buf) return vim.b[buf].neo_tree_source == "buffers" end,
                     open = "Neotree position=top buffers",
                 },
                 {
@@ -258,7 +250,7 @@ return {
                     title = "Terminal",
                     ft = "toggleterm",
                     filter = function(buf, win) return vim.api.nvim_win_get_config(win).relative == "" end,
-                    open = 'exe v:count1 . "ToggleTerm"'
+                    open = 'exe v:count1 . "ToggleTerm"',
                 },
                 {
                     title = "Console",
@@ -268,11 +260,11 @@ return {
                     title = "Repl",
                     ft = "dap-repl",
                 },
-                { ft = "qf",         title = "QuickFix" },
+                { ft = "qf", title = "QuickFix" },
                 {
                     title = "Search",
                     ft = "spectre_panel",
-                    open = 'lua require("spectre").toggle()'
+                    open = 'lua require("spectre").toggle()',
                 },
                 { ft = "httpResult", size = { height = 0.4 } },
             },
@@ -286,7 +278,7 @@ return {
         "nvim-neo-tree/neo-tree.nvim",
         cmd = "Neotree",
         keys = {
-            { "<leader>b",  "<cmd>Neotree filesystem reveal toggle<cr>", desc = "file explorer" },
+            { "<leader>b", "<cmd>Neotree filesystem reveal toggle<cr>", desc = "file explorer" },
             { "<leader>vf", "<cmd>Neotree filesystem reveal toggle<cr>", desc = "file explorer" },
         },
         ---@type neotree.Config
@@ -303,7 +295,7 @@ return {
                 -- max_width = "30%",
                 -- min_width = 20
             },
-        }
+        },
     },
 
     {
@@ -311,7 +303,7 @@ return {
         opts = {},
         cmd = "Outline",
         keys = {
-            { "<leader>vl", "<cmd>Outline<cr>", desc = "Toggle Outline" }
+            { "<leader>vl", "<cmd>Outline<cr>", desc = "Toggle Outline" },
         },
     },
 }

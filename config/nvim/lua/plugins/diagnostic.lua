@@ -16,8 +16,8 @@ return {
         ---@type quicker.SetupOptions
         opts = {},
         keys = {
-            { "<leader>qt", function() require("quicker").toggle() end,                   desc = "Toggle quickfix" },
-            { "<leader>ql", function() require("quicker").toggle({ loclist = true }) end, desc = "Toggle loclist" }
-        }
-    }
+            { "<leader>qt", function() require("quicker").toggle() end, desc = "Toggle quickfix" },
+            { "<leader>ql", function() require("quicker").toggle({ loclist = true }) end, desc = "Toggle loclist" },
+        },
+    },
 }

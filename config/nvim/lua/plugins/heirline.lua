@@ -1,11 +1,9 @@
-
-
 return {
     {
         "rebelot/heirline.nvim",
         event = "VeryLazy",
         keys = {
-            { "<S-l>", "<cmd>bnext<cr>",     desc = "focus right tab" },
+            { "<S-l>", "<cmd>bnext<cr>", desc = "focus right tab" },
             { "<S-h>", "<cmd>bprevious<cr>", desc = "focus left tab" },
         },
 
@@ -37,7 +35,6 @@ return {
             }
             require("heirline").load_colors(colors)
 
-
             vim.o.showtabline = 2
             return {
                 statusline = require("lib.heirline.statusline"),
@@ -53,10 +50,8 @@ return {
                             filetype = { "^git.*", "fugitive", "Trouble", "dashboard" },
                         }, args.buf)
                     end,
-                }
+                },
             }
         end,
-
     },
-
 }

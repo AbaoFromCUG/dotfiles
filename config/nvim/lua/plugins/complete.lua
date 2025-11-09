@@ -35,7 +35,7 @@ return {
                 exclude = {
                     "lua_ls",
                     "jdtls",
-                }
+                },
             },
         },
         config = function(_, opts)
@@ -43,14 +43,14 @@ return {
             vim.iter({
                 "ruff",
             }):each(vim.lsp.enable)
-        end
+        end,
     },
 
     -- completion engine
     {
         "saghen/blink.cmp",
         event = "VeryLazy",
-        version = "v1.7.0",
+        version = "*",
         opts_extend = { "sources.default" },
         opts = {
             keymap = {
@@ -64,7 +64,7 @@ return {
                 list = {
                     selection = {
                         preselect = false,
-                        auto_insert = false
+                        auto_insert = false,
                     },
                 },
                 menu = {
@@ -89,7 +89,7 @@ return {
                                     return string.format("[%s] ", source_map[ctx.item.source_name] or ctx.item.source_name)
                                 end,
                                 highlight = "BlinkCmpSource",
-                            }
+                            },
                         },
                         treesitter = { "lsp" },
                     },
@@ -115,9 +115,9 @@ return {
                     "snippets",
                 },
                 per_filetype = {
-                    python = { inherit_defaults = true, },
+                    python = { inherit_defaults = true },
                     sql = { inherit_defaults = true, "dadbod" },
-                    snacks_input = { "path" }
+                    snacks_input = { "path" },
                 },
                 providers = {
                     dadbod = {
@@ -131,7 +131,7 @@ return {
 
                 completion = {
                     list = { selection = { preselect = false } },
-                    menu = { auto_show = true }
+                    menu = { auto_show = true },
                 },
                 keymap = {
                     preset = "none",
@@ -149,11 +149,11 @@ return {
     -- autopairs
     {
         "Saghen/blink.pairs",
-        build = "cargo build --release",
+        version = "*",
+        dependencies = "saghen/blink.download",
         opts = {
             mappings = {
-                pairs = {
-                },
+                pairs = {},
             },
             highlights = {
                 groups = {
@@ -165,7 +165,7 @@ return {
                     "RainbowDelimiterPurple",
                     "RainbowDelimiterYellow",
                 },
-            }
+            },
         },
         event = "InsertEnter",
     },
@@ -216,7 +216,7 @@ return {
         "SmiteshP/nvim-navic",
         opts = {
             lsp = {
-                auto_attach = true
+                auto_attach = true,
             },
             depth_limit = 5,
         },

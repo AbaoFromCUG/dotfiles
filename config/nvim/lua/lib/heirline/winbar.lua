@@ -1,6 +1,6 @@
+local common = require("lib.heirline.common")
 local conditions = require("heirline.conditions")
 local utils = require("heirline.utils")
-local common = require("lib.heirline.common")
 local Space = common.Space
 local Align = common.Align
 local FileNameView = common.FileNameView
@@ -8,7 +8,6 @@ local FileIcon = common.FileIcon
 local FileType = common.FileType
 local FileFlags = common.FileFlags
 local TerminalName = common.TerminalName
-
 
 local FileNameModifer = {
     hl = function()
@@ -24,7 +23,9 @@ local FileName = {
         -- first, trim the pattern relative to the current directory. For other
         -- options, see :h filename-modifers
         local filename = vim.fn.fnamemodify(self.filename, ":.")
-        if filename == "" then return "[No Name]" end
+        if filename == "" then
+            return "[No Name]"
+        end
         -- now, if the filename would occupy more than 1/4th of the available
         -- space, we trim the file path to its initials
         -- See Flexible Components section below for dynamic truncation
@@ -36,21 +37,19 @@ local FileName = {
     hl = { fg = utils.get_highlight("Directory").fg },
 }
 
-
-local WinBarFileNameBlock = utils.insert(FileNameView,
+local WinBarFileNameBlock = utils.insert(
+    FileNameView,
     FileIcon,
     utils.insert(FileNameModifer, FileName), -- a new table where FileName is a child of FileNameModifier
     FileFlags,
-    { provider = "%<" }                      -- this means that the statusline is cut here when there's not enough space
+    { provider = "%<" } -- this means that the statusline is cut here when there's not enough space
 )
 
 local WinBars = {
     fallthrough = false,
     -- A special winbar for terminals
     {
-        condition = function()
-            return conditions.buffer_matches({ buftype = { "terminal" } })
-        end,
+        condition = function() return conditions.buffer_matches({ buftype = { "terminal" } }) end,
         utils.surround({ "", "" }, "dark_red", {
             FileType,
             Space,
@@ -59,9 +58,7 @@ local WinBars = {
     },
     -- An inactive winbar for regular files
     {
-        condition = function()
-            return not conditions.is_active()
-        end,
+        condition = function() return not conditions.is_active() end,
         utils.surround({ "", "" }, "bright_bg", { hl = { fg = "gray", force = true }, WinBarFileNameBlock }),
     },
     -- A winbar for regular files

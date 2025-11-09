@@ -32,6 +32,6 @@ elseif os.getenv("SSH_TTY") ~= nil then
 
             ["+"] = no_paste("+"),
             ["*"] = no_paste("*"),
-        }
+        },
     }
 end

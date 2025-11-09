@@ -36,8 +36,7 @@ return {
                     },
                 },
 
-                notifier = {
-                },
+                notifier = {},
                 scroll = { enabled = true },
                 statuscolumn = {
                     left = { "sign", "git" },
@@ -64,29 +63,29 @@ return {
                             i_esc = { "<esc>", { "cmp_close", "cancel" }, mode = "i", expr = true },
                         },
                         b = {
-                            completion = true
-                        }
+                            completion = true,
+                        },
                     },
                 },
             }
         end,
         keys = {
-            { "<leader>fp", function() Snacks.picker() end,                                         desc = "find find" },
+            { "<leader>fp", function() Snacks.picker() end, desc = "find find" },
             { "<leader>ff", function() Snacks.picker.files({ ignored = false, hidden = true }) end, desc = "find files" },
-            { "<leader>fh", function() Snacks.picker.recent() end,                                  desc = "find history" },
-            { "<leader>fw", function() Snacks.picker.grep({ regex = false }) end,                   desc = "find word" },
+            { "<leader>fh", function() Snacks.picker.recent() end, desc = "find history" },
+            { "<leader>fw", function() Snacks.picker.grep({ regex = false }) end, desc = "find word" },
             -- git
-            { "<leader>gB", function() Snacks.gitbrowse() end,                                      desc = "git browse" },
-            { "<leader>gl", function() Snacks.lazygit.log() end,                                    desc = "lazygit log" },
+            { "<leader>gB", function() Snacks.gitbrowse() end, desc = "git browse" },
+            { "<leader>gl", function() Snacks.lazygit.log() end, desc = "lazygit log" },
 
-            { "<leader>nm", function() Snacks.notifier.hide() end,                                  desc = "dismiss all notifications" },
-            { "<leader>nl", function() Snacks.notifier.show_history() end,                          desc = "show all notifications" },
+            { "<leader>nm", function() Snacks.notifier.hide() end, desc = "dismiss all notifications" },
+            { "<leader>nl", function() Snacks.notifier.show_history() end, desc = "show all notifications" },
 
-            { ";x",         function() Snacks.bufdelete() end,                                      desc = "close current buffer" },
-            { "<leader>vq", function() Snacks.bufdelete.delete()() end,                             desc = "close current buffer" },
-            { "<leader>vo", function() Snacks.bufdelete.other() end,                                desc = "close others buffer" },
+            { ";x", function() Snacks.bufdelete() end, desc = "close current buffer" },
+            { "<leader>vq", function() Snacks.bufdelete.delete()() end, desc = "close current buffer" },
+            { "<leader>vo", function() Snacks.bufdelete.other() end, desc = "close others buffer" },
 
-            { "<leader>zz", function() Snacks.zen.zen() end,                                        mode = { "n", "i", "v" },          desc = "zen mode" },
+            { "<leader>zz", function() Snacks.zen.zen() end, mode = { "n", "i", "v" }, desc = "zen mode" },
         },
     },
     {
@@ -99,7 +98,7 @@ return {
             local events = require("neo-tree.events")
             opts.event_handlers = opts.event_handlers or {}
             vim.list_extend(opts.event_handlers, {
-                { event = events.FILE_MOVED,   handler = on_move },
+                { event = events.FILE_MOVED, handler = on_move },
                 { event = events.FILE_RENAMED, handler = on_move },
             })
         end,
@@ -128,10 +127,9 @@ return {
                                 select_word = false,
                             })
                         end,
-                    }
-                }
-            }
-        }
+                    },
+                },
+            },
+        },
     },
-
 }

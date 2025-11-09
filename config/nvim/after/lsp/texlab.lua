@@ -5,7 +5,7 @@ return {
             inlayHints = {
                 labelDefinitions = false,
                 labelReferences = false,
-            }
-        }
-    }
+            },
+        },
+    },
 }

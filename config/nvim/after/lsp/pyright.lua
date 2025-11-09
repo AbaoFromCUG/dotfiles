@@ -18,8 +18,8 @@ return {
             pythonPath = pythonPath,
             analysis = {
                 languageServerMode = "full",
-                supportDocstringTemplate = true
-            }
+                supportDocstringTemplate = true,
+            },
         },
     },
 }

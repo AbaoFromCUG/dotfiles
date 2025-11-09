@@ -39,11 +39,11 @@ return {
             "marilari88/neotest-vitest",
         },
         keys = {
-            { "<space>tt", "<cmd>Neotest run<cr>",                                             desc = "test nearest case" },
-            { "<space>tf", "<cmd>lua require('neotest').run.run(vim.fn.expand('%'))<cr>",      desc = "test current file" },
+            { "<space>tt", "<cmd>Neotest run<cr>", desc = "test nearest case" },
+            { "<space>tf", "<cmd>lua require('neotest').run.run(vim.fn.expand('%'))<cr>", desc = "test current file" },
 
-            { "[n",        "<cmd>lua require('neotest').jump.prev({ status = 'failed' })<cr>", desc = "previous failed test" },
-            { "]n",        "<cmd>lua require('neotest').jump.next({ status = 'failed' })<cr>", desc = "next failed test" },
+            { "[n", "<cmd>lua require('neotest').jump.prev({ status = 'failed' })<cr>", desc = "previous failed test" },
+            { "]n", "<cmd>lua require('neotest').jump.next({ status = 'failed' })<cr>", desc = "next failed test" },
         },
         config = neotest,
         cmd = "Neotest",

@@ -1,8 +1,6 @@
 ---@class snacks.picker.luasnip.Config
 ---@field ft? string|string[] file type[s]
 
-
-
 return {
     {
         "L3MON4D3/LuaSnip",
@@ -16,7 +14,7 @@ return {
         end,
         build = "make install_jsregexp",
         cmd = "LuaSnipListAvailable",
-        event = "LazyFile"
+        event = "LazyFile",
     },
     {
         "folke/snacks.nvim",
@@ -42,7 +40,7 @@ return {
                             local item = {
                                 text = snip.trigger .. table.concat(snip.description, "\n"),
                                 snip = snip,
-                                snip_ft = filetype
+                                snip_ft = filetype,
                             }
                             table.insert(items, item)
                         end)
@@ -83,16 +81,14 @@ return {
                     ---@type LuaSnip.Snippet
                     local snip = item.snip
                     require("luasnip").snip_expand(snip)
-                end
+                end,
             }
             opts.picker.sources = opts.picker.sources or {}
             opts.picker.sources.luasnip = action
-        end
+        end,
     },
     {
         "saghen/blink.cmp",
-        opts = function(_, opts)
-            opts.snippets = { preset = "luasnip" }
-        end,
-    }
+        opts = function(_, opts) opts.snippets = { preset = "luasnip" } end,
+    },
 }

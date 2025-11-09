@@ -9,20 +9,20 @@ vim.system({ "/mnt/c/Windows/system32/cmd.exe", "/c", "echo", "%path%" }, { text
     end
     local paths = string.gsub(obj.stdout, "C:", "/mnt/c")
     paths = paths:gsub("\\", "/")
-    paths = vim.iter(vim.split(paths, ";")):filter(function(path)
-        -- print(path)
-        path = path:lower()
-        return not vim.iter({
-            "pyenv",
-            "nodejs",
-            "git",
-            "neovim",
-            "go",
-            "cmake",
-            "cargo",
-        }):any(function(name)
-            return path:find(name)
+    paths = vim.iter(vim.split(paths, ";"))
+        :filter(function(path)
+            -- print(path)
+            path = path:lower()
+            return not vim.iter({
+                "pyenv",
+                "nodejs",
+                "git",
+                "neovim",
+                "go",
+                "cmake",
+                "cargo",
+            }):any(function(name) return path:find(name) end)
         end)
-    end):join(":")
+        :join(":")
     vim.schedule(function() vim.env.PATH = vim.env.PATH .. ":" .. paths end)
 end)
