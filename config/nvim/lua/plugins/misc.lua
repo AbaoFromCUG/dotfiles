@@ -23,12 +23,18 @@ end
 return {
     {
         "Civitasv/cmake-tools.nvim",
+        event = function()
+            if vim.fn.filereadable(vim.fs.joinpath(vim.uv.cwd(), "CMakeLists.txt")) == 1 then
+                return { "VeryLazy" }
+            end
+            return {}
+        end,
         opts = {
             cmake_command = "cmake", -- this is used to specify cmake command path
             ctest_command = "ctest", -- this
             cmake_build_directory = function() return "build/${variant:buildType}" end,
             cmake_dap_configuration = {
-                name = "cpp",
+                name = "Launch CMake target",
                 type = "cppdbg",
                 setupCommands = {
                     {
@@ -46,7 +52,7 @@ return {
                             "toggleterm",
                             direction = "horizontal",
                             auto_scroll = true,
-                            quit_on_exit = "never",
+                            quit_on_exit = "success",
                             -- use_shell = true,
                         },
                     },
@@ -69,6 +75,17 @@ return {
                 },
             },
         },
+        config = function(_, opts)
+            require("which-key").add({
+                { "<leader>o", group = true, desc = "cmake" },
+                { "<leader>os", "<cmd>CMakeSettings<cr>", desc = "cmake settings" },
+                { "<leader>og", "<cmd>CMakeGenerate<cr>", desc = "cmake generate" },
+                { "<leader>ob", "<cmd>CMakeBuild<cr>", desc = "cmake build" },
+                { "<leader>od", "<cmd>CMakeDebug<cr>", desc = "cmake debug" },
+                { "<leader>or", "<cmd>CMakeRun<cr>", desc = "cmake run" },
+            })
+            require("cmake-tools").setup(opts)
+        end,
         cmd = {
             "CMakeGenerate",
             "CMakeBuild",
@@ -76,14 +93,6 @@ return {
             "CMakeDebug",
             "CMakeSettings",
             "CMakeTargetSettings",
-        },
-        keys = {
-            { "<leader>o", group = true, desc = "cmake" },
-            { "<leader>os", "<cmd>CMakeSettings<cr>", desc = "cmake settings" },
-            { "<leader>og", "<cmd>CMakeGenerate<cr>", desc = "cmake generate" },
-            { "<leader>ob", "<cmd>CMakeBuild<cr>", desc = "cmake build" },
-            { "<leader>od", "<cmd>CMakeDebug<cr>", desc = "cmake debug" },
-            { "<leader>or", "<cmd>CMakeRun<cr>", desc = "cmake run" },
         },
     },
 

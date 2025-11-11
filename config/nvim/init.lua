@@ -92,7 +92,7 @@ require("lazy").setup({
         { import = "plugins.diagnostic", cond = not vim.g.vscode },
         { import = "plugins.dap", cond = not vim.g.vscode },
         { import = "plugins.test", cond = not vim.g.vscode },
-        { import = "plugins.ai", cond = (not not vim.env.AI_CODER_KEY) and not vim.g.vscode },
+        { import = "plugins.ai", cond = not vim.g.vscode },
         { import = "plugins.luasnip", cond = not vim.g.vscode },
         { import = "plugins.neopyter", cond = not vim.g.vscode },
         { import = "plugins.latex", cond = not vim.g.vscode },

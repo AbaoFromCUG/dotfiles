@@ -3,6 +3,9 @@
 return {
     settings = {
         Lua = {
+            format = {
+                enable = true,
+            },
             hint = {
                 enable = true,
             },
