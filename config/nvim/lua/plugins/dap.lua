@@ -143,16 +143,16 @@ return {
     { "theHamsta/nvim-dap-virtual-text", config = true },
     {
         "stevearc/overseer.nvim",
-        cmd = { "OverseerToggle" },
+        cmd = { "OverseerToggle", "OverseerInfo", "OverseerRun" },
         opts = {
-            templates = { "builtin" },
+            templates = { "builtin", "devcontainer" },
             ---@diagnostic disable-next-line: assign-type-mismatch
             strategy = {
                 "toggleterm",
                 direction = "float",
                 close_on_exit = false,
                 quit_on_exit = "never",
-                -- use_shell = true,
+                use_shell = true,
             },
         },
         config = function(_, opts)

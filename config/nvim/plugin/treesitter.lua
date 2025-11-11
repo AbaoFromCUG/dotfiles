@@ -14,6 +14,7 @@ vim.filetype.add({
     },
     pattern = {
         [".*/.vscode/.*.json"] = "jsonc",
+        [".*/.devcontainer/.*.json"] = "jsonc",
         ["%.env%.[%w_.-]+"] = "sh",
     },
 })

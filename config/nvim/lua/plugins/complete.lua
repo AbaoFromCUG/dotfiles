@@ -12,7 +12,7 @@ return {
         lazy = false,
         opts = {
             ensure_installed = {
-                "lua_ls",
+                -- "lua_ls",
                 "pyright",
                 "vimls",
                 "bashls",
@@ -40,9 +40,7 @@ return {
         },
         config = function(_, opts)
             require("mason-lspconfig").setup(opts)
-            vim.iter({
-                "ruff",
-            }):each(vim.lsp.enable)
+            vim.lsp.enable({ "ruff" })
         end,
     },
 
@@ -182,35 +180,35 @@ return {
     },
     {
         "nvimtools/none-ls.nvim",
-        confmiig = function()
+        opts = function()
             local null_ls = require("null-ls")
-            null_ls.setup({
+            return {
                 sources = {
-                    -- null_ls.builtins.formatting.stylua,
                     null_ls.builtins.formatting.shfmt.with({ filetypes = { "sh", "bash", "zsh", "shell" } }),
 
-                    null_ls.builtins.diagnostics.markdownlint,
+                    null_ls.builtins.diagnostics.markdownlint.with({ args = { "--disable", "MD002", "MD013", "MD026", "MD029", "MD033", "--stdin" } }),
                     null_ls.builtins.diagnostics.qmllint,
                     -- null_ls.builtins.diagnostics.cmake_lint,
 
-                    null_ls.builtins.formatting.markdownlint,
+                    null_ls.builtins.formatting.markdownlint.with({ args = { "--disable", "MD002", "MD013", "MD026", "MD029", "MD033", "--fix", "$FILENAME" } }),
                     null_ls.builtins.formatting.qmlformat,
                     -- null_ls.builtins.formatting.cmake_format,
                     null_ls.builtins.formatting.typstyle,
                     null_ls.builtins.formatting.yamlfmt,
                     null_ls.builtins.formatting.sqlfmt,
+                    null_ls.builtins.formatting.clang_format,
                 },
-            })
+            }
         end,
         event = "VeryLazy",
     },
     { "b0o/schemastore.nvim" },
     {
-        "AbaoFromCUG/lua_ls.nvim",
-        dev = true,
+        "AbaoFromCUG/luadev.nvim",
         ---@type lua_ls.Config
         opts = {},
         ft = "lua",
+        dev = true,
     },
     {
         "SmiteshP/nvim-navic",

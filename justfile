@@ -142,8 +142,12 @@ config-pyenv: (install "git") config-zsh
         for package in "${packages[@]}"; do
             just install "$package"
         done
+    elif  (( $+commands[yay] )) ; then 
+        packages=(base-devel openssl zlib xz tk zstd)
+        for package in "${packages[@]}"; do
+            just install "$package"
+        done
     fi
-    set -euo pipefail
     if  (( $+commands[pyenv] )) || [ -d ~/.pyenv ]; then exit 0; fi
     git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 
@@ -236,6 +240,9 @@ config-git scope="global":
     echo "Please check your {{scope}} configurations of git:\n"
     git config list
 
+config-fonts:
+	(install nerd-fonts)
+
 config-apps: \
     (config "alacritty") (config "kitty") (config "ghostty") \
     (install "sof-firmware") (install "libva-intel-driver") (install "libva-mesa-driver") \
@@ -255,9 +262,9 @@ config-office: \
 config-hypr: \
     (install "meson") (install "cpio") \
     (install "hyprland") (install "hyprpaper") (install "hyprpicker") (install "hypridle") (install "hyprlock") \
-    (install "xdg-desktop-portal-hyprland") (install "hyprpolkitagent-git") \
-    (config "swaync") (install "conky") \
-    (config "wofi") (config "waybar") (install "nwg-displays")
+    (install "xdg-desktop-portal-hyprland") (install "hyprpolkitagent") \
+    (config "swaync") (install "conky") (link "config/hypr" "~/.config/hypr") \
+    (config "wofi") (config "waybar") (install "nwg-displays") (install "grimblast-git")
     # hyprpm update
     # hyprpm add https://github.com/levnikmyskin/hyprland-virtual-desktops
     # hyprpm enable virtual-desktops

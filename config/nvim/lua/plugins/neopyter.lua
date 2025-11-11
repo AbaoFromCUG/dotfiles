@@ -38,7 +38,6 @@ return {
         },
         ft = { "python", "r" },
         cmd = "Neopyter",
-        dev = true,
     },
     {
         "saghen/blink.cmp",
