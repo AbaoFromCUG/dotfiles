@@ -20,8 +20,6 @@ function M.shortest_suffixes(paths)
         end
         path2suffixes[path] = suffixes
     end
-    -- vim.print(vim.inspect(paths))
-    --
 
     local path2suffix = {}
     for _, path in ipairs(paths) do

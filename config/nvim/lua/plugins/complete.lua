@@ -54,7 +54,6 @@ return {
             keymap = {
                 preset = "enter",
                 ["<C-y>"] = { "select_and_accept" },
-                ["<A-space>"] = { "show", "show_documentation", "hide_documentation" },
             },
 
             completion = {

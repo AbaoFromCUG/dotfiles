@@ -1,5 +1,10 @@
 export TERMINAL=alacritty
 
+
+if ! (( $+commands[uwsm] )); then
+    exit 0
+fi
+
 if uname | grep -qi linux; then
 	export QT_IM_MODULE=fcitx
 	export XMODIFIERS="@im=fcitx"
