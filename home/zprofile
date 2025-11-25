@@ -1,11 +1,7 @@
 export TERMINAL=alacritty
 
 
-if ! (( $+commands[uwsm] )); then
-    exit 0
-fi
-
-if uname | grep -qi linux; then
+if (( $+commands[uwsm] )) && [[ $(uname) == Linux  ]]; then
 	export QT_IM_MODULE=fcitx
 	export XMODIFIERS="@im=fcitx"
 	export SDL_IM_MODULE=fcitx
@@ -17,5 +13,4 @@ if uname | grep -qi linux; then
     if uwsm check may-start -q && uwsm select; then
       exec uwsm start default
     fi
-else
 fi
