@@ -1,7 +1,3 @@
-vim.lsp.config("clangd", {
-    reuse_client = function(client, config) return true end,
-})
-
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
         local client = vim.lsp.get_client_by_id(args.data.client_id)
@@ -33,5 +29,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
             vim.notify(string.format("Enabling on-type formatting for %s", client.name), vim.log.levels.INFO, { title = "LSP" })
             vim.lsp.on_type_formatting.enable(true, { client_id = client.id })
         end
+        -- if client:supports_method("textDocument/inlineCompletion", buf) then
+        --     vim.lsp.inline_completion.enable(true, { bufnr = buf })
+        -- end
     end,
 })

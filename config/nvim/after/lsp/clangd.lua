@@ -14,4 +14,6 @@ return {
             fallbackFlags = { "-std=c++23" },
         },
     },
+
+    reuse_client = function() return true end,
 }

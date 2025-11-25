@@ -1,6 +1,6 @@
 local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
-
 local group = vim.api.nvim_create_augroup("CodeCompanionProgress", { clear = true })
+
 vim.api.nvim_create_autocmd({ "User" }, {
     pattern = { "CodeCompanionRequestStarted", "CodeCompanionRequestStreaming", "CodeCompanionRequestFinished" },
     group = group,
@@ -124,36 +124,13 @@ return {
         },
     },
     {
-        "zbirenbaum/copilot.lua",
+        "folke/sidekick.nvim",
         event = "InsertEnter",
         opts = {
-            suggestion = { enabled = false },
-            panel = { enabled = false },
-            disable_limit_reached_message = true,
-            filetypes = {
-                markdown = true,
-                -- cpp = false,
-                javascript = true,
-                typescript = true,
-                typescriptreact = true,
-
-                ["*"] = function()
-                    local forbidden_patterns = { "^.*%.local", "^%.env.*", ".*interview.*" }
-                    local basename = vim.fs.basename(vim.fn.bufname())
-                    local forbidden = vim.iter(forbidden_patterns):any(function(pattern) return not not basename:match(pattern) end)
-                    -- vim.print(forbidden)
-                    return not forbidden
-                end,
-            },
-        },
-        config = function(_, opts) require("copilot").setup(opts) end,
-    },
-    {
-        "nvim-lualine/lualine.nvim",
-        dependencies = "AndreM222/copilot-lualine",
-        opts = {
-            sections = {
-                lualine_x = { "copilot" },
+            cli = {
+                mux = {
+                    backend = "tmux",
+                },
             },
         },
     },
@@ -161,6 +138,13 @@ return {
         "saghen/blink.cmp",
         dependencies = { "fang2hou/blink-copilot" },
         opts = {
+            keymap = {
+                ["<Tab>"] = {
+                    "snippet_forward",
+                    function() return require("sidekick").nes_jump_or_apply() end,
+                    "fallback",
+                },
+            },
             sources = {
                 default = { "copilot" },
                 per_filetype = {
@@ -185,14 +169,43 @@ return {
                     prefetch_on_insert = false,
                 },
             },
-            keymap = {},
         },
     },
+
     {
         "MeanderingProgrammer/render-markdown.nvim",
         ft = function(_, ft)
             table.insert(ft, "codecompanion")
             return ft
+        end,
+    },
+    {
+        "rebelot/heirline.nvim",
+        opts = function(_, opts)
+            -- Copilot status
+            table.insert(opts.statusline[#opts.statusline], {
+                provider = function() return " " end,
+                hl = function()
+                    local status = require("sidekick.status").get()
+                    if status then
+                        return status.kind == "Error" and "DiagnosticError" or status.busy and "DiagnosticWarn" or "Special"
+                    end
+                end,
+                condition = function()
+                    local status = require("sidekick.status")
+                    return status.get() ~= nil
+                end,
+            })
+
+            -- CLI session status
+            table.insert(opts.statusline[#opts.statusline], 5, {
+                provider = function()
+                    local status = require("sidekick.status").cli()
+                    return " " .. (#status > 1 and #status or "")
+                end,
+                condition = function() return #require("sidekick.status").cli() > 0 end,
+                hl = function() return "Special" end,
+            })
         end,
     },
 }
