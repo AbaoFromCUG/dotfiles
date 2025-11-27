@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+bunx sass --no-source-map ~/.config/waybar/style.scss ~/.config/waybar/style.css
+
+# 如果第一个参数是重启restart, 启动waybar重启模式，暂停所有其他实例
+if [ "$1" == "restart" ]; then
+    killall waybar > /dev/null 2>&1
+    sleep 1
+    pushd ~/.config/waybar/
+    waybar > /tmp/waybar.log 2>&1 &
+else
+    waybar > /tmp/waybar.log 2>&1 &
+fi
+

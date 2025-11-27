@@ -65,9 +65,17 @@ config-ubuntu:
 
 
 
-link $source $target:
+link $source $target="":
     #!/usr/bin/env zsh
     set -euo pipefail
+    if [ -z "$target" ]; then
+        if [[ "$source" == home/* ]]; then
+            target="~/.${source#home/}"
+        else
+            target="~/.$source"
+        fi
+    fi
+
     source=$(realpath "$source")
     target=$(eval echo "$target")
     if [ -e "${target}" ] && [ ! -L "${target}" ]; then
@@ -99,7 +107,7 @@ config package $config="": (install package)
         ln -s $source $target
     fi
 
-config-nvim: config-rust (install "gcc") (install "neovim") (install "unzip") (link "config/nvim" "~/.config/nvim" )
+config-nvim: config-rust (install "gcc") (install "neovim") (install "unzip") (link "config/nvim")
     #!/usr/bin/env zsh
     set -euo pipefail
     if (( ! $+commands[tree-sitter] )); then 
@@ -120,12 +128,10 @@ config-nvim: config-rust (install "gcc") (install "neovim") (install "unzip") (l
 
 config-zsh: (install "zsh") \
             (install "git") \
-            (link "home/zshrc" "~/.zshrc") \
-            (link "home/zprofile" "~/.zprofile") \
-            (link "home/zshenv" "~/.zshenv") \
-            (link "config/shell" "~/.config/shell")
+            (link "home/zshrc") (link "home/zprofile") (link "home/zshenv") \
+            (link "config/shell")
 
-config-tmux: (install "git") (install "tmux") (link "home/tmux.conf.local" "~/.tmux.conf.local")
+config-tmux: (install "git") (install "tmux") (link "home/tmux.conf.local")
     #!/usr/bin/env zsh
     if [ ! -d ~/.tmux ] || [ ! -L ~/.tmux.conf ]; then
         rm -rf ~/.tmux
@@ -166,7 +172,7 @@ config-pyenv: (install "git") config-zsh
     pyenv_plugin pyenv-pyright alefpereira
 
 
-config-python: config-pyenv config-zsh (link "config/pip" "~/.config/pip") (link "config/uv" "~/.config/uv")
+config-python: config-pyenv config-zsh (link "config/pip") (link "config/uv")
     #!/usr/bin/env zsh
     if  (( ! $+commands[uv] )) ; then 
         curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -177,14 +183,14 @@ config-python: config-pyenv config-zsh (link "config/pip" "~/.config/pip") (link
     pyenv install --skip-existing 3.12
 
 [unix]
-config-mise: config-zsh (install "curl") (link "config/mise" "~/.config/mise")
+config-mise: config-zsh (install "curl") (link "config/mise")
     #!/usr/bin/env -S zsh
     if  (( $+commands[mise] )) ; then exit 0; fi
     curl https://mise.run | sh
     mise use -g usage
 
 [windows]
-config-mise: (install "curl") (link "config/mise" "~/.config/mise")
+config-mise: (install "curl") (link "config/mise")
     winget install jdx.mise
     mise use -g usage
 
@@ -194,7 +200,7 @@ config-bun: config-mise
         mise install bun@latest
     fi
 
-config-rust: config-mise (link "home/cargo/config.toml" "~/.cargo/config.toml")
+config-rust: config-mise (link "home/cargo/config.toml")
     #!/usr/bin/env zsh
     if ! mise ls rust -i | grep -q 'stable'; then
         mise install rust@stable
@@ -262,17 +268,20 @@ config-office: \
 config-hypr: \
     (install "meson") (install "cpio") \
     (install "hyprland") (install "hyprpaper") (install "hyprpicker") (install "hypridle") (install "hyprlock") \
-    (install "xdg-desktop-portal-hyprland") (install "hyprpolkitagent") \
-    (config "swaync") (install "conky") (link "config/hypr" "~/.config/hypr") \
-    (config "wofi") (config "waybar") (install "nwg-displays") (install "grimblast-git")
+    (install "xdg-desktop-portal-hyprland") (install "hyprpolkitagent") (install "hyprdynamicmonitors-bin") \
+    (config "swaync") (install "conky") (link "config/hypr") (link "config/hyprdynamicmonitors") \
+    (link "local/bin/hyprlayout") \
+    (link "local/bin/waybarctl") \
+    (link "local/bin/mpdctl") \
+    (config "wofi") (config "waybar") (config "nwg-bar") (install "nwg-displays") (install "grimblast-git")
     # hyprpm update
     # hyprpm add https://github.com/levnikmyskin/hyprland-virtual-desktops
     # hyprpm enable virtual-desktops
 
 config-wayfire: \
-    (link "config/wayfire.ini" "~/.config/wayfire.ini")
+    (link "config/wayfire.ini")
 
-config-lazygit: (link "config/lazygit" "~/.config/lazygit")
+config-lazygit: (link "config/lazygit")
     #!/usr/bin/env zsh
     if (( $+commands[apt-get] )); then
         just install-lazygit
@@ -281,7 +290,7 @@ config-lazygit: (link "config/lazygit" "~/.config/lazygit")
     fi
 
 
-config-yazi: (link "config/yazi" "~/.config/yazi")
+config-yazi: (link "config/yazi")
     #!/usr/bin/env zsh
     if (( $+commands[yazi] )); then  exit 0;  fi
 
@@ -317,12 +326,12 @@ config-dev: \
 config-desktop: \
     config-apps \
     config-hypr \
-    (link "config/mimeapps.list" "~/.config/mimeapps.list") \
-    (link "config/chromium-flags.conf" "~/.config/chromium-flags.conf") \
-    (link "config/chrome-flags.conf" "~/.config/chrome-flags.conf") \
-    (link "config/chrome-dev-flags.conf" "~/.config/chrome-dev-flags.conf") \
-    (link "config/electron-flags.conf" "~/.config/electron-flags.conf") \
-    (link "local/share/applications/file-manager.desktop" "~/.local/share/applications/file-manager.desktop")
+    (link "config/mimeapps.list") \
+    (link "config/chromium-flags.conf") \
+    (link "config/chrome-flags.conf") \
+    (link "config/chrome-dev-flags.conf") \
+    (link "config/electron-flags.conf") \
+    (link "local/share/applications/file-manager.desktop")
 
 
 bootstrap-docker: config-dev

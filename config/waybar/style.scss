@@ -1,0 +1,163 @@
+$module-background: rgba(46, 46, 46, 0.4);
+
+$widget-radius: 10px;
+$widget-padding: 2px 8px;
+
+$widget-background: rgba(60, 60, 60, 0.7);
+$accent-background: rgba(80, 80, 80, 0.9);
+$hover-background: rgba(80, 80, 80, 0.8);
+
+$text-color: white;
+$hover-text: #d3d3d3;
+$accent-color: #90EE90;
+
+* {
+  border: none;
+  border-radius: 0;
+  font-family: Liberation Mono;
+  font-family: Hack Nerd Font Mono;
+  min-height: 20px;
+}
+
+window#waybar {
+  background: transparent;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+  background: $module-background;
+  border-radius: $widget-radius;
+
+}
+
+
+.modules-left {
+  >widget {
+    background: $widget-background;
+    border-radius: $widget-radius;
+  }
+
+}
+
+.modules-center {
+  color: white;
+
+  >widget {
+    background: $widget-background;
+
+    >* {
+      padding: $widget-padding;
+
+    }
+  }
+
+  >widget:first-child {
+    padding-left: 8px;
+    border-radius: $widget-radius 0px 0px $widget-radius;
+  }
+
+  >widget:last-child {
+    border-radius: 0px $widget-radius $widget-radius 0px;
+    padding-right: 8px;
+  }
+
+}
+
+.modules-right {
+  color: white;
+
+  >widget {
+
+    >box {
+      margin: 0px calc($widget-radius/2);
+      border-radius: $widget-radius;
+      background: $widget-background;
+
+      >widget>* {
+        padding: $widget-padding;
+      }
+
+      >widget>*:hover {
+        border-radius: $widget-radius;
+        color: $hover-text;
+        background: $hover-background;
+      }
+    }
+  }
+
+  >widget:first-child {
+    >box {
+      margin-left: 0px;
+    }
+  }
+
+  >widget:last-child {
+    >box {
+      margin-right: 0px;
+    }
+  }
+
+}
+
+
+window#waybar.hidden {
+  opacity: 0.2;
+}
+
+#waybar-vd {
+  transition: none;
+}
+
+#waybar-vd button {
+  transition: none;
+  color: $text-color;
+  background: transparent;
+  font-size: 18px;
+}
+
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+#waybar-vd button.hover {
+  transition: none;
+  box-shadow: inherit;
+  text-shadow: inherit;
+  color: $hover-text;
+  background: $hover-background;
+}
+
+#waybar-vd button.vdesk-focused {
+  background-color: $accent-background;
+  color: $accent-color;
+}
+
+#waybar-vd button.urgent {
+  animation-name: blink-urgent;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+/* Animation States */
+#waybar-vd button.creating {
+  opacity: 0;
+}
+
+#waybar-vd button.destroying {
+  opacity: 0;
+  padding: 0;
+  margin: 0;
+}
+
+/* Hidden Virtual Desktops */
+#waybar-vd button.hidden {
+  opacity: 0;
+  padding: 0;
+  margin: 0;
+}
+
+@keyframes blink-urgent {
+  to {
+    color: #bd2c40;
+  }
+}
