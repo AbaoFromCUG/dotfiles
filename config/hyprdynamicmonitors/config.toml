@@ -1,0 +1,69 @@
+[general]
+destination = "$HOME/.config/hypr/monitors.conf"
+
+debounce_time_ms = 1500
+pre_apply_exec = "notify-send 'HyprDynamicMonitors' 'Switching monitor profile...'"
+post_apply_exec = "notify-send 'HyprDynamicMonitors' 'Monitor profile switched successfully'"
+
+[hot_reload_section]
+debounce_time_ms = 1000
+[lid_events]
+
+[lid_events.dbus_query_object]
+destination = "org.freedesktop.UPower"
+path = "/org/freedesktop/UPower"
+method = "org.freedesktop.DBus.Properties.Get"
+expected_lid_closing_value = "true"
+# $ gdbus call --system --dest org.freedesktop.UPower --object-path /org/freedesktop/UPower --method org.freedesktop.DBus.Properties.Get org.freedesktop.UPower LidIsClosed
+
+[[lid_events.dbus_query_object.args]]
+arg = "org.freedesktop.UPower"
+
+[[lid_events.dbus_query_object.args]]
+arg = "LidIsClosed"
+
+[[lid_events.dbus_signal_match_rules]]
+interface = "org.freedesktop.DBus.Properties"
+object_path = "/org/freedesktop/UPower"
+member = "PropertiesChanged"
+
+[[lid_events.dbus_signal_receive_filters]]
+name = "org.freedesktop.DBus.Properties.PropertiesChanged"
+body = "LidIsClosed"
+
+[power_events]
+
+[power_events.dbus_query_object]
+path = "/org/freedesktop/UPower/devices/line_power_ADP1"
+
+[[power_events.dbus_signal_match_rules]]
+object_path = "/org/freedesktop/UPower/devices/line_power_ACAD"
+
+[profiles.laptop_only]
+config_file = "hyprconfigs/laptop-only.conf"
+config_file_type = "static"
+post_apply_exec = "zsh -c hyprlayout noitfy"
+
+[[profiles.laptop_only.conditions.required_monitors]]
+name = "eDP-1"
+destination = "Lenovo Group Limited 0x8AAF"
+
+[profiles.dvalab]
+config_file = "hyprconfigs/dvalab-template.conf.template"
+config_file_type = "template"
+
+
+[[profiles.dvalab.conditions.required_monitors]]
+name = "eDP-1"
+destination = "Lenovo Group Limited 0x8AAF"
+monitor_tag = "laptop"
+
+[[profiles.dvalab.conditions.required_monitors]]
+description = "Apple Computer Inc StudioDisplay 0xB46EA92B"
+monitor_tag = "apple"
+
+[[profiles.dvalab.conditions.required_monitors]]
+description = "Dell Inc. DELL S2721DS 5GWMQ43"
+monitor_tag = "dell"
+
+

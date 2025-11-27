@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# 如果第一个参数是重启restart, 启动waybar重启模式，暂停所有其他实例
+if [ "$1" == "restart" ]; then
+
+	killall -q mpd >/dev/null 2>&1
+	killall -q mpd-mpris >/dev/null 2>&1
+	killall -q playerctld >/dev/null 2>&1
+	sleep 1
+	# Wait until the processes have been shut down
+	while pgrep -u $UID -x mpd-mpris >/dev/null; do sleep 1; done
+	while pgrep -u $UID -x mpd >/dev/null; do sleep 1; done
+	while pgrep -u $UID -x playerctld >/dev/null; do sleep 1; done
+
+	mpd
+	playerctld daemon
+	sleep 2
+	echo "---" | tee -a /tmp/mpd-mpris.log
+	mpd-mpris 2>&1 | tee -a /tmp/mpd-mpris.log & disown
+
+	echo "MPD launched..."
+else
+    echo "Usage: mpdctrl restart"
+fi
+

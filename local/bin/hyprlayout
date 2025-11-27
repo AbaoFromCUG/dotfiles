@@ -1,0 +1,40 @@
+#!/usr/bin/env zsh
+is_notify=false
+
+for arg in "$@"; do
+	# 检查参数中是否包含notify
+	if [[ "$arg" == "notify" ]]; then
+		is_notify=true
+	fi
+done
+
+function msg() {
+	if $is_notify; then
+		notify-send "Hyprlayout" "$1"
+	fi
+	echo "$1"
+}
+
+# 由于我们vdesk切换只配置了1-10个vdesk， 所以
+# id 大于10的vdesk是无法切换到的， 这些vdesk上的client需要移动到1-10的vdesk上
+# 在这些vdesk的client需要用hyprctl dispatch movetoworkspace $workspace_id,address:$client_address
+# 这些client移动到的workspace_id为client.workspace%(monitor_count+1)
+vdesks=$(hyprctl printstate -j | jq)
+vaild_workspaces=$(echo $vdesks | jq -r '[.[] | select(.id <= 10) | .workspaces[]]')
+clients=$(hyprctl clients -j | jq)
+monitor_count=$(hyprctl monitors -j | jq length)
+for client in $(echo $clients | jq -r '.[] | @base64'); do
+	_jq() {
+		echo ${client} | base64 --decode | jq -r ${1}
+	}
+	client_workspace=$(_jq '.workspace.id')
+	is_in_vaild_workspace=$(echo $vaild_workspaces | jq "index($client_workspace)")
+	if [[ "$is_in_vaild_workspace" == "null" ]]; then
+		client_address=$(_jq '.address')
+		client_title=$(_jq '.title')
+		target_workspace=$((client_workspace % (monitor_count + 1)))
+		msg "Moving client $client_title from workspace $client_workspace to workspace ${target_workspace}"
+		hyprctl dispatch movetoworkspace $target_workspace,address:$client_address
+	fi
+done
+msg "Done moving invisitable clients to vdesk"

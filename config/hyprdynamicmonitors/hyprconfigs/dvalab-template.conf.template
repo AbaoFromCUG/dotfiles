@@ -1,0 +1,26 @@
+# Workstation Template Configuration
+# Multi-monitor setup for productivity
+# Power State: {{.PowerState}} (AC power required)
+# Lid State: {{.LidState}} (Lid required)
+{{- $laptop := index .MonitorsByTag "laptop" -}}
+{{- $apple := index .MonitorsByTag "apple" -}}
+{{- $dell := index .MonitorsByTag "dell" -}}
+
+{{- if $dell }}
+# Dell monitor - Vertical display
+monitor=desc:{{$dell.Description}},2560x1440@59.95,0x693,1.0
+monitor=desc:{{$dell.Description}},transform,1
+{{- end }}
+
+{{- if $apple }}
+# Apple monitor - Primary display
+monitor=desc:{{$apple.Description}},5120x2880@60.00000,1440x1420,2.0
+{{- end }}
+
+{{- if $laptop }}
+{{- if eq .LidState "Closed" }}
+monitor=eDP-1,disable
+{{- else }}
+monitor=eDP-1,3072x1920@60.0,4000x1900,2.0
+{{- end }}
+{{- end }}

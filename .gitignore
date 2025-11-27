@@ -31,3 +31,5 @@ repro.lua
 config/waybar/modules
 config/waybar/ccfi
 config/uv
+config/hypr/monitors.conf
+config/waybar/style.css
