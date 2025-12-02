@@ -114,6 +114,7 @@ window#waybar.hidden {
   color: $text-color;
   background: transparent;
   font-size: 18px;
+
 }
 
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
@@ -123,11 +124,14 @@ window#waybar.hidden {
   text-shadow: inherit;
   color: $hover-text;
   background: $hover-background;
+  border-radius: $widget-radius;
 }
 
 #waybar-vd button.vdesk-focused {
   background-color: $accent-background;
   color: $accent-color;
+
+  border-radius: $widget-radius;
 }
 
 #waybar-vd button.urgent {

@@ -7,12 +7,15 @@
 prepend_keymap = [
     # Help
     { on = ["?"], run = "help", desc = "Open help" },
-    { on = ["s"], run = "plugin keyjump --args=global" },
-    { on = ["\\", "f", "f"], run = "search fd" },
-    { on = ["\\", "f", "w"], run = "search rg" },
+    # { on = ["\\", "f", "f"], run = "search fd" },
+    # { on = ["\\", "f", "w"], run = "search rg" },
 
     { on = "/", run = "filter --smart", desc = "Filter files" },
-    { on = "f", run = "plugin jump-to-char", desc = "Jump to char" },
+    { on = "s", run = "plugin jump-to-char", desc = "Jump to char" },
+    { on = "z", run = "plugin zoxide", desc = "Jump to a directory using zoxide" },
+    { on = "Z", run = "plugin fzf", desc = "Jump to a file/directory via fzf" },
+    { on = "M", run = "plugin mount", desc = "Mount filesystem" },
+    { on = ["c", "m"], run = "plugin chmod", desc = "Chmod on selected files" },
 ]
 [help]
 keymap = [
