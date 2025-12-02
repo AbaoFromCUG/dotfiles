@@ -63,14 +63,14 @@ config-ubuntu:
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
     sudo apt-get update
 
-
-
 link $source $target="":
     #!/usr/bin/env zsh
     set -euo pipefail
     if [ -z "$target" ]; then
         if [[ "$source" == home/* ]]; then
             target="~/.${source#home/}"
+        elif [[ "$source" == etc/* ]]; then
+            target="/$source"
         else
             target="~/.$source"
         fi
@@ -185,14 +185,15 @@ config-python: config-pyenv config-zsh (link "config/pip") (link "config/uv")
 [unix]
 config-mise: config-zsh (install "curl") (link "config/mise")
     #!/usr/bin/env -S zsh
-    if  (( $+commands[mise] )) ; then exit 0; fi
-    curl https://mise.run | sh
-    mise use -g usage
+    if  (( ! $+commands[mise] )); then 
+        curl https://mise.run | sh
+    fi
+    mise install
 
 [windows]
 config-mise: (install "curl") (link "config/mise")
     winget install jdx.mise
-    mise use -g usage
+    mise install
 
 config-bun: config-mise
     #!/usr/bin/env zsh
@@ -264,7 +265,10 @@ config-apps: \
 
 config-office: \
     (install "wemeet-bwrap") (install "feishu-portable")
-    
+
+config-user:
+    sudo usermod -aG audio,input,lp,video,cups,docker $USER
+
 config-hypr: \
     (install "meson") (install "cpio") \
     (install "hyprland") (install "hyprpaper") (install "hyprpicker") (install "hypridle") (install "hyprlock") \
@@ -272,11 +276,16 @@ config-hypr: \
     (config "swaync") (install "conky") (link "config/hypr") (link "config/hyprdynamicmonitors") \
     (link "local/bin/hyprlayout") \
     (link "local/bin/waybarctl") \
+    (link "local/bin/widgetctl") \
     (link "local/bin/mpdctl") \
     (config "wofi") (config "waybar") (config "nwg-bar") (install "nwg-displays") (install "grimblast-git")
     # hyprpm update
     # hyprpm add https://github.com/levnikmyskin/hyprland-virtual-desktops
     # hyprpm enable virtual-desktops
+    systemctl --user enable --now hyprpolkitagent
+    systemctl --user enable --now pipewire
+    systemctl --user enable --now pipewire-pulse
+     
 
 config-wayfire: \
     (link "config/wayfire.ini")
@@ -290,13 +299,9 @@ config-lazygit: (link "config/lazygit")
     fi
 
 
-config-yazi: (link "config/yazi")
+config-yazi: config-mise (link "config/yazi")
     #!/usr/bin/env zsh
-    if (( $+commands[yazi] )); then  exit 0;  fi
-
-    mise install yazi@latest
-    mise use -g yazi@latest
-
+    ya pkg install
 
 config-dev: \
     config-zsh \

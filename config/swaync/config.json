@@ -1,6 +1,5 @@
 {
   "$schema": "/etc/xdg/swaync/configSchema.json",
-
   "positionX": "center",
   "positionY": "top",
   "control-center-positionX": "none",
@@ -13,7 +12,6 @@
   "control-center-height": -1,
   "fit-to-screen": false,
   "layer-shell-cover-screen": true,
-
   "layer-shell": true,
   "layer": "overlay",
   "control-center-layer": "overlay",
@@ -31,11 +29,11 @@
   "hide-on-clear": true,
   "hide-on-action": true,
   "script-fail-notify": true,
-
   "widgets": [
     "inhibitors",
     "dnd",
-    "mpris",
+    "buttons-grid",
+    "volume",
     "notifications"
   ],
   "widget-config": {
@@ -61,6 +59,17 @@
     },
     "mpris": {
       "autohide": true
+    },
+    "buttons-grid": {
+      "actions": [
+        {
+          "label": "WiFi",
+          "type": "toggle",
+          "active": true,
+          "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && nmcli radio wifi on || nmcli radio wifi off'",
+          "update-command": "sh -c '[[ $(nmcli radio wifi) == \"enabled\" ]] && echo true || echo false'"
+        }
+      ]
     }
   }
 }

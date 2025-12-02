@@ -13,7 +13,7 @@ application/vnd.openxmlformats-officedocument.presentationml.presentation=wps-of
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=wps-office-wps.desktop
 application/msword=wps-office-wps.desktop
 
-inode/directory=file-manager.desktop
+# inode/directory=file-manager.desktop
 clash=clash-verge-handler.desktop
 clash-verge=clash-verge-handler.desktop
 x-scheme-handler/clash=clash-verge.desktop

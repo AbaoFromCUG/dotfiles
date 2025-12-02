@@ -1,0 +1,21 @@
+#!/usr/bin/env zsh
+
+for process in $@; do
+	read -r process <<<"$process"
+	pushd ~/.config/${process}/ >/dev/null 2>&1
+	echo "Processing ${process}..."
+	if pgrep -f "^${process}$" >/dev/null 2>&1; then
+		echo "Restarting ${process}..."
+		pkill -f "^${process}$"
+		sleep 0.3
+	fi
+	exec ${process} >/tmp/${process}.log 2>&1 &
+    sleep 1
+	local scss_file="style.scss"
+	if [[ -f "$scss_file" ]]; then
+		echo "Compiling SCSS for ${process}..."
+		local css_file="style.css"
+		bunx sass --no-source-map $scss_file $css_file
+	fi
+	popd >/dev/null 2>&1
+done
