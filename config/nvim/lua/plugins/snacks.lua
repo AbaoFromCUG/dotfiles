@@ -90,43 +90,30 @@ return {
     },
     {
         "nvim-neo-tree/neo-tree.nvim",
-        opts = function(_, opts)
-            local function on_move(data)
-                vim.print("on_move")
-                Snacks.rename.on_rename_file(data.source, data.destination)
-            end
-            local events = require("neo-tree.events")
-            opts.event_handlers = opts.event_handlers or {}
-            vim.list_extend(opts.event_handlers, {
-                { event = events.FILE_MOVED, handler = on_move },
-                { event = events.FILE_RENAMED, handler = on_move },
-            })
-        end,
-    },
-
-    {
-        "nvim-neo-tree/neo-tree.nvim",
         opts = {
+            event_handlers = {
+                {
+                    event = "file_renamed",
+                    handler = function(data) Snacks.rename.on_rename_file(data.source, data.destination) end,
+                },
+                {
+                    event = "file_moved",
+                    handler = function(data) Snacks.rename.on_rename_file(data.source, data.destination) end,
+                },
+            },
             filesystem = {
                 window = {
                     mappings = {
-                        ["<leader>ss"] = function(state)
-                            local node = state.tree:get_node()
-                            local path
-                            if node.type == "directory" then
-                                path = node.path
-                            else
-                                path = node:get_parent_id()
-                            end
+                        ["<leader>ff"] = {
+                            function(state)
+                                ---@type neotree.FileNode
+                                local node = state.tree:get_node()
 
-                            path = vim.fs.relpath(vim.uv.cwd(), path)
-                            require("spectre").open({
-                                search_paths = { path },
-                                hidden = true,
-                                search_pattern = "",
-                                select_word = false,
-                            })
-                        end,
+                                local path = vim.fn.fnamemodify(node.path, ":p:h")
+                                Snacks.picker.files({ dirs = { path }, title = string.format("Files in (%s)", path) })
+                            end,
+                            desc = "find files in directory",
+                        },
                     },
                 },
             },

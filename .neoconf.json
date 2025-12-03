@@ -1,6 +1,7 @@
 {
   "lua_ls": {
     "addons": [
+      "pathlib.nvim",
       "neoconf.nvim",
       "neo-tree.nvim",
       "leetcode.nvim",
