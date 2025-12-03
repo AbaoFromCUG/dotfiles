@@ -1,0 +1,213 @@
+
+[tasks.init-ubuntu]
+run='''
+#!/usr/bin/env bash
+sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list.d/ubuntu.sources
+sed -i 's/security.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.d/ubuntu.sources
+apt-get update
+apt-get upgrade -y
+type -p add-apt-repository >/dev/null || (sudo apt-get update && sudo apt-get install software-properties-common -y)
+add-apt-repository ppa:neovim-ppa/stable -y
+add-apt-repository ppa:neovim-ppa/unstable -y
+type -p wget >/dev/null || (sudo apt update && sudo apt install wget -y)
+mkdir -p -m 755 /etc/apt/keyrings
+out=$(mktemp)
+wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg 
+cat $out | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null 
+chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg 
+mkdir -p -m 755 /etc/apt/sources.list.d 
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+apt-get update
+'''
+[tasks.install-yay]
+run = '''
+#!/usr/bin/env zsh
+set -euo pipefail
+if  (( $+commands[yay] )) ; then exit 0; fi
+mkdir /tmp/cache && cd /tmp/cache
+export GOPROXY=https://goproxy.cn
+sudo pacman -S --needed --noconfirm git go base-devel
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si --noconfirm
+yay -Syuu --noconfirm
+'''
+
+
+[tasks.install]
+description = "Install application with system package manager"
+usage = '''
+arg "<package>" help="package name"
+'''
+run = '''
+#!/usr/bin/env zsh
+if (( $+commands[yay] )); then
+    if  ! yay -Qi "${usage_package}" >/dev/null 3>&1; then
+        yay -S --noconfirm ${usage_package}
+        echo install ${usage_package}
+    fi
+elif (( $+commands[apt-get] )); then
+    declare -A alias_names
+    alias_names=(["fd"]="fd-find" ["github-cli"]="gh")
+    name="${alias_names[${usage_package}]:-${usage_package}}"
+
+    if ! dpkg -s "$name" >/dev/null 3>&1; then
+        sudo apt-get install -y "$name"
+    fi
+elif (( $+commands[brew] )); then
+    # echo "check ${usage_package}"
+    if  ! brew ls --version "${usage_package}" >/dev/null 3>&1; then
+        brew install ${usage_package}
+        echo install ${usage_package}
+    fi
+fi
+'''
+
+[tasks.link]
+description = "Create a symbolic link"
+usage = '''
+arg "<source>" help="source file"
+arg "[target]" help="target file" default=""
+'''
+run = '''
+source="${usage_source}"
+target="${usage_target}"
+if [ -z "$target" ]; then
+    if [[ "$source" == home/* ]]; then
+        target="~/.${source#home/}"
+    elif [[ "$source" == etc/* ]]; then
+        target="/$source"
+    else
+        target="~/.$source"
+    fi
+fi
+
+source=$(realpath "$source")
+target=$(eval echo "$target")
+if [ -e "${target}" ] && [ ! -L "${target}" ]; then
+    echo "File ${target} exists and not a symbolic link of ${source}, failed exists"
+    exit 1
+fi
+if [ ! -L ${target} ] || [ ! "$(readlink ${target})"="${target}" ]; then
+    mkdir -p $(dirname ${target})
+    ln -s $source $target
+fi
+'''
+
+# config package $config="": (install package)
+#     #!/usr/bin/env zsh
+#     set -euo pipefail
+#     if [ -z "$config" ]; then
+#         config={{package}}
+#     fi
+#     target="~/.config/${config}"
+#     source="config/${config}"
+#
+#     source=$(realpath "$source")
+#     target=$(eval echo "$target")
+#
+#     if [ -e "${target}" ] && [ ! -L "${target}" ]; then
+#         echo "File ${target} exists ant not a symbolic link of ${source}, failed exists"
+#         exit 1
+#     fi
+#     if [ ! -L ${target} ] || [ ! "$(readlink ${target})"="${target}" ]; then
+#         ln -s $source $target
+#     fi
+[tasks.config]
+depends = "install ${usage_package}"
+usage = '''
+arg "<package>" help="package name"
+arg "[config]" help="config directory name" default=""
+'''
+run = '''
+#!/usr/bin/env zsh
+set -euo pipefail
+package="${usage_package}"
+config="${usage_config}"
+if [ -z "$config" ]; then
+    config=${package}
+fi
+target="~/.config/${config}"
+source="config/${config}"
+
+source=$(realpath "$source")
+target=$(eval echo "$target")
+
+if [ -e "${target}" ] && [ ! -L "${target}" ]; then
+    echo "File ${target} exists ant not a symbolic link of ${source}, failed exists"
+    exit 1
+fi
+if [ ! -L ${target} ] || [ ! "$(readlink ${target})"="${target}" ]; then
+    ln -s $source $target
+fi
+'''
+
+[tasks.config-zsh]
+depends = [
+    "install zsh",
+    "install git",
+    "link home/zshrc",
+    "link home/zprofile",
+    "link home/zshenv",
+    "link config/shell",
+]
+
+
+[tasks.config-tmux]
+depends = ["install git", "install tmux", "link home/tmux.conf.local"]
+run = '''
+#!/usr/bin/env zsh
+if [ ! -d ~/.tmux ] || [ ! -L ~/.tmux.conf ]; then
+    rm -rf ~/.tmux
+    git clone https://github.com/gpakosz/.tmux.git ~/.tmux
+    ln -s -f ~/.tmux/.tmux.conf ~/.tmux.conf
+fi
+'''
+
+[tasks.config-git]
+depends = ["install git"]
+run = '''
+#!/usr/bin/env zsh
+declare -A keys
+keys=(
+    ["user.name"]="John Doe" 
+    ["user.email"]="user@example.com"
+)
+for key in "${(@k)keys[@]}"; do
+    default_value="$(eval git config get $key)"
+    if [ -z "$default_value" ]; then
+        read -r "value?please input your git's $key of global, e.g. (${keys[$key]}):"
+    else
+        read -r "value?please input your git's $key of global (default: $default_value):"
+        value=${value:-$default_value}
+    fi
+    if [ -z "$value" ]; then 
+        echo "you don't input anything, existing..."
+        exit 1
+    fi;
+    git config --global $key $value
+done
+
+echo "Please check your global configurations of git:\n"
+git config list
+'''
+
+[tasks.config-dev]
+depends = [
+    "config zsh",
+    "config tmux",
+    "config git",
+    "install wget",
+    "install ripgrep",
+    "install jq",
+    "install fd",
+    "install fzf",
+    "install bat",
+    "install eza",
+    "install zoxide",
+    "install curl",
+    "install cmake",
+    "install man-db",
+    "install github-cli",
+    "install imagemagick",
+]

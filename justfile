@@ -2,53 +2,8 @@
 
 set unstable
 
-install-yay:
-    #!/usr/bin/env zsh
-    set -euo pipefail
-    if  (( $+commands[yay] )) ; then exit 0; fi
-    mkdir /tmp/cache && cd /tmp/cache
-    export GOPROXY=https://goproxy.cn
-    sudo pacman -S --needed --noconfirm git go base-devel
-    git clone https://aur.archlinux.org/yay.git
-    cd yay
-    makepkg -si --noconfirm
-    yay -Syuu --noconfirm
 
-install-lazygit:
-    #!/usr/bin/env zsh
-    if  (( $+commands[lazygit] )) ; then exit 0; fi
-    mkdir /tmp/lazygit && cd /tmp/lazygit
-    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
-    curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
-    tar xf lazygit.tar.gz lazygit
-    sudo install lazygit -D -t /usr/local/bin/
-
-
-install package:
-    #!/usr/bin/env zsh
-    set -euo pipefail
-    if (( $+commands[yay] )); then
-        if  ! yay -Qi "{{package}}" >/dev/null 3>&1; then
-            yay -S --noconfirm {{package}}
-            echo install {{package}}
-        fi
-    elif (( $+commands[apt-get] )); then
-        declare -A alias_names
-        alias_names=(["fd"]="fd-find" ["github-cli"]="gh")
-        name="${alias_names[{{package}}]:-{{package}}}"
-
-        if ! dpkg -s "$name" >/dev/null 3>&1; then
-            sudo apt-get install -y "$name"
-        fi
-    elif (( $+commands[brew] )); then
-        # echo "check {{package}}"
-        if  ! brew ls --version "{{package}}" >/dev/null 3>&1; then
-            brew install {{package}}
-            echo install {{package}}
-        fi
-    fi
-
-config-ubuntu:
+init-ubuntu:
     #!/usr/bin/env bash
     type -p add-apt-repository >/dev/null || (sudo apt-get update && sudo apt-get install software-properties-common -y)
     sudo add-apt-repository ppa:neovim-ppa/stable -y
@@ -62,6 +17,11 @@ config-ubuntu:
     sudo mkdir -p -m 755 /etc/apt/sources.list.d 
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
     sudo apt-get update
+
+init-archlinux:
+    #!/usr/bin/env zsh
+    echo 'Server = https://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch' | tee -a /etc/pacman.d/mirrorlist
+    pacman -Syy --noconfirm
 
 link $source $target="":
     #!/usr/bin/env zsh
@@ -126,18 +86,7 @@ config-nvim: config-rust (install "gcc") (install "neovim") (install "unzip") (l
         -c 'lua print(string.format("Install %s neovim plugins \n", require("lazy").stats().count))' \
         -c "quit"
 
-config-zsh: (install "zsh") \
-            (install "git") \
-            (link "home/zshrc") (link "home/zprofile") (link "home/zshenv") \
-            (link "config/shell")
 
-config-tmux: (install "git") (install "tmux") (link "home/tmux.conf.local")
-    #!/usr/bin/env zsh
-    if [ ! -d ~/.tmux ] || [ ! -L ~/.tmux.conf ]; then
-        rm -rf ~/.tmux
-        git clone https://github.com/gpakosz/.tmux.git ~/.tmux
-        ln -s -f ~/.tmux/.tmux.conf ~/.tmux.conf
-    fi
 
 [unix]
 config-pyenv: (install "git") config-zsh
@@ -195,12 +144,6 @@ config-mise: (install "curl") (link "config/mise")
     winget install jdx.mise
     mise install
 
-config-bun: config-mise
-    #!/usr/bin/env zsh
-    if ! mise ls bun -i | grep -q 'latest'; then
-        mise install bun@latest
-    fi
-
 config-rust: config-mise (link "home/cargo/config.toml")
     #!/usr/bin/env zsh
     if ! mise ls rust -i | grep -q 'stable'; then
@@ -222,30 +165,6 @@ config-node: config-mise
         mise install pnpm
     fi
 
-config-git scope="global":
-    #!/usr/bin/env zsh
-    declare -A keys
-    keys=(
-        ["user.name"]="John Doe" 
-        ["user.email"]="user@example.com"
-    )
-    for key in "${(@k)keys[@]}"; do
-        default_value="$(eval git config get $key)"
-        if [ -z "$default_value" ]; then
-            read -r "value?please input your git's $key of {{scope}}, e.g. (${keys[$key]}):"
-        else
-            read -r "value?please input your git's $key of {{scope}} (default: $default_value):"
-            value=${value:-$default_value}
-        fi
-        if [ -z "$value" ]; then 
-            echo "you don't input anything, existing..."
-            exit 1
-        fi;
-        git config --{{scope}} $key $value
-    done
-
-    echo "Please check your {{scope}} configurations of git:\n"
-    git config list
 
 config-fonts:
 	(install nerd-fonts)
@@ -290,14 +209,7 @@ config-hypr: \
 config-wayfire: \
     (link "config/wayfire.ini")
 
-config-lazygit: (link "config/lazygit")
-    #!/usr/bin/env zsh
-    if (( $+commands[apt-get] )); then
-        just install-lazygit
-    else
-        just install lazygit
-    fi
-
+config-lazygit: config-mise (link "config/lazygit")
 
 config-yazi: config-mise (link "config/yazi")
     #!/usr/bin/env zsh

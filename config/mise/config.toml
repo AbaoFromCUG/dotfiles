@@ -15,6 +15,7 @@ npm.bun=true
 
 [tools]
 bun = "latest"
+lazygit = "latest"
 node = "24"
 pnpm = "latest"
 ruff = "latest"

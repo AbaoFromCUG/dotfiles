@@ -282,6 +282,7 @@ return {
             { "<leader>vf", "<cmd>Neotree filesystem reveal toggle<cr>", desc = "file explorer" },
         },
         ---@type neotree.Config
+        ---@diagnostic disable-next-line: missing-fields
         opts = {
             sort_case_insensitive = false,
             filesystem = {
@@ -289,11 +290,6 @@ return {
                     enabled = true,
                     leave_dirs_open = true,
                 },
-            },
-            window = {
-                -- width = "fit_content",
-                -- max_width = "30%",
-                -- min_width = 20
             },
         },
     },

@@ -462,6 +462,33 @@ return {
         },
     },
     {
+        "nvim-neo-tree/neo-tree.nvim",
+        opts = {
+            filesystem = {
+                window = {
+                    mappings = {
+                        ["<leader>ss"] = {
+                            function(state)
+                                ---@type neotree.FileNode
+                                local node = state.tree:get_node()
+
+                                local path = vim.fn.fnamemodify(node.path, ":p:h")
+                                path = vim.fs.relpath(vim.uv.cwd(), path)
+                                path = vim.fs.joinpath(path, "*")
+                                require("spectre").open({
+                                    path = path,
+                                    hidden = true,
+                                    search_pattern = "",
+                                    select_word = false,
+                                })
+                            end,
+                        },
+                    },
+                },
+            },
+        },
+    },
+    {
         "ThePrimeagen/refactoring.nvim",
         opts = {},
         keys = {

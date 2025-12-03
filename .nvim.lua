@@ -12,5 +12,5 @@ vim.filetype.add({
         [".*/mako/config"] = "dosini",
         [".*/kitty/.+%.conf"] = "kitty",
         [".*/hypr/.+%.conf"] = "hyprlang",
-    }
+    },
 })
