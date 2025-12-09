@@ -6,7 +6,7 @@ ARG RECIPE=bootstrap-docker
 
 RUN echo 'Server = https://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch' | tee -a /etc/pacman.d/mirrorlist && \
     pacman -Syy --noconfirm && \
-    pacman -S just sudo zsh git go base-devel --noconfirm && \
+    pacman -S mise sudo zsh git go base-devel --noconfirm && \
     useradd --groups wheel --shell /usr/bin/zsh --uid 1000 -m ${USER_NAME} && \
     sed -i '/^# %wheel ALL=(ALL:ALL) NOPASSWD: ALL$/s/^# //' /etc/sudoers && \
     sed -i '/^#en_US.UTF-8 UTF-8/s/^#//' /etc/locale.gen && \
@@ -19,8 +19,8 @@ COPY --chown=abao:abao . /home/${USER_NAME}/.dotfiles
 
 RUN cd /home/${USER_NAME}/.dotfiles && \
     sudo pacman -Syy && \
-    sudo -u abao just install-yay && \
-    sudo -u abao just ${RECIPE} && \
+    sudo -u abao mise run install-yay && \
+    sudo -u abao mise run ${RECIPE} && \
     sudo -u abao zsh --interactive -c "echo Installing..." && \
     pacman -Scc --noconfirm && \
     sed -i '/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL$/s/^/# /' /etc/sudoers && \

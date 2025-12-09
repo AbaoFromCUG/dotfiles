@@ -14,11 +14,11 @@ application/vnd.openxmlformats-officedocument.wordprocessingml.document=wps-offi
 application/msword=wps-office-wps.desktop
 
 # inode/directory=file-manager.desktop
-clash=clash-verge-handler.desktop
-clash-verge=clash-verge-handler.desktop
-x-scheme-handler/clash=clash-verge.desktop
-x-scheme-handler/clash-verge=clash-verge-handler.desktop
+x-scheme-handler/clash=clash-verge.desktop;clash-verge-handler.desktop;
+x-scheme-handler/clash-verge=clash-verge.desktop;clash-verge-handler.desktop;
 
 
 [Added Associations]
 x-scheme-handler/tonsite=org.telegram.desktop.desktop;
+x-scheme-handler/clash=clash-verge.desktop;
+x-scheme-handler/clash-verge=clash-verge.desktop;
