@@ -18,3 +18,4 @@ config/hypr/monitors.conf
 config/waybar/style.css
 config/swaync/style.css
 repro.lua
+config/uv/uv-receipt.json

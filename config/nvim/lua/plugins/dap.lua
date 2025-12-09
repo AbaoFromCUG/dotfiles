@@ -144,6 +144,8 @@ return {
     {
         "stevearc/overseer.nvim",
         cmd = { "OverseerToggle", "OverseerInfo", "OverseerRun" },
+        dependencies = "toggleterm.nvim",
+        version = "v1.6.0",
         opts = {
             templates = { "builtin", "devcontainer" },
             ---@diagnostic disable-next-line: assign-type-mismatch
@@ -152,7 +154,7 @@ return {
                 direction = "float",
                 close_on_exit = false,
                 quit_on_exit = "never",
-                use_shell = true,
+                -- use_shell = true,
             },
         },
         config = function(_, opts)

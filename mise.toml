@@ -1,15 +1,14 @@
 
 [tasks.init-ubuntu]
-run='''
+run = '''
 #!/usr/bin/env bash
 sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list.d/ubuntu.sources
 sed -i 's/security.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.d/ubuntu.sources
 apt-get update
-apt-get upgrade -y
-type -p add-apt-repository >/dev/null || (sudo apt-get update && sudo apt-get install software-properties-common -y)
+type -p add-apt-repository >/dev/null || sudo apt-get install software-properties-common -y
+type -p wget >/dev/null || sudo apt install wget -y
 add-apt-repository ppa:neovim-ppa/stable -y
 add-apt-repository ppa:neovim-ppa/unstable -y
-type -p wget >/dev/null || (sudo apt update && sudo apt install wget -y)
 mkdir -p -m 755 /etc/apt/keyrings
 out=$(mktemp)
 wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg 
@@ -19,6 +18,15 @@ mkdir -p -m 755 /etc/apt/sources.list.d
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
 apt-get update
 '''
+[tasks.init-archlinux]
+run = '''
+{ 
+    echo 'Server = https://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch'; 
+    grep -v '^Server = https://mirrors.ustc.edu.cn/archlinux/\$repo/os/\$arch' /etc/pacman.d/mirrorlist; 
+} | sudo tee /etc/pacman.d/mirrorlist > /dev/null
+'''
+
+
 [tasks.install-yay]
 run = '''
 #!/usr/bin/env zsh
@@ -63,6 +71,7 @@ elif (( $+commands[brew] )); then
 fi
 '''
 
+
 [tasks.link]
 description = "Create a symbolic link"
 usage = '''
@@ -94,27 +103,8 @@ if [ ! -L ${target} ] || [ ! "$(readlink ${target})"="${target}" ]; then
 fi
 '''
 
-# config package $config="": (install package)
-#     #!/usr/bin/env zsh
-#     set -euo pipefail
-#     if [ -z "$config" ]; then
-#         config={{package}}
-#     fi
-#     target="~/.config/${config}"
-#     source="config/${config}"
-#
-#     source=$(realpath "$source")
-#     target=$(eval echo "$target")
-#
-#     if [ -e "${target}" ] && [ ! -L "${target}" ]; then
-#         echo "File ${target} exists ant not a symbolic link of ${source}, failed exists"
-#         exit 1
-#     fi
-#     if [ ! -L ${target} ] || [ ! "$(readlink ${target})"="${target}" ]; then
-#         ln -s $source $target
-#     fi
+
 [tasks.config]
-depends = "install ${usage_package}"
 usage = '''
 arg "<package>" help="package name"
 arg "[config]" help="config directory name" default=""
@@ -142,6 +132,7 @@ if [ ! -L ${target} ] || [ ! "$(readlink ${target})"="${target}" ]; then
 fi
 '''
 
+
 [tasks.config-zsh]
 depends = [
     "install zsh",
@@ -151,6 +142,36 @@ depends = [
     "link home/zshenv",
     "link config/shell",
 ]
+
+
+[tasks.config-mise]
+depends = [
+    "link config/mise",
+
+    "link home/cargo/config.toml",
+    "link home/npmrc",
+    "link home/condarc",
+    "link home/bunfig.toml",
+    "link config/yazi",
+    "link config/uv",
+]
+run = '''
+mise install
+'''
+
+
+[tasks.config-nvim]
+depends = ["install wget", "config-mise", "link config/nvim"]
+run = '''
+if ! type -p nvim >/dev/null; then
+    wget https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.appimage -O ~/.local/bin/nvim
+    chmod +x ~/.local/bin/nvim
+    nvim --headless -c "Lazy! install" \
+        -c 'lua print(string.format("Install %s neovim plugins \n", require("lazy").stats().count))' \
+        -c "quit"
+fi
+
+'''
 
 
 [tasks.config-tmux]
@@ -210,4 +231,52 @@ depends = [
     "install man-db",
     "install github-cli",
     "install imagemagick",
+    "link home/gitconfig",
+]
+
+
+[tasks.config-hypr]
+depends = [
+    "install hyprland",
+    "install hyprpaper",
+    "install hyprpicker",
+    "install hypridle",
+    "install hyprlock",
+    "install xdg-desktop-portal-hyprland",
+    "install hyprpolkitagent",
+    "install hyprdynamicmonitors-bin",
+
+    "install sof-firmware",
+    "install libva-intel-driver",
+    "install libva-mesa-driver",
+    "install networkmanager",
+    "install pipewire-pulse",
+    "install pipewire-jack",
+    "install pipewire-audio",
+    "install blueman",
+    "install bluez-utils",
+
+    "install curl",
+    "install wget",
+
+    "install kitty",
+    "install ghostty",
+
+    "install playerctl",
+    "install pavucontrol",
+    "install fcitx5-pinyin-zhwiki",
+    "install fcitx5-configtool",
+    "install fcitx5-chinese-addons",
+    "install fcitx5-qt",
+    "install fcitx5-gtk",
+
+    "config swaync",
+    "link config/hypr",
+    "link config/hyprdynamicmonitors",
+    "link local/bin/hyprlayout",
+    "link local/bin/widgetctl",
+    "config wofi",
+    "config waybar",
+    "config nwg-bar",
+    "install grimblast-git",
 ]

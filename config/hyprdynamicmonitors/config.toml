@@ -46,7 +46,6 @@ post_apply_exec = "zsh -c hyprlayout noitfy"
 
 [[profiles.laptop_only.conditions.required_monitors]]
 name = "eDP-1"
-destination = "Lenovo Group Limited 0x8AAF"
 
 [profiles.dvalab]
 config_file = "hyprconfigs/dvalab-template.conf.template"
@@ -66,4 +65,14 @@ monitor_tag = "apple"
 description = "Dell Inc. DELL S2721DS 5GWMQ43"
 monitor_tag = "dell"
 
+[profiles.x2robot]
+config_file = "hyprconfigs/x2robot-template.conf.template"
+config_file_type = "template"
 
+[[profiles.x2robot.conditions.required_monitors]]
+description = "HKC OVERSEAS LIMITED S2716Q 0000000000001"
+monitor_tag = "hkc"
+
+[[profiles.x2robot.conditions.required_monitors]]
+description = "China Star Optoelectronics Technology Co. Ltd MNE007ZA3-4"
+monitor_tag = "laptop"

@@ -9,7 +9,12 @@ RUN sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.l
     apt-get update && \
     apt-get upgrade -y && \
     apt-get install sudo zsh curl git locales -y && \
-    curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin && \
+    install -dm 755 /etc/apt/keyrings && \
+    curl -fSs https://mise.jdx.dev/gpg-key.pub | sudo tee /etc/apt/keyrings/mise-archive-keyring.pub 1> /dev/null && \
+    echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.pub arch=amd64] https://mise.jdx.dev/deb stable main" | sudo tee && \
+    /etc/apt/sources.list.d/mise.list && \
+    apt-get update -y && \
+    apt-get install -y mise && \
     userdel ubuntu -r && \
     useradd --groups sudo --shell /usr/bin/zsh --uid 1000 -m ${USER_NAME} && \
     sed -i '$a %sudo ALL=(ALL) NOPASSWD:ALL' /etc/sudoers && \

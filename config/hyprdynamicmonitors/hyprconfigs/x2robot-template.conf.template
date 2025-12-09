@@ -1,0 +1,10 @@
+# Workstation Template Configuration
+# Multi-monitor setup for productivity
+# Power State: {{.PowerState}} (AC power required)
+# Lid State: {{.LidState}} (Lid required)
+{{- $hkc := index .MonitorsByTag "hkc" -}}
+{{- $laptop := index .MonitorsByTag "laptop" -}}
+
+monitor=desc:{{$hkc.Description}},2560x1440@60.00000,0x0,1.0
+monitor=desc:{{$laptop.Description}},disable
+
