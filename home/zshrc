@@ -41,19 +41,22 @@ zinit wait lucid for \
 zinit wait lucid atload'unalias zi' for\
  OMZP::zoxide
 
-
-zinit wait"2" lucid for \
+zinit wait lucid for \
  OMZP::python \
  OMZP::pip \
  OMZP::kubectl \
  OMZP::docker \
+ OMZP::docker-compose \
  OMZP::eza \
  OMZP::command-not-found \
  OMZP::bun \
  OMZP::git \
  OMZP::mise \
  OMZP::uv \
- OMZP::docker
+ OMZP::ssh \
+ OMZP::sudo \
+ OMZP::aliases \
+ OMZP::rsync
 
 
 zinit depth"1" for \
@@ -71,7 +74,7 @@ zinit for \
 
 
 # For postponing loading `fzf`
-zinit wait"2" lucid for \
+zinit wait lucid for \
     OMZP::fzf
 
 ### End of plugins
@@ -99,7 +102,7 @@ function passwordgen() {
 function sshr() {
     eval $(fzf --zsh)
     host=$(__fzf_list_hosts|fzf)
-    ssh -t $host zsh --login -c "ulimit -n 50000 && tmux attach || tmux new -s work"
+    kitty -o shell ssh -t $host zsh --login -c "ulimit -n 50000 && tmux attach || tmux new -s work"
 }
 
 if (( $+commands[uv]  )); then
@@ -123,6 +126,7 @@ fi
 export MANROFFOPT="-c"
 
 export FZF_COMPLETION_TRIGGER=','
+export ZVM_SYSTEM_CLIPBOARD_ENABLED=true
 
 export GOPROXY=https://goproxy.cn
 export NVM_NODEJS_ORG_MIRROR=http://npm.taobao.org/mirrors/node
@@ -132,5 +136,5 @@ export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 
 ### Local config
-[[ ! -f ~/.zshrc.local ]] || source ~/.zshrc.local
+[[ ! -f ~/.zshrc.local ]] || source ~/.zshrc.local || true
 

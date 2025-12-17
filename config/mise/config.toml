@@ -1,4 +1,3 @@
-
 [env]
 
 RUSTUP_DIST_SERVER = "https://mirrors.ustc.edu.cn/rust-static"
@@ -9,7 +8,7 @@ RUSTUP_UPDATE_ROOT = "https://mirrors.ustc.edu.cn/rust-static/rustup"
 idiomatic_version_file_enable_tools = []
 experimental = true
 lockfile = true
-
+node.gpg_verify = false
 
 # node.mirror_url="https://mirrors.tuna.tsinghua.edu.cn/nodejs-release/"
 npm.bun = true
@@ -17,7 +16,7 @@ npm.bun = true
 [tools]
 bun = "latest"
 lazygit = "latest"
-node = "24"
+node = "24.12.0"
 ruff = "0.14.8"
 rust = "nightly"
 tree-sitter = "0.26.1"

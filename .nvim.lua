@@ -14,3 +14,13 @@ vim.filetype.add({
         [".*/hypr/.+%.conf"] = "hyprlang",
     },
 })
+vim.lsp.config("pyright", {
+    ---@type lspconfig.settings.pyright
+    settings = {
+        python = {
+            analysis = {
+                extraPaths = { "/usr/lib/kitty/" },
+            },
+        },
+    },
+})

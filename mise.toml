@@ -27,14 +27,19 @@ run = '''
     grep -v '^Server = https://mirrors.ustc.edu.cn/archlinux/\$repo/os/\$arch' /etc/pacman.d/mirrorlist; 
 } | sudo tee /etc/pacman.d/mirrorlist > /dev/null
 '''
-
+[tasks.post-init-archlinux]
+depends = ["install pkgfile"]
+run = '''
+sudo pkgfile -u
+'''
 
 [tasks.install-yay]
+description = "Install yay, pacman wrapper and AUR helper"
 run = '''
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 set -euo pipefail
-if  (( $+commands[yay] )) ; then exit 0; fi
-mkdir /tmp/cache && cd /tmp/cache
+type -p yay >/dev/null && exit 0
+mkdir /tmp/yay-cache && cd /tmp/yay-cache
 export GOPROXY=https://goproxy.cn
 sudo pacman -S --needed --noconfirm git go base-devel
 git clone https://aur.archlinux.org/yay.git
@@ -47,29 +52,53 @@ yay -Syuu --noconfirm
 [tasks.install]
 description = "Install application with system package manager"
 usage = '''
-arg "<package>" help="package name"
+arg "<package>" var=#true help="package name(s), support multiple packages separated by space"
 '''
 run = '''
-#!/usr/bin/env zsh
-if (( $+commands[yay] )); then
-    if  ! yay -Qi "${usage_package}" >/dev/null 3>&1; then
-        yay -S --noconfirm ${usage_package}
-        echo install ${usage_package}
-    fi
-elif (( $+commands[apt-get] )); then
-    declare -A alias_names
-    alias_names=(["fd"]="fd-find" ["github-cli"]="gh")
-    name="${alias_names[${usage_package}]:-${usage_package}}"
+#!/usr/bin/env bash
+package_list=($usage_package)
 
-    if ! dpkg -s "$name" >/dev/null 3>&1; then
-        sudo apt-get install -y "$name"
+declare -A alias_names
+alias_names=(["fd"]="fd-find" ["github-cli"]="gh")
+if type -p yay >/dev/null; then
+    function is_installed(){
+        echo $1
+        yay -Qi "$1" >/dev/null 2>&1
+    }
+    function install_packages(){
+        yay -S --noconfirm "$@"
+        echo install "$@"
+    }
+elif type -p apt-get >/dev/null; then
+    function is_installed(){
+        name="${alias_names[$1]:-$1}"
+        echo $name
+        dpkg -s "$name" >/dev/null 2>&1
+    }
+    function install_packages(){
+        sudo apt-get install -y "$@"
+        echo install "$@"
+    }
+elif type -p brew >/dev/null; then
+    function is_installed(){
+        echo $1
+        brew ls --version "$1" >/dev/null 2>&1
+    }
+    function install_packages(){
+        brew install "$@"
+        echo install "$@"
+    }
+fi
+
+not_installed=()
+for pkg in "${package_list[@]}"; do
+    if ! is_installed "$pkg" > /dev/null; then
+        not_installed+=("$pkg")
     fi
-elif (( $+commands[brew] )); then
-    # echo "check ${usage_package}"
-    if  ! brew ls --version "${usage_package}" >/dev/null 3>&1; then
-        brew install ${usage_package}
-        echo install ${usage_package}
-    fi
+done
+
+if [ ! -z "${not_installed[*]}" ]; then
+    install_packages "${not_installed[@]}"
 fi
 '''
 
@@ -96,6 +125,10 @@ fi
 
 source=$(realpath "$source")
 target=$(eval echo "$target")
+if [ ! -e "${source}" ]; then
+    echo "Source file ${source} does not exist, failed"
+    exit 1
+fi
 if [ -e "${target}" ] && [ ! -L "${target}" ]; then
     echo "File ${target} exists and not a symbolic link of ${source}, failed exists"
     exit 1
@@ -106,14 +139,13 @@ if [ ! -L ${target} ] || [ ! "$(readlink ${target})"="${target}" ]; then
 fi
 '''
 
-
 [tasks.config]
 usage = '''
 arg "<package>" help="package name"
 arg "[config]" help="config directory name" default=""
 '''
 run = '''
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 set -euo pipefail
 package="${usage_package}"
 config="${usage_config}"
@@ -138,9 +170,9 @@ fi
 
 
 [tasks.config-zsh]
+description = "Configure zsh shell"
 depends = [
-    "install zsh",
-    "install git",
+    "install zsh git",
     "link home/zshrc",
     "link home/zprofile",
     "link home/zshenv",
@@ -179,7 +211,8 @@ fi
 
 
 [tasks.config-tmux]
-depends = ["install git", "install tmux", "link home/tmux.conf.local"]
+description = "Configure tmux"
+depends = ["install git tmux", "link home/tmux.conf.local"]
 run = '''
 #!/usr/bin/env zsh
 if [ ! -d ~/.tmux ] || [ ! -L ~/.tmux.conf ]; then
@@ -219,61 +252,47 @@ git config list
 
 [tasks.config-dev]
 depends = [
+    "install wget ripgrep jq fd fzf bat eza zoxide curl cmake man-db github-cli imagemagick",
     "config zsh",
     "config tmux",
     "config git",
-    "install wget",
-    "install ripgrep",
-    "install jq",
-    "install fd",
-    "install fzf",
-    "install bat",
-    "install eza",
-    "install zoxide",
-    "install curl",
-    "install cmake",
-    "install man-db",
-    "install github-cli",
-    "install imagemagick",
     "link home/gitconfig",
 ]
 
+[tasks.config-kitty]
+depends = [
+    "install kitty",
+    "link config/kitty",
+    "link local/bin/kitty-save-session",
+    "link config/systemd/user/kitty-save-session.service",
+    "link config/systemd/user/kitty-save-session.timer",
+    "link config/systemd/user/kitty-save-session-failure-notify.service",
+]
+run = '''
+systemctl --user enable --now kitty-save-session.service
+systemctl --user enable --now kitty-save-session.timer
+'''
 
 [tasks.config-hypr]
 depends = [
-    "install hyprland",
-    "install hyprpaper",
-    "install hyprpicker",
-    "install hypridle",
-    "install hyprlock",
-    "install xdg-desktop-portal-hyprland",
-    "install hyprpolkitagent",
-    "install hyprdynamicmonitors-bin",
+    "config-dev",
+    "install hyprland hyprpaper hyprpicker hypridle hyprlock xdg-desktop-portal-hyprland hyprpolkitagent hyprdynamicmonitors-bin",
+    "install xdg-desktop-portal-termfilechooser-hunkyburrito-git",
 
-    "install sof-firmware",
-    "install libva-intel-driver",
-    "install libva-mesa-driver",
-    "install networkmanager",
-    "install pipewire-pulse",
-    "install pipewire-jack",
-    "install pipewire-audio",
-    "install blueman",
-    "install bluez-utils",
+    "install alsa-firmware sof-firmware libva-intel-driver libva-mesa-driver",
 
-    "install curl",
-    "install wget",
+    "install networkmanager blueman bluez-utils",
 
-    "install kitty",
-    "install ghostty",
+    "install pipewire-pulse pipewire-jack pipewire-audio playerctl pavucontrol",
 
-    "install playerctl",
-    "install pavucontrol",
-    "install fcitx5-pinyin-zhwiki",
-    "install fcitx5-configtool",
-    "install fcitx5-chinese-addons",
-    "install fcitx5-qt",
-    "install fcitx5-gtk",
+    "install curl wget",
 
+    "install fcitx5-pinyin-zhwiki fcitx5-configtool fcitx5-chinese-addons fcitx5-qt fcitx5-gtk",
+
+    "install grimblast-git",
+
+    "config kitty",
+    "config ghostty",
     "config swaync",
     "link config/hypr",
     "link config/hyprdynamicmonitors",
@@ -282,8 +301,10 @@ depends = [
     "config wofi",
     "config waybar",
     "config nwg-bar",
-    "install grimblast-git",
 ]
+run = '''
+systemctl --user enable --now hyprpolkitagent.service
+'''
 
 [tasks.build-archlinux-container]
 run = '''
