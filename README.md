@@ -1,23 +1,25 @@
 # dotfiles
 
-My dotfiles for Neovim, zsh,...  optimized for ArchLinux and WSL. Managed with [justfile](https://just.systems/).
+My dotfiles for Neovim, zsh,...,  optimized for ArchLinux and WSL. Managed with [mise](https://mise.jdx.dev/getting-started.html).
 
 ![screenshot](./screenshot.png)
 
 ## QuickStart
 
 * For `local` user
+
     ```bash
     # archlinux user
-    just install-yay
-    just config-dev
+    mise run install-yay
+    mise run config-dev
 
     # or ubuntu user
-    just config-ubuntu
-    just config-dev
+    mise run init-ubuntu
+    mise run config-dev
     ```
 
 * For `docker/podman` user
+
     ```bash
     # archlinux container
     podman run -it --rm --name abao-archlinux abaozhang/archlinux:latest 
@@ -45,4 +47,4 @@ My dotfiles for Neovim, zsh,...  optimized for ArchLinux and WSL. Managed with [
 
 * [Zsh](https://www.zsh.org/) + [powerlevel10k](https://github.com/romkatv/powerlevel10k) as my shell
 
-* Neovim on its [latest release](https://github.com/neovim/neovim/commits/master)
+* Neovim on its [nightly](https://github.com/neovim/neovim/releases/tag/nightly)

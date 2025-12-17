@@ -17,7 +17,7 @@ RUN sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.l
     apt-get update -y && \
     apt-get install -y mise && \
     userdel ubuntu -r && \
-    useradd --groups --shell /usr/bin/zsh --uid 1000 -m ${USER_NAME} && \
+    useradd --groups sudo --shell /usr/bin/zsh --uid 1000 -m ${USER_NAME} && \
     sed -i '$a %sudo ALL=(ALL) NOPASSWD:ALL' /etc/sudoers && \
     locale-gen en_US.UTF-8 && \
     locale-gen zh_CN.UTF-8 && \
