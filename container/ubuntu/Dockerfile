@@ -2,21 +2,22 @@ FROM ubuntu:latest
 
 ARG USER_NAME=abao
 ARG USER_PASSWORD=password
-ARG RECIPE=bootstrap-docker
+ARG RECIPE=config-dev
+env TZ=Asia/Shanghai
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list.d/ubuntu.sources && \
     sed -i 's/security.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.d/ubuntu.sources && \
     apt-get update && \
     apt-get upgrade -y && \
-    apt-get install sudo zsh curl git locales -y && \
+    apt-get install sudo zsh curl git locales tzdata -y && \
     install -dm 755 /etc/apt/keyrings && \
-    curl -fSs https://mise.jdx.dev/gpg-key.pub | sudo tee /etc/apt/keyrings/mise-archive-keyring.pub 1> /dev/null && \
-    echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.pub arch=amd64] https://mise.jdx.dev/deb stable main" | sudo tee && \
-    /etc/apt/sources.list.d/mise.list && \
+    curl -fSs https://mise.jdx.dev/gpg-key.pub | tee /etc/apt/keyrings/mise-archive-keyring.pub 1> /dev/null && \
+    echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.pub arch=amd64] https://mise.jdx.dev/deb stable main" | tee /etc/apt/sources.list.d/mise.list && \
     apt-get update -y && \
     apt-get install -y mise && \
     userdel ubuntu -r && \
-    useradd --groups sudo --shell /usr/bin/zsh --uid 1000 -m ${USER_NAME} && \
+    useradd --groups --shell /usr/bin/zsh --uid 1000 -m ${USER_NAME} && \
     sed -i '$a %sudo ALL=(ALL) NOPASSWD:ALL' /etc/sudoers && \
     locale-gen en_US.UTF-8 && \
     locale-gen zh_CN.UTF-8 && \
@@ -26,8 +27,9 @@ RUN sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.l
 COPY --chown=abao:abao . /home/${USER_NAME}/.dotfiles
 
 RUN cd /home/${USER_NAME}/.dotfiles && \
-    sudo -u abao just config-ubuntu && \
-    sudo -u abao just ${RECIPE} && \
+    sudo -u abao mise trust . && \
+    sudo -u abao mise run init-ubuntu && \
+    sudo -u abao mise run ${RECIPE} && \
     sudo -u abao zsh --interactive -c "echo Installing..." && \
     sed -i '$d' /etc/sudoers && \
     sed -i '/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL$/s/^/# /' /etc/sudoers && \

@@ -2,21 +2,21 @@
 [tasks.init-ubuntu]
 run = '''
 #!/usr/bin/env bash
-sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list.d/ubuntu.sources
-sed -i 's/security.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.d/ubuntu.sources
-apt-get update
+sudo sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list.d/ubuntu.sources
+sudo sed -i 's/security.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.d/ubuntu.sources
+sudo apt-get update
 type -p add-apt-repository >/dev/null || sudo apt-get install software-properties-common -y
 type -p wget >/dev/null || sudo apt install wget -y
-add-apt-repository ppa:neovim-ppa/stable -y
-add-apt-repository ppa:neovim-ppa/unstable -y
-mkdir -p -m 755 /etc/apt/keyrings
+sudo add-apt-repository ppa:neovim-ppa/stable -y
+sudo add-apt-repository ppa:neovim-ppa/unstable -y
+sudo mkdir -p -m 755 /etc/apt/keyrings
 out=$(mktemp)
-wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg 
-cat $out | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null 
-chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg 
-mkdir -p -m 755 /etc/apt/sources.list.d 
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-apt-get update
+wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg
+cat $out | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null
+sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
+sudo mkdir -p -m 755 /etc/apt/sources.list.d
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"|sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+sudo apt-get update
 '''
 [tasks.init-archlinux]
 run = '''
@@ -79,6 +79,7 @@ arg "<source>" help="source file"
 arg "[target]" help="target file" default=""
 '''
 run = '''
+#!/usr/bin/env bash
 source="${usage_source}"
 target="${usage_target}"
 if [ -z "$target" ]; then
@@ -128,6 +129,7 @@ if [ -e "${target}" ] && [ ! -L "${target}" ]; then
     exit 1
 fi
 if [ ! -L ${target} ] || [ ! "$(readlink ${target})"="${target}" ]; then
+    mkdir -p $(dirname ${target})
     ln -s $source $target
 fi
 '''
@@ -280,3 +282,12 @@ depends = [
     "config nwg-bar",
     "install grimblast-git",
 ]
+
+[tasks.build-archlinux-container]
+run = '''
+podman build -t abao-archlinux -f container/archlinux/Dockerfile .
+'''
+[tasks.build-ubuntu-container]
+run = '''
+podman build -t abao-ubuntu -f container/ubuntu/Dockerfile .
+'''
