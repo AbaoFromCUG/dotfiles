@@ -225,7 +225,7 @@ if [ ! -d ~/.tmux ] || [ ! -L ~/.tmux.conf ]; then
 fi
 '''
 
-[tasks.config-git]
+[tasks.config-git-user]
 depends = ["install git"]
 run = '''
 #!/usr/bin/env zsh
@@ -261,7 +261,6 @@ depends = [
     "config vim",
     "config tmux",
     "config git",
-    "link home/gitconfig",
 ]
 
 [tasks.config-kitty]
