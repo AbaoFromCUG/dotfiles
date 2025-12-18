@@ -20,7 +20,6 @@ RUN echo 'Server = https://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch' > /etc/
 COPY --chown=abao:abao . /home/${USER_NAME}/.dotfiles
 
 RUN cd /home/${USER_NAME}/.dotfiles && \
-    cat /etc/pacman.d/mirrorlist && \
     pacman -Syy && \
     sudo -u abao mise trust . && \
     sudo -u abao mise run install-yay && \

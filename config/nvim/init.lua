@@ -61,14 +61,18 @@ vim.g.loaded_netrwPlugin = 1
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 if not vim.uv.fs_stat(lazypath) then
-    vim.fn.system({
-        "git",
-        "clone",
-        "--filter=blob:none",
-        "https://github.com/folke/lazy.nvim.git",
-        "--branch=stable",
-        lazypath,
-    })
+    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+    local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+
+    if vim.v.shell_error ~= 0 then
+        vim.api.nvim_echo({
+            { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+            { out, "WarningMsg" },
+            { "\nPress any key to exit..." },
+        }, true, {})
+        vim.fn.getchar()
+        os.exit(1)
+    end
 end
 
 vim.opt.rtp:prepend(lazypath)
@@ -80,12 +84,13 @@ local lazy_file_events = { "BufReadPost", "BufNewFile", "BufWritePre" }
 Event.mappings.LazyFile = { id = "LazyFile", event = lazy_file_events }
 Event.mappings["User LazyFile"] = Event.mappings.LazyFile
 
+---@diagnostic disable-next-line: missing-fields, param-type-mismatch
 require("lazy").setup({
     spec = {
         { import = "plugins.core", cond = not vim.g.vscode },
         { import = "plugins.ui", cond = not vim.g.vscode },
         { import = "plugins.snacks", cond = not vim.g.vscode },
-        { import = "plugins.heirline", cond = not vim.g.vscode },
+        { import = "plugins.decorator", cond = not vim.g.vscode },
         { import = "plugins.editor", cond = not vim.g.vscode },
         { import = "plugins.misc", cond = not vim.g.vscode },
         { import = "plugins.complete", cond = not vim.g.vscode },
@@ -109,6 +114,7 @@ require("lazy").setup({
     defaults = {
         lazy = true,
     },
+    checker = { enabled = true },
 })
 
 vim.cmd([[colorscheme nightfox]])

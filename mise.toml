@@ -58,12 +58,13 @@ run = '''
 #!/usr/bin/env bash
 package_list=($usage_package)
 
-declare -A alias_names
-alias_names=(["fd"]="fd-find" ["github-cli"]="gh")
 if type -p yay >/dev/null; then
     function is_installed(){
-        echo $1
-        yay -Qi "$1" >/dev/null 2>&1
+        declare -A alias_names
+        alias_names=(["neovim"]="neovim-git")
+        name="${alias_names[$1]:-$1}"
+        echo $name
+        yay -Qi "$name" >/dev/null 2>&1
     }
     function install_packages(){
         yay -S --noconfirm "$@"
@@ -71,6 +72,8 @@ if type -p yay >/dev/null; then
     }
 elif type -p apt-get >/dev/null; then
     function is_installed(){
+        declare -A alias_names
+        alias_names=(["fd"]="fd-find" ["github-cli"]="gh")
         name="${alias_names[$1]:-$1}"
         echo $name
         dpkg -s "$name" >/dev/null 2>&1
@@ -93,7 +96,7 @@ fi
 not_installed=()
 for pkg in "${package_list[@]}"; do
     if ! is_installed "$pkg" > /dev/null; then
-        not_installed+=("$pkg")
+        not_installed+=(`is_installed "$pkg"`)
     fi
 done
 
@@ -150,7 +153,7 @@ set -euo pipefail
 package="${usage_package}"
 config="${usage_config}"
 if [ -z "$config" ]; then
-    if mise tasks | grep -q "^config-${package}\$"; then
+    if mise tasks ls |awk '{print $1}' | grep -q "^config-${package}\$"; then
         mise run "config-${package}"
         exit 0
     fi
@@ -200,15 +203,11 @@ mise install
 
 
 [tasks.config-nvim]
-depends = ["install wget", "config-mise", "link config/nvim"]
+depends = ["install neovim", "config-mise", "link config/nvim"]
 run = '''
-if ! type -p nvim >/dev/null; then
-    wget https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.appimage -O ~/.local/bin/nvim
-    chmod +x ~/.local/bin/nvim
-    nvim --headless -c "Lazy! install" \
-        -c 'lua print(string.format("Install %s neovim plugins \n", require("lazy").stats().count))' \
-        -c "quit"
-fi
+nvim --headless -c "Lazy! sync" \
+    -c 'lua print(string.format("Install %s neovim plugins \n", require("lazy").stats().count))' \
+    -c "quit"
 
 '''
 
@@ -258,7 +257,7 @@ depends = [
     "install wget ripgrep jq fd fzf bat eza zoxide curl cmake man-db github-cli imagemagick",
     "config zsh",
     "config mise",
-    "config vim",
+    "config nvim",
     "config tmux",
     "config git",
 ]

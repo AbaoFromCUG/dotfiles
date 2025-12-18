@@ -6,9 +6,17 @@ return {
         priority = 1000,
         opts = {
             options = {
-                -- transparent = true,
+                transparent = true,
                 -- dim_inactive = true,
             },
+        },
+    },
+    {
+        "folke/tokyonight.nvim",
+        lazy = false,
+        priority = 1000,
+        opts = {
+            transparent = true,
         },
     },
     {
@@ -286,6 +294,20 @@ return {
         opts = {
             sort_case_insensitive = false,
             filesystem = {
+                window = {
+                    mappings = {
+                        ["<leader>ty"] = {
+                            function(state)
+                                ---@type neotree.FileNode
+                                local node = state.tree:get_node()
+                                local path = vim.fn.fnamemodify(node.path, ":p")
+                                require("yazi").yazi({}, path)
+                            end,
+                            desc = "yazi:current file",
+                        },
+                    },
+                },
+
                 follow_current_file = {
                     enabled = true,
                     leave_dirs_open = true,

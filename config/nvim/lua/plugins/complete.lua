@@ -8,8 +8,7 @@ return {
             "mason.nvim",
             "nvim-lspconfig",
         },
-        -- event = "VeryLazy",
-        lazy = false,
+        event = "VeryLazy",
         opts = {
             ensure_installed = {
                 -- "lua_ls",
@@ -33,6 +32,7 @@ return {
             },
             automatic_enable = {
                 exclude = {
+                    "emmylua_ls",
                     "lua_ls",
                     "jdtls",
                 },
@@ -204,19 +204,25 @@ return {
     { "b0o/schemastore.nvim" },
     {
         "AbaoFromCUG/luadev.nvim",
-        ---@type lua_ls.Config
-        opts = {},
         ft = "lua",
         dev = true,
+        ---@type luadev.Config
+        opts = {
+            enabled_lsp = "emmylua_ls",
+        },
     },
     {
         "SmiteshP/nvim-navic",
-        opts = {
-            lsp = {
-                auto_attach = true,
-            },
-            depth_limit = 5,
-        },
-        event = "LspAttach",
+        opts = function()
+            Snacks.util.lsp.on({ method = "textDocument/documentSymbol" }, function(buffer, client) require("nvim-navic").attach(client, buffer) end)
+            return {
+                separator = " ",
+                highlight = true,
+                depth_limit = 5,
+                lazy_update_context = true,
+            }
+        end,
+        lazy = false,
+        -- event = "VeryLazy",
     },
 }

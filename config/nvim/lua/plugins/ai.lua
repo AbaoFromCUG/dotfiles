@@ -117,10 +117,10 @@ return {
             },
         },
         keys = {
-            { "<leader>a", group = true, desc = "ai", mode = { "v", "n" } },
-            { "<leader>ai", "<cmd>CodeCompanion<cr>", desc = "inline assistant", mode = { "v", "n" } },
-            { "<leader>ac", "<cmd>CodeCompanionChat<cr>", desc = "chat assistant", mode = { "v", "n" } },
-            { "<leader>ap", "<cmd>CodeCompanionActions<cr>", desc = "action palette", mode = { "v", "n" } },
+            { "<leader>a",  group = true,                    desc = "ai",               mode = { "v", "n" } },
+            { "<leader>ai", "<cmd>CodeCompanion<cr>",        desc = "inline assistant", mode = { "v", "n" } },
+            { "<leader>ac", "<cmd>CodeCompanionChat<cr>",    desc = "chat assistant",   mode = { "v", "n" } },
+            { "<leader>ap", "<cmd>CodeCompanionActions<cr>", desc = "action palette",   mode = { "v", "n" } },
         },
     },
     {
@@ -193,32 +193,35 @@ return {
         end,
     },
     {
-        "rebelot/heirline.nvim",
-        opts = function(_, opts)
-            -- Copilot status
-            table.insert(opts.statusline[#opts.statusline], {
-                provider = function() return " " end,
-                hl = function()
-                    local status = require("sidekick.status").get()
-                    if status then
-                        return status.kind == "Error" and "DiagnosticError" or status.busy and "DiagnosticWarn" or "Special"
-                    end
-                end,
-                condition = function()
-                    local status = require("sidekick.status")
-                    return status.get() ~= nil
-                end,
-            })
-
-            -- CLI session status
-            table.insert(opts.statusline[#opts.statusline], 5, {
-                provider = function()
-                    local status = require("sidekick.status").cli()
-                    return " " .. (#status > 1 and #status or "")
-                end,
-                condition = function() return #require("sidekick.status").cli() > 0 end,
-                hl = function() return "Special" end,
-            })
-        end,
+        "nvim-lualine/lualine.nvim",
+        opts = {
+            sections = {
+                lualine_c = {
+                    {
+                        function() return " " end,
+                        -- color = function()
+                        --     local status = require("sidekick.status").get()
+                        --     if status then
+                        --         return status.kind == "Error" and "DiagnosticError" or status.busy and "DiagnosticWarn" or "Special"
+                        --     end
+                        -- end,
+                        cond = function()
+                            local status = require("sidekick.status")
+                            return status.get() ~= nil
+                        end,
+                    },
+                },
+                lualine_x = {
+                    {
+                        function()
+                            local status = require("sidekick.status").cli()
+                            return " " .. (#status > 1 and #status or "")
+                        end,
+                        cond = function() return #require("sidekick.status").cli() > 0 end,
+                        color = function() return "Special" end,
+                    },
+                },
+            },
+        },
     },
 }
