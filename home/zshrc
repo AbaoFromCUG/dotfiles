@@ -75,7 +75,8 @@ zinit for \
 
 # For postponing loading `fzf`
 zinit wait lucid for \
-    OMZP::fzf
+    OMZP::fzf \
+    AbaoFromCUG/friendly-fzf
 
 ### End of plugins
 
@@ -126,6 +127,8 @@ fi
 export MANROFFOPT="-c"
 
 export FZF_COMPLETION_TRIGGER=','
+export FZF_DEFAULT_OPTS='--bind=space:toggle+down,tab:down'
+
 export ZVM_SYSTEM_CLIPBOARD_ENABLED=true
 
 export GOPROXY=https://goproxy.cn

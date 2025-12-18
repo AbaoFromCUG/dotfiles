@@ -150,6 +150,10 @@ set -euo pipefail
 package="${usage_package}"
 config="${usage_config}"
 if [ -z "$config" ]; then
+    if mise tasks | grep -q "^config-${package}\$"; then
+        mise run "config-${package}"
+        exit 0
+    fi
     config=${package}
 fi
 target="~/.config/${config}"
@@ -183,7 +187,6 @@ depends = [
 [tasks.config-mise]
 depends = [
     "link config/mise",
-
     "link home/cargo/config.toml",
     "link home/npmrc",
     "link home/condarc",
@@ -254,6 +257,8 @@ git config list
 depends = [
     "install wget ripgrep jq fd fzf bat eza zoxide curl cmake man-db github-cli imagemagick",
     "config zsh",
+    "config mise",
+    "config vim",
     "config tmux",
     "config git",
     "link home/gitconfig",
