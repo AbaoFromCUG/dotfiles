@@ -30,6 +30,9 @@ return {
                     background = { bg = inactivated_bg },
                     close_button = { bg = inactivated_bg },
                     separator = { fg = bg, bg = inactivated_bg },
+                    separator_visible = { fg = bg, bg = inactivated_bg },
+                    close_button_visible = { bg = inactivated_bg },
+                    buffer_visible = { bg = inactivated_bg },
 
                     buffer_selected = { bold = true, italic = true, bg = activated_bg, fg = "#f0f0f0" },
                     close_button_selected = { bg = activated_bg, fg = "#f0f0f0" },

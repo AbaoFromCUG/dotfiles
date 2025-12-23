@@ -9,7 +9,6 @@ sudo sed -i 's/security.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.
 sudo apt-get update
 type -p add-apt-repository >/dev/null || sudo apt-get install software-properties-common -y
 type -p wget >/dev/null || sudo apt install wget -y
-sudo add-apt-repository ppa:neovim-ppa/stable -y
 sudo add-apt-repository ppa:neovim-ppa/unstable -y
 sudo mkdir -p -m 755 /etc/apt/keyrings
 out=$(mktemp)

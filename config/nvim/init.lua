@@ -117,4 +117,4 @@ require("lazy").setup({
     checker = { enabled = true },
 })
 
-vim.cmd([[colorscheme nightfox]])
+vim.cmd([[colorscheme tokyonight]])

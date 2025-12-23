@@ -1,7 +1,3 @@
-[user]
-    email = abaodoit@gmail.com
-    name = Abao Zhang
-
 [credential]
     helper = store
 
@@ -31,3 +27,5 @@
 [init]
     defaultBranch = master
 
+[includeIf "hasconfig:remote.*.url:git@github.com:*/*"]
+    path = github.inc

@@ -72,7 +72,7 @@ return {
     {
         "mikavilpas/tsugit.nvim",
         keys = {
-            { "<leader>gg", function() require("tsugit").toggle() end, silent = true, desc = "toggle lazygit" },
+            { "<leader>gg", function() require("tsugit").toggle() end,          silent = true,                desc = "toggle lazygit" },
             { "<leader>gf", function() require("tsugit").toggle_for_file() end, desc = "lazygit file commits" },
         },
     },
@@ -268,7 +268,7 @@ return {
                     title = "Repl",
                     ft = "dap-repl",
                 },
-                { ft = "qf", title = "QuickFix" },
+                { ft = "qf",         title = "QuickFix" },
                 {
                     title = "Search",
                     ft = "spectre_panel",
@@ -286,7 +286,7 @@ return {
         "nvim-neo-tree/neo-tree.nvim",
         cmd = "Neotree",
         keys = {
-            { "<leader>b", "<cmd>Neotree filesystem reveal toggle<cr>", desc = "file explorer" },
+            { "<leader>b",  "<cmd>Neotree filesystem reveal toggle<cr>", desc = "file explorer" },
             { "<leader>vf", "<cmd>Neotree filesystem reveal toggle<cr>", desc = "file explorer" },
         },
         ---@type neotree.Config

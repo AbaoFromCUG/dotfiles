@@ -77,12 +77,12 @@ return {
         },
         config = function(_, opts)
             require("which-key").add({
-                { "<leader>o", group = true, desc = "cmake" },
+                { "<leader>o",  group = true,             desc = "cmake" },
                 { "<leader>os", "<cmd>CMakeSettings<cr>", desc = "cmake settings" },
                 { "<leader>og", "<cmd>CMakeGenerate<cr>", desc = "cmake generate" },
-                { "<leader>ob", "<cmd>CMakeBuild<cr>", desc = "cmake build" },
-                { "<leader>od", "<cmd>CMakeDebug<cr>", desc = "cmake debug" },
-                { "<leader>or", "<cmd>CMakeRun<cr>", desc = "cmake run" },
+                { "<leader>ob", "<cmd>CMakeBuild<cr>",    desc = "cmake build" },
+                { "<leader>od", "<cmd>CMakeDebug<cr>",    desc = "cmake debug" },
+                { "<leader>or", "<cmd>CMakeRun<cr>",      desc = "cmake run" },
             })
             require("cmake-tools").setup(opts)
         end,
@@ -109,7 +109,14 @@ return {
     },
     {
         "iamcco/markdown-preview.nvim",
-        build = function() vim.fn["mkdp#util#install"]() end,
+        build = function(plugin)
+            if vim.fn.executable("bunx") == 1 then
+                vim.cmd("!cd " .. plugin.dir .. " && cd app && bunx --yes yarn install")
+            else
+                vim.cmd([[Lazy load markdown-preview.nvim]])
+                vim.fn["mkdp#util#install"]()
+            end
+        end,
         cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
         keys = {},
         ft = "markdown",
@@ -119,7 +126,7 @@ return {
         build = ":call firenvim#install(0)",
     },
     { "lambdalisue/suda.vim", cmd = { "SudaWrite", "SudaRead" } },
-    { "h-hg/fcitx.nvim", event = "InsertEnter" },
+    { "h-hg/fcitx.nvim",      event = "InsertEnter" },
     {
         "mistweaverco/kulala.nvim",
         ft = "http",
@@ -145,8 +152,8 @@ return {
             bg_theme = "bamboo",
         },
         keys = {
-            { "<leader>tc", desc = "code snapshot" },
-            { "<leader>tcs", "<cmd>CodeSnap<cr>", mode = "x", desc = "save code snapshot into clipboard" },
+            { "<leader>tc",  desc = "code snapshot" },
+            { "<leader>tcs", "<cmd>CodeSnap<cr>",     mode = "x", desc = "save code snapshot into clipboard" },
             { "<leader>tcc", "<cmd>CodeSnapSave<cr>", mode = "x", desc = "save code snapshot in ~/Pictures" },
         },
     },
@@ -194,6 +201,21 @@ return {
         init = function() vim.g.db_ui_save_location = vim.uv.cwd() end,
         keys = {
             { "<leader>tss", "<cmd>DBUI<cr>" },
+        },
+    },
+    {
+        "esensar/nvim-dev-container",
+        opts = {},
+        cmd = {
+            "DevcontainerStart",
+            "DevcontainerAttach",
+            "DevcontainerExec",
+            "DevcontainerStop",
+            "DevcontainerStopAll",
+            "DevcontainerRemoveAll",
+            "DevcontainerRemoveAll",
+            "DevcontainerLogs",
+            "DevcontainerEditNearestConfig",
         },
     },
 }
