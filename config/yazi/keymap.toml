@@ -6,7 +6,9 @@
 
 prepend_keymap = [
     # Help
-    { on = ["?"], run = "help", desc = "Open help" },
+    { on = [
+        "?",
+    ], run = "help", desc = "Open help" },
     # { on = ["\\", "f", "f"], run = "search fd" },
     # { on = ["\\", "f", "w"], run = "search rg" },
 
@@ -14,8 +16,19 @@ prepend_keymap = [
     { on = "s", run = "plugin jump-to-char", desc = "Jump to char" },
     { on = "z", run = "plugin zoxide", desc = "Jump to a directory using zoxide" },
     { on = "Z", run = "plugin fzf", desc = "Jump to a file/directory via fzf" },
-    { on = "M", run = "plugin mount", desc = "Mount filesystem" },
-    { on = ["c", "m"], run = "plugin chmod", desc = "Chmod on selected files" },
+    { on = [
+        "M",
+        "m",
+    ], run = "plugin mount", desc = "Mount filesystem" },
+    { on = [
+        "c",
+        "m",
+    ], run = "plugin chmod", desc = "Chmod on selected files" },
+
+    { on = [
+        "M",
+        "s",
+    ], run = "plugin sshfs -- menu", desc = "Open SSHFS options" },
 ]
 [help]
 keymap = [

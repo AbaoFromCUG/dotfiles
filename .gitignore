@@ -4,9 +4,6 @@ __pycache__
 config/lazygit/state.yml
 config/ncmpcpp/error.log
 
-config/mpd/
-!config/mpd/mpd.conf
-
 config/nvim/lazy-lock.json
 config/fish/fish_variables
 .python-version

@@ -112,22 +112,21 @@ fi
 
 if (( $+commands[nvim]  )); then
     alias vim="nvim"
+    export MANPAGER="nvim +Man!"
 fi
 
 if (( $+commands[bat] )); then
     alias cat="$(which bat)"
     alias ocat="$(which cat)"
-    export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 elif (( $+commands[batcat]  )); then
     alias cat="$(which batcat)"
     alias ocat="$(which cat)"
-    export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
 fi
 
 export MANROFFOPT="-c"
 
 export FZF_COMPLETION_TRIGGER=','
-export FZF_DEFAULT_OPTS='--bind=space:toggle+down,tab:down'
+export FZF_DEFAULT_OPTS="--bind=space:toggle+down,tab:down,shift-tab:up --preview 'fzf-preview {}'"
 
 export ZVM_SYSTEM_CLIPBOARD_ENABLED=true
 

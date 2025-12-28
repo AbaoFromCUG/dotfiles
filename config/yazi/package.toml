@@ -18,5 +18,10 @@ use = "yazi-rs/plugins:chmod"
 rev = "19dc890"
 hash = "5b2eb0cc2050cec1e4de83cfa51a5b90"
 
+[[plugin.deps]]
+use = "uhs-robert/sshfs"
+rev = "75a025c"
+hash = "e1cebecfee70daef1f97aa083209340c"
+
 [flavor]
 deps = []

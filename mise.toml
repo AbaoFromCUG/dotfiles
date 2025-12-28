@@ -205,8 +205,10 @@ mise install
 depends = ["install neovim", "config-mise", "link config/nvim"]
 run = '''
 nvim --headless -c "Lazy! sync" \
+    -c "TSInstall lua python shell json cpp" \
+    -c "MasonInstall clangd emmylua_ls bashls" \
     -c 'lua print(string.format("Install %s neovim plugins \n", require("lazy").stats().count))' \
-    -c "quit"
+    -c "qall"
 
 '''
 
@@ -251,6 +253,16 @@ echo "Please check your global configurations of git:\n"
 git config list
 '''
 
+[tasks.config-fzf]
+depends = ["install fzf curl"]
+run = '''
+if [ ! -f ~/.local/bin/fzf-preview ]; then
+    curl https://raw.githubusercontent.com/junegunn/fzf/refs/heads/master/bin/fzf-preview.sh -o ~/.local/bin/fzf-preview
+    chmod +x ~/.local/bin/fzf-preview
+fi
+'''
+
+
 [tasks.config-dev]
 depends = [
     "install wget ripgrep jq fd fzf bat eza zoxide curl cmake man-db github-cli imagemagick",
@@ -265,7 +277,7 @@ depends = [
 depends = [
     "install kitty",
     "link config/kitty",
-    "link local/bin/kitty-save-session",
+    # "link local/bin/kitty-save-session",
     "link config/systemd/user/kitty-save-session.service",
     "link config/systemd/user/kitty-save-session.timer",
     "link config/systemd/user/kitty-save-session-failure-notify.service",
@@ -300,12 +312,17 @@ depends = [
     "link config/hyprdynamicmonitors",
     "link local/bin/hyprlayout",
     "link local/bin/widgetctl",
+    "link local/bin/wallpaperd",
     "config wofi",
     "config waybar",
     "config nwg-bar",
 ]
 run = '''
+
 systemctl --user enable --now hyprpolkitagent.service
+systemctl --user enable --now hyprpaper.service
+systemctl --user enable --now hypridle.service
+
 '''
 
 [tasks.build-archlinux-container]

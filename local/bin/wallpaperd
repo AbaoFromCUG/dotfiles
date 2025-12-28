@@ -1,0 +1,127 @@
+#!/usr/bin/env bash
+common_wallpapers=(
+	/usr/share/hypr/wall0.png
+	/usr/share/hypr/wall2.png
+
+	https://raw.githubusercontent.com/ParrotSec/parrot-wallpapers/refs/heads/master/backgrounds/parrot-glitch.jpg
+	https://raw.githubusercontent.com/ParrotSec/parrot-wallpapers/refs/heads/master/backgrounds/parrot-splash.jpg
+	https://raw.githubusercontent.com/mylinuxforwork/wallpaper/refs/heads/main/astronaut_jellyfish.jpg
+	https://raw.githubusercontent.com/mylinuxforwork/wallpaper/refs/heads/main/astronaut2.png
+	https://raw.githubusercontent.com/mylinuxforwork/wallpaper/refs/heads/main/astronaut_jellyfish.jpg
+	https://raw.githubusercontent.com/mylinuxforwork/wallpaper/refs/heads/main/black-whole2.png
+	https://raw.githubusercontent.com/mylinuxforwork/wallpaper/refs/heads/main/bloodrock-steppes.png
+	https://raw.githubusercontent.com/mylinuxforwork/wallpaper/refs/heads/main/car_on_mars.jpg
+	https://raw.githubusercontent.com/mylinuxforwork/wallpaper/refs/heads/main/explorer-robot.png
+)
+
+horizontal_wallpapers=(
+	https://raw.githubusercontent.com/ParrotSec/parrot-wallpapers/refs/heads/master/backgrounds/splash2.jpg
+	https://raw.githubusercontent.com/ParrotSec/parrot-wallpapers/refs/heads/master/backgrounds/parrot-fly-grey.jpg
+	https://raw.githubusercontent.com/ParrotSec/parrot-wallpapers/refs/heads/master/backgrounds/echo.jpg
+	https://raw.githubusercontent.com/ParrotSec/parrot-wallpapers/refs/heads/master/backgrounds/fly-away.jpg
+	https://raw.githubusercontent.com/ParrotSec/parrot-wallpapers/refs/heads/master/backgrounds/lorikeet.jpg
+	https://raw.githubusercontent.com/ParrotSec/parrot-wallpapers/refs/heads/master/backgrounds/lorikeet2.jpg
+	https://raw.githubusercontent.com/ParrotSec/parrot-wallpapers/refs/heads/master/backgrounds/macaw-poly.jpg
+	https://raw.githubusercontent.com/ParrotSec/parrot-wallpapers/refs/heads/master/backgrounds/macaw-poly2.jpg
+	https://raw.githubusercontent.com/ParrotSec/parrot-wallpapers/refs/heads/master/backgrounds/macaw.jpg
+	https://raw.githubusercontent.com/ParrotSec/parrot-wallpapers/refs/heads/master/backgrounds/parrot-abstract.jpg
+	https://raw.githubusercontent.com/mylinuxforwork/wallpaper/refs/heads/main/comet.jpg
+)
+
+vertical_wallpapers=(
+	/usr/share/hypr/wall1.png
+	/usr/share/hypr/wall2.png
+
+)
+
+function url2path() {
+	if [[ "$1" == /usr/share/* ]]; then
+		echo "$1"
+	else
+		echo "$HOME/Pictures/wallpapers/$(basename $1)"
+	fi
+}
+
+function download() {
+	url="$1"
+	if [[ "$url" == /usr/share/* ]]; then
+		return
+	fi
+	target=$(url2path "$url")
+	if [ ! -f "$target" ]; then
+		curl "$url" -o "$target"
+	fi
+}
+for url in "${common_wallpapers[@]}"; do
+	download "$url"
+done
+for url in "${horizontal_wallpapers[@]}"; do
+	download "$url"
+done
+for url in "${vertical_wallpapers[@]}"; do
+	download "$url"
+done
+
+function random_wallpaper() {
+	# $1 is monitor name, e.g. eDP-1
+	name=$1
+	# {name:str, width:int, height: int, transform: int}[]
+	height=$(hyprctl monitors -j | jq -r ".[] | select(.name==\"$name\") | .height")
+	width=$(hyprctl monitors -j | jq -r ".[] | select(.name==\"$name\") | .width")
+	transform=$(hyprctl monitors -j | jq -r ".[] | select(.name==\"$name\") | .transform")
+	declare -a wallpaper_list
+	echo "Monitor $name: ${width}x${height} transform=$transform"
+    if [ "$transform" -eq 1 ] || [ "$transform" -eq 3 ]; then
+        # rotated
+        temp=$width
+        width=$height
+        height=$temp
+    fi
+	if [ "$width" -ge "$height" ]; then
+		# horizontal
+		wallpaper_list=("${common_wallpapers[@]}" "${horizontal_wallpapers[@]}")
+		echo "horizontal wallpaper number: ${#wallpaper_list[@]}"
+	else
+		# vertical
+		wallpaper_list=("${common_wallpapers[@]}" "${vertical_wallpapers[@]}")
+		echo "vertical wallpaper number: ${#wallpaper_list[@]}"
+	fi
+
+	random_index=$((RANDOM % ${#wallpaper_list[@]}))
+	random_wallpaper="${wallpaper_list[$random_index]}"
+
+	if [ -n "$random_wallpaper" ]; then
+		path=$(url2path "$random_wallpaper")
+		echo "Setting wallpaper for monitor $name to $path"
+		hyprctl hyprpaper preload "$path"
+		hyprctl hyprpaper wallpaper "$name,$path"
+	fi
+}
+last_refresh=$(date +%s)
+
+refresh_all_monitors() {
+	monitors=$(hyprctl monitors -j | jq -r '.[]|.name')
+	for monitor in $monitors; do
+		random_wallpaper "$monitor"
+	done
+}
+refresh_all_monitors
+
+handle() {
+	case $1 in
+	monitoraddedv2*)
+		monitor=$(echo "$1" | cut -d',' -f2)
+		random_wallpaper "$monitor"
+		;;
+
+	vdesk*)
+		if (($(date +%s) - last_refresh > 3600)); then
+			refresh_all_monitors
+			last_refresh=$(date +%s)
+		fi
+		;;
+
+	esac
+}
+
+socat -U - UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock | while read -r line; do handle "$line"; done

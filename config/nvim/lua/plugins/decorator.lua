@@ -72,11 +72,6 @@ return {
                 lualine_b = {
                     "branch",
                     "filename",
-                    {
-                        "navic",
-                        color_correction = "dynamic",
-                        navic_opts = nil,
-                    },
                 },
                 lualine_c = {},
                 lualine_d = {

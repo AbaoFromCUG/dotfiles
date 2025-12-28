@@ -2,13 +2,13 @@
 destination = "$HOME/.config/hypr/monitors.conf"
 
 debounce_time_ms = 1500
-pre_apply_exec = "notify-send 'HyprDynamicMonitors' 'Switching monitor profile...'"
-post_apply_exec = "notify-send 'HyprDynamicMonitors' 'Monitor profile switched successfully'"
+pre_apply_exec = "notify-send -i applications-system 'HyprDynamicMonitors' 'Switching monitor profile...'"
+post_apply_exec = "notify-send -i applications-system 'HyprDynamicMonitors' 'Monitor profile switched successfully'"
 
 [hot_reload_section]
 debounce_time_ms = 1000
-[lid_events]
 
+[lid_events]
 [lid_events.dbus_query_object]
 destination = "org.freedesktop.UPower"
 path = "/org/freedesktop/UPower"
