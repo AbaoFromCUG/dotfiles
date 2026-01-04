@@ -316,3 +316,20 @@ podman build -t abao-archlinux -f container/archlinux/Dockerfile .
 run = '''
 podman build -t abao-ubuntu -f container/ubuntu/Dockerfile .
 '''
+
+[tasks.easyconnect]
+usage = '''
+flag "-d --domain <domain>" help="VPN domain"
+flag "-u --username <username>" help="VPN username"
+flag "-p --password <password>" help="VPN password"
+flag "--http-port [http_port]" help="Local HTTP proxy port" default="8888"
+flag "--socks-port [socks_port]" help="Local SOCKS5 proxy port" default="1080"
+'''
+run = '''
+docker run --rm --device /dev/net/tun --cap-add NET_ADMIN -ti \
+    -p 127.0.0.1:${usage_socks_port}:1080 \
+    -p 127.0.0.1:${usage_http_port}:8888 \
+    -e EC_VER=7.6.7 \
+    -e CLI_OPTS="-d ${usage_domain} -u ${usage_username} -p ${usage_password}" \
+    docker.io/hagb/docker-easyconnect:cli
+'''
