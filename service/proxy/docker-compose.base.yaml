@@ -1,0 +1,22 @@
+services:
+  metacubexd:
+    container_name: metacubexd
+    image: ghcr.io/metacubex/metacubexd:latest
+    restart: always
+    ports:
+      - '8091:80'
+    environment:
+      - DEFAULT_BACKEND_URL=http://127.0.0.1:8092
+
+  # Optional: mihomo instance
+  mihomo:
+    container_name: mihomo
+    image: docker.io/metacubex/mihomo:Alpha
+    restart: always
+    network_mode: host
+    cap_add:
+      - ALL
+    volumes:
+      - ./mihomo/config.yaml:/root/.config/mihomo/config.yaml
+      - /dev/net/tun:/dev/net/tun
+

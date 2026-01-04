@@ -312,17 +312,22 @@ depends = [
     "link config/hyprdynamicmonitors",
     "link local/bin/hyprlayout",
     "link local/bin/widgetctl",
-    "link local/bin/wallpaperd",
     "config wofi",
     "config waybar",
     "config nwg-bar",
+
+    "link config/systemd/user/wallpaper.service",
 ]
 run = '''
 
 systemctl --user enable --now hyprpolkitagent.service
 systemctl --user enable --now hyprpaper.service
 systemctl --user enable --now hypridle.service
+systemctl --user enable --now hyprdynamicmonitors-prepare.service
 
+systemctl --user enable --now pipewire.service
+systemctl --user enable --now pipewire-pulse.service
+systemctl --user enable --now wallpaper.service
 '''
 
 [tasks.build-archlinux-container]
@@ -349,4 +354,49 @@ docker run --rm --device /dev/net/tun --cap-add NET_ADMIN -ti \
     -e EC_VER=7.6.7 \
     -e CLI_OPTS="-d ${usage_domain} -u ${usage_username} -p ${usage_password}" \
     docker.io/hagb/docker-easyconnect:cli
+'''
+
+[tasks.service-proxy]
+depends = ["install go-yq"]
+usage = '''
+arg "<action>" help="action: up | down | restart | logs"
+flag "-e --easyconnect" help="start easyconnect vpn before starting the proxy service"
+flag "--ec-domain <domain>" help="easyconnect VPN domain"
+flag "--ec-username <username>" help="easyconnect VPN username"
+flag "--ec-password <password>" help="easyconnect VPN password"
+'''
+
+
+run = '''
+#!/usr/bin/env bash
+
+pushd ./service/proxy/
+if [ ! -f mihomo/config.local.yaml ]; then
+    # 参考config.example.yaml 创建
+    echo "Please create the config.local.yaml file in the service/proxy/mihomo directory based on the config.example.yaml"
+    exit 1
+fi
+
+# 检查变量是否定义
+if [ "${usage_easyconnect}" == "true" ]; then
+    if [ -z "${usage_ec_domain}" ] || [ -z "${usage_ec_username}" ] || [ -z "${usage_ec_password}" ]; then
+        echo "When --easyconnect is specified, --ec-domain, --ec-username, and --ec-password must also be provided."
+        exit 1
+    fi
+
+
+    yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1) * select(fileIndex == 2)' mihomo/config.base.yaml mihomo/config.easyconnect.yaml mihomo/config.local.yaml > mihomo/config.yaml
+    export EC_DOMAIN="${usage_ec_domain}"
+    export EC_USERNAME="${usage_ec_username}"
+    export EC_PASSWORD="${usage_ec_password}"
+    yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' docker-compose.base.yaml docker-compose.easyconnect.yaml > docker-compose.yaml
+else
+    yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' mihomo/config.base.yaml mihomo/config.local.yaml > mihomo/config.yaml
+    cp docker-compose.base.yaml docker-compose.yaml
+fi
+
+
+
+docker compose ${usage_action}
+
 '''

@@ -16,3 +16,8 @@ config/waybar/style.css
 config/swaync/style.css
 repro.lua
 config/uv/uv-receipt.json
+service/proxy/mihomo/config.local.yaml
+service/proxy/mihomo/config.yaml
+
+service/proxy/mihomo/docker-compose.yaml
+service/proxy/docker-compose.yaml

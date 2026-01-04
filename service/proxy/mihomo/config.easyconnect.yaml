@@ -1,0 +1,6 @@
+proxies:
+- name: "easyconnect"
+  type: http
+  server: 127.0.0.1
+  port: 8094
+
