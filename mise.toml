@@ -360,7 +360,8 @@ docker run --rm --device /dev/net/tun --cap-add NET_ADMIN -ti \
 depends = ["install go-yq"]
 usage = '''
 arg "<action>" help="action: up | down | restart | logs"
-flag "-e --easyconnect" help="start easyconnect vpn before starting the proxy service"
+flag "-t --enable-tun" help="enable system tuning"
+flag "-e --enable-easyconnect" help="start easyconnect vpn before starting the proxy service"
 flag "--ec-domain <domain>" help="easyconnect VPN domain"
 flag "--ec-username <username>" help="easyconnect VPN username"
 flag "--ec-password <password>" help="easyconnect VPN password"
@@ -369,6 +370,7 @@ flag "--ec-password <password>" help="easyconnect VPN password"
 
 run = '''
 #!/usr/bin/env bash
+set -e pipefail
 
 pushd ./service/proxy/
 if [ ! -f mihomo/config.local.yaml ]; then
@@ -376,27 +378,40 @@ if [ ! -f mihomo/config.local.yaml ]; then
     echo "Please create the config.local.yaml file in the service/proxy/mihomo directory based on the config.example.yaml"
     exit 1
 fi
+mihomo_configs=(mihomo/config.base.yaml)
+compose_files=(docker-compose.base.yaml)
+
 
 # 检查变量是否定义
 if [ "${usage_easyconnect}" == "true" ]; then
+    # 插入 easyconnect 配置文件
     if [ -z "${usage_ec_domain}" ] || [ -z "${usage_ec_username}" ] || [ -z "${usage_ec_password}" ]; then
         echo "When --easyconnect is specified, --ec-domain, --ec-username, and --ec-password must also be provided."
         exit 1
     fi
 
+    mihomo_configs+=("mihomo/config.easyconnect.yaml")
+    compose_files+=("docker-compose.easyconnect.yaml")
 
-    yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1) * select(fileIndex == 2)' mihomo/config.base.yaml mihomo/config.easyconnect.yaml mihomo/config.local.yaml > mihomo/config.yaml
     export EC_DOMAIN="${usage_ec_domain}"
     export EC_USERNAME="${usage_ec_username}"
     export EC_PASSWORD="${usage_ec_password}"
-    yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' docker-compose.base.yaml docker-compose.easyconnect.yaml > docker-compose.yaml
-else
-    yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' mihomo/config.base.yaml mihomo/config.local.yaml > mihomo/config.yaml
-    cp docker-compose.base.yaml docker-compose.yaml
 fi
 
+if [ "${usage_enable_tun}" == "true" ]; then
+    mihomo_configs+=("mihomo/config.tun.yaml")
+fi
 
+mihomo_configs+=("mihomo/config.local.yaml")
 
+# 使用yq合并配置文件与docker compose文件
+yq ea '. as $item ireduce ({}; . * $item )' "${mihomo_configs[@]}" > mihomo/config.yaml
+
+if [ "${usage_action}" == "down" ] || [ "${usage_action}" == "restart" ]; then
+    echo "Bringing down existing proxy service..."
+else
+    yq ea '. as $item ireduce ({}; . * $item )' "${compose_files[@]}" > docker-compose.yaml
+fi
 docker compose ${usage_action}
 
 '''

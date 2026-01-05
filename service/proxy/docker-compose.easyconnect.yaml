@@ -1,10 +1,3 @@
-
-
-# docker run --rm --device /dev/net/tun --cap-add NET_ADMIN -ti \
-#     -p 127.0.0.1:${usage_socks_port}:1080 \
-#     -p 127.0.0.1:${usage_http_port}:8888 \
-#     -e EC_VER=7.6.7 \
-#     -e CLI_OPTS="-d ${usage_domain} -u ${usage_username} -p ${usage_password}" \
 services:
   easyconnect:
     container_name: easyconnect
@@ -17,7 +10,6 @@ services:
     environment:
       EC_VER: 7.6.7
       CLI_OPTS: "-d ${EC_DOMAIN} -u ${EC_USERNAME} -p ${EC_PASSWORD}"
-
     ports:
-      - '8093:1080'
-      - '8094:8888'
+      - "8093:1080"
+      - "8094:8888"

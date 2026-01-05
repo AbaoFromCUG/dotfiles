@@ -1,0 +1,55 @@
+
+#------------------------TUN 配置------------------------#
+tun:
+  enable: true
+  stack: system
+  auto-route: true
+  auto-detect-interface: true
+  dns-hijack:
+    - any:53
+    - tcp://any:53
+
+#------------------------DNS 配置------------------------#
+dns:
+  enable: true              # 启用DNS服务器
+  prefer-h3: true          # 优先使用HTTP/3查询
+  ipv6: false              # DNS解析IPv6
+  listen: 0.0.0.0:53       # DNS监听地址
+  enhanced-mode: redir-host   # DNS模式: fake-ip或redir-host
+  use-hosts: true          # 使用hosts文件
+
+  # 默认DNS服务器(用于解析其他DNS服务器的域名)
+  default-nameserver:
+    - 223.5.5.5            # 阿里DNS
+    - 119.29.29.29         # 腾讯DNS
+
+  # DNS服务器分流策略
+  nameserver-policy:
+    'www.google.com': 'https://dns.google/dns-query'      # Google域名使用Google DNS
+    'www.facebook.com': 'https://dns.google/dns-query'    # Facebook域名使用Google DNS
+    '.cn': 'https://doh.pub/dns-query'                    # 中国域名使用国内DNS
+
+  # Fake-IP配置
+  fake-ip-range: 198.18.0.1/16    # Fake-IP地址段
+  fake-ip-filter:                 # Fake-IP过滤清单
+    - "*.lan"                     # 本地域名
+    - "localhost.ptlogin2.qq.com" # QQ登录
+
+  # 主要DNS服务器
+  nameserver:
+    # 国内DNS服务器
+    - https://doh.pub/dns-query#h3=true                # DNSPod DOH
+    - https://dns.alidns.com/dns-query#h3=true         # 阿里 DOH
+    - tls://223.5.5.5:853                              # 阿里 DOT
+
+    # 国外DNS服务器
+    - https://dns.google/dns-query#h3=true             # Google DOH
+    - https://cloudflare-dns.com/dns-query#h3=true     # Cloudflare DOH
+    - quic://dns.adguard.com:784                       # AdGuard DOQ
+
+  # 备用DNS服务器(用于解析国外域名)
+  fallback:
+    - https://dns.google/dns-query#h3=true
+    - https://1.1.1.1/dns-query#h3=true
+    - tls://8.8.8.8:853
+
