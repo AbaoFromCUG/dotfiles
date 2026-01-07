@@ -3,14 +3,18 @@ services:
     container_name: metacubexd
     image: ghcr.io/metacubex/metacubexd:latest
     restart: always
+    network_mode: bridge
     ports:
-      - "8091:80"
+      - "8091:8091"
     environment:
+      PORT: 8091
       DEFAULT_BACKEND_URL: http://127.0.0.1:8092
   mihomo:
     container_name: mihomo
     image: docker.io/metacubex/mihomo:Alpha
     restart: always
+    pid: host
+    ipc: host
     network_mode: host
     cap_add:
       - ALL

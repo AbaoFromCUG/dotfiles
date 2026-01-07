@@ -359,7 +359,7 @@ docker run --rm --device /dev/net/tun --cap-add NET_ADMIN -ti \
 [tasks.service-proxy]
 depends = ["install go-yq"]
 usage = '''
-arg "<action>" help="action: up | down | restart | logs"
+arg "<command>..." help="docker compose command, e.g. up -d, down, restart, logs -f"
 flag "-t --enable-tun" help="enable system tuning"
 flag "-e --enable-easyconnect" help="start easyconnect vpn before starting the proxy service"
 flag "--ec-domain <domain>" help="easyconnect VPN domain"
@@ -405,13 +405,10 @@ fi
 mihomo_configs+=("mihomo/config.local.yaml")
 
 # 使用yq合并配置文件与docker compose文件
-yq ea '. as $item ireduce ({}; . * $item )' "${mihomo_configs[@]}" > mihomo/config.yaml
+yq ea '. as $item ireduce ({}; . *+ $item )' "${mihomo_configs[@]}" > mihomo/config.yaml
 
-if [ "${usage_action}" == "down" ] || [ "${usage_action}" == "restart" ]; then
-    echo "Bringing down existing proxy service..."
-else
-    yq ea '. as $item ireduce ({}; . * $item )' "${compose_files[@]}" > docker-compose.yaml
-fi
-docker compose ${usage_action}
+yq ea '. as $item ireduce ({}; . * $item )' "${compose_files[@]}" > docker-compose.yaml
+
+docker compose ${usage_command[@]}
 
 '''

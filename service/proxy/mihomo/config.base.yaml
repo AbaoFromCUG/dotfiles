@@ -2,82 +2,338 @@ mixed-port: 8090
 external-controller: 127.0.0.1:8092
 geodata-mode: true
 geo-auto-update: false
+# 策略组相关
+pr:
+  &pr {
+    type: select,
+    proxies:
+      [
+        默认,
+        香港,
+        香港自动选择,
+        台湾,
+        台湾自动选择,
+        日本,
+        日本自动选择,
+        新加坡,
+        新加坡自动选择,
+        美国,
+        美国自动选择,
+        其它地区,
+        全部节点,
+        自动选择,
+        直连,
+      ],
+  }
+#这里是订阅更新和延迟测试相关的
+p:
+  &p {
+    type: http,
+    interval: 3600,
+    health-check:
+      {
+        enable: true,
+        url: "https://www.gstatic.com/generate_204",
+        interval: 300,
+      },
+  }
+proxies:
+  - name: "直连"
+    type: direct
+    udp: true
+proxy-groups:
+  - {
+      name: 默认,
+      type: select,
+      proxies:
+        [
+          自动选择,
+          直连,
+          香港,
+          香港自动选择,
+          台湾,
+          台湾自动选择,
+          日本,
+          日本自动选择,
+          新加坡,
+          新加坡自动选择,
+          美国,
+          美国自动选择,
+          其它地区,
+          全部节点,
+        ],
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png",
+    }
+  - {
+      name: Google,
+      !!merge <<: *pr,
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Google_Search.png",
+    }
+  - {
+      name: Apple,
+      !!merge <<: *pr,
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Apple.png",
+    }
+  - {
+      name: Telegram,
+      !!merge <<: *pr,
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Telegram.png",
+    }
+  - {
+      name: Twitter,
+      !!merge <<: *pr,
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Twitter.png",
+    }
+  - {
+      name: ehentai,
+      !!merge <<: *pr,
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Panda.png",
+    }
+  - {
+      name: 哔哩哔哩,
+      !!merge <<: *pr,
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/bilibili.png",
+    }
+  - {
+      name: 哔哩东南亚,
+      !!merge <<: *pr,
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/bilibili.png",
+    }
+  - {
+      name: 巴哈姆特,
+      !!merge <<: *pr,
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Bahamut.png",
+    }
+  - {
+      name: YouTube,
+      !!merge <<: *pr,
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/YouTube.png",
+    }
+  - {
+      name: NETFLIX,
+      !!merge <<: *pr,
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Netflix.png",
+    }
+  - {
+      name: Spotify,
+      !!merge <<: *pr,
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Spotify.png",
+    }
+  - {
+      name: ChatGPT,
+      !!merge <<: *pr,
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ChatGPT.png",
+    }
+  - {
+      name: 国内,
+      type: select,
+      proxies:
+        [
+          直连,
+          默认,
+          香港,
+          香港自动选择,
+          台湾,
+          台湾自动选择,
+          日本,
+          日本自动选择,
+          新加坡,
+          新加坡自动选择,
+          美国,
+          美国自动选择,
+          其它地区,
+          全部节点,
+          自动选择,
+        ],
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/China_Map.png",
+    }
+  - {
+      name: 其他,
+      !!merge <<: *pr,
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png",
+    }
+  #分隔,下面是地区分组
+  - {
+      name: 香港,
+      type: select,
+      include-all: true,
+      filter: "(?i)(?!直连)(港|hk|hongkong|hong kong)",
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/HK.png",
+    }
+  - {
+      name: 台湾,
+      type: select,
+      include-all: true,
+      filter: "(?i)(?!直连)(台|tw|taiwan)",
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/TW.png",
+    }
+  - {
+      name: 日本,
+      type: select,
+      include-all: true,
+      filter: "(?i)(?!直连)(日|jp|japan)",
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/JP.png",
+    }
+  - {
+      name: 美国,
+      type: select,
+      include-all: true,
+      filter: "(?i)(?!直连)(美|us|unitedstates|united states)",
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/US.png",
+    }
+  - {
+      name: 新加坡,
+      type: select,
+      include-all: true,
+      filter: "(?i)(?!直连)(新|sg|singapore)",
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/SG.png",
+    }
+  - {
+      name: 其它地区,
+      type: select,
+      include-all: true,
+      filter: "(?i)^(?!.*(?:🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|港|hk|hongkong|台|tw|taiwan|日|jp|japan|新|sg|singapore|美|us|unitedstates|直连)).*",
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Available.png",
+    }
+  - {
+      name: 自动选择,
+      type: url-test,
+      include-all: true,
+      tolerance: 10,
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Auto.png",
+    }
+  - {
+      name: 全部节点,
+      type: select,
+      include-all: true,
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Global.png",
+    }
+  - {
+      name: 香港自动选择,
+      type: url-test,
+      include-all: true,
+      filter: "(?i)(?!直连)(港|hk|hongkong|hong kong)",
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/HK.png",
+    }
+  - {
+      name: 台湾自动选择,
+      type: url-test,
+      include-all: true,
+      filter: "(?i)(?!直连)(台|tw|taiwan)",
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/TW.png",
+    }
+  - {
+      name: 日本自动选择,
+      type: url-test,
+      include-all: true,
+      filter: "(?i)(?!直连)(日|jp|japan)",
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/JP.png",
+    }
+  - {
+      name: 美国自动选择,
+      type: url-test,
+      include-all: true,
+      filter: "(?i)(?!直连)(美|us|unitedstates|united states)",
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/US.png",
+    }
+  - {
+      name: 新加坡自动选择,
+      type: url-test,
+      include-all: true,
+      filter: "(?i)(新|sg|singapore)",
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/SG.png",
+    }
+rules:
+  - GEOIP,lan,直连,no-resolve
+  - RULE-SET,biliintl_domain,哔哩东南亚
+  - RULE-SET,ehentai_domain,ehentai
+  - RULE-SET,github_domain,其他
+  - RULE-SET,twitter_domain,Twitter
+  - RULE-SET,youtube_domain,YouTube
+  - RULE-SET,google_domain,Google
+  - RULE-SET,telegram_domain,Telegram
+  - RULE-SET,netflix_domain,NETFLIX
+  - RULE-SET,bilibili_domain,哔哩哔哩
+  - RULE-SET,bahamut_domain,巴哈姆特
+  - RULE-SET,spotify_domain,Spotify
+  - RULE-SET,pixiv_domain,其他
+  - RULE-SET,geolocation-!cn,其他
+  - RULE-SET,google_ip,Google
+  - RULE-SET,netflix_ip,NETFLIX
+  - RULE-SET,telegram_ip,Telegram
+  - RULE-SET,twitter_ip,Twitter
+  - RULE-SET,chatgpt_domain,ChatGPT
+  - RULE-SET,cn_domain,国内
+  - RULE-SET,cn_ip,国内
+  - MATCH,其他
+rule-anchor:
+  ip: &ip { type: http, interval: 86400, behavior: ipcidr, format: text }
+  domain:
+    &domain { type: http, interval: 86400, behavior: domain, format: text }
 rule-providers:
-  reject:
-    type: http
-    behavior: domain
-    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/reject.txt"
-    path: ./ruleset/reject.yaml
-    interval: 86400
-  icloud:
-    type: http
-    behavior: domain
-    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/icloud.txt"
-    path: ./ruleset/icloud.yaml
-    interval: 86400
-  apple:
-    type: http
-    behavior: domain
-    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/apple.txt"
-    path: ./ruleset/apple.yaml
-    interval: 86400
-  google:
-    type: http
-    behavior: domain
-    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/google.txt"
-    path: ./ruleset/google.yaml
-    interval: 86400
-  proxy:
-    type: http
-    behavior: domain
-    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/proxy.txt"
-    path: ./ruleset/proxy.yaml
-    interval: 86400
-  direct:
-    type: http
-    behavior: domain
-    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/direct.txt"
-    path: ./ruleset/direct.yaml
-    interval: 86400
   private:
-    type: http
-    behavior: domain
-    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/private.txt"
-    path: ./ruleset/private.yaml
-    interval: 86400
-  gfw:
-    type: http
-    behavior: domain
-    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/gfw.txt"
-    path: ./ruleset/gfw.yaml
-    interval: 86400
-  tld-not-cn:
-    type: http
-    behavior: domain
-    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/tld-not-cn.txt"
-    path: ./ruleset/tld-not-cn.yaml
-    interval: 86400
-  telegramcidr:
-    type: http
-    behavior: ipcidr
-    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/telegramcidr.txt"
-    path: ./ruleset/telegramcidr.yaml
-    interval: 86400
-  cncidr:
-    type: http
-    behavior: ipcidr
-    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/cncidr.txt"
-    path: ./ruleset/cncidr.yaml
-    interval: 86400
-  lancidr:
-    type: http
-    behavior: ipcidr
-    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/lancidr.txt"
-    path: ./ruleset/lancidr.yaml
-    interval: 86400
-  applications:
+    !!merge <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list"
+  cn_domain:
+    !!merge <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.list"
+  biliintl_domain:
+    !!merge <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/biliintl.list"
+  ehentai_domain:
+    !!merge <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ehentai.list"
+  github_domain:
+    !!merge <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.list"
+  twitter_domain:
+    !!merge <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitter.list"
+  youtube_domain:
+    !!merge <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.list"
+  google_domain:
+    !!merge <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.list"
+  telegram_domain:
+    !!merge <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.list"
+  netflix_domain:
+    !!merge <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.list"
+  bilibili_domain:
+    !!merge <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili.list"
+  bahamut_domain:
+    !!merge <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bahamut.list"
+  spotify_domain:
+    !!merge <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.list"
+  pixiv_domain:
+    !!merge <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/pixiv.list"
+  geolocation-!cn:
+    !!merge <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.list"
+  cn_ip:
+    !!merge <<: *ip
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.list"
+  google_ip:
+    !!merge <<: *ip
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.list"
+  netflix_ip:
+    !!merge <<: *ip
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.list"
+  twitter_ip:
+    !!merge <<: *ip
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/twitter.list"
+  telegram_ip:
+    !!merge <<: *ip
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.list"
+  chatgpt_domain:
     type: http
     behavior: classical
-    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/applications.txt"
-    path: ./ruleset/applications.yaml
+    url: "https://raw.githubusercontent.com/G4free/clash-ruleset/main/ruleset/ChatGPT.yaml"
+    path: ./ruleset/ChatGPT.yaml
     interval: 86400

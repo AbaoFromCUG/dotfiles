@@ -3,3 +3,6 @@ proxies:
     type: http
     server: 127.0.0.1
     port: 8094
+rules:
+  - IP-CIDR,173.18.36.0/24,easyconnect
+  - IP-CIDR,10.16.87.0/24,easyconnect
