@@ -328,6 +328,10 @@ systemctl --user enable --now hyprdynamicmonitors-prepare.service
 systemctl --user enable --now pipewire.service
 systemctl --user enable --now pipewire-pulse.service
 systemctl --user enable --now wallpaper.service
+
+systemctl --user enable --now swaync.service
+systemctl --user enable --now wireplumber.service
+systemctl --user enable --now xdg-user-dirs.service
 '''
 
 [tasks.build-archlinux-container]

@@ -245,6 +245,7 @@ proxy-groups:
     }
 rules:
   - GEOIP,lan,直连,no-resolve
+  - RULE-SET, scholar_domain,直连
   - RULE-SET,biliintl_domain,哔哩东南亚
   - RULE-SET,ehentai_domain,ehentai
   - RULE-SET,github_domain,其他
@@ -334,6 +335,11 @@ rule-providers:
   chatgpt_domain:
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/G4free/clash-ruleset/main/ruleset/ChatGPT.yaml"
-    path: ./ruleset/ChatGPT.yaml
     interval: 86400
+    url: "https://raw.githubusercontent.com/G4free/clash-ruleset/main/ruleset/ChatGPT.yaml"
+  scholar_domain:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: "https://cdn.jsdelivr.net/gh/ferristale/clash_rules_for_scholar/rules/scholar.yaml"
