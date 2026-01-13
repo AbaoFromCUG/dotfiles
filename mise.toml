@@ -60,7 +60,10 @@ package_list=($usage_package)
 if type -p yay >/dev/null; then
     function is_installed(){
         declare -A alias_names
-        alias_names=(["neovim"]="neovim-git")
+        alias_names=(
+            ["neovim"]="neovim-git",
+            ["noctalia"]="noctalia-shell",
+        )
         name="${alias_names[$1]:-$1}"
         echo $name
         yay -Qi "$name" >/dev/null 2>&1
@@ -313,7 +316,7 @@ depends = [
     "link local/bin/hyprlayout",
     "link local/bin/widgetctl",
     "config wofi",
-    "config waybar",
+    "config noctalia",
     "config nwg-bar",
 
     "link config/systemd/user/wallpaper.service",
