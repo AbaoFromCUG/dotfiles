@@ -15,6 +15,7 @@ npm.bun = true
 
 [tools]
 bun = "latest"
+"github:anomalyco/opencode" = "latest"
 lazygit = "latest"
 node = "24.12.0"
 ruff = "0.14.8"

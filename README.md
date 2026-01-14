@@ -33,9 +33,7 @@ My dotfiles for Neovim, zsh,...,  optimized for ArchLinux and WSL. Managed with 
 
 * [Hyprland](https://hyprland.org/) a dynamic tiling Wayland compositor
 
-* System bar via [waybar](https://github.com/Alexays/Waybar), consist of systray, time and control componnets
-
-* [Wofi](https://hg.sr.ht/~scoopta/wofi), a launcher for wayland
+* [Noctalia shell] a beautiful, minimal desktop shell for Wayland
 
 * [Pipewire](https://wiki.archlinux.org/title/PipeWire) for multimedia framework, support pulseaudio/JACK/ALSA-based applications
 

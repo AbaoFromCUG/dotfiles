@@ -175,6 +175,7 @@ if [ ! -L ${target} ] || [ ! "$(readlink ${target})"="${target}" ]; then
     mkdir -p $(dirname ${target})
     ln -s $source $target
 fi
+mise run install "${package}"
 '''
 
 
@@ -293,7 +294,7 @@ systemctl --user enable --now kitty-save-session.timer
 [tasks.config-hypr]
 depends = [
     "config-dev",
-    "install hyprland hyprpaper hyprpicker hypridle hyprlock xdg-desktop-portal-hyprland hyprpolkitagent hyprdynamicmonitors-bin",
+    "install hyprland hyprpicker hypridle hyprlock xdg-desktop-portal-hyprland hyprpolkitagent hyprdynamicmonitors-bin",
     "install xdg-desktop-portal-termfilechooser-hunkyburrito-git",
 
     "install alsa-firmware sof-firmware libva-intel-driver libva-mesa-driver",
@@ -310,29 +311,22 @@ depends = [
 
     "config kitty",
     "config ghostty",
-    "config swaync",
     "link config/hypr",
     "link config/hyprdynamicmonitors",
     "link local/bin/hyprlayout",
     "link local/bin/widgetctl",
-    "config wofi",
     "config noctalia",
-    "config nwg-bar",
 
-    "link config/systemd/user/wallpaper.service",
 ]
 run = '''
 
 systemctl --user enable --now hyprpolkitagent.service
-systemctl --user enable --now hyprpaper.service
 systemctl --user enable --now hypridle.service
 systemctl --user enable --now hyprdynamicmonitors-prepare.service
 
 systemctl --user enable --now pipewire.service
 systemctl --user enable --now pipewire-pulse.service
-systemctl --user enable --now wallpaper.service
 
-systemctl --user enable --now swaync.service
 systemctl --user enable --now wireplumber.service
 systemctl --user enable --now xdg-user-dirs.service
 '''
