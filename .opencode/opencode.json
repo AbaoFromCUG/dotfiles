@@ -1,0 +1,48 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "anthropic/claude-sonnet-4-5",
+  "small_model": "anthropic/claude-haiku-4-5",
+  "autoupdate": "notify",
+  "permission": {
+    "*": "ask",
+    "bash": {
+      "*": "ask",
+      "git status*": "allow",
+      "git diff*": "allow",
+      "git log*": "allow",
+      "git branch*": "allow",
+      "git show*": "allow",
+      "mise tasks*": "allow",
+      "mise run --dry-run*": "allow",
+      "ls*": "allow",
+      "cat*": "allow",
+      "grep*": "allow",
+      "find*": "allow",
+      "nvim --version": "allow",
+      "systemctl --user status*": "allow",
+      "git commit*": "ask",
+      "git push*": "ask",
+      "git pull*": "ask",
+      "mise run*": "ask",
+      "rm*": "deny",
+      "sudo*": "deny"
+    },
+    "edit": {
+      "*": "ask",
+      "*.md": "allow",
+      "*.env*": "deny",
+      "*.env.example": "ask"
+    },
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*.env.example": "allow"
+    },
+    "external_directory": "ask",
+    "doom_loop": "ask"
+  },
+  "instructions": [
+    "AGENTS.md"
+  ]
+}

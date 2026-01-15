@@ -1,84 +1,54 @@
-local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
-local group = vim.api.nvim_create_augroup("CodeCompanionProgress", { clear = true })
+local function toggle_mode()
+    require("opencode.promise").spawn(function()
+        local config_file = require("opencode.config_file")
+        local modes = config_file.get_opencode_agents():await()
+        local state = require("opencode.state")
+        local current_mode = state.current_mode
+        local current_index = require("utils.list").index_of(modes, current_mode)
 
-vim.api.nvim_create_autocmd({ "User" }, {
-    pattern = { "CodeCompanionRequestStarted", "CodeCompanionRequestStreaming", "CodeCompanionRequestFinished" },
-    group = group,
-    callback = function(request)
-        local msg = request.match:gsub("CodeCompanionRequest", "")
-        vim.notify(msg .. "...", vim.log.levels.INFO, {
-            id = request.data.id,
-            title = "Code Companion",
-            opts = function(notif)
-                notif.icon = ""
-                if msg == "Finished" then
-                    notif.icon = " "
-                else
-                    notif.icon = spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
-                end
-            end,
-
-            keep = function() return msg ~= "Finished" end,
-        })
-    end,
-})
+        local next_index = (current_index % #modes) + 1
+        local next_mode = modes[next_index]
+        require("opencode.core").switch_to_mode(next_mode)
+    end)
+end
 
 ---@type LazySpec[]
 return {
     {
-        "olimorris/codecompanion.nvim",
+        "sudo-tee/opencode.nvim",
         dependencies = {
-            "ravitemer/codecompanion-history.nvim",
+            "nvim-lua/plenary.nvim",
+            {
+                "MeanderingProgrammer/render-markdown.nvim",
+                opts = {
+                    anti_conceal = { enabled = false },
+                    file_types = { "markdown", "opencode_output" },
+                },
+                ft = { "markdown", "Avante", "copilot-chat", "opencode_output" },
+            },
         },
-        -- dev = true,
-        cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionCmd", "CodeCompanionActions" },
         opts = {
-            language = "Chinese",
-            display = {
-                chat = {
-                    show_settings = true,
+            keymap = {
+                editor = false,
+                input_window = {
+                    ["<esc>"] = false,
+                    ["<tab>"] = { toggle_mode, "Toggle mode", mode = "n" },
+                    ["<C-s>"] = { "submit_input_prompt", mode = { "n", "i" } },
                 },
-            },
-            interactions = {
-                chat = {
-                    adapter = "copilot",
-                    opts = {
-                        system_prompt = table.concat(vim.fn.readfile(vim.fn.stdpath("config") .. "/share/chat-system-prompt.md"), "\n"),
-                    },
-                    keymaps = {
-                        codeblock = {
-                            modes = { n = "gic" },
-                        },
-                        clear = {
-                            modes = { n = "gc" },
-                        },
-                    },
-                },
-                inline = {
 
-                    adapter = "copilot",
-                    keymaps = {
-                        accept_change = {
-                            modes = { n = "gaa" },
-                        },
-                        reject_change = {
-                            modes = { n = "gar" },
-                        },
-                    },
+                output_window = {
+                    ["<esc>"] = false,
+                    ["<tab>"] = { toggle_mode, "Toggle mode", mode = "n" },
                 },
             },
-            extensions = {
-                history = {
-                    enabled = true,
-                    opts = {},
-                },
+            context = {
+                enabled = false,
             },
         },
         keys = {
-            { "<leader>a",  group = true,                    desc = "ai",               mode = { "v", "n" } },
-            { "<leader>ai", "<cmd>CodeCompanion<cr>",        desc = "inline assistant", mode = { "v", "n" } },
-            { "<leader>ac", "<cmd>CodeCompanionChat<cr>",    desc = "chat assistant",   mode = { "v", "n" } },
-            { "<leader>ap", "<cmd>CodeCompanionActions<cr>", desc = "action palette",   mode = { "v", "n" } },
+            { "<leader>a",  group = true,                    desc = "ai",             mode = { "v", "n" } },
+            { "<leader>ac", "<cmd>Opencode session new<cr>", desc = "chat assistant", mode = { "n" } },
+            { "<leader>ac", "<cmd>Opencode quick_chat<cr>",  desc = "chat assistant", mode = { "v" } },
         },
     },
     {
