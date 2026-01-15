@@ -21,3 +21,8 @@ service/proxy/mihomo/config.yaml
 
 service/proxy/mihomo/docker-compose.yaml
 service/proxy/docker-compose.yaml
+config/noctalia/plugins
+config/nvim/lua/matugen.lua
+config/ghostty/themes/noctalia
+config/alacritty/themes/noctalia.toml
+config/yazi/flavors/noctalia.yazi/flavor.toml

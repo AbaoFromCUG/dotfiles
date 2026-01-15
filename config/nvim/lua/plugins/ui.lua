@@ -1,6 +1,12 @@
 ---@type LazySpec[]
 return {
     {
+        "RRethy/base16-nvim",
+        lazy = false,
+        priority = 1000,
+        config = function() require("matugen").setup() end,
+    },
+    {
         "EdenEast/nightfox.nvim",
         lazy = false,
         priority = 1000,
@@ -18,6 +24,10 @@ return {
         opts = {
             transparent = true,
         },
+        config = function(_, opts)
+            require("tokyonight").setup(opts)
+            -- vim.cmd([[colorscheme tokyonight]])
+        end,
     },
     {
         "nvim-zh/colorful-winsep.nvim",

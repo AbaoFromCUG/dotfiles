@@ -132,7 +132,6 @@ export ZVM_SYSTEM_CLIPBOARD_ENABLED=true
 
 export GOPROXY=https://goproxy.cn
 export NVM_NODEJS_ORG_MIRROR=http://npm.taobao.org/mirrors/node
-export PYTHON_BUILD_MIRROR_URL=https://pyenv-mirror.vercel.app/api/pythons/
 
 export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup

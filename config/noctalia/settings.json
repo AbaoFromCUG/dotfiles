@@ -30,7 +30,7 @@
     },
     "bar": {
         "backgroundOpacity": 0.93,
-        "capsuleOpacity": 1,
+        "capsuleOpacity": 0.72,
         "density": "default",
         "exclusive": true,
         "floating": false,
@@ -46,18 +46,20 @@
         "widgets": {
             "center": [
                 {
-                    "characterCount": 2,
-                    "colorizeIcons": false,
-                    "enableScrollWheel": true,
-                    "followFocusedScreen": false,
-                    "groupedBorderOpacity": 1,
-                    "hideUnoccupied": false,
-                    "iconScale": 0.8,
-                    "id": "Workspace",
-                    "labelMode": "index",
-                    "showApplications": false,
-                    "showLabelsOnlyWhenOccupied": true,
-                    "unfocusedIconsOpacity": 1
+                    "defaultSettings": {
+                        "characterCount": 10,
+                        "colorizeIcons": false,
+                        "enableScrollWheel": true,
+                        "followFocusedScreen": false,
+                        "groupedBorderOpacity": 1,
+                        "hideUnpopulated": true,
+                        "iconScale": 1,
+                        "labelMode": "index",
+                        "showApplications": false,
+                        "showLabelsOnlyWhenPopulated": true,
+                        "unfocusedIconsOpacity": 1
+                    },
+                    "id": "plugin:noctalia-virtual-desktops"
                 }
             ],
             "left": [
@@ -76,17 +78,26 @@
                     "usePrimaryColor": false
                 },
                 {
+                    "deviceNativePath": "",
+                    "displayMode": "onhover",
+                    "hideIfNotDetected": true,
+                    "id": "Battery",
+                    "showNoctaliaPerformance": false,
+                    "showPowerProfiles": false,
+                    "warningThreshold": 30
+                },
+                {
                     "compactMode": true,
                     "diskPath": "/",
                     "id": "SystemMonitor",
                     "showCpuTemp": true,
                     "showCpuUsage": true,
-                    "showDiskUsage": false,
+                    "showDiskUsage": true,
                     "showGpuTemp": false,
-                    "showLoadAverage": false,
-                    "showMemoryAsPercent": false,
+                    "showLoadAverage": true,
+                    "showMemoryAsPercent": true,
                     "showMemoryUsage": true,
-                    "showNetworkStats": false,
+                    "showNetworkStats": true,
                     "useMonospaceFont": true,
                     "usePrimaryColor": false
                 },
@@ -135,15 +146,6 @@
                     "showUnreadBadge": true
                 },
                 {
-                    "deviceNativePath": "",
-                    "displayMode": "onhover",
-                    "hideIfNotDetected": true,
-                    "id": "Battery",
-                    "showNoctaliaPerformance": false,
-                    "showPowerProfiles": false,
-                    "warningThreshold": 30
-                },
-                {
                     "displayMode": "onhover",
                     "id": "Volume",
                     "middleClickCommand": "pwvucontrol || pavucontrol"
@@ -151,6 +153,17 @@
                 {
                     "displayMode": "onhover",
                     "id": "Brightness"
+                },
+                {
+                    "defaultSettings": {
+                        "completedCount": 0,
+                        "count": 0,
+                        "showBackground": true,
+                        "showCompleted": true,
+                        "todos": [
+                        ]
+                    },
+                    "id": "plugin:todo"
                 },
                 {
                     "colorizeDistroLogo": false,
@@ -166,7 +179,7 @@
     },
     "brightness": {
         "brightnessStep": 5,
-        "enableDdcSupport": true,
+        "enableDdcSupport": false,
         "enforceMinimum": true
     },
     "calendar": {
@@ -186,12 +199,12 @@
         ]
     },
     "colorSchemes": {
-        "darkMode": false,
+        "darkMode": true,
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
         "matugenSchemeType": "scheme-fruit-salad",
         "predefinedScheme": "Eldritch",
-        "schedulingMode": "off",
+        "schedulingMode": "location",
         "useWallpaperColors": false
     },
     "controlCenter": {
@@ -209,7 +222,7 @@
                 "id": "audio-card"
             },
             {
-                "enabled": false,
+                "enabled": true,
                 "id": "brightness-card"
             },
             {
@@ -252,24 +265,26 @@
         }
     },
     "desktopWidgets": {
-        "enabled": false,
+        "enabled": true,
         "gridSnap": false,
         "monitorWidgets": [
+            {
+                "name": "DP-3",
+                "widgets": [
+                ]
+            }
         ]
     },
     "dock": {
         "animationSpeed": 1,
         "backgroundOpacity": 1,
         "colorizeIcons": false,
-        "deadOpacity": 1,
+        "deadOpacity": 0.6,
         "displayMode": "auto_hide",
         "enabled": true,
-        "floatingRatio": 2.08,
+        "floatingRatio": 1,
         "inactiveIndicators": false,
         "monitors": [
-            "eDP-1",
-            "DP-1",
-            "DP-3"
         ],
         "onlySameOutput": true,
         "pinnedApps": [
@@ -282,10 +297,10 @@
         "allowPanelsOnScreenWithoutBar": true,
         "animationDisabled": false,
         "animationSpeed": 1,
-        "avatarImage": "~/.face",
+        "avatarImage": "/home/abao/.face",
         "boxRadiusRatio": 1,
         "compactLockScreen": false,
-        "dimmerOpacity": 0.1,
+        "dimmerOpacity": 0.2,
         "enableShadows": true,
         "forceBlackScreenCorners": false,
         "iRadiusRatio": 1,
@@ -298,7 +313,7 @@
         "shadowOffsetX": 2,
         "shadowOffsetY": 3,
         "showChangelogOnStartup": true,
-        "showHibernateOnLockScreen": true,
+        "showHibernateOnLockScreen": false,
         "showScreenCorners": false,
         "showSessionButtonsOnLockScreen": true
     },
@@ -316,7 +331,7 @@
         "firstDayOfWeek": -1,
         "hideWeatherCityName": false,
         "hideWeatherTimezone": false,
-        "name": "Tokyo",
+        "name": "Shenzhen",
         "showCalendarEvents": true,
         "showCalendarWeather": true,
         "showWeekNumberInCalendar": false,
@@ -462,19 +477,19 @@
         "code": false,
         "discord": false,
         "emacs": false,
-        "enableUserTemplates": false,
+        "enableUserTemplates": true,
         "foot": false,
         "fuzzel": false,
         "ghostty": false,
-        "gtk": true,
+        "gtk": false,
         "helix": false,
         "hyprland": false,
-        "kcolorscheme": true,
+        "kcolorscheme": false,
         "kitty": false,
         "mango": false,
         "niri": false,
         "pywalfox": false,
-        "qt": true,
+        "qt": false,
         "spicetify": false,
         "telegram": false,
         "vicinae": false,
@@ -490,7 +505,7 @@
         "boxBorderEnabled": false,
         "fontDefault": "Microsoft Sans Serif",
         "fontDefaultScale": 1,
-        "fontFixed": "CaskaydiaCove Nerd Font Mono",
+        "fontFixed": "monospace",
         "fontFixedScale": 1,
         "networkPanelView": "wifi",
         "panelBackgroundOpacity": 0.93,
@@ -500,22 +515,17 @@
         "wifiDetailsViewMode": "grid"
     },
     "wallpaper": {
-        "directory": "~/Pictures/wallpapers",
+        "directory": "/home/abao/Pictures/wallpapers",
         "enableMultiMonitorDirectories": false,
         "enabled": true,
         "fillColor": "#000000",
         "fillMode": "crop",
         "hideWallpaperFilenames": false,
         "monitorDirectories": [
-            {
-                "directory": "~/Pictures/wallpapers",
-                "name": "eDP-1",
-                "wallpaper": ""
-            }
         ],
         "overviewEnabled": false,
         "panelPosition": "follow_bar",
-        "randomEnabled": false,
+        "randomEnabled": true,
         "randomIntervalSec": 300,
         "recursiveSearch": false,
         "setWallpaperOnAllMonitors": true,
@@ -524,7 +534,7 @@
         "transitionEdgeSmoothness": 0.05,
         "transitionType": "random",
         "useSolidColor": false,
-        "useWallhaven": true,
+        "useWallhaven": false,
         "wallhavenApiKey": "",
         "wallhavenCategories": "111",
         "wallhavenOrder": "desc",

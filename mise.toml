@@ -61,8 +61,8 @@ if type -p yay >/dev/null; then
     function is_installed(){
         declare -A alias_names
         alias_names=(
-            ["neovim"]="neovim-git",
-            ["noctalia"]="noctalia-shell",
+            ["neovim"]="neovim-git"
+            ["noctalia"]="noctalia-shell"
         )
         name="${alias_names[$1]:-$1}"
         echo $name
@@ -277,20 +277,6 @@ depends = [
     "config git",
 ]
 
-[tasks.config-kitty]
-depends = [
-    "install kitty",
-    "link config/kitty",
-    # "link local/bin/kitty-save-session",
-    "link config/systemd/user/kitty-save-session.service",
-    "link config/systemd/user/kitty-save-session.timer",
-    "link config/systemd/user/kitty-save-session-failure-notify.service",
-]
-run = '''
-systemctl --user enable --now kitty-save-session.service
-systemctl --user enable --now kitty-save-session.timer
-'''
-
 [tasks.config-hypr]
 depends = [
     "config-dev",
@@ -311,6 +297,7 @@ depends = [
 
     "config kitty",
     "config ghostty",
+    "link home/face",
     "link config/hypr",
     "link config/hyprdynamicmonitors",
     "link local/bin/hyprlayout",
@@ -355,6 +342,52 @@ docker run --rm --device /dev/net/tun --cap-add NET_ADMIN -ti \
     -e EC_VER=7.6.7 \
     -e CLI_OPTS="-d ${usage_domain} -u ${usage_username} -p ${usage_password}" \
     docker.io/hagb/docker-easyconnect:cli
+'''
+
+[tasks.clean-broken-links]
+description = "Check and remove all broken symbolic links in $HOME directory"
+run = '''
+{% raw %}
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "Scanning for broken symbolic links in $HOME directory..."
+
+broken_links=()
+while IFS= read -r -d '' link; do
+    if [ -L "$link" ] && [ ! -e "$link" ]; then
+        broken_links+=("$link")
+    fi
+done < <(find "$HOME" -xtype l \
+    -not -path "$HOME/.cache/*" \
+    -not -path "$HOME/.local/share/*"  \
+    -not -path "$HOME/.local/state/*" \
+    -not -path "$HOME/Documents/*" \
+    -lname "$HOME/.dotfiles/*" \
+    -print0 2>/dev/null)
+
+if [ ${#broken_links[@]} -eq 0 ]; then
+    echo "No broken symbolic links found."
+    exit 0
+fi
+
+echo "Found ${#broken_links[@]} broken symbolic link(s):"
+for link in "${broken_links[@]}"; do
+    echo "  - $link -> $(readlink "$link")"
+done
+
+read -p "Do you want to remove all broken links? (y/N): " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    for link in "${broken_links[@]}"; do
+        rm "$link"
+        echo "Removed: $link"
+    done
+    echo "Successfully removed ${#broken_links[@]} broken symbolic link(s)."
+else
+    echo "Operation cancelled."
+fi
+{% endraw %}
 '''
 
 [tasks.service-proxy]

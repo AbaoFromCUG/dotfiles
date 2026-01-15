@@ -32,8 +32,10 @@ return {
                 editor = false,
                 input_window = {
                     ["<esc>"] = false,
+                    ["~"] = false,
                     ["<tab>"] = { toggle_mode, "Toggle mode", mode = "n" },
                     ["<C-s>"] = { "submit_input_prompt", mode = { "n", "i" } },
+                    ["+"] = { "mention_file", mode = "i" },
                 },
 
                 output_window = {
