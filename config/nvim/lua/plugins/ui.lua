@@ -1,10 +1,22 @@
+
+local  function setup_theme()
+    local status, module = pcall(require, "matugen")
+    if status then
+        module.setup()
+        return
+    else
+            vim.cmd([[colorscheme tokyonight]])
+    end
+end
+
+
 ---@type LazySpec[]
 return {
     {
         "RRethy/base16-nvim",
         lazy = false,
         priority = 1000,
-        config = function() require("matugen").setup() end,
+        config=setup_theme,
     },
     {
         "EdenEast/nightfox.nvim",
@@ -12,7 +24,7 @@ return {
         priority = 1000,
         opts = {
             options = {
-                transparent = true,
+                -- transparent = true,
                 -- dim_inactive = true,
             },
         },
@@ -22,11 +34,10 @@ return {
         lazy = false,
         priority = 1000,
         opts = {
-            transparent = true,
+            -- transparent = true,
         },
         config = function(_, opts)
             require("tokyonight").setup(opts)
-            -- vim.cmd([[colorscheme tokyonight]])
         end,
     },
     {

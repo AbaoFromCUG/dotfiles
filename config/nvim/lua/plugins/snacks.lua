@@ -121,7 +121,7 @@ return {
                                 local node = state.tree:get_node()
 
                                 local path = vim.fn.fnamemodify(node.path, ":p:h")
-                                Snacks.picker.files({ dirs = { path }, title = string.format("Files in (%s)", path) })
+                                Snacks.picker.grep({ dirs = { path }, title = string.format("Grep in (%s)", path) })
                             end,
                             desc = "find files in directory",
                         },

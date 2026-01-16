@@ -126,7 +126,7 @@ return {
         build = ":call firenvim#install(0)",
     },
     { "lambdalisue/suda.vim", cmd = { "SudaWrite", "SudaRead" } },
-    { "h-hg/fcitx.nvim",      event = "InsertEnter" },
+    -- { "h-hg/fcitx.nvim",      event = "InsertEnter" },
     {
         "mistweaverco/kulala.nvim",
         ft = "http",

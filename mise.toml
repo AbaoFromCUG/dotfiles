@@ -281,7 +281,9 @@ depends = [
 depends = [
     "config-dev",
     "install hyprland hyprpicker hypridle hyprlock xdg-desktop-portal-hyprland hyprpolkitagent hyprdynamicmonitors-bin",
+    "install adw-gtk-theme nwg-look qt6ct",
     "install xdg-desktop-portal-termfilechooser-hunkyburrito-git",
+    "install wl-clipboard",
 
     "install alsa-firmware sof-firmware libva-intel-driver libva-mesa-driver",
 
@@ -294,6 +296,7 @@ depends = [
     "install fcitx5-pinyin-zhwiki fcitx5-configtool fcitx5-chinese-addons fcitx5-qt fcitx5-gtk",
 
     "install grimblast-git",
+    "install ksnip",
 
     "config kitty",
     "config ghostty",
@@ -315,7 +318,7 @@ systemctl --user enable --now pipewire.service
 systemctl --user enable --now pipewire-pulse.service
 
 systemctl --user enable --now wireplumber.service
-systemctl --user enable --now xdg-user-dirs.service
+# systemctl --user enable --now xdg-user-dirs.service
 '''
 
 [tasks.build-archlinux-container]
@@ -391,7 +394,7 @@ fi
 '''
 
 [tasks.service-proxy]
-depends = ["install go-yq"]
+depends = ["install go-yq", "install docker", "install docker-compose"]
 usage = '''
 arg "<command>..." help="docker compose command, e.g. up -d, down, restart, logs -f"
 flag "-t --enable-tun" help="enable system tuning"

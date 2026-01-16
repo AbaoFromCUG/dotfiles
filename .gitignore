@@ -23,6 +23,13 @@ service/proxy/mihomo/docker-compose.yaml
 service/proxy/docker-compose.yaml
 config/noctalia/plugins
 config/nvim/lua/matugen.lua
+
+# noctalia theme files, generate by `noctalia`
 config/ghostty/themes/noctalia
 config/alacritty/themes/noctalia.toml
 config/yazi/flavors/noctalia.yazi/flavor.toml
+config/kitty/themes/noctalia.conf
+config/hypr/themes/noctalia.conf
+config/noctalia/colors.json
+config/kitty/current-theme.conf
+config/hypr/noctalia
