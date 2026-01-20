@@ -299,6 +299,7 @@ depends = [
     "install ksnip",
 
     "config kitty",
+    "config alacritty",
     "config ghostty",
     "link home/face",
     "link config/hypr",

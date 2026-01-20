@@ -37,3 +37,4 @@ config/tmux/plugins
 config/tmux/color.local
 config/tmux/oh-my-tmux
 config/tmux/tmux.conf
+config/tmux/colors.conf
