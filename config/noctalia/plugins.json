@@ -4,14 +4,19 @@
             "enabled": true,
             "name": "Official Noctalia Plugins",
             "url": "https://github.com/noctalia-dev/noctalia-plugins"
+        },
+        {
+            "enabled": true,
+            "name": "Virtual Desktops",
+            "url": "https://github.com/AbaoFromCUG/noctalia-virtual-desktops"
         }
     ],
     "states": {
-        "mini-docker": {
+        "8356c0:noctalia-virtual-desktops": {
             "enabled": true,
-            "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
+            "sourceUrl": "https://github.com/AbaoFromCUG/noctalia-virtual-desktops"
         },
-        "noctalia-virtual-desktops": {
+        "mini-docker": {
             "enabled": true,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },

@@ -219,13 +219,13 @@ nvim --headless -c "Lazy! sync" \
 
 [tasks.config-tmux]
 description = "Configure tmux"
-depends = ["install git tmux", "link home/tmux.conf.local"]
+depends = ["install git tmux", "link config/tmux"]
 run = '''
 #!/usr/bin/env zsh
-if [ ! -d ~/.tmux ] || [ ! -L ~/.tmux.conf ]; then
-    rm -rf ~/.tmux
-    git clone https://github.com/gpakosz/.tmux.git ~/.tmux
-    ln -s -f ~/.tmux/.tmux.conf ~/.tmux.conf
+if [ ! -d ~/.config/tmux/oh-my-tmux ] || [ ! -L ~/.config/tmux/tmux.conf ]; then
+    rm -rf ~/.config/tmux/oh-my-tmux
+    git clone https://github.com/gpakosz/.tmux.git ~/.config/tmux/oh-my-tmux
+    ln -s -f ~/.config/tmux/oh-my-tmux/.tmux.conf ~/.config/tmux/tmux.conf
 fi
 '''
 

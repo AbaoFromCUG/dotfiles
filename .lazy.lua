@@ -1,4 +1,3 @@
-
 vim.filetype.add({
     filename = {
         ["zprofile"] = "zsh",
@@ -12,6 +11,7 @@ vim.filetype.add({
         [".*/kitty/.+%.conf"] = "kitty",
         [".*/hypr/.+%.conf"] = "hyprlang",
         [".*/config/git/.*"] = "gitconfig",
+        [".*/config/tmux/.*"] = "tmux",
     },
 })
 vim.lsp.config("pyright", {
@@ -24,3 +24,12 @@ vim.lsp.config("pyright", {
         },
     },
 })
+
+return {
+
+    {
+        "catgoose/nvim-colorizer.lua",
+        opts = { filetypes = { "tmux" }, user_default_options = { rgb_fn = true, RRGGBBAA = true } },
+        event = "VeryLazy",
+    },
+}

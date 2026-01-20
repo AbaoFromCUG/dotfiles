@@ -33,3 +33,7 @@ config/hypr/themes/noctalia.conf
 config/noctalia/colors.json
 config/kitty/current-theme.conf
 config/hypr/noctalia
+config/tmux/plugins
+config/tmux/color.local
+config/tmux/oh-my-tmux
+config/tmux/tmux.conf

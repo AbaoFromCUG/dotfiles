@@ -34,6 +34,7 @@
         "density": "default",
         "exclusive": true,
         "floating": false,
+        "hideOnOverview": false,
         "marginHorizontal": 4,
         "marginVertical": 4,
         "monitors": [
@@ -59,7 +60,7 @@
                         "showLabelsOnlyWhenPopulated": true,
                         "unfocusedIconsOpacity": 1
                     },
-                    "id": "plugin:noctalia-virtual-desktops"
+                    "id": "plugin:8356c0:noctalia-virtual-desktops"
                 }
             ],
             "left": [
@@ -131,6 +132,17 @@
             ],
             "right": [
                 {
+                    "defaultSettings": {
+                        "completedCount": 0,
+                        "count": 0,
+                        "showBackground": true,
+                        "showCompleted": true,
+                        "todos": [
+                        ]
+                    },
+                    "id": "plugin:todo"
+                },
+                {
                     "blacklist": [
                     ],
                     "colorizeIcons": false,
@@ -142,6 +154,7 @@
                 },
                 {
                     "hideWhenZero": false,
+                    "hideWhenZeroUnread": false,
                     "id": "NotificationHistory",
                     "showUnreadBadge": true
                 },
@@ -155,19 +168,8 @@
                     "id": "Brightness"
                 },
                 {
-                    "defaultSettings": {
-                        "completedCount": 0,
-                        "count": 0,
-                        "showBackground": true,
-                        "showCompleted": true,
-                        "todos": [
-                        ]
-                    },
-                    "id": "plugin:todo"
-                },
-                {
                     "colorizeDistroLogo": false,
-                    "colorizeSystemIcon": "none",
+                    "colorizeSystemIcon": "tertiary",
                     "customIconPath": "",
                     "enableColorization": false,
                     "icon": "noctalia",
@@ -199,7 +201,7 @@
         ]
     },
     "colorSchemes": {
-        "darkMode": true,
+        "darkMode": false,
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
         "matugenSchemeType": "scheme-fruit-salad",
@@ -315,7 +317,8 @@
         "showChangelogOnStartup": true,
         "showHibernateOnLockScreen": false,
         "showScreenCorners": false,
-        "showSessionButtonsOnLockScreen": true
+        "showSessionButtonsOnLockScreen": true,
+        "telemetryEnabled": false
     },
     "hooks": {
         "darkModeChange": "",
@@ -324,6 +327,7 @@
         "performanceModeEnabled": "",
         "screenLock": "",
         "screenUnlock": "",
+        "session": "",
         "wallpaperChange": ""
     },
     "location": {
@@ -361,6 +365,7 @@
         "backgroundOpacity": 1,
         "criticalUrgencyDuration": 15,
         "enableKeyboardLayoutToast": true,
+        "enableMediaToast": false,
         "enabled": true,
         "location": "top_right",
         "lowUrgencyDuration": 3,
@@ -446,7 +451,7 @@
         "showHeader": true,
         "showNumberLabels": true
     },
-    "settingsVersion": 39,
+    "settingsVersion": 41,
     "systemMonitor": {
         "cpuCriticalThreshold": 90,
         "cpuPollingInterval": 3000,
@@ -472,32 +477,37 @@
         "warningColor": ""
     },
     "templates": {
-        "alacritty": true,
-        "cava": false,
-        "code": false,
-        "discord": false,
-        "emacs": false,
-        "enableUserTemplates": true,
-        "foot": false,
-        "fuzzel": false,
-        "ghostty": true,
-        "gtk": true,
-        "helix": false,
-        "hyprland": true,
-        "kcolorscheme": true,
-        "kitty": true,
-        "mango": false,
-        "niri": false,
-        "pywalfox": false,
-        "qt": true,
-        "spicetify": false,
-        "telegram": false,
-        "vicinae": false,
-        "walker": false,
-        "wezterm": false,
-        "yazi": false,
-        "zed": false,
-        "zenBrowser": false
+        "activeTemplates": [
+            {
+                "enabled": true,
+                "id": "gtk"
+            },
+            {
+                "enabled": true,
+                "id": "qt"
+            },
+            {
+                "enabled": true,
+                "id": "kcolorscheme"
+            },
+            {
+                "enabled": true,
+                "id": "alacritty"
+            },
+            {
+                "enabled": true,
+                "id": "kitty"
+            },
+            {
+                "enabled": true,
+                "id": "ghostty"
+            },
+            {
+                "enabled": true,
+                "id": "hyprland"
+            }
+        ],
+        "enableUserTemplates": true
     },
     "ui": {
         "bluetoothDetailsViewMode": "grid",
