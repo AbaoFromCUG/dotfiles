@@ -198,6 +198,7 @@ depends = [
     "link home/condarc",
     "link home/bunfig.toml",
     "link config/yazi",
+    "link config/lazygit",
     "link config/uv",
 ]
 run = '''
@@ -266,6 +267,15 @@ if [ ! -f ~/.local/bin/fzf-preview ]; then
 fi
 '''
 
+[tasks.config-monitor]
+depends = ["install ddcutil"]
+run = '''
+sudo mise run link etc/udev/rules.d/60-ddcutil-i2c.rules
+sudo mise run link etc/udev/rules.d/90-backlight.rules
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+sudo usermod -aG i2c "$USER"
+'''
 
 [tasks.config-dev]
 depends = [

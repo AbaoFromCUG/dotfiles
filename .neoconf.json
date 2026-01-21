@@ -1,6 +1,7 @@
 {
   "luadev": {
     "addons": [
+      "nvim",
       "opencode.nvim",
       "yazi.nvim",
       "pathlib.nvim",

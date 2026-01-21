@@ -1,11 +1,14 @@
-
-local  function setup_theme()
-    local status, module = pcall(require, "matugen")
-    if status then
-        module.setup()
-        return
+local function setup_theme()
+    local status, mod = pcall(require, "matugen")
+    --TODO: support ssh check
+    if vim.env.DISPLAY and status and mod then
+        ---@cast mod.setup -nil
+        vim.defer_fn(
+            function()
+                mod.setup()
+            end, 100)
     else
-            vim.cmd([[colorscheme tokyonight]])
+        vim.cmd([[colorscheme tokyonight]])
     end
 end
 
@@ -16,7 +19,7 @@ return {
         "RRethy/base16-nvim",
         lazy = false,
         priority = 1000,
-        config=setup_theme,
+        config = setup_theme,
     },
     {
         "EdenEast/nightfox.nvim",
