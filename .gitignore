@@ -38,3 +38,5 @@ config/tmux/color.local
 config/tmux/oh-my-tmux
 config/tmux/tmux.conf
 config/tmux/colors.conf
+config/git/config.local
+config/git/local.inc

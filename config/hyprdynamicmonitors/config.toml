@@ -76,3 +76,7 @@ monitor_tag = "hkc"
 [[profiles.x2robot.conditions.required_monitors]]
 description = "China Star Optoelectronics Technology Co. Ltd MNE007ZA3-4"
 monitor_tag = "laptop"
+
+[fallback_profile]
+config_file = "hyprconfigs/fallback.conf"
+config_file_type = "static"

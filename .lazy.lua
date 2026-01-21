@@ -29,7 +29,7 @@ return {
 
     {
         "catgoose/nvim-colorizer.lua",
-        opts = { filetypes = { "tmux" }, user_default_options = { rgb_fn = true, RRGGBBAA = true } },
+        opts = { filetypes = { "tmux", "lua" }, user_default_options = { rgb_fn = true, RRGGBBAA = true } },
         event = "VeryLazy",
     },
 }

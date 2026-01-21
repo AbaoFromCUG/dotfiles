@@ -27,8 +27,13 @@
 [init]
     defaultBranch = master
 
+[include]
+    path = ~/.config/git/local.inc
+
 [includeIf "hasconfig:remote.*.url:git@github.com:*/*"]
     path = github.inc
+
+
 [filter "lfs"]
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
