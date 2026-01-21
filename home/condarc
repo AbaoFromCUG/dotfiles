@@ -15,3 +15,4 @@ custom_channels:
   pytorch: https://mirrors.sustech.edu.cn/anaconda/cloud
   simpleitk: https://mirrors.sustech.edu.cn/anaconda/cloud
   nvidia: https://mirrors.sustech.edu.cn/anaconda-extra/cloud
+auto_activate: false
