@@ -203,6 +203,7 @@ depends = [
 ]
 run = '''
 mise install
+ya pkg install
 '''
 
 
@@ -291,8 +292,8 @@ depends = [
 [tasks.config-hypr]
 depends = [
     "config-dev",
-    "install hyprland hyprpicker hypridle hyprlock xdg-desktop-portal-hyprland hyprpolkitagent hyprdynamicmonitors-bin",
-    "install adw-gtk-theme nwg-look qt6ct",
+    "install hyprland hyprpicker hypridle xdg-desktop-portal-hyprland hyprpolkitagent hyprdynamicmonitors-bin",
+    "install adw-gtk-theme nwg-look",
     "install xdg-desktop-portal-termfilechooser-hunkyburrito-git",
     "install wl-clipboard",
 
@@ -308,7 +309,8 @@ depends = [
 
     "install grimblast-git",
     "install ksnip",
-
+    "config qt5ct",
+    "config qt6ct",
     "config kitty",
     "config alacritty",
     "config ghostty",

@@ -40,3 +40,5 @@ config/tmux/tmux.conf
 config/tmux/colors.conf
 config/git/config.local
 config/git/local.inc
+config/qt5ct/colors/noctalia.conf
+config/qt6ct/colors/noctalia.conf

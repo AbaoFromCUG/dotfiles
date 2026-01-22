@@ -12,6 +12,7 @@ vim.filetype.add({
         [".*/hypr/.+%.conf"] = "hyprlang",
         [".*/config/git/.*"] = "gitconfig",
         [".*/config/tmux/.*"] = "tmux",
+        [".*/config/ghostty/.*"] = "dosini",
     },
 })
 vim.lsp.config("pyright", {
@@ -29,7 +30,7 @@ return {
 
     {
         "catgoose/nvim-colorizer.lua",
-        opts = { filetypes = { "tmux", "lua" }, user_default_options = { rgb_fn = true, RRGGBBAA = true } },
+        opts = { filetypes = { "tmux", "lua", "toml", "dosini" }, user_default_options = { rgb_fn = true, RRGGBBAA = true } },
         event = "VeryLazy",
     },
 }
