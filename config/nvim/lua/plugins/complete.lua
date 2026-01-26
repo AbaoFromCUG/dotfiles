@@ -39,6 +39,12 @@ return {
             },
         },
         config = function(_, opts)
+            vim.lsp.config("*", {
+                before_init = function(_, config)
+                    local codesettings = require("codesettings")
+                    codesettings.with_local_settings(config.name, config)
+                end,
+            })
             require("mason-lspconfig").setup(opts)
             vim.lsp.enable({ "ruff" })
         end,

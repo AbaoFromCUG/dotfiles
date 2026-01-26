@@ -67,7 +67,7 @@ if not vim.uv.fs_stat(lazypath) then
     if vim.v.shell_error ~= 0 then
         vim.api.nvim_echo({
             { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-            { out, "WarningMsg" },
+            { out,                            "WarningMsg" },
             { "\nPress any key to exit..." },
         }, true, {})
         vim.fn.getchar()
@@ -87,21 +87,21 @@ Event.mappings["User LazyFile"] = Event.mappings.LazyFile
 ---@diagnostic disable-next-line: missing-fields, param-type-mismatch
 require("lazy").setup({
     spec = {
-        { import = "plugins.core", cond = not vim.g.vscode },
-        { import = "plugins.ui", cond = not vim.g.vscode },
-        { import = "plugins.snacks", cond = not vim.g.vscode },
-        { import = "plugins.decorator", cond = not vim.g.vscode },
-        { import = "plugins.editor", cond = not vim.g.vscode },
-        { import = "plugins.misc", cond = not vim.g.vscode },
-        { import = "plugins.complete", cond = not vim.g.vscode },
+        { import = "plugins.core",       cond = not vim.g.vscode },
+        { import = "plugins.ui",         cond = not vim.g.vscode },
+        { import = "plugins.snacks",     cond = not vim.g.vscode },
+        { import = "plugins.decorator",  cond = not vim.g.vscode },
+        { import = "plugins.editor",     cond = not vim.g.vscode },
+        { import = "plugins.misc",       cond = not vim.g.vscode },
+        { import = "plugins.complete",   cond = not vim.g.vscode },
         { import = "plugins.diagnostic", cond = not vim.g.vscode },
-        { import = "plugins.dap", cond = not vim.g.vscode },
-        { import = "plugins.test", cond = not vim.g.vscode },
-        { import = "plugins.ai", cond = not vim.g.vscode },
-        { import = "plugins.luasnip", cond = not vim.g.vscode },
-        { import = "plugins.neopyter", cond = not vim.g.vscode },
-        { import = "plugins.latex", cond = not vim.g.vscode },
-        { import = "plugins.leetcode", cond = not vim.g.vscode },
+        { import = "plugins.dap",        cond = not vim.g.vscode },
+        { import = "plugins.test",       cond = not vim.g.vscode },
+        { import = "plugins.ai",         cond = not vim.g.vscode },
+        { import = "plugins.luasnip",    cond = not vim.g.vscode },
+        { import = "plugins.neopyter",   cond = not vim.g.vscode },
+        { import = "plugins.latex",      cond = not vim.g.vscode },
+        { import = "plugins.leetcode",   cond = not vim.g.vscode },
     },
 
     rocks = {
@@ -116,4 +116,3 @@ require("lazy").setup({
     },
     checker = { enabled = true },
 })
-

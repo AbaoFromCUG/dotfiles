@@ -1,4 +1,7 @@
  local M = {}
+<* for name, value in colors *>
+  --color-{{name}}: {{value.default.hex}};
+<* endfor *>
 
  function M.setup()
    require('base16-colorscheme').setup {

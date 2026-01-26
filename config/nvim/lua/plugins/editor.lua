@@ -477,11 +477,17 @@ return {
         event = { "VeryLazy", "StdinReadPre" },
     },
     {
-        "folke/neoconf.nvim",
-        config = true,
+
+        "mrjones2014/codesettings.nvim",
         keys = {
             { "<leader>,,", "<cmd>Neoconf local<cr>", desc = "local settings" },
         },
+        opts = {
+            config_file_paths = { ".vscode/settings.json", "codesettings.json", "lspsettings.json" },
+            live_reload = true,
+            jsonls_integration = true,
+            lua_ls_integration = false
+        }
     },
     {
         "nvim-pack/nvim-spectre",
