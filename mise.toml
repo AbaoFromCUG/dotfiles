@@ -288,6 +288,10 @@ depends = [
     "config git",
     "config translate-shell"
 ]
+run = '''
+bun install -g @delance/runtime
+bun pm trust -g @delance/runtime
+'''
 
 [tasks.config-hypr]
 depends = [
