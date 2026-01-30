@@ -42,3 +42,4 @@ config/git/config.local
 config/git/local.inc
 config/qt5ct/colors/noctalia.conf
 config/qt6ct/colors/noctalia.conf
+config/yazi/theme.toml

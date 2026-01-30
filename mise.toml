@@ -286,7 +286,8 @@ depends = [
     "config nvim",
     "config tmux",
     "config git",
-    "config translate-shell"
+    "config translate-shell",
+    "link config/opencode",
 ]
 run = '''
 bun install -g @delance/runtime

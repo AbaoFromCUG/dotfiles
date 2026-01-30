@@ -48,9 +48,9 @@ return {
             },
         },
         keys = {
-            { "<leader>a",  group = true,                    desc = "ai",             mode = { "v", "n" } },
-            { "<leader>ac", "<cmd>Opencode session new<cr>", desc = "chat assistant", mode = { "n" } },
-            { "<leader>ac", "<cmd>Opencode quick_chat<cr>",  desc = "chat assistant", mode = { "v" } },
+            { "<leader>a",  group = true,                                     desc = "ai" },
+            { "<leader>ai", function() require("opencode.api").toggle() end, desc = "toggle opencode", mode = { "n", "x" } },
+            { "<leader>ac", function() require("opencode.api").toggle() end, desc = "chat assistant",  mode = { "n" } },
         },
     },
     {

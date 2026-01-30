@@ -1,0 +1,8 @@
+# Automatically generated files
+package.json
+bun.lock
+node_modules/
+
+# OpenCode cache and runtime files
+.cache/
+*.log

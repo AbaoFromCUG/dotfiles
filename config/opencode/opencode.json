@@ -1,7 +1,16 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "github-copilot/claude-sonnet-4.5",
+  "model": "cursor/opus-4.5-thinking",
+  "small_model": "cursor/gpt-4o-mini",
   "autoupdate": "notify",
+  "plugin": [
+    "yet-another-opencode-cursor-auth"
+  ],
+  "provider": {
+    "cursor": {
+      "name": "Cursor"
+    }
+  },
   "permission": {
     "*": "ask",
     "bash": {

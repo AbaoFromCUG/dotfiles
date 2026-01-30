@@ -1,8 +1,6 @@
 {
     "appLauncher": {
         "autoPasteClipboard": false,
-        "clipboardWatchImageCommand": "wl-paste --type image --watch cliphist store",
-        "clipboardWatchTextCommand": "wl-paste --type text --watch cliphist store",
         "clipboardWrapText": true,
         "customLaunchPrefix": "",
         "customLaunchPrefixEnabled": false,
@@ -34,13 +32,10 @@
     },
     "bar": {
         "backgroundOpacity": 0.93,
-        "barType": "simple",
         "capsuleOpacity": 0.72,
         "density": "default",
         "exclusive": true,
         "floating": false,
-        "frameRadius": 12,
-        "frameThickness": 8,
         "hideOnOverview": false,
         "marginHorizontal": 4,
         "marginVertical": 4,
@@ -167,8 +162,7 @@
                     "hideWhenZero": false,
                     "hideWhenZeroUnread": false,
                     "id": "NotificationHistory",
-                    "showUnreadBadge": true,
-                    "unreadBadgeColor": "primary"
+                    "showUnreadBadge": true
                 },
                 {
                     "displayMode": "onhover",
@@ -310,10 +304,8 @@
     },
     "general": {
         "allowPanelsOnScreenWithoutBar": true,
-        "allowPasswordWithFprintd": false,
         "animationDisabled": false,
         "animationSpeed": 1,
-        "autoStartAuth": false,
         "avatarImage": "/home/abao/.face",
         "boxRadiusRatio": 1,
         "compactLockScreen": false,
@@ -469,7 +461,7 @@
         "showHeader": true,
         "showNumberLabels": true
     },
-    "settingsVersion": 46,
+    "settingsVersion": 44,
     "systemMonitor": {
         "cpuCriticalThreshold": 90,
         "cpuPollingInterval": 3000,
