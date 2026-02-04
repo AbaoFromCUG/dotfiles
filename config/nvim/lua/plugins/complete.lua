@@ -88,6 +88,7 @@ return {
                                         Cmdline = "CMD",
                                         Neopyter = "JUPY",
                                         Copilot = "AI",
+                                        Opencode_mentions = "Opencode"
                                     }
                                     return string.format("[%s] ", source_map[ctx.item.source_name] or ctx.item.source_name)
                                 end,

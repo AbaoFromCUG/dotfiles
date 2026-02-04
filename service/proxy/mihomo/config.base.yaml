@@ -229,6 +229,7 @@ proxy-groups:
     }
 rules:
   - DOMAIN-SUFFIX,local,直连
+  - DOMAIN-SUFFIX,oss-cn-wulanchabu-internal.aliyuncs.com,直连
   - GEOIP,lan,直连,no-resolve
   - RULE-SET, scholar_domain,直连
   - RULE-SET,biliintl_domain,哔哩东南亚

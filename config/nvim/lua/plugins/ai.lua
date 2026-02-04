@@ -16,16 +16,10 @@ end
 return {
     {
         "sudo-tee/opencode.nvim",
+        dev = true,
         dependencies = {
             "nvim-lua/plenary.nvim",
-            {
-                "MeanderingProgrammer/render-markdown.nvim",
-                opts = {
-                    anti_conceal = { enabled = false },
-                    file_types = { "markdown", "opencode_output" },
-                },
-                ft = { "markdown", "Avante", "copilot-chat", "opencode_output" },
-            },
+
         },
         opts = {
             keymap = {
@@ -44,13 +38,25 @@ return {
                 },
             },
             context = {
-                enabled = false,
+                enabled = true,
+                diagnostics = {
+                    enabled = false,
+                    info = false,
+                    warn = false,
+                    error = false,
+                },
+                current_file = {
+                    enabled = false,
+                },
+                selection = {
+                    enabled = true
+                }
             },
         },
         keys = {
-            { "<leader>a",  group = true,                                     desc = "ai" },
-            { "<leader>ai", function() require("opencode.api").toggle() end, desc = "toggle opencode", mode = { "n", "x" } },
-            { "<leader>ac", function() require("opencode.api").toggle() end, desc = "chat assistant",  mode = { "n" } },
+            { "<leader>a",  group = true,                                        desc = "ai" },
+            { "<leader>ai", function() require("opencode.api").quick_chat() end, desc = "quick chat",     mode = { "n", "x" } },
+            { "<leader>ac", function() require("opencode.api").toggle() end,     desc = "chat assistant", mode = { "n", "x" } },
         },
     },
     {
@@ -114,11 +120,13 @@ return {
             },
         },
     },
-
     {
         "MeanderingProgrammer/render-markdown.nvim",
         ft = function(_, ft)
+            table.insert(ft, "Avante")
             table.insert(ft, "codecompanion")
+            table.insert(ft, "copilot-chat")
+            table.insert(ft, "opencode_output")
             return ft
         end,
     },

@@ -1,6 +1,5 @@
-local cmd = { vim.fn.executable("delance-langserver") == 1 and "delance-langserver" or "pyright-langserver", "--stdio" }
-
 local pythonPath = require("lib.python").get_python_path()
+local cmd = require("lib.python").get_pyright_cmd()
 
 ---@diagnostic disable: missing-fields
 ---@type lspconfig.options.pyright

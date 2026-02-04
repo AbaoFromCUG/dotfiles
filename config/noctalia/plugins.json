@@ -17,11 +17,11 @@
             "sourceUrl": "https://github.com/AbaoFromCUG/noctalia-virtual-desktops"
         },
         "mini-docker": {
-            "enabled": true,
+            "enabled": false,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },
         "todo": {
-            "enabled": true,
+            "enabled": false,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         }
     },

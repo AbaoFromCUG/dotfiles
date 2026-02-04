@@ -17,9 +17,7 @@ if (( $+commands[cargo] )); then
     PATH="$PATH:$HOME/.cargo/bin"
 fi
 
-if (( $+commands[bun] )); then
-    PATH="$PATH:/home/abao/.cache/.bun/bin"
-fi
+PATH="$PATH:/home/abao/.cache/.bun/bin"
 
 if (( $+commands[pnpm] )); then
     PATH="$PATH:$HOME/.local/share/pnpm"

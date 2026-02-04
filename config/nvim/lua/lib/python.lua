@@ -13,4 +13,14 @@ function M.get_python_path()
     return pythonPath
 end
 
+function M.get_pyright_cmd()
+    if vim.fn.executable("delance-langserver") == 1 then
+        return { "delance-langserver", "--stdio" }
+    elseif vim.fn.executable("bun") == 1 then
+        return { "bunx", "-p", "@delance/runtime", "delance-langserver" }
+    else
+        return { "pyright-langserver", "--stdio" }
+    end
+end
+
 return M
