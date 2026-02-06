@@ -1,7 +1,6 @@
 export TERMINAL=alacritty
 
-if [[ $(uname) == Linux ]]; then
-
+if [[ $(uname) == Linux ]] && [[ ! -v SSH_TTY ]]; then
 	if (( $+commands[uwsm] )); then
 		if uwsm check may-start -q && uwsm select; then
 			[ -f "$HOME/.config/user-dirs.dirs" ] && . "$HOME/.config/user-dirs.dirs"
