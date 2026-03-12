@@ -12,7 +12,6 @@ local function setup_theme()
     -- end
 end
 
-
 ---@type LazySpec[]
 return {
     {
@@ -39,9 +38,7 @@ return {
         opts = {
             -- transparent = true,
         },
-        config = function(_, opts)
-            require("tokyonight").setup(opts)
-        end,
+        config = function(_, opts) require("tokyonight").setup(opts) end,
     },
     {
         "nvim-zh/colorful-winsep.nvim",
@@ -64,7 +61,19 @@ return {
     -- color text colorizer, e.g. #5F9EA0 Aqua #91f #f101ff11 oklch(0.147 0.004 49.25)
     {
         "catgoose/nvim-colorizer.lua",
-        opts = { filetypes = { "qml", "typst", "lua", "vue", "html", "css", "scss", "tsx" }, user_default_options = { rgb_fn = true, RRGGBBAA = true } },
+        opts = {
+            options = {
+
+                parsers = {
+                    hex = {
+                        enable = false,
+                        rgb = true,
+                        rrggbbaa = true,
+                    },
+                },
+            },
+            filetypes = { "qml", "typst", "lua", "vue", "html", "css", "scss", "tsx" },
+        },
         event = "VeryLazy",
     },
 
@@ -329,7 +338,7 @@ return {
                             end,
                             desc = "yazi:current file",
                         },
-                        ["/"] = false
+                        ["/"] = false,
                     },
                 },
 
@@ -351,13 +360,11 @@ return {
             view_options = {
                 show_hidden = true,
                 natural_order = true,
-                is_always_hidden = function(name, _)
-                    return name == ".." or name == ".git"
-                end,
+                is_always_hidden = function(name, _) return name == ".." or name == ".git" end,
             },
             win_options = {
                 wrap = true,
-            }
+            },
         },
         lazy = false,
     },

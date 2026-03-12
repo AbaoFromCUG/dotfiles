@@ -1,68 +1,3 @@
-local function surround()
-    local config = require("nvim-surround.config")
-    local lang2add = {
-        ["lua"] = function(text) return { { "function " .. text .. "()" }, { "end" } } end,
-        ["python"] = function(text) return { { "def " .. text .. "():", "" }, { "", "" } } end,
-        ["default"] = function(text) return { { "function " .. text .. "() {" }, { "}" } } end,
-    }
-
-    require("nvim-surround").setup({
-        keymaps = {
-            visual = "ys",
-        },
-        surrounds = {
-            ["F"] = {
-                add = function()
-                    local result = config.get_input("Enter the function name: ")
-                    if result then
-                        local lang = vim.bo.filetype
-                        local handler = lang2add[lang] or lang2add["default"]
-                        return handler(result)
-                    end
-                end,
-                find = function()
-                    return config.get_selection({
-                        query = {
-                            capture = "@function.outer",
-                            type = "textobjects",
-                        },
-                    })
-                end,
-                delete = function()
-                    local outer_selection = config.get_selection({
-                        query = {
-                            capture = "@function.outer",
-                            type = "textobjects",
-                        },
-                    })
-                    local inner_selection = config.get_selection({
-                        query = {
-                            capture = "@function.inner",
-                            type = "textobjects",
-                        },
-                    })
-                    if not outer_selection or not inner_selection then
-                        vim.notify("Couldn't find function outline to delete", vim.log.levels.ERROR)
-                        return
-                    end
-
-                    local selections = {
-                        left = {
-                            first_pos = outer_selection.first_pos,
-                            last_pos = { inner_selection.first_pos[1], inner_selection.first_pos[2] - 1 },
-                        },
-                        right = {
-                            first_pos = { inner_selection.last_pos[1], inner_selection.last_pos[2] + 1 },
-                            last_pos = outer_selection.last_pos,
-                        },
-                    }
-                    return selections
-                end,
-            },
-        },
-    })
-end
-
 local languages = {
     "comment",
     "json",
@@ -258,7 +193,70 @@ return {
             "nvim-treesitter",
             "nvim-treesitter-textobjects",
         },
-        config = surround,
+        opts = function()
+            local config = require("nvim-surround.config")
+            local lang2add = {
+                ["lua"] = function(text) return { { "function " .. text .. "()" }, { "end" } } end,
+                ["python"] = function(text) return { { "def " .. text .. "():", "" }, { "", "" } } end,
+                ["default"] = function(text) return { { "function " .. text .. "() {" }, { "}" } } end,
+            }
+
+            return {
+                surrounds = {
+                    ["F"] = {
+                        add = function()
+                            local result = config.get_input("Enter the function name: ")
+                            if result then
+                                local lang = vim.bo.filetype
+                                local handler = lang2add[lang] or lang2add["default"]
+                                return handler(result)
+                            end
+                        end,
+                        find = function()
+                            return config.get_selection({
+                                query = {
+                                    capture = "@function.outer",
+                                    type = "textobjects",
+                                },
+                            })
+                        end,
+                        delete = function()
+                            local outer_selection = config.get_selection({
+                                query = {
+                                    capture = "@function.outer",
+                                    type = "textobjects",
+                                },
+                            })
+                            local inner_selection = config.get_selection({
+                                query = {
+                                    capture = "@function.inner",
+                                    type = "textobjects",
+                                },
+                            })
+                            if not outer_selection or not inner_selection then
+                                vim.notify("Couldn't find function outline to delete", vim.log.levels.ERROR)
+                                return
+                            end
+
+                            local selections = {
+                                left = {
+                                    first_pos = outer_selection.first_pos,
+                                    last_pos = { inner_selection.first_pos[1], inner_selection.first_pos[2] - 1 },
+                                },
+                                right = {
+                                    first_pos = { inner_selection.last_pos[1], inner_selection.last_pos[2] + 1 },
+                                    last_pos = outer_selection.last_pos,
+                                },
+                            }
+                            return selections
+                        end,
+                    },
+                },
+            }
+        end,
+        keys={
+            {"ys", "<Plug>(nvim-surround-visual)", mode = "x", desc = "surround add" },
+        }
     },
     -- annotation gen
     {
@@ -486,8 +484,8 @@ return {
             config_file_paths = { ".vscode/settings.json", "codesettings.json", "lspsettings.json" },
             live_reload = true,
             jsonls_integration = true,
-            lua_ls_integration = false
-        }
+            lua_ls_integration = false,
+        },
     },
     {
         "nvim-pack/nvim-spectre",

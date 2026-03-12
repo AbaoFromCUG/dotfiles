@@ -128,10 +128,6 @@ return {
     { "lambdalisue/suda.vim", cmd = { "SudaWrite", "SudaRead" } },
     -- { "h-hg/fcitx.nvim",      event = "InsertEnter" },
     {
-        "mistweaverco/kulala.nvim",
-        ft = "http",
-    },
-    {
         "chomosuke/typst-preview.nvim",
         ft = "typst",
         build = function() require("typst-preview").update() end,

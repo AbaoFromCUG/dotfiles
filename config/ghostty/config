@@ -5,3 +5,5 @@ background-opacity = 0.85
 
 command = tmux attach||tmux new-session -s config
 theme = noctalia
+
+clipboard-write = allow

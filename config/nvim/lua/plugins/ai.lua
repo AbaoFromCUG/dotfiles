@@ -19,7 +19,6 @@ return {
         dev = true,
         dependencies = {
             "nvim-lua/plenary.nvim",
-
         },
         opts = {
             keymap = {
@@ -49,8 +48,8 @@ return {
                     enabled = false,
                 },
                 selection = {
-                    enabled = true
-                }
+                    enabled = true,
+                },
             },
         },
         keys = {

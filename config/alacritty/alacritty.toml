@@ -1,5 +1,5 @@
 [general]
-import = ["themes/snazzy.toml", "themes/noctalia.toml"]
+import = ["themes/snazzy.toml", "~/.config/alacritty/themes/noctalia.toml"]
 
 [bell]
 animation = "EaseOutExpo"
@@ -13,6 +13,9 @@ shape = "Beam"
 
 [env]
 TERM = "xterm-256color"
+
+[terminal]
+osc52 = "CopyPaste"
 
 
 [font]
