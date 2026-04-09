@@ -88,7 +88,7 @@ return {
                                         Cmdline = "CMD",
                                         Neopyter = "JUPY",
                                         Copilot = "AI",
-                                        Opencode_mentions = "Opencode"
+                                        Opencode_mentions = "Opencode",
                                     }
                                     return string.format("[%s] ", source_map[ctx.item.source_name] or ctx.item.source_name)
                                 end,
@@ -212,10 +212,13 @@ return {
     {
         "AbaoFromCUG/luadev.nvim",
         ft = "lua",
-        dev = true,
         ---@type luadev.Config
         opts = {
             enabled_lsp = "emmylua_ls",
+            addons = {
+                "nvim",
+                "nvim-lspconfig",
+            },
         },
     },
 }

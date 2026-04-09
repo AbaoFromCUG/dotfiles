@@ -16,26 +16,25 @@ end
 return {
     {
         "sudo-tee/opencode.nvim",
-        dev = true,
         dependencies = {
             "nvim-lua/plenary.nvim",
         },
         opts = {
-            keymap = {
-                editor = false,
-                input_window = {
-                    ["<esc>"] = false,
-                    ["~"] = false,
-                    ["<tab>"] = { toggle_mode, "Toggle mode", mode = "n" },
-                    ["<C-s>"] = { "submit_input_prompt", mode = { "n", "i" } },
-                    ["+"] = { "mention_file", mode = "i" },
-                },
-
-                output_window = {
-                    ["<esc>"] = false,
-                    ["<tab>"] = { toggle_mode, "Toggle mode", mode = "n" },
-                },
-            },
+            -- keymap = {
+            --     editor = false,
+            --     input_window = {
+            --         ["<esc>"] = false,
+            --         ["~"] = false,
+            --         ["<tab>"] = { toggle_mode, "Toggle mode", mode = "n" },
+            --         ["<C-s>"] = { "submit_input_prompt", mode = { "n", "i" } },
+            --         ["+"] = { "mention_file", mode = "i" },
+            --     },
+            --
+            --     output_window = {
+            --         ["<esc>"] = false,
+            --         ["<tab>"] = { toggle_mode, "Toggle mode", mode = "n" },
+            --     },
+            -- },
             context = {
                 enabled = true,
                 diagnostics = {
@@ -53,9 +52,12 @@ return {
             },
         },
         keys = {
-            { "<leader>a",  group = true,                                        desc = "ai" },
-            { "<leader>ai", function() require("opencode.api").quick_chat() end, desc = "quick chat",     mode = { "n", "x" } },
-            { "<leader>ac", function() require("opencode.api").toggle() end,     desc = "chat assistant", mode = { "n", "x" } },
+            { "<leader>a",  group = true,                             desc = "ai" },
+            -- { "<leader>ai", function() require("opencode.api").quick_chat() end, desc = "quick chat",     mode = { "n", "x" } },
+            -- { "<leader>ac", function() require("opencode.api").toggle() end,     desc = "chat assistant", mode = { "n", "x" } },
+            { "<leader>ai", "<cmd>Opencode quick_chat<cr>",           desc = "chat assistant", mode = { "n", "x" } },
+            { "<leader>ac", "<cmd>Opencode toggle focus<cr>",         desc = "quick chat" },
+            { "<leader>ac", "<cmd>Opencode add_visual_selection<cr>", desc = "quick chat",     mode = "x" },
         },
     },
     {

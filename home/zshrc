@@ -76,6 +76,7 @@ zinit for \
 # For postponing loading `fzf`
 zinit wait lucid for \
     OMZP::fzf \
+    matheusml/zsh-ai \
     AbaoFromCUG/friendly-fzf
 
 ### End of plugins

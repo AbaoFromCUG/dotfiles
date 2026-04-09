@@ -107,6 +107,24 @@ proxy-groups:
       name: ChatGPT,
       !!merge <<: *pr,
       icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ChatGPT.png",
+      proxies:
+        [
+          默认,
+          新加坡,
+          新加坡自动选择,
+          美国,
+          美国自动选择,
+          香港,
+          香港自动选择,
+          台湾,
+          台湾自动选择,
+          日本,
+          日本自动选择,
+          其它地区,
+          全部节点,
+          自动选择,
+          直连,
+        ],
     }
   - {
       name: 国内,
@@ -229,27 +247,31 @@ proxy-groups:
     }
 rules:
   - DOMAIN-SUFFIX,local,直连
+  - DOMAIN-SUFFIX,metacubex.github.io,直连
+  - DOMAIN-SUFFIX,token-bus.site,直连
+  - DOMAIN-SUFFIX,test-ipv6.com,直连
   - DOMAIN-SUFFIX,oss-cn-wulanchabu-internal.aliyuncs.com,直连
   - GEOIP,lan,直连,no-resolve
+  - RULE-SET,chatgpt_domain,ChatGPT
+  - DOMAIN-SUFFIX,chatgpt.com,ChatGPT
   - RULE-SET, scholar_domain,直连
   - RULE-SET,biliintl_domain,哔哩东南亚
   - RULE-SET,ehentai_domain,ehentai
   - RULE-SET,github_domain,其他
+  - RULE-SET,google_domain,Google
+  - RULE-SET,google_ip,Google
+  - RULE-SET,telegram_domain,Telegram
+  - RULE-SET,telegram_ip,Telegram
+  - RULE-SET,twitter_ip,Twitter
   - RULE-SET,twitter_domain,Twitter
   - RULE-SET,youtube_domain,YouTube
-  - RULE-SET,google_domain,Google
-  - RULE-SET,telegram_domain,Telegram
+  - RULE-SET,netflix_ip,NETFLIX
   - RULE-SET,netflix_domain,NETFLIX
   - RULE-SET,bilibili_domain,哔哩哔哩
   - RULE-SET,bahamut_domain,巴哈姆特
   - RULE-SET,spotify_domain,Spotify
   - RULE-SET,pixiv_domain,其他
   - RULE-SET,geolocation-!cn,其他
-  - RULE-SET,google_ip,Google
-  - RULE-SET,netflix_ip,NETFLIX
-  - RULE-SET,telegram_ip,Telegram
-  - RULE-SET,twitter_ip,Twitter
-  - RULE-SET,chatgpt_domain,ChatGPT
   - RULE-SET,cn_domain,国内
   - RULE-SET,cn_ip,国内
   - MATCH,其他
@@ -319,13 +341,8 @@ rule-providers:
     !!merge <<: *ip
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.list"
   chatgpt_domain:
-    type: http
-    behavior: classical
-    interval: 86400
-    url: "https://raw.githubusercontent.com/G4free/clash-ruleset/main/ruleset/ChatGPT.yaml"
+    !!merge <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/openai.list"
   scholar_domain:
-    type: http
-    behavior: classical
-    format: yaml
-    interval: 86400
-    url: "https://cdn.jsdelivr.net/gh/ferristale/clash_rules_for_scholar/rules/scholar.yaml"
+    !!merge <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-scholar-!cn.list"

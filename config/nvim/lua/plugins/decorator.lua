@@ -63,7 +63,6 @@ return {
                 -- icon_only = true,
                 -- section_separators = "",
                 -- component_separators = "",
-                -- theme = "tokyonight",
             },
             sections = {
                 lualine_a = {

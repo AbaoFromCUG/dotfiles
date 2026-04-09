@@ -1,6 +1,7 @@
 tun:
   enable: true
-  stack: gvisor
+  stack: mixed
+  strict-route: true
   auto-route: true
   device: utun-mihomo
   auto-detect-interface: true
@@ -18,7 +19,6 @@ dns:
     - 223.5.5.5
     - 119.29.29.29
   nameserver:
-    - system
     - 223.5.5.5
     - 119.29.29.29
     - https://dns.alidns.com/dns-query
@@ -26,3 +26,7 @@ dns:
     - https://1.1.1.1/dns-query
     - tls://8.8.8.8:853
     - tls://1.1.1.1:853
+  proxy-server-nameserver:
+    - https://dns.alidns.com/dns-query
+    - 223.5.5.5
+    - 119.29.29.29

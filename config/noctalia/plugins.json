@@ -16,11 +16,11 @@
             "enabled": true,
             "sourceUrl": "https://github.com/AbaoFromCUG/noctalia-virtual-desktops"
         },
-        "mini-docker": {
-            "enabled": false,
+        "polkit-agent": {
+            "enabled": true,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },
-        "polkit-agent": {
+        "screen-toolkit": {
             "enabled": true,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },

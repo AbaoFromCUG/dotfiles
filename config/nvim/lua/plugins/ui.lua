@@ -1,15 +1,12 @@
 local function setup_theme()
     local status, mod = pcall(require, "matugen")
     --TODO: support ssh check
-    -- if vim.env.DISPLAY and status and mod then
-    --     ---@cast mod.setup -nil
-    --     vim.defer_fn(
-    --         function()
-    --             mod.setup()
-    --         end, 100)
-    -- else
-    vim.cmd([[colorscheme tokyonight]])
-    -- end
+    if vim.env.DISPLAY and status and mod then
+        ---@cast mod.setup -nil
+        vim.defer_fn(function() mod.setup() end, 100)
+    else
+        vim.cmd([[colorscheme tokyonight]])
+    end
 end
 
 ---@type LazySpec[]
@@ -20,17 +17,17 @@ return {
         priority = 1000,
         config = setup_theme,
     },
-    {
-        "EdenEast/nightfox.nvim",
-        lazy = false,
-        priority = 1000,
-        opts = {
-            options = {
-                -- transparent = true,
-                -- dim_inactive = true,
-            },
-        },
-    },
+    -- {
+    --     "EdenEast/nightfox.nvim",
+    --     lazy = false,
+    --     priority = 1000,
+    --     opts = {
+    --         options = {
+    --             -- transparent = true,
+    --             -- dim_inactive = true,
+    --         },
+    --     },
+    -- },
     {
         "folke/tokyonight.nvim",
         lazy = false,
@@ -123,10 +120,8 @@ return {
     },
     {
         "willothy/flatten.nvim",
-        -- version = "0.5.1",
         lazy = false,
         priority = 1001,
-        -- enabled = false,
         opts = {
             integrations = {
                 wezterm = true,

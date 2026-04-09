@@ -1,11 +1,10 @@
-local pythonPath = require("lib.python").get_python_path()
 local cmd = require("lib.python").get_pyright_cmd()
+local pythonPath = require("lib.python").get_python_path()
 
----@diagnostic disable: missing-fields
----@type lspconfig.options.pyright
 return {
     cmd = cmd,
     filetypes = { "python" },
+    ---@type lspconfig.settings.pyright
     settings = {
         python = {
             pythonPath = pythonPath,

@@ -1,4 +1,5 @@
 backup
+Server = https://mirrors.sustech.edu.cn/archlinux/$repo/os/$arch
 __pycache__
 
 config/lazygit/state.yml
@@ -16,11 +17,8 @@ config/waybar/style.css
 config/swaync/style.css
 repro.lua
 config/uv/uv-receipt.json
-service/proxy/mihomo/config.local.yaml
-service/proxy/mihomo/config.yaml
-
-service/proxy/mihomo/docker-compose.yaml
-service/proxy/docker-compose.yaml
+service/mihomo/config.local.yaml
+service/mihomo/config.yaml
 config/noctalia/plugins
 config/nvim/lua/matugen.lua
 
@@ -43,3 +41,5 @@ config/git/local.inc
 config/qt5ct/colors/noctalia.conf
 config/qt6ct/colors/noctalia.conf
 config/yazi/theme.toml
+/.opencode/package-lock.json
+/config/opencode/package-lock.json

@@ -1,0 +1,27 @@
+---@meta
+
+---@class LazySpec: table
+---@field [1]? string                                   # repo string, e.g. "owner/name"
+---@field name? string
+---@field branch? string
+---@field dir? string
+---@field dev? boolean
+---@field enabled? boolean | fun(): boolean
+---@field version? string
+---@field lazy? boolean
+---@field priority? number
+---@field event? string | string[]
+---@field cmd? string | string[]
+---@field ft? string | string[] | fun(self: LazySpec, ft: string[]): string[]
+---@field keys? table[]
+---@field dependencies? string | string[] | LazySpec | LazySpec[]
+---@field build? fun(self: LazySpec) | string
+---@field opts? table | fun(self: LazySpec, opts: table): table | boolean
+---@field config? fun(self: LazySpec, opts: table)
+---@field init? fun(self: LazySpec)
+---@field main? string                                  # module used for opts/config defaults
+---@field import? string
+---@field specs? LazySpec[]
+---@field cond? boolean | fun(self: LazySpec): boolean
+---@field module? boolean
+---@field optional? boolean
