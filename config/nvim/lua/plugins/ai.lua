@@ -52,12 +52,12 @@ return {
             },
         },
         keys = {
-            { "<leader>a",  group = true,                             desc = "ai" },
+            { "<leader>a", group = true, desc = "ai" },
             -- { "<leader>ai", function() require("opencode.api").quick_chat() end, desc = "quick chat",     mode = { "n", "x" } },
             -- { "<leader>ac", function() require("opencode.api").toggle() end,     desc = "chat assistant", mode = { "n", "x" } },
-            { "<leader>ai", "<cmd>Opencode quick_chat<cr>",           desc = "chat assistant", mode = { "n", "x" } },
-            { "<leader>ac", "<cmd>Opencode toggle focus<cr>",         desc = "quick chat" },
-            { "<leader>ac", "<cmd>Opencode add_visual_selection<cr>", desc = "quick chat",     mode = "x" },
+            { "<leader>ai", "<cmd>Opencode quick_chat<cr>", desc = "chat assistant", mode = { "n", "x" } },
+            { "<leader>ac", "<cmd>Opencode toggle focus<cr>", desc = "quick chat" },
+            { "<leader>ac", "<cmd>Opencode add_visual_selection<cr>", desc = "quick chat", mode = "x" },
         },
     },
     {

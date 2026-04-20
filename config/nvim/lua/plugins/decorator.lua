@@ -6,7 +6,7 @@ return {
         event = "VeryLazy",
 
         keys = {
-            { "<S-l>", "<cmd>bnext<cr>",     desc = "focus right tab" },
+            { "<S-l>", "<cmd>bnext<cr>", desc = "focus right tab" },
             { "<S-h>", "<cmd>bprevious<cr>", desc = "focus left tab" },
         },
         opts = function()

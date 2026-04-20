@@ -11,6 +11,7 @@ vim.filetype.add({
         ["vimrc"] = "vim",
         ["gitconfig"] = "gitconfig",
         ["justfile"] = "just",
+        [".yamlfmt"] = "yaml"
     },
     pattern = {
         [".*/.vscode/.*.json"] = "jsonc",

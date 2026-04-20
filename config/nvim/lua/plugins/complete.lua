@@ -29,12 +29,15 @@ return {
                 "tinymist",
                 "vtsls",
                 "helm_ls",
+                "zuban",
             },
             automatic_enable = {
                 exclude = {
                     "emmylua_ls",
                     "lua_ls",
                     "jdtls",
+                    "stylua",
+                    "pyright"
                 },
             },
         },
@@ -42,7 +45,8 @@ return {
             vim.lsp.config("*", {
                 before_init = function(_, config)
                     local codesettings = require("codesettings")
-                    codesettings.with_local_settings(config.name, config)
+                    config = codesettings.with_local_settings(config.name, config)
+                    return config
                 end,
             })
             require("mason-lspconfig").setup(opts)

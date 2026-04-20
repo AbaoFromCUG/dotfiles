@@ -16,6 +16,10 @@
             "enabled": true,
             "sourceUrl": "https://github.com/AbaoFromCUG/noctalia-virtual-desktops"
         },
+        "assistant-panel": {
+            "enabled": true,
+            "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
+        },
         "polkit-agent": {
             "enabled": true,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"

@@ -6,19 +6,17 @@ x-scheme-handler/https=google-chrome.desktop
 x-scheme-handler/about=google-chrome.desktop
 x-scheme-handler/unknown=google-chrome.desktop
 x-scheme-handler/terminal=alacritty.desktop;
-
 application/pdf=google-chrome.desktop
-
 application/vnd.openxmlformats-officedocument.presentationml.presentation=wps-office-wpp.desktop
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=wps-office-wps.desktop
 application/msword=wps-office-wps.desktop
-
-# inode/directory=file-manager.desktop
 x-scheme-handler/clash=clash-verge.desktop;
 x-scheme-handler/clash-verge=clash-verge.desktop;
-
+x-scheme-handler/tg=userapp-AyuGram Desktop-2N1KN3.desktop
+x-scheme-handler/tonsite=userapp-AyuGram Desktop-J8YKN3.desktop
 
 [Added Associations]
-x-scheme-handler/tonsite=org.telegram.desktop.desktop;
+x-scheme-handler/tonsite=org.telegram.desktop.desktop;userapp-AyuGram Desktop-J8YKN3.desktop;
 x-scheme-handler/clash=clash-verge.desktop;
 x-scheme-handler/clash-verge=clash-verge.desktop;
+x-scheme-handler/tg=userapp-AyuGram Desktop-2N1KN3.desktop;

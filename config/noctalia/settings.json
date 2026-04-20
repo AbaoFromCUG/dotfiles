@@ -128,19 +128,19 @@
                     "diskPath": "/",
                     "iconColor": "none",
                     "id": "SystemMonitor",
-                    "showCpuCores": false,
-                    "showCpuFreq": false,
+                    "showCpuCores": true,
+                    "showCpuFreq": true,
                     "showCpuTemp": true,
                     "showCpuUsage": true,
-                    "showDiskAvailable": false,
+                    "showDiskAvailable": true,
                     "showDiskUsage": true,
-                    "showDiskUsageAsPercent": false,
+                    "showDiskUsageAsPercent": true,
                     "showGpuTemp": false,
                     "showLoadAverage": true,
                     "showMemoryAsPercent": true,
                     "showMemoryUsage": true,
                     "showNetworkStats": true,
-                    "showSwapUsage": false,
+                    "showSwapUsage": true,
                     "textColor": "none",
                     "useMonospaceFont": true,
                     "usePadding": false
@@ -185,9 +185,6 @@
                     "pinned": [
                         "tray-icon tray app main"
                     ]
-                },
-                {
-                    "id": "plugin:screen-toolkit"
                 },
                 {
                     "hideWhenZero": false,
@@ -247,7 +244,7 @@
         ]
     },
     "colorSchemes": {
-        "darkMode": false,
+        "darkMode": true,
         "generationMethod": "tonal-spot",
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
@@ -468,7 +465,7 @@
         "weatherTaliaMascotAlways": false
     },
     "network": {
-        "bluetoothAutoConnect": true,
+        "bluetoothAutoConnect": false,
         "bluetoothDetailsViewMode": "grid",
         "bluetoothHideUnnamedDevices": false,
         "bluetoothRssiPollIntervalMs": 10000,

@@ -436,7 +436,12 @@ fi
 mihomo_configs+=("config.local.yaml")
 
 # 使用yq合并配置文件与docker compose文件
-yq ea '. as $item ireduce ({}; . *+ $item )' "${mihomo_configs[@]}" > config.yaml
+yq ea --yaml-fix-merge-anchor-to-spec=true \
+    '. as $item ireduce ({}; . *+ $item )' \
+    "${mihomo_configs[@]}" \
+    | sed -E 's/^([[:space:]]*)"<<"([[:space:]]*:)/\1<<\2/' \
+    |yq 'explode(.)' \
+    > config.yaml
 
 # 查看/etc/mihomo/config.yaml是否是链接到当前目录的config.yaml，如果不是则提示创建一个符号链接
 if [ ! -L /etc/mihomo/config.yaml ] || [ "$(readlink /etc/mihomo/config.yaml)" != "$(readlink -f config.yaml)" ]; then

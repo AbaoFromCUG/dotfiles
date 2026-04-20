@@ -2,21 +2,21 @@
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+	source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
-    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
-    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
-        print -P "%F{33} %F{34}Installation successful.%f%b" || \
-        print -P "%F{160} The clone has failed.%f%b"
+	print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+	command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+	command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" &&
+		print -P "%F{33} %F{34}Installation successful.%f%b" ||
+		print -P "%F{160} The clone has failed.%f%b"
 fi
 
 source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
 autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
+((${+_comps})) && _comps[zinit]=_zinit
 ### End of Zinit's installer chunk
 
 ### Start of programs
@@ -28,100 +28,98 @@ zinit light zdharma-continuum/zinit-annex-binary-symlink
 
 ### Start of plugins
 zinit for \
- OMZL::key-bindings.zsh \
- OMZL::history.zsh
+	OMZL::key-bindings.zsh \
+	OMZL::history.zsh
 
 zinit wait lucid for \
- OMZL::clipboard.zsh \
- OMZL::completion.zsh \
- OMZL::git.zsh \
- OMZL::grep.zsh \
+	OMZL::clipboard.zsh \
+	OMZL::completion.zsh \
+	OMZL::git.zsh \
+	OMZL::grep.zsh
 
-
-zinit wait lucid atload'unalias zi' for\
- OMZP::zoxide
+zinit wait lucid atload'unalias zi' for OMZP::zoxide
 
 zinit wait lucid for \
- OMZP::python \
- OMZP::pip \
- OMZP::kubectl \
- OMZP::docker \
- OMZP::docker-compose \
- OMZP::eza \
- OMZP::command-not-found \
- OMZP::bun \
- OMZP::git \
- OMZP::mise \
- OMZP::uv \
- OMZP::ssh \
- OMZP::sudo \
- OMZP::aliases \
- OMZP::rsync
-
+	OMZP::python \
+	OMZP::pip \
+	OMZP::kubectl \
+	OMZP::docker \
+	OMZP::docker-compose \
+	OMZP::eza \
+	OMZP::command-not-found \
+	OMZP::bun \
+	OMZP::git \
+	OMZP::mise \
+	OMZP::uv \
+	OMZP::ssh \
+	OMZP::sudo \
+	OMZP::aliases \
+	OMZP::rsync
 
 zinit depth"1" for \
-  jeffreytse/zsh-vi-mode \
-  romkatv/powerlevel10k \
-  zsh-users/zsh-syntax-highlighting \
-  zsh-users/zsh-autosuggestions
+	jeffreytse/zsh-vi-mode \
+	romkatv/powerlevel10k \
+	zsh-users/zsh-syntax-highlighting \
+	zsh-users/zsh-autosuggestions
 
 zinit for \
-    atload"zicompinit; zicdreplay" \
-    blockf \
-    lucid \
-    wait \
-  zsh-users/zsh-completions
-
+	atload"zicompinit; zicdreplay" \
+	blockf \
+	lucid \
+	wait \
+	zsh-users/zsh-completions
 
 # For postponing loading `fzf`
 zinit wait lucid for \
-    OMZP::fzf \
-    matheusml/zsh-ai \
-    AbaoFromCUG/friendly-fzf
+	OMZP::fzf \
+	matheusml/zsh-ai \
+	AbaoFromCUG/friendly-fzf
 
 ### End of plugins
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.config/shell/p10k.zsh ]] || source ~/.config/shell/p10k.zsh
 
-
 ### Additional config
 
-if (( $+commands[yay] )); then
-     # avoid install python package to pyenv python site
-     alias yay="ASDF_RUST_VERSION=system  ASDF_NODEJS_VERSION=system PYENV_VERSION=system /usr/bin/yay"
+if (($+commands[yay])); then
+	# avoid install python package to pyenv python site
+	alias yay="ASDF_RUST_VERSION=system  ASDF_NODEJS_VERSION=system PYENV_VERSION=system /usr/bin/yay"
 fi
 
-if (( $+commands[apt] )); then
-     # avoid install python package to pyenv python site
-     alias apt="ASDF_RUST_VERSION=system  ASDF_NODEJS_VERSION=system PYENV_VERSION=system /usr/bin/apt"
+if (($+commands[apt])); then
+	# avoid install python package to pyenv python site
+	alias apt="ASDF_RUST_VERSION=system  ASDF_NODEJS_VERSION=system PYENV_VERSION=system /usr/bin/apt"
 fi
 
 function passwordgen() {
-    echo $(LC_ALL=C tr -dc 'A-Za-z0-9!"#%&'\''()*+,-./:;<=>?@[\]^_`{|}~' </dev/urandom | head -c 13; echo)
+	echo $(
+		LC_ALL=C tr -dc 'A-Za-z0-9!"#%&'\''()*+,-./:;<=>?@[\]^_`{|}~' </dev/urandom | head -c 13
+		echo
+	)
 }
 
 function sshr() {
-    eval $(fzf --zsh)
-    host=$(__fzf_list_hosts|fzf)
-    kitty -o shell ssh -t $host zsh --login -c "ulimit -n 50000 && tmux attach || tmux new -s work"
+	eval $(fzf --zsh)
+	host=$(__fzf_list_hosts | fzf)
+	kitty -o shell ssh -t $host zsh --login -c "ulimit -n 50000 && tmux attach || tmux new -s work"
 }
 
-if (( $+commands[uv]  )); then
-    alias pip="uv pip"
+if (($+commands[uv])); then
+	alias pip="uv pip"
 fi
 
-if (( $+commands[nvim]  )); then
-    alias vim="nvim"
-    export MANPAGER="nvim +Man!"
+if (($+commands[nvim])); then
+	alias vim="nvim"
+	export MANPAGER="nvim +Man!"
 fi
 
-if (( $+commands[bat] )); then
-    alias cat="$(which bat)"
-    alias ocat="$(which cat)"
-elif (( $+commands[batcat]  )); then
-    alias cat="$(which batcat)"
-    alias ocat="$(which cat)"
+if (($+commands[bat])); then
+	alias cat="$(which bat)"
+	alias ocat="$(which cat)"
+elif (($+commands[batcat])); then
+	alias cat="$(which batcat)"
+	alias ocat="$(which cat)"
 fi
 
 export MANROFFOPT="-c"
@@ -139,4 +137,3 @@ export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 
 ## Local config
 [[ ! -f ~/.zshrc.local ]] || source ~/.zshrc.local || true
-

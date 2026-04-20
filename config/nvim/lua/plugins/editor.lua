@@ -25,7 +25,7 @@ return {
                 lookahead = true,
                 selection_modes = {
                     ["@parameter.outer"] = "v", -- charwise
-                    ["@function.outer"] = "V",  -- linewise
+                    ["@function.outer"] = "V", -- linewise
                     ["@class.outer"] = "<c-v>", -- blockwise
                 },
             },
@@ -37,65 +37,65 @@ return {
             include_surrounding_whitespace = true,
         },
         keys = vim.iter(vim.iter({
-                    select = {
-                        ["af"] = { query = "@function.outer", desc = "function outer" },
-                        ["if"] = { query = "@function.inner", desc = "function innner" },
-                        ["ac"] = { query = "@class.outer", desc = "class outer" },
-                        ["ic"] = { query = "@class.inner", desc = "class inner" },
+            select = {
+                ["af"] = { query = "@function.outer", desc = "function outer" },
+                ["if"] = { query = "@function.inner", desc = "function innner" },
+                ["ac"] = { query = "@class.outer", desc = "class outer" },
+                ["ic"] = { query = "@class.inner", desc = "class inner" },
 
-                        ["aj"] = { query = "@cell", desc = "cell outer" },
-                        ["ij"] = { query = "@cellcontent", desc = "cell inner" },
+                ["aj"] = { query = "@cell", desc = "cell outer" },
+                ["ij"] = { query = "@cellcontent", desc = "cell inner" },
 
-                        ["as"] = { query = "@local.scope", desc = "locals" },
-                    },
-                    move = {
-                        goto_next_start = {
-                            ["]f"] = { query = "@function.outer", desc = "function start" },
-                            ["]c"] = { query = "@class.outer", desc = "class start" },
-                            ["]z"] = { query = "@fold", query_group = "folds", desc = "fold" },
-                            ["]j"] = { query = { "@cellseparator.code", "@cellseparator.markdown", "@cellseparator.raw" }, desc = "cell separator" },
-                        },
-                        goto_previous_start = {
-                            ["[f"] = { query = "@function.outer", desc = "function start" },
-                            ["[c"] = { query = "@class.outer", desc = "class start" },
-                            ["[z"] = { query = "@fold", query_group = "folds", desc = "fold" },
-                            ["[j"] = { query = { "@cellseparator.code", "@cellseparator.markdown", "@cellseparator.raw" }, desc = "cell separator" },
-                        },
-                    },
-                })
-                :map(function(feat, v)
-                    if feat == "select" then
-                        return vim.iter(v)
-                            :map(function(key, opts)
-                                return {
-                                    key,
-                                    function() require("nvim-treesitter-textobjects.select").select_textobject(opts.query, "textobjects") end,
-                                    desc = opts.desc,
-                                    mode = { "x", "o" },
-                                }
-                            end)
-                            :totable()
-                    end
-                    if feat == "move" then
-                        local bb = vim.iter(pairs(v))
-                            :map(function(func, maps)
-                                return vim.iter(maps)
-                                    :map(function(key, opts)
-                                        return {
-                                            key,
-                                            function() require("nvim-treesitter-textobjects.move")[func](opts.query, "textobjects") end,
-                                            desc = opts.desc,
-                                            mode = { "n", "x", "o" },
-                                        }
-                                    end)
-                                    :totable()
-                            end)
-                            :totable()
-                        return vim.iter(bb):flatten():totable()
-                    end
-                    return {}
-                end)
-                :totable())
+                ["as"] = { query = "@local.scope", desc = "locals" },
+            },
+            move = {
+                goto_next_start = {
+                    ["]f"] = { query = "@function.outer", desc = "function start" },
+                    ["]c"] = { query = "@class.outer", desc = "class start" },
+                    ["]z"] = { query = "@fold", query_group = "folds", desc = "fold" },
+                    ["]j"] = { query = { "@cellseparator.code", "@cellseparator.markdown", "@cellseparator.raw" }, desc = "cell separator" },
+                },
+                goto_previous_start = {
+                    ["[f"] = { query = "@function.outer", desc = "function start" },
+                    ["[c"] = { query = "@class.outer", desc = "class start" },
+                    ["[z"] = { query = "@fold", query_group = "folds", desc = "fold" },
+                    ["[j"] = { query = { "@cellseparator.code", "@cellseparator.markdown", "@cellseparator.raw" }, desc = "cell separator" },
+                },
+            },
+        })
+            :map(function(feat, v)
+                if feat == "select" then
+                    return vim.iter(v)
+                        :map(function(key, opts)
+                            return {
+                                key,
+                                function() require("nvim-treesitter-textobjects.select").select_textobject(opts.query, "textobjects") end,
+                                desc = opts.desc,
+                                mode = { "x", "o" },
+                            }
+                        end)
+                        :totable()
+                end
+                if feat == "move" then
+                    local bb = vim.iter(pairs(v))
+                        :map(function(func, maps)
+                            return vim.iter(maps)
+                                :map(function(key, opts)
+                                    return {
+                                        key,
+                                        function() require("nvim-treesitter-textobjects.move")[func](opts.query, "textobjects") end,
+                                        desc = opts.desc,
+                                        mode = { "n", "x", "o" },
+                                    }
+                                end)
+                                :totable()
+                        end)
+                        :totable()
+                    return vim.iter(bb):flatten():totable()
+                end
+                return {}
+            end)
+            :totable())
             :flatten()
             :totable(),
     },
@@ -181,7 +181,7 @@ return {
             end,
         },
         keys = {
-            { "zR", function() require("ufo").openAllFolds() end,  desc = "Open all folds" },
+            { "zR", function() require("ufo").openAllFolds() end, desc = "Open all folds" },
             { "zM", function() require("ufo").closeAllFolds() end, desc = "Close all folds" },
         },
     },
@@ -254,9 +254,9 @@ return {
                 },
             }
         end,
-        keys={
-            {"ys", "<Plug>(nvim-surround-visual)", mode = "x", desc = "surround add" },
-        }
+        keys = {
+            { "ys", "<Plug>(nvim-surround-visual)", mode = "x", desc = "surround add" },
+        },
     },
     -- annotation gen
     {
@@ -264,10 +264,10 @@ return {
         opts = { snippet_engine = "nvim" },
         cmd = "Neogen",
         keys = {
-            { "<space>cn", "<cmd>Neogen<cr>",       desc = "neogen" },
-            { "<space>cf", "<cmd>Neogen func<cr>",  desc = "neogen function" },
+            { "<space>cn", "<cmd>Neogen<cr>", desc = "neogen" },
+            { "<space>cf", "<cmd>Neogen func<cr>", desc = "neogen function" },
             { "<space>cc", "<cmd>Neogen class<cr>", desc = "neogen class" },
-            { "<space>ct", "<cmd>Neogen type<cr>",  desc = "neogen type" },
+            { "<space>ct", "<cmd>Neogen type<cr>", desc = "neogen type" },
         },
     },
 
@@ -304,13 +304,13 @@ return {
             on_attach = function(bufnr)
                 local gs = require("gitsigns")
                 require("which-key").add({
-                    { mode = { "n", "v" }, "g",                           group = "git" },
+                    { mode = { "n", "v" }, "g", group = "git" },
                     -- Navigation
-                    { "]h",                "<cmd>Gitsigns next_hunk<cr>", desc = "next hunk" },
-                    { "[h",                "<cmd>Gitsigns prev_hunk<cr>", desc = "prev hunk" },
+                    { "]h", "<cmd>Gitsigns next_hunk<cr>", desc = "next hunk" },
+                    { "[h", "<cmd>Gitsigns prev_hunk<cr>", desc = "prev hunk" },
 
                     -- Actions
-                    { "<leader>gh",        group = true,                  desc = "git operation" },
+                    { "<leader>gh", group = true, desc = "git operation" },
                     {
                         mode = "n",
                         "<leader>ghs",
@@ -364,9 +364,9 @@ return {
                     },
 
                     -- view
-                    { "<leader>gtb", "<cmd>Gitsigns blame<CR>",          desc = "toggle blame" },
-                    { "<leader>gtt", "<cmd>Gitsigns diffthis<CR>",       desc = "diff this" },
-                    { "<leader>gtD", "<cmd>Gitsigns diffthis ~<CR>",     desc = "diff last commit" },
+                    { "<leader>gtb", "<cmd>Gitsigns blame<CR>", desc = "toggle blame" },
+                    { "<leader>gtt", "<cmd>Gitsigns diffthis<CR>", desc = "diff this" },
+                    { "<leader>gtD", "<cmd>Gitsigns diffthis ~<CR>", desc = "diff last commit" },
                     { "<leader>gtd", "<cmd>Gitsigns toggle_deleted<CR>", desc = "reset hunk" },
 
                     -- Text object
@@ -477,14 +477,15 @@ return {
     {
 
         "mrjones2014/codesettings.nvim",
+        lazy = false,
         keys = {
             { "<leader>,,", "<cmd>Neoconf local<cr>", desc = "local settings" },
         },
         opts = {
-            config_file_paths = { ".vscode/settings.json", "codesettings.json", "lspsettings.json" },
             live_reload = true,
             jsonls_integration = true,
-            lua_ls_integration = false,
+            lua_ls_integration = true,
+            root_dir = function() return vim.fs.root(0, { ".git", ".vscode", "pyproject.toml", "package.json", "CMakeLists.txt" }) end,
         },
     },
     {
@@ -492,9 +493,9 @@ return {
         config = true,
         cmd = "Spectre",
         keys = {
-            { mode = "n", "<leader>ss", '<cmd>lua require("spectre").toggle()<cr>',                             desc = "toggle spectre" },
-            { mode = "n", "<leader>sw", '<cmd>lua require("spectre").open_visual({select_word=true})<cr>',      desc = "search current word" },
-            { mode = "v", "<leader>sw", '<esc><cmd>lua require("spectre").open_visual()<cr>',                   desc = "search current word" },
+            { mode = "n", "<leader>ss", '<cmd>lua require("spectre").toggle()<cr>', desc = "toggle spectre" },
+            { mode = "n", "<leader>sw", '<cmd>lua require("spectre").open_visual({select_word=true})<cr>', desc = "search current word" },
+            { mode = "v", "<leader>sw", '<esc><cmd>lua require("spectre").open_visual()<cr>', desc = "search current word" },
             { mode = "n", "<leader>sp", '<cmd>lua require("spectre").open_file_search({select_word=true})<cr>', desc = "search on current file" },
         },
     },
@@ -530,15 +531,15 @@ return {
         opts = {},
         keys = {
 
-            { "<space>crr",  function() require("refactoring").select_refactor() end, desc = "refactor",         mode = { "n", "x" } },
-            { "<space>cre",  "<cmd>Refactor extract<cr>",                             desc = "extract",          mode = { "n", "x" } },
-            { "<space>crf",  "<cmd>Refactor extract_to_file<cr>",                     desc = "extract to file",  mode = { "n", "x" } },
-            { "<space>crv",  "<cmd>Refactor extract_var<cr>",                         desc = "extract variable", mode = { "n", "x" } },
-            { "<space>crV",  "<cmd>Refactor inline_var<cr>",                          desc = "inline variable",  mode = { "n", "x" } },
-            { "<space>crf",  "<cmd>Refactor extract_func<cr>",                        desc = "extract function", mode = { "n", "x" } },
-            { "<space>crF",  "<cmd>Refactor inline_func<cr>",                         desc = "line function",    mode = { "n", "x" } },
-            { "<space>crbb", "<cmd>Refactor extract_block<cr>",                       desc = "extract",          mode = { "n", "x" } },
-            { "<space>crbf", "<cmd>Refactor extract_block_to_file<cr>",               desc = "extract",          mode = { "n", "x" } },
+            { "<space>crr", function() require("refactoring").select_refactor() end, desc = "refactor", mode = { "n", "x" } },
+            { "<space>cre", "<cmd>Refactor extract<cr>", desc = "extract", mode = { "n", "x" } },
+            { "<space>crf", "<cmd>Refactor extract_to_file<cr>", desc = "extract to file", mode = { "n", "x" } },
+            { "<space>crv", "<cmd>Refactor extract_var<cr>", desc = "extract variable", mode = { "n", "x" } },
+            { "<space>crV", "<cmd>Refactor inline_var<cr>", desc = "inline variable", mode = { "n", "x" } },
+            { "<space>crf", "<cmd>Refactor extract_func<cr>", desc = "extract function", mode = { "n", "x" } },
+            { "<space>crF", "<cmd>Refactor inline_func<cr>", desc = "line function", mode = { "n", "x" } },
+            { "<space>crbb", "<cmd>Refactor extract_block<cr>", desc = "extract", mode = { "n", "x" } },
+            { "<space>crbf", "<cmd>Refactor extract_block_to_file<cr>", desc = "extract", mode = { "n", "x" } },
         },
         cmd = "Refactor",
     },

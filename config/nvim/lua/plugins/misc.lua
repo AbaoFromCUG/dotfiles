@@ -77,12 +77,12 @@ return {
         },
         config = function(_, opts)
             require("which-key").add({
-                { "<leader>o",  group = true,             desc = "cmake" },
+                { "<leader>o", group = true, desc = "cmake" },
                 { "<leader>os", "<cmd>CMakeSettings<cr>", desc = "cmake settings" },
                 { "<leader>og", "<cmd>CMakeGenerate<cr>", desc = "cmake generate" },
-                { "<leader>ob", "<cmd>CMakeBuild<cr>",    desc = "cmake build" },
-                { "<leader>od", "<cmd>CMakeDebug<cr>",    desc = "cmake debug" },
-                { "<leader>or", "<cmd>CMakeRun<cr>",      desc = "cmake run" },
+                { "<leader>ob", "<cmd>CMakeBuild<cr>", desc = "cmake build" },
+                { "<leader>od", "<cmd>CMakeDebug<cr>", desc = "cmake debug" },
+                { "<leader>or", "<cmd>CMakeRun<cr>", desc = "cmake run" },
             })
             require("cmake-tools").setup(opts)
         end,
@@ -126,7 +126,7 @@ return {
         build = ":call firenvim#install(0)",
     },
     { "lambdalisue/suda.vim", cmd = { "SudaWrite", "SudaRead" } },
-    { "h-hg/fcitx.nvim",      event = "InsertEnter" },
+    { "h-hg/fcitx.nvim", event = "InsertEnter" },
     {
         "chomosuke/typst-preview.nvim",
         ft = "typst",
@@ -148,8 +148,8 @@ return {
             bg_theme = "bamboo",
         },
         keys = {
-            { "<leader>tc",  desc = "code snapshot" },
-            { "<leader>tcs", "<cmd>CodeSnap<cr>",     mode = "x", desc = "save code snapshot into clipboard" },
+            { "<leader>tc", desc = "code snapshot" },
+            { "<leader>tcs", "<cmd>CodeSnap<cr>", mode = "x", desc = "save code snapshot into clipboard" },
             { "<leader>tcc", "<cmd>CodeSnapSave<cr>", mode = "x", desc = "save code snapshot in ~/Pictures" },
         },
     },
