@@ -1,16 +1,10 @@
-local function toggle_mode()
-    require("opencode.promise").spawn(function()
-        local config_file = require("opencode.config_file")
-        local modes = config_file.get_opencode_agents():await()
-        local state = require("opencode.state")
-        local current_mode = state.current_mode
-        local current_index = require("utils.list").index_of(modes, current_mode)
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "opencode_output" },
+    callback = function()
+        require("ufo").detach()
+    end
+})
 
-        local next_index = (current_index % #modes) + 1
-        local next_mode = modes[next_index]
-        require("opencode.core").switch_to_mode(next_mode)
-    end)
-end
 
 ---@type LazySpec[]
 return {
@@ -20,21 +14,23 @@ return {
             "nvim-lua/plenary.nvim",
         },
         opts = {
-            -- keymap = {
-            --     editor = false,
-            --     input_window = {
-            --         ["<esc>"] = false,
-            --         ["~"] = false,
-            --         ["<tab>"] = { toggle_mode, "Toggle mode", mode = "n" },
-            --         ["<C-s>"] = { "submit_input_prompt", mode = { "n", "i" } },
-            --         ["+"] = { "mention_file", mode = "i" },
-            --     },
-            --
-            --     output_window = {
-            --         ["<esc>"] = false,
-            --         ["<tab>"] = { toggle_mode, "Toggle mode", mode = "n" },
-            --     },
-            -- },
+            keymap = {
+                editor = {
+                    ["<leader>zo"] = { "toggle_zoom", desc = "Toggle zoom" },
+                },
+                input_window = {
+                    ["<esc>"] = false,
+                    ["~"] = false,
+                    ["<tab>"] = { "switch_mode", "Toggle mode", mode = "n" },
+                    ["<C-s>"] = { "submit_input_prompt", mode = { "n", "i" } },
+                    ["+"] = { "mention_file", mode = "i" },
+                },
+                --
+                output_window = {
+                    ["<esc>"] = false,
+                    ["<tab>"] = { "switch_mode", "Toggle mode", mode = "n" },
+                }
+            },
             context = {
                 enabled = true,
                 diagnostics = {
@@ -50,14 +46,29 @@ return {
                     enabled = true,
                 },
             },
+            ui = {
+                output = {
+                    tools = {
+                        use_folds = 2,
+                    }
+                }
+            }
         },
+        config = function(_, opts)
+            require("opencode").setup(opts)
+            -- require("opencode.context.chat_context").unload_attachments = function()
+            --     local state = require("opencode.state")
+            --     state.context.set_context_updated_at(vim.uv.now())
+            -- end
+        end,
+        cmd = "Opencode",
         keys = {
-            { "<leader>a", group = true, desc = "ai" },
+            { "<leader>a",  group = true,                             desc = "ai" },
             -- { "<leader>ai", function() require("opencode.api").quick_chat() end, desc = "quick chat",     mode = { "n", "x" } },
             -- { "<leader>ac", function() require("opencode.api").toggle() end,     desc = "chat assistant", mode = { "n", "x" } },
-            { "<leader>ai", "<cmd>Opencode quick_chat<cr>", desc = "chat assistant", mode = { "n", "x" } },
-            { "<leader>ac", "<cmd>Opencode toggle focus<cr>", desc = "quick chat" },
-            { "<leader>ac", "<cmd>Opencode add_visual_selection<cr>", desc = "quick chat", mode = "x" },
+            { "<leader>ai", "<cmd>Opencode quick_chat<cr>",           desc = "chat assistant", mode = { "n", "x" } },
+            { "<leader>ac", "<cmd>Opencode toggle focus<cr>",         desc = "quick chat" },
+            { "<leader>ac", "<cmd>Opencode add_visual_selection<cr>", desc = "quick chat",     mode = "x" },
         },
     },
     {

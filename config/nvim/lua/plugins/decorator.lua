@@ -6,7 +6,7 @@ return {
         event = "VeryLazy",
 
         keys = {
-            { "<S-l>", "<cmd>bnext<cr>", desc = "focus right tab" },
+            { "<S-l>", "<cmd>bnext<cr>",     desc = "focus right tab" },
             { "<S-h>", "<cmd>bprevious<cr>", desc = "focus left tab" },
         },
         opts = function()
@@ -25,6 +25,14 @@ return {
                         -- end
                         return true
                     end,
+                    offsets = {
+                        {
+                            filetype = "neo-tree",
+                            text = "File Explorer",
+                            highlight = "Directory",
+                            separator = true -- use a "true" to enable the default, or set your own character
+                        }
+                    }
                 },
                 highlights = {
                     -- background = { bg = inactivated_bg },
@@ -40,6 +48,7 @@ return {
                     --
                     -- fill = { bg = bg },
                 },
+
             }
         end,
     },

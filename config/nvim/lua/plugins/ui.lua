@@ -39,13 +39,6 @@ return {
     {
         "grapp-dev/nui-components.nvim",
     },
-    { "nvchad/volt", lazy = true },
-
-    {
-        "nvzone/minty",
-        cmd = { "Shades", "Huefy" },
-    },
-    { "nvchad/menu", lazy = true },
     -- color text colorizer, e.g. #5F9EA0 Aqua #91f #f101ff11 oklch(0.147 0.004 49.25)
     {
         "catgoose/nvim-colorizer.lua",
@@ -64,9 +57,6 @@ return {
         },
         event = "VeryLazy",
     },
-
-    { "cpea2506/relative-toggle.nvim", event = "VeryLazy" },
-
     ---@type LazySpec
     {
         "mikavilpas/yazi.nvim",
@@ -93,7 +83,7 @@ return {
     {
         "mikavilpas/tsugit.nvim",
         keys = {
-            { "<leader>gg", function() require("tsugit").toggle() end, silent = true, desc = "toggle lazygit" },
+            { "<leader>gg", function() require("tsugit").toggle() end,          silent = true,                desc = "toggle lazygit" },
             { "<leader>gf", function() require("tsugit").toggle_for_file() end, desc = "lazygit file commits" },
         },
     },
@@ -287,7 +277,7 @@ return {
                     title = "Repl",
                     ft = "dap-repl",
                 },
-                { ft = "qf", title = "QuickFix" },
+                { ft = "qf",         title = "QuickFix" },
                 {
                     title = "Search",
                     ft = "spectre_panel",
@@ -305,7 +295,7 @@ return {
         "nvim-neo-tree/neo-tree.nvim",
         cmd = "Neotree",
         keys = {
-            { "<leader>b", "<cmd>Neotree filesystem reveal toggle<cr>", desc = "file explorer" },
+            { "<leader>b",  "<cmd>Neotree filesystem reveal toggle<cr>", desc = "file explorer" },
             { "<leader>vf", "<cmd>Neotree filesystem reveal toggle<cr>", desc = "file explorer" },
         },
         ---@type neotree.Config
@@ -334,25 +324,6 @@ return {
                 },
             },
         },
-    },
-    {
-        "stevearc/oil.nvim",
-        ---@module 'oil'
-        ---@type oil.SetupOpts
-        opts = {
-            default_file_explorer = true,
-            delete_to_trash = true,
-            skip_confirm_for_simple_edits = true,
-            view_options = {
-                show_hidden = true,
-                natural_order = true,
-                is_always_hidden = function(name, _) return name == ".." or name == ".git" end,
-            },
-            win_options = {
-                wrap = true,
-            },
-        },
-        lazy = false,
     },
     {
         "hedyhli/outline.nvim",

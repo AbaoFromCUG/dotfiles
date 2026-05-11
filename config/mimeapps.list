@@ -14,6 +14,7 @@ x-scheme-handler/clash=clash-verge.desktop;
 x-scheme-handler/clash-verge=clash-verge.desktop;
 x-scheme-handler/tg=userapp-AyuGram Desktop-2N1KN3.desktop
 x-scheme-handler/tonsite=userapp-AyuGram Desktop-J8YKN3.desktop
+x-scheme-handler/chatbox=xyz.chatboxapp.app.desktop
 
 [Added Associations]
 x-scheme-handler/tonsite=org.telegram.desktop.desktop;userapp-AyuGram Desktop-J8YKN3.desktop;

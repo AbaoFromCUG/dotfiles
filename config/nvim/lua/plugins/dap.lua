@@ -71,12 +71,12 @@ return {
             return {}
         end,
         keys = {
-            { "<F5>", "<cmd>DapContinue<cr>", mode = { "n", "i" }, desc = "run" },
-            { "<F6>", "<cmd>DapTerminate<cr>", mode = { "n", "i" }, desc = "terminate" },
-            { "<F9>", "<cmd>DapToggleBreakpoint<cr>", mode = { "n", "i" }, desc = "terminate" },
-            { "<F11>", "<cmd>DapStepInto<cr>", mode = { "n", "i" }, desc = "step into" },
-            { "<S-F11>", "<cmd>DapStepOut<cr>", mode = { "n", "i" }, desc = "step out" },
-            { "<F12>", "<cmd>DapStepOver<cr>", mode = { "n", "i" }, desc = "step over" },
+            { "<F5>",    "<cmd>DapContinue<cr>",         mode = { "n", "i" }, desc = "run" },
+            { "<F6>",    "<cmd>DapTerminate<cr>",        mode = { "n", "i" }, desc = "terminate" },
+            { "<F9>",    "<cmd>DapToggleBreakpoint<cr>", mode = { "n", "i" }, desc = "terminate" },
+            { "<F11>",   "<cmd>DapStepInto<cr>",         mode = { "n", "i" }, desc = "step into" },
+            { "<S-F11>", "<cmd>DapStepOut<cr>",          mode = { "n", "i" }, desc = "step out" },
+            { "<F12>",   "<cmd>DapStepOver<cr>",         mode = { "n", "i" }, desc = "step over" },
         },
     },
     {
@@ -180,4 +180,5 @@ return {
             automatic_installation = true,
         },
     },
+    { "mfussenegger/nvim-dap-python" }
 }

@@ -37,7 +37,7 @@ return {
                     "lua_ls",
                     "jdtls",
                     "stylua",
-                    "pyright"
+                    -- "pyright"
                 },
             },
         },
