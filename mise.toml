@@ -1,5 +1,9 @@
 [settings]
 jobs = 1
+experimental = true
+
+[oci]
+from = "ubuntu:latest"
 
 [tasks.init-ubuntu]
 run = '''
@@ -182,24 +186,24 @@ mise run install "${package}"
 [tasks.config-zsh]
 description = "Configure zsh shell"
 depends = [
-    "install zsh git",
-    "link home/zshrc",
-    "link home/zprofile",
-    "link home/zshenv",
-    "link config/shell",
+  "install zsh git",
+  "link home/zshrc",
+  "link home/zprofile",
+  "link home/zshenv",
+  "link config/shell",
 ]
 
 
 [tasks.config-mise]
 depends = [
-    "link config/mise",
-    "link home/cargo/config.toml",
-    "link home/npmrc",
-    "link home/condarc",
-    "link home/bunfig.toml",
-    "link config/yazi",
-    "link config/lazygit",
-    "link config/uv",
+  "link config/mise",
+  "link home/cargo/config.toml",
+  "link home/npmrc",
+  "link home/condarc",
+  "link home/bunfig.toml",
+  "link config/yazi",
+  "link config/lazygit",
+  "link config/uv",
 ]
 run = '''
 mise install
@@ -212,7 +216,6 @@ depends = ["install neovim", "config-mise", "link config/nvim"]
 run = '''
 nvim --headless -c "Lazy! sync" \
     -c "TSInstall lua python shell json cpp" \
-    -c "MasonInstall clangd emmylua_ls bashls" \
     -c 'lua print(string.format("Install %s neovim plugins \n", require("lazy").stats().count))' \
     -c "qall"
 
@@ -280,14 +283,14 @@ sudo usermod -aG i2c "$USER"
 
 [tasks.config-dev]
 depends = [
-    "install wget ripgrep jq fd fzf bat eza zoxide curl cmake man-db github-cli imagemagick",
-    "config zsh",
-    "config mise",
-    "config nvim",
-    "config tmux",
-    "config git",
-    "config translate-shell",
-    "link config/opencode",
+  "install wget ripgrep jq fd fzf bat eza zoxide curl cmake man-db github-cli imagemagick",
+  "config zsh",
+  "config mise",
+  "config nvim",
+  "config tmux",
+  "config git",
+  "config translate-shell",
+  "link config/opencode",
 ]
 run = '''
 bun install -g @delance/runtime
@@ -296,35 +299,35 @@ bun pm trust -g @delance/runtime
 
 [tasks.config-hypr]
 depends = [
-    "config-dev",
-    "install hyprland hyprpicker hypridle xdg-desktop-portal-hyprland hyprpolkitagent hyprdynamicmonitors-bin",
-    "install adw-gtk-theme nwg-look",
-    "install xdg-desktop-portal-termfilechooser-hunkyburrito-git",
-    "install wl-clipboard",
+  "config-dev",
+  "install hyprland hyprpicker hypridle xdg-desktop-portal-hyprland hyprpolkitagent hyprdynamicmonitors-bin",
+  "install adw-gtk-theme nwg-look",
+  "install xdg-desktop-portal-termfilechooser-hunkyburrito-git",
+  "install wl-clipboard",
 
-    "install alsa-firmware sof-firmware libva-intel-driver libva-mesa-driver",
+  "install alsa-firmware sof-firmware libva-intel-driver libva-mesa-driver",
 
-    "install networkmanager blueman bluez-utils",
+  "install networkmanager blueman bluez-utils",
 
-    "install pipewire-pulse pipewire-jack pipewire-audio playerctl pavucontrol",
+  "install pipewire-pulse pipewire-jack pipewire-audio playerctl pavucontrol",
 
-    "install curl wget",
+  "install curl wget",
 
-    "install fcitx5-pinyin-zhwiki fcitx5-configtool fcitx5-chinese-addons fcitx5-qt fcitx5-gtk",
+  "install fcitx5-pinyin-zhwiki fcitx5-configtool fcitx5-chinese-addons fcitx5-qt fcitx5-gtk",
 
-    "install grimblast-git",
-    "install ksnip",
-    "config qt5ct",
-    "config qt6ct",
-    "config kitty",
-    "config alacritty",
-    "config ghostty",
-    "link home/face",
-    "link config/hypr",
-    "link config/hyprdynamicmonitors",
-    "link local/bin/hyprlayout",
-    "link local/bin/widgetctl",
-    "config noctalia",
+  "install grimblast-git",
+  "install ksnip",
+  "config qt5ct",
+  "config qt6ct",
+  "config kitty",
+  "config alacritty",
+  "config ghostty",
+  "link home/face",
+  "link config/hypr",
+  "link config/hyprdynamicmonitors",
+  "link local/bin/hyprlayout",
+  "link local/bin/widgetctl",
+  "config noctalia",
 
 ]
 run = '''

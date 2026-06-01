@@ -1,5 +1,5 @@
-local cmd = require("lib.python").get_pyright_cmd()
-local pythonPath = require("lib.python").get_python_path()
+local cmd = require('utils.python').get_pyright_cmd()
+local pythonPath = require('utils.python').get_python_path()
 
 return {
     cmd = cmd,

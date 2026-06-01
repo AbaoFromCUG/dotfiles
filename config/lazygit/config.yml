@@ -4,9 +4,10 @@ os:
   editAtLineAndWait: "nvim +{{line}} {{filename}}"
 keybinding:
   universal:
-    edit: e
-    prevTab: ö
-    nextTab: ä
+    # edit: e
+    # prevTab: ö
+    # nextTab: ä
+    confirmInEditor: [<alt+enter>, <ctrl+s>]
   files:
     commitChanges: C # using the interactive commit dialog
     commitChangesWithEditor: c # using neovim

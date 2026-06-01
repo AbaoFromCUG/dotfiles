@@ -1,12 +1,36 @@
+---@async
+local function get_vitest_test_files()
+    local nio = require("nio")
+    local process = assert(nio.process.run({
+        cmd = "bun",
+        args = { "vitest", "list", "--json" },
+    }))
+
+    process.result()
+
+    return vim.iter(vim.json.decode(process.stdout.read())):map(function(test)
+        return test.file
+    end):unique():totable()
+end
+
+
+
 local function neotest()
-    local vitest_original_is_test_file = require("neotest-vitest").is_test_file
     local python_adapter = require("neotest-python")({
-        python = require("lib.python").get_python_path(),
+        python = require('config.nvim.lua.utils.python').get_python_path(),
     })
     local python_root = python_adapter.root
     python_adapter.root = function(path)
-        local p = python_root(vim.api.nvim_buf_get_name(0)) or python_root(path) or vim.loop.cwd()
+        local p = python_root(vim.api.nvim_buf_get_name(0)) or python_root(path) or vim.uv.cwd()
         return p
+    end
+
+    local function wrap_is_test_file(func)
+        local get_test_files = require("utils.nio").singleflight(func, { ttl_ms = 100000 })
+        ---@async
+        return function(file_path)
+            return vim.list_contains(get_test_files(), file_path)
+        end
     end
 
     ---@diagnostic disable-next-line: missing-fields
@@ -22,21 +46,24 @@ local function neotest()
                 cwd = function() return vim.fn.getcwd() end,
             }),
             require("neotest-vitest")({
-                vitestCommand = "bunx vitest",
-                is_test_file = function(file_path)
-                    if vitest_original_is_test_file(file_path) then
-                        return true
-                    end
-
-                    return string.match(file_path, "tests")
-                end,
+                ---@async
+                is_test_file = wrap_is_test_file(get_vitest_test_files),
+            }),
+            require("neotest-playwright").adapter({
+                options = {
+                    persist_project_selection = true,
+                    enable_dynamic_test_discovery = true,
+                },
             }),
             require("neotest-gtest").setup({
                 debug_adapter = "cppdbg",
             }),
         },
         ---@diagnostic disable-next-line: assign-type-mismatch
-        consumers = { overseer = require("neotest.consumers.overseer") },
+        consumers = {
+            overseer = require("neotest.consumers.overseer"),
+            playwright = require("neotest-playwright.consumers").consumers,
+        },
     })
 end
 
@@ -50,12 +77,12 @@ return {
             "nvim-neotest/neotest-plenary",
             "nvim-neotest/neotest-python",
             "marilari88/neotest-vitest",
-            {
-
-                "alfaix/neotest-gtest",
-            },
+            "AbaoFromCUG/neotest-playwright",
+            "alfaix/neotest-gtest",
         },
         keys = {
+            { "<space>ta", function() require("nio").run(function() require("neotest").playwright.attachment() end) end, desc = "test attachment launch", },
+            { "<space>ts",  "<cmd>Neotest summary<cr>",                                                                   desc = "test summary" },
             {
                 "<space>tt",
                 function()
@@ -76,7 +103,6 @@ return {
                         vim.defer_fn(function() require("neotest").run.run(vim.fn.expand("%")) end, 1000)
                     else
                         require("neotest").run.run(vim.fn.expand("%"))
-                        vim.cmd("Neotest run")
                     end
                 end,
                 desc = "test current file",

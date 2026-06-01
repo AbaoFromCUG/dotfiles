@@ -479,7 +479,7 @@ return {
         "mrjones2014/codesettings.nvim",
         lazy = false,
         keys = {
-            { "<leader>,,", "<cmd>Neoconf local<cr>", desc = "local settings" },
+            { "<leader>,,", ":e .vscode/settings.json<cr>", desc = "local settings" },
         },
         opts = {
             live_reload = true,

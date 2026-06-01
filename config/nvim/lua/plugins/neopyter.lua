@@ -20,7 +20,7 @@ return {
                 })
             end,
             jupyter = {
-                partial_sync = true,
+                -- partial_sync = true,
                 scroll = {
                     enable = true,
                     align = "auto",

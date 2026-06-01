@@ -32,28 +32,4 @@ return {
     "tami5/sqlite.lua",
     "nvim-tree/nvim-web-devicons",
     "pysan3/pathlib.nvim",
-    {
-        "mason-org/mason.nvim",
-        opts = {
-            -- registries = {
-            --     "github:fecet/mason-registry",
-            -- },
-        },
-    },
-    {
-        "jay-babu/mason-null-ls.nvim",
-        event = { "VeryLazy" },
-        dependencies = {
-            "williamboman/mason.nvim",
-            "nvimtools/none-ls.nvim",
-        },
-
-        opts = {
-            ensure_installed = {
-                "markdownlint",
-                "shfmt",
-            },
-            automatic_installation = true,
-        },
-    },
 }

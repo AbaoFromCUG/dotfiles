@@ -43,3 +43,4 @@ config/qt6ct/colors/noctalia.conf
 config/yazi/theme.toml
 /.opencode/package-lock.json
 /config/opencode/package-lock.json
+/mise-oci

@@ -1,17 +1,10 @@
----{command:"github.copilot.openModelPicker",title:"Change Completions Model",category:"GitHub Copilot",enablement:"!isWeb"}
 ---@type LazySpec[]
 return {
-    "neovim/nvim-lspconfig",
     {
-        "mason-org/mason-lspconfig.nvim",
-        dependencies = {
-            "mason.nvim",
-            "nvim-lspconfig",
-        },
-        event = "VeryLazy",
-        opts = {
-            ensure_installed = {
-                -- "lua_ls",
+        "neovim/nvim-lspconfig",
+        event = "LazyFile",
+        config = function()
+            vim.lsp.enable({
                 "pyright",
                 "vimls",
                 "bashls",
@@ -30,54 +23,38 @@ return {
                 "vtsls",
                 "helm_ls",
                 "zuban",
-            },
-            automatic_enable = {
-                exclude = {
-                    "emmylua_ls",
-                    "lua_ls",
-                    "jdtls",
-                    "stylua",
-                    -- "pyright"
-                },
-            },
-        },
-        config = function(_, opts)
-            vim.lsp.config("*", {
-                before_init = function(_, config)
-                    local codesettings = require("codesettings")
-                    config = codesettings.with_local_settings(config.name, config)
-                    return config
-                end,
             })
-            require("mason-lspconfig").setup(opts)
-            vim.lsp.enable({ "ruff" })
-        end,
+        end
     },
-
     -- completion engine
     {
         "saghen/blink.cmp",
+        dependencies = "nvim-lspconfig",
         event = "VeryLazy",
         version = "*",
         opts_extend = { "sources.default" },
         opts = {
             keymap = {
                 preset = "enter",
-                ["<C-y>"] = { "select_and_accept" },
+                ["<C-y>"] = { "select_and_accept" }
             },
-
             completion = {
                 trigger = {},
                 list = {
                     selection = {
                         preselect = false,
-                        auto_insert = false,
-                    },
+                        auto_insert = false
+                    }
                 },
                 menu = {
                     draw = {
                         padding = { 1, 1 },
-                        columns = { { "label" }, { "kind_icon", "kind", gap = 1 }, { "label_description" }, { "source" } },
+                        columns = {
+                            { "label" },
+                            { "kind_icon",        "kind", gap = 1 },
+                            { "label_description" },
+                            { "source" }
+                        },
                         components = {
                             ---@type blink.cmp.DrawComponent
                             source = {
@@ -92,54 +69,53 @@ return {
                                         Cmdline = "CMD",
                                         Neopyter = "JUPY",
                                         Copilot = "AI",
-                                        Opencode_mentions = "Opencode",
+                                        Opencode_mentions = "Opencode"
                                     }
-                                    return string.format("[%s] ", source_map[ctx.item.source_name] or ctx.item.source_name)
+                                    return string.format(
+                                        "[%s] ", source_map[ctx.item.source_name] or ctx.item.source_name
+                                    )
                                 end,
-                                highlight = "BlinkCmpSource",
-                            },
+                                highlight = "BlinkCmpSource"
+                            }
                         },
-                        treesitter = { "lsp" },
-                    },
+                        treesitter = { "lsp" }
+                    }
                 },
-
                 -- accept = { auto_brackets = { enabled = false } },
-
                 documentation = {
-                    auto_show = true,
+                    auto_show = true
                 },
                 ghost_text = {
-                    enabled = true,
-                },
+                    enabled = true
+                }
             },
             signature = {
-                enabled = true,
+                enabled = true
             },
             sources = {
                 default = {
                     "lsp",
                     "buffer",
                     "path",
-                    "snippets",
+                    "snippets"
                 },
                 per_filetype = {
                     python = { inherit_defaults = true },
                     sql = { inherit_defaults = true, "dadbod" },
-                    snacks_input = { "path" },
+                    snacks_input = { "path" }
                 },
                 providers = {
                     dadbod = {
                         name = "Dadbod",
-                        module = "vim_dadbod_completion.blink",
-                    },
-                },
+                        module = "vim_dadbod_completion.blink"
+                    }
+                }
             },
             cmdline = {
                 enabled = true,
-
                 completion = {
                     list = { selection = { preselect = false } },
-                    menu = { auto_show = true },
+                    menu = { auto_show = true }
                 },
                 keymap = {
                     preset = "none",
@@ -149,10 +125,10 @@ return {
                     ["<Down>"] = { "fallback" },
                     ["<CR>"] = { "accept", "fallback" },
                     ["<left>"] = { "fallback" },
-                    ["<right>"] = { "fallback" },
-                },
-            },
-        },
+                    ["<right>"] = { "fallback" }
+                }
+            }
+        }
     },
     -- autopairs
     {
@@ -161,7 +137,7 @@ return {
         dependencies = "saghen/blink.download",
         opts = {
             mappings = {
-                pairs = {},
+                pairs = {}
             },
             highlights = {
                 groups = {
@@ -171,22 +147,22 @@ return {
                     "RainbowDelimiterOrange",
                     "RainbowDelimiterRed",
                     "RainbowDelimiterPurple",
-                    "RainbowDelimiterYellow",
-                },
-            },
+                    "RainbowDelimiterYellow"
+                }
+            }
         },
-        event = "InsertEnter",
+        event = "InsertEnter"
     },
     {
         "jmbuhr/otter.nvim",
         dependencies = {
-            "nvim-treesitter",
+            "nvim-treesitter"
         },
         opts = {
             lsp = {
-                diagnostic_update_events = { "TextChanged" },
-            },
-        },
+                diagnostic_update_events = { "TextChanged" }
+            }
+        }
     },
     {
         "nvimtools/none-ls.nvim",
@@ -195,22 +171,24 @@ return {
             return {
                 sources = {
                     null_ls.builtins.formatting.shfmt.with({ filetypes = { "sh", "bash", "zsh", "shell" } }),
-
-                    null_ls.builtins.diagnostics.markdownlint.with({ args = { "--disable", "MD002", "MD013", "MD026", "MD029", "MD033", "--stdin" } }),
+                    null_ls.builtins.diagnostics.markdownlint.with({
+                        args = { "--disable", "MD002", "MD013", "MD026", "MD029", "MD033", "--stdin" }
+                    }),
                     null_ls.builtins.diagnostics.qmllint,
                     -- null_ls.builtins.diagnostics.cmake_lint,
-
-                    null_ls.builtins.formatting.markdownlint.with({ args = { "--disable", "MD002", "MD013", "MD026", "MD029", "MD033", "--fix", "$FILENAME" } }),
+                    null_ls.builtins.formatting.markdownlint.with({
+                        args = { "--disable", "MD002", "MD013", "MD026", "MD029", "MD033", "--fix", "$FILENAME" }
+                    }),
                     null_ls.builtins.formatting.qmlformat,
                     -- null_ls.builtins.formatting.cmake_format,
                     null_ls.builtins.formatting.typstyle,
                     null_ls.builtins.formatting.yamlfmt,
                     null_ls.builtins.formatting.sqlfmt,
-                    null_ls.builtins.formatting.clang_format,
-                },
+                    null_ls.builtins.formatting.clang_format
+                }
             }
         end,
-        event = "VeryLazy",
+        event = "VeryLazy"
     },
     { "b0o/schemastore.nvim" },
     {
@@ -222,7 +200,9 @@ return {
             addons = {
                 "nvim",
                 "nvim-lspconfig",
-            },
-        },
-    },
+                "nvim-nio",
+                "neotest"
+            }
+        }
+    }
 }

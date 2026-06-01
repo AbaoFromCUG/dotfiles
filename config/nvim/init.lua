@@ -95,6 +95,7 @@ require("lazy").setup({
         { import = "plugins.misc",       cond = not vim.g.vscode },
         { import = "plugins.complete",   cond = not vim.g.vscode },
         { import = "plugins.diagnostic", cond = not vim.g.vscode },
+        { import = "plugins.runner",        cond = not vim.g.vscode },
         { import = "plugins.dap",        cond = not vim.g.vscode },
         { import = "plugins.test",       cond = not vim.g.vscode },
         { import = "plugins.ai",         cond = not vim.g.vscode },
