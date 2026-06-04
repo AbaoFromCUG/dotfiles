@@ -11,7 +11,7 @@ lockfile = true
 node.gpg_verify = false
 
 
-node.mirror_url="https://mirrors.tuna.tsinghua.edu.cn/nodejs-release/"
+node.mirror_url="https://mirrors.aliyun.com/nodejs-release/"
 npm.package_manager = "bun"
 
 [tools]

@@ -1,14 +1,20 @@
 local M = {}
 
+
+---@class SingleflightOptions
+---@field ttl_ms? integer  Cache result for this many milliseconds
+---@field timeout_ms? integer  Timeout for the underlying function call
+
 ---@generic T
 ---@param fn fun(...): T
----@param opts? { ttl_ms?: integer }
+---@param opts? SingleflightOptions
 ---@return async fun(...): T
 function M.singleflight(fn, opts)
     local nio = require("nio")
     opts = opts or {}
 
     local ttl_ms = opts.ttl_ms
+    local timeout_ms = opts.timeout_ms
 
     local future = nil
     local cached = nil
@@ -35,7 +41,9 @@ function M.singleflight(fn, opts)
         local f = nio.control.future()
         future = f
 
-        nio.run(function()
+
+
+        local task = nio.run(function()
             return fn(unpack(args))
         end, function(ok, result)
             if ok and ttl_ms then
@@ -53,6 +61,17 @@ function M.singleflight(fn, opts)
                 future = nil
             end
         end)
+
+        local timer = nil
+        if timeout_ms then
+            timer = vim.uv.new_timer()
+            timer:start(timeout_ms, 0, function()
+                if f and not f.is_set() then
+                    timer:close()
+                    f.set_error("singleflight: timeout after " .. timeout_ms .. "ms\n" .. task:trace())
+                end
+            end)
+        end
         return f.wait()
     end
 end

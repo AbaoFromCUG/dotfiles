@@ -23,25 +23,23 @@
     }
   },
   "permission": {
-    "*": "ask",
     "bash": {
       "*": "ask",
+      "find *": "allow",
+      "fd *": "allow",
+      "rg *": "allow",
       "git status*": "allow",
       "git diff*": "allow",
       "git log*": "allow",
       "git branch*": "allow",
       "git show*": "allow",
-      "mise tasks*": "allow",
-      "mise run --dry-run*": "allow",
-      "ls *": "allow",
-      "systemctl --user status*": "allow",
-      "rm *": "ask",
-      "sudo *": "deny"
+      "mise tasks*": "allow"
     },
-    "glob *": "allow",
-    "Glob *": "allow",
-    "grep *": "allow",
-    "Grep *": "allow",
+    "glob": "allow",
+    "grep": "allow",
+    "webfetch": "allow",
+    "skill": "allow",
+    "todowrite": "allow",
     "edit": {
       "*": "ask",
       "*.md": "allow",
@@ -62,8 +60,5 @@
   },
   "instructions": [
     "AGENTS.md"
-  ],
-  "plugin": [
-    "superpowers@git+https://github.com/obra/superpowers.git"
   ],
 }

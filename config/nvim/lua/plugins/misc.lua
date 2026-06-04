@@ -156,7 +156,7 @@ return {
         "jbyuki/venn.nvim",
         cmd = "VBox",
         keys = {
-            { "<leader>td", toggle_venn, desc = "draw diagrams" },
+            { "<leader>tvd", toggle_venn, desc = "draw diagrams" },
         },
     },
     {
@@ -179,38 +179,26 @@ return {
         },
     },
     { "towolf/vim-helm", lazy = false },
-
     {
-        "tpope/vim-dadbod",
+        "kndndrj/nvim-dbee",
         dependencies = {
-            "kristijanhusak/vim-dadbod-completion",
-            "kristijanhusak/vim-dadbod-ui",
+            "MunifTanjim/nui.nvim",
         },
-        cmd = {
-            "DB",
-            "DBUI",
-            "DBUIToggle",
-            "DBUIAddConnection",
-            "DBUIFindBuffer",
-        },
-        init = function() vim.g.db_ui_save_location = vim.uv.cwd() end,
+        build = function()
+            require("dbee").install()
+        end,
+        opts = function()
+            return {
+                sources = {
+                    require("dbee.sources").FileSource:new(vim.fn.stdpath("cache") .. "/dbee/persistence.json"),
+                }
+            }
+        end,
+        cmds = { "Dbee" },
         keys = {
-            { "<leader>tss", "<cmd>DBUI<cr>" },
+            { "<leader>tdb", "<cmd>Dbee<cr>", desc = "database explorer" },
         },
+
     },
-    {
-        "esensar/nvim-dev-container",
-        opts = {},
-        cmd = {
-            "DevcontainerStart",
-            "DevcontainerAttach",
-            "DevcontainerExec",
-            "DevcontainerStop",
-            "DevcontainerStopAll",
-            "DevcontainerRemoveAll",
-            "DevcontainerRemoveAll",
-            "DevcontainerLogs",
-            "DevcontainerEditNearestConfig",
-        },
-    },
+
 }

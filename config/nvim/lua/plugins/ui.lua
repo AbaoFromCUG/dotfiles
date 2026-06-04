@@ -4,8 +4,7 @@ local function setup_theme()
     if vim.env.DISPLAY and status and mod then
         ---@cast mod.setup -nil
         vim.defer_fn(function() mod.setup() end, 100)
-    else
-        vim.cmd([[colorscheme tokyonight]])
+    else vim.cmd([[colorscheme tokyonight]])
     end
 
     -- vim.cmd([[colorscheme tokyonight]])

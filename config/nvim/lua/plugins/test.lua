@@ -1,23 +1,9 @@
----@async
-local function get_vitest_test_files()
-    local nio = require("nio")
-    local process = assert(nio.process.run({
-        cmd = "bun",
-        args = { "vitest", "list", "--json" },
-    }))
-
-    process.result()
-
-    return vim.iter(vim.json.decode(process.stdout.read())):map(function(test)
-        return test.file
-    end):unique():totable()
-end
-
+---@diagnostic disable: missing-fields, param-type-mismatch
 
 
 local function neotest()
     local python_adapter = require("neotest-python")({
-        python = require('config.nvim.lua.utils.python').get_python_path(),
+        python = require("utils.python").get_python_path(),
     })
     local python_root = python_adapter.root
     python_adapter.root = function(path)
@@ -25,15 +11,6 @@ local function neotest()
         return p
     end
 
-    local function wrap_is_test_file(func)
-        local get_test_files = require("utils.nio").singleflight(func, { ttl_ms = 100000 })
-        ---@async
-        return function(file_path)
-            return vim.list_contains(get_test_files(), file_path)
-        end
-    end
-
-    ---@diagnostic disable-next-line: missing-fields
     require("neotest").setup({
         log_level = vim.log.levels.INFO,
         adapters = {
@@ -45,10 +22,7 @@ local function neotest()
                 env = { CI = true },
                 cwd = function() return vim.fn.getcwd() end,
             }),
-            require("neotest-vitest")({
-                ---@async
-                is_test_file = wrap_is_test_file(get_vitest_test_files),
-            }),
+            require("neotest-vitest")({}),
             require("neotest-playwright").adapter({
                 options = {
                     persist_project_selection = true,
@@ -71,18 +45,19 @@ return {
 
     {
         "nvim-neotest/neotest",
+        dev = true,
         dependencies = {
             "nvim-neotest/nvim-nio",
             "nvim-neotest/neotest-jest",
             "nvim-neotest/neotest-plenary",
             "nvim-neotest/neotest-python",
-            "marilari88/neotest-vitest",
-            "AbaoFromCUG/neotest-playwright",
+            { "AbaoFromCUG/neotest-vitest",     dev = true },
+            { "AbaoFromCUG/neotest-playwright", dev = true },
             "alfaix/neotest-gtest",
         },
         keys = {
             { "<space>ta", function() require("nio").run(function() require("neotest").playwright.attachment() end) end, desc = "test attachment launch", },
-            { "<space>ts",  "<cmd>Neotest summary<cr>",                                                                   desc = "test summary" },
+            { "<space>ts", "<cmd>Neotest summary<cr>",                                                                   desc = "test summary" },
             {
                 "<space>tt",
                 function()
@@ -90,7 +65,9 @@ return {
                         vim.cmd("CMakeBuild")
                         vim.defer_fn(function() vim.cmd("Neotest run") end, 1000)
                     else
-                        vim.cmd("Neotest run")
+                        local task = require("nio").run(function()
+                            require("neotest").run.run()
+                        end)
                     end
                 end,
                 desc = "test nearest case",

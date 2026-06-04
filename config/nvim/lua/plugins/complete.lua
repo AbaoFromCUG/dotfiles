@@ -23,6 +23,7 @@ return {
                 "vtsls",
                 "helm_ls",
                 "zuban",
+                "copilot",
             })
         end
     },
@@ -103,12 +104,6 @@ return {
                     python = { inherit_defaults = true },
                     sql = { inherit_defaults = true, "dadbod" },
                     snacks_input = { "path" }
-                },
-                providers = {
-                    dadbod = {
-                        name = "Dadbod",
-                        module = "vim_dadbod_completion.blink"
-                    }
                 }
             },
             cmdline = {
@@ -194,14 +189,12 @@ return {
     {
         "AbaoFromCUG/luadev.nvim",
         ft = "lua",
+        dev = true,
         ---@type luadev.Config
         opts = {
             enabled_lsp = "emmylua_ls",
             addons = {
-                "nvim",
-                "nvim-lspconfig",
-                "nvim-nio",
-                "neotest"
+                "nvim-full",
             }
         }
     }

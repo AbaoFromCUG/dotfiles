@@ -69,7 +69,10 @@ return {
                             :map(function(key, opts)
                                 return {
                                     key,
-                                    function() require("nvim-treesitter-textobjects.select").select_textobject(opts.query, "textobjects") end,
+                                    function()
+                                        require("nvim-treesitter-textobjects.select").select_textobject(
+                                            opts.query, "textobjects")
+                                    end,
                                     desc = opts.desc,
                                     mode = { "x", "o" },
                                 }
@@ -83,7 +86,10 @@ return {
                                     :map(function(key, opts)
                                         return {
                                             key,
-                                            function() require("nvim-treesitter-textobjects.move")[func](opts.query, "textobjects") end,
+                                            function()
+                                                require("nvim-treesitter-textobjects.move")[func](opts.query,
+                                                    "textobjects")
+                                            end,
                                             desc = opts.desc,
                                             mode = { "n", "x", "o" },
                                         }
@@ -484,19 +490,32 @@ return {
         opts = {
             live_reload = true,
             jsonls_integration = true,
-            lua_ls_integration = true,
-            root_dir = function() return vim.fs.root(0, { ".git", ".vscode", "pyproject.toml", "package.json", "CMakeLists.txt" }) end,
+            lua_ls_integration = false,
+            root_dir = function()
+                return vim.fs.root(0, { ".git", ".vscode", "pyproject.toml", "package.json", "CMakeLists.txt" })
+            end,
         },
     },
     {
-        "nvim-pack/nvim-spectre",
+        "MagicDuck/grug-far.nvim",
         config = true,
-        cmd = "Spectre",
+        cmd = "GrugFar",
         keys = {
-            { mode = "n", "<leader>ss", '<cmd>lua require("spectre").toggle()<cr>',                             desc = "toggle spectre" },
-            { mode = "n", "<leader>sw", '<cmd>lua require("spectre").open_visual({select_word=true})<cr>',      desc = "search current word" },
-            { mode = "v", "<leader>sw", '<esc><cmd>lua require("spectre").open_visual()<cr>',                   desc = "search current word" },
-            { mode = "n", "<leader>sp", '<cmd>lua require("spectre").open_file_search({select_word=true})<cr>', desc = "search on current file" },
+            {
+                "<leader>sr",
+                function()
+                    local grug = require("grug-far")
+                    local ext = vim.bo.buftype == "" and vim.fn.expand("%:e")
+                    grug.open({
+                        transient = true,
+                        prefills = {
+                            filesFilter = ext and ext ~= "" and "*." .. ext or nil,
+                        },
+                    })
+                end,
+                mode = { "n", "x" },
+                desc = "Search and Replace",
+            },
         },
     },
     {
@@ -512,12 +531,11 @@ return {
 
                                 local path = vim.fn.fnamemodify(node.path, ":p:h")
                                 path = vim.fs.relpath(vim.uv.cwd(), path)
-                                path = vim.fs.joinpath(path, "*")
-                                require("spectre").open({
-                                    path = path,
-                                    hidden = true,
-                                    search_pattern = "",
-                                    select_word = false,
+                                require("grug-far").open({
+                                    transient = true,
+                                    prefills = {
+                                        paths = path
+                                    }
                                 })
                             end,
                         },
