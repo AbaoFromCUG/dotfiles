@@ -1,0 +1,4 @@
+/.cache/
+/config.generated.json
+/config.json
+/config.local.json

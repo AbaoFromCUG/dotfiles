@@ -1,0 +1,9 @@
+{
+  "experimental": {
+    "clash_api": {
+      "external_controller": "127.0.0.1:8092",
+      "secret": "xxx"
+    }
+  }
+}
+

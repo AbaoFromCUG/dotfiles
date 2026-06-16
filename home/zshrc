@@ -86,12 +86,12 @@ zinit wait lucid for \
 
 if (($+commands[yay])); then
 	# avoid install python package to pyenv python site
-	alias yay="ASDF_RUST_VERSION=system  ASDF_NODEJS_VERSION=system PYENV_VERSION=system /usr/bin/yay"
+	alias yay="ASDF_RUST_VERSION=system  ASDF_NODEJS_VERSION=system PYENV_VERSION=system UV_NO_MANAGED_PYTHON=1 /usr/bin/yay"
 fi
 
 if (($+commands[apt])); then
 	# avoid install python package to pyenv python site
-	alias apt="ASDF_RUST_VERSION=system  ASDF_NODEJS_VERSION=system PYENV_VERSION=system /usr/bin/apt"
+	alias apt="ASDF_RUST_VERSION=system  ASDF_NODEJS_VERSION=system PYENV_VERSION=system UV_NO_MANAGED_PYTHON=1 /usr/bin/apt"
 fi
 
 function passwordgen() {

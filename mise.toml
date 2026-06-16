@@ -304,7 +304,7 @@ depends = [
 
     "install pipewire-pulse pipewire-jack pipewire-audio playerctl pavucontrol",
 
-    "install mihomo",
+    "install mihomo sing-box-bin",
 
     "install fcitx5-pinyin-zhwiki fcitx5-configtool fcitx5-chinese-addons fcitx5-qt fcitx5-gtk",
 
@@ -435,7 +435,7 @@ if [ ! -f config.local.yaml ]; then
 fi
 mihomo_configs=(config.base.yaml)
 
-if [ "${usage_enable_tun}" == "true" ]; then
+if [ "${usage_enable_tun:-false}" == "true" ]; then
     mihomo_configs+=("config.tun.yaml")
 fi
 
@@ -458,5 +458,56 @@ if [ ! -L /etc/mihomo/config.yaml ] || [ "$(readlink /etc/mihomo/config.yaml)" !
 # 否则，提示用户重启mihomo服务
 else
     echo 'Restarting mihomo service via `systemctl restart mihomo`...'
+fi
+'''
+
+[tasks.service-sing-box]
+depends = ["install sing-box go-yq"]
+usage = '''
+flag "-t --enable-tun" help="enable tun"
+flag "--no-fetch" help="use cached subscription files only"
+'''
+
+run = '''
+#!/usr/bin/env bash
+set -euo pipefail
+
+pushd ./service/sing-box/
+
+if [ ! -f config.local.json ]; then
+    echo "Please create the config.local.json file in the service/sing-box directory based on config.local.example.json"
+    exit 1
+fi
+
+generate_args=(--mihomo-config ../mihomo/config.local.yaml --output config.generated.json)
+if [ "${usage_no_fetch:-false}" == "true" ]; then
+    generate_args+=(--no-fetch)
+fi
+
+uv run ./generate.py "${generate_args[@]}"
+
+sing_box_configs=(config.base.json)
+
+if [ "${usage_enable_tun:-false}" == "true" ]; then
+    sing_box_configs+=("config.tun.json")
+fi
+
+sing_box_configs+=("config.generated.json" "config.local.json")
+
+merge_args=()
+for config in "${sing_box_configs[@]}"; do
+    merge_args+=("-c" "$config")
+done
+
+sing-box merge config.json "${merge_args[@]}"
+sing-box format -w -c config.json
+sing-box check -c config.json
+
+if [ ! -L /etc/sing-box/config.json ] || [ "$(readlink /etc/sing-box/config.json)" != "$(readlink -f config.json)" ]; then
+    echo "Please create a symbolic link from /etc/sing-box/config.json to the generated config.json in the current directory"
+    echo "e.g. sudo ln -s $(readlink -f config.json) /etc/sing-box/config.json"
+    exit 1
+else
+    echo 'Restart sing-box service via `systemctl restart sing-box` when you are ready.'
 fi
 '''

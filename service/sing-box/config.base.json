@@ -1,0 +1,316 @@
+{
+  "log": {
+    "level": "info",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "type": "udp",
+        "tag": "alidns",
+        "server": "223.5.5.5"
+      },
+      {
+        "type": "udp",
+        "tag": "dnspod",
+        "server": "119.29.29.29"
+      },
+      {
+        "type": "https",
+        "tag": "alidns-doh",
+        "server": "dns.alidns.com",
+        "domain_resolver": "alidns"
+      },
+      {
+        "type": "tls",
+        "tag": "cloudflare-tls",
+        "server": "1.1.1.1",
+        "detour": "默认"
+      },
+      {
+        "type": "tls",
+        "tag": "google-tls",
+        "server": "8.8.8.8",
+        "detour": "默认"
+      },
+      {
+        "type": "fakeip",
+        "tag": "fakeip",
+        "inet4_range": "198.18.0.0/15",
+        "inet6_range": "fc00::/18"
+      }
+    ],
+    "rules": [
+      {
+        "rule_set": [
+          "private",
+          "cn_domain"
+        ],
+        "server": "alidns"
+      },
+      {
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "server": "fakeip"
+      }
+    ],
+    "final": "alidns-doh",
+    "strategy": "ipv4_only"
+  },
+  "inbounds": [
+    {
+      "type": "mixed",
+      "tag": "mixed-in",
+      "listen": "::",
+      "listen_port": 8090
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "direct",
+      "tag": "直连"
+    },
+    {
+      "type": "block",
+      "tag": "拦截"
+    }
+  ],
+  "route": {
+    "auto_detect_interface": true,
+    "default_domain_resolver": "alidns",
+    "rule_set": [
+      {
+        "type": "remote",
+        "tag": "private",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-private.srs",
+        "download_detour": "默认",
+        "update_interval": "1d"
+      },
+      {
+        "type": "remote",
+        "tag": "cn_domain",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs",
+        "download_detour": "默认",
+        "update_interval": "1d"
+      },
+      {
+        "type": "remote",
+        "tag": "cn_ip",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-cn.srs",
+        "download_detour": "默认",
+        "update_interval": "1d"
+      },
+      {
+        "type": "remote",
+        "tag": "chatgpt_domain",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-openai.srs",
+        "download_detour": "默认",
+        "update_interval": "1d"
+      },
+      {
+        "type": "remote",
+        "tag": "scholar_domain",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-category-scholar-!cn.srs",
+        "download_detour": "默认",
+        "update_interval": "1d"
+      },
+      {
+        "type": "remote",
+        "tag": "ehentai_domain",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-ehentai.srs",
+        "download_detour": "默认",
+        "update_interval": "1d"
+      },
+      {
+        "type": "remote",
+        "tag": "github_domain",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-github.srs",
+        "download_detour": "默认",
+        "update_interval": "1d"
+      },
+      {
+        "type": "remote",
+        "tag": "google_domain",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-google.srs",
+        "download_detour": "默认",
+        "update_interval": "1d"
+      },
+      {
+        "type": "remote",
+        "tag": "telegram_domain",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-telegram.srs",
+        "download_detour": "默认",
+        "update_interval": "1d"
+      },
+      {
+        "type": "remote",
+        "tag": "twitter_domain",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-twitter.srs",
+        "download_detour": "默认",
+        "update_interval": "1d"
+      },
+      {
+        "type": "remote",
+        "tag": "youtube_domain",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-youtube.srs",
+        "download_detour": "默认",
+        "update_interval": "1d"
+      },
+      {
+        "type": "remote",
+        "tag": "netflix_domain",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-netflix.srs",
+        "download_detour": "默认",
+        "update_interval": "1d"
+      },
+      {
+        "type": "remote",
+        "tag": "bilibili_domain",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-bilibili.srs",
+        "download_detour": "默认",
+        "update_interval": "1d"
+      },
+      {
+        "type": "remote",
+        "tag": "bahamut_domain",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-bahamut.srs",
+        "download_detour": "默认",
+        "update_interval": "1d"
+      },
+      {
+        "type": "remote",
+        "tag": "spotify_domain",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-spotify.srs",
+        "download_detour": "默认",
+        "update_interval": "1d"
+      },
+      {
+        "type": "remote",
+        "tag": "pixiv_domain",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-pixiv.srs",
+        "download_detour": "默认",
+        "update_interval": "1d"
+      },
+      {
+        "type": "remote",
+        "tag": "geolocation-!cn",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-geolocation-!cn.srs",
+        "download_detour": "默认",
+        "update_interval": "1d"
+      }
+    ],
+    "rules": [
+      {
+        "protocol": "dns",
+        "action": "hijack-dns"
+      },
+      {
+        "domain_suffix": [
+          "local",
+          "metacubex.github.io",
+          "token-bus.site",
+          "test-ipv6.com",
+          "oss-cn-wulanchabu-internal.aliyuncs.com"
+        ],
+        "outbound": "直连"
+      },
+      {
+        "ip_is_private": true,
+        "outbound": "直连"
+      },
+      {
+        "rule_set": "chatgpt_domain",
+        "outbound": "ChatGPT"
+      },
+      {
+        "domain_suffix": "chatgpt.com",
+        "outbound": "ChatGPT"
+      },
+      {
+        "rule_set": "scholar_domain",
+        "outbound": "直连"
+      },
+      {
+        "rule_set": "ehentai_domain",
+        "outbound": "ehentai"
+      },
+      {
+        "rule_set": "github_domain",
+        "outbound": "其他"
+      },
+      {
+        "rule_set": "google_domain",
+        "outbound": "Google"
+      },
+      {
+        "rule_set": "telegram_domain",
+        "outbound": "Telegram"
+      },
+      {
+        "rule_set": "twitter_domain",
+        "outbound": "Twitter"
+      },
+      {
+        "rule_set": "youtube_domain",
+        "outbound": "YouTube"
+      },
+      {
+        "rule_set": "netflix_domain",
+        "outbound": "NETFLIX"
+      },
+      {
+        "rule_set": "bilibili_domain",
+        "outbound": "哔哩哔哩"
+      },
+      {
+        "rule_set": "bahamut_domain",
+        "outbound": "巴哈姆特"
+      },
+      {
+        "rule_set": "spotify_domain",
+        "outbound": "Spotify"
+      },
+      {
+        "rule_set": "pixiv_domain",
+        "outbound": "其他"
+      },
+      {
+        "rule_set": "geolocation-!cn",
+        "outbound": "其他"
+      },
+      {
+        "rule_set": [
+          "cn_domain",
+          "cn_ip"
+        ],
+        "outbound": "国内"
+      }
+    ],
+    "final": "其他"
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "store_fakeip": true
+    }
+  }
+}
