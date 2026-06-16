@@ -14,6 +14,7 @@ return {
         opts = {
             install_dir = vim.fn.stdpath("data") .. "/ts-parsers",
         },
+        cmd = "TSInstall",
         branch = "main",
     },
     {
@@ -483,7 +484,6 @@ return {
     {
 
         "mrjones2014/codesettings.nvim",
-        lazy = false,
         keys = {
             { "<leader>,,", ":e .vscode/settings.json<cr>", desc = "local settings" },
         },

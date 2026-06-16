@@ -1,0 +1,15 @@
+[bar]
+order = ["default"]
+
+[bar.default]
+end = [
+    "media",
+    "notifications",
+    "tray",
+    "clipboard",
+    "control-center",
+    "session",
+]
+margin_edge = 3
+margin_ends = 3
+start = ["launcher", "battery", "sysmon", "Virtual Desktops"]

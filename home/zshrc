@@ -37,8 +37,6 @@ zinit wait lucid for \
 	OMZL::git.zsh \
 	OMZL::grep.zsh
 
-zinit wait lucid atload'unalias zi' for OMZP::zoxide
-
 zinit wait lucid for \
 	OMZP::python \
 	OMZP::pip \
@@ -49,12 +47,16 @@ zinit wait lucid for \
 	OMZP::command-not-found \
 	OMZP::bun \
 	OMZP::git \
-	OMZP::mise \
 	OMZP::uv \
 	OMZP::ssh \
 	OMZP::sudo \
 	OMZP::aliases \
 	OMZP::rsync
+
+zinit wait lucid for \
+	OMZP::mise
+
+zinit wait lucid atload'unalias zi' for OMZP::zoxide
 
 zinit depth"1" for \
 	jeffreytse/zsh-vi-mode \
@@ -109,10 +111,9 @@ if (($+commands[uv])); then
 	alias pip="uv pip"
 fi
 
-if (($+commands[nvim])); then
-	alias vim="nvim"
-	export MANPAGER="nvim +Man!"
-fi
+
+alias vim="nvim"
+export MANPAGER="nvim +Man!"
 
 if (($+commands[bat])); then
 	alias cat="$(which bat)"

@@ -1,0 +1,11 @@
+[shell]
+settings_show_advanced = true
+polkit_agent = true
+
+[lockscreen]
+blurred_desktop = true
+
+[location]
+address = "Shenzhen"
+
+[weather]

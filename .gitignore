@@ -44,3 +44,5 @@ config/yazi/theme.toml
 /.opencode/package-lock.json
 /config/opencode/package-lock.json
 /mise-oci
+/config/hypr/hyprtoolkit.conf
+/config/hypr/noctalia.lua

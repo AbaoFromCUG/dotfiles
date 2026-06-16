@@ -1,0 +1,19 @@
+[plugins]
+enabled = ["noctalia/screen_recorder", "AbaoFromCUG/virtual-desktops"]
+
+[[plugins.source]]
+kind = "path"
+location = "/home/abao/Documents/hypr-plugins/virtual-desktops.hypr/"
+name = "virtual-desktops"
+
+[[plugins.source]]
+auto_update = true
+kind = "git"
+location = "https://github.com/noctalia-dev/official-plugins"
+name = "official"
+
+[[plugins.source]]
+auto_update = true
+kind = "git"
+location = "https://github.com/noctalia-dev/community-plugins"
+name = "community"

@@ -4,7 +4,8 @@ local function setup_theme()
     if vim.env.DISPLAY and status and mod then
         ---@cast mod.setup -nil
         vim.defer_fn(function() mod.setup() end, 100)
-    else vim.cmd([[colorscheme tokyonight]])
+    else
+        vim.cmd([[colorscheme tokyonight]])
     end
 
     -- vim.cmd([[colorscheme tokyonight]])
@@ -293,6 +294,7 @@ return {
     {
         "nvim-neo-tree/neo-tree.nvim",
         cmd = "Neotree",
+        enabled = false,
         keys = {
             { "<leader>b",  "<cmd>Neotree filesystem reveal toggle<cr>", desc = "file explorer" },
             { "<leader>vf", "<cmd>Neotree filesystem reveal toggle<cr>", desc = "file explorer" },
@@ -300,6 +302,7 @@ return {
         ---@type neotree.Config
         ---@diagnostic disable-next-line: missing-fields
         opts = {
+            sources = { "filesystem" },
             sort_case_insensitive = false,
             filesystem = {
                 window = {
@@ -319,8 +322,9 @@ return {
 
                 follow_current_file = {
                     enabled = true,
-                    leave_dirs_open = true,
+                    -- leave_dirs_open = true,
                 },
+                use_libuv_file_watcher = true,
             },
         },
     },

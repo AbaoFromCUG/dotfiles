@@ -23,5 +23,10 @@ use = "uhs-robert/sshfs"
 rev = "75a025c"
 hash = "e1cebecfee70daef1f97aa083209340c"
 
+[[plugin.deps]]
+use = "yazi-rs/plugins:types"
+rev = "598cdb6"
+hash = "9105494e98299f392aee95340066da9f"
+
 [flavor]
 deps = []

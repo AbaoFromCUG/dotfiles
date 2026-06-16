@@ -24,6 +24,7 @@ return {
                 "helm_ls",
                 "zuban",
                 "copilot",
+                "ruff"
             })
         end
     },
@@ -129,10 +130,12 @@ return {
     {
         "Saghen/blink.pairs",
         version = "*",
-        dependencies = "saghen/blink.download",
+        dependencies = 'saghen/blink.lib',
+        build = function() require('blink.pairs').download():pwait(60000) end,
         opts = {
             mappings = {
-                pairs = {}
+                enabled = true,
+                cmdline = true,
             },
             highlights = {
                 groups = {
@@ -146,7 +149,8 @@ return {
                 }
             }
         },
-        event = "InsertEnter"
+        -- event = "InsertEnter"
+        lazy = false
     },
     {
         "jmbuhr/otter.nvim",
@@ -188,8 +192,10 @@ return {
     { "b0o/schemastore.nvim" },
     {
         "AbaoFromCUG/luadev.nvim",
-        ft = "lua",
+        -- ft = "lua",
+        -- event = "LazyFile",
         dev = true,
+        lazy = false,
         ---@type luadev.Config
         opts = {
             enabled_lsp = "emmylua_ls",

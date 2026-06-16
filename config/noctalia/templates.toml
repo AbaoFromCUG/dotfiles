@@ -1,0 +1,33 @@
+[theme]
+builtin = "Eldritch"
+mode = "auto"
+
+[theme.templates]
+enable_builtin_templates = true
+enable_community_templates = true
+builtin_ids = [
+    "alacritty",
+    "hyprland",
+    "cava",
+    "qt",
+    "ghostty",
+    "kitty",
+    "gtk3",
+    "gtk4",
+]
+community_ids = [
+    "neovim",
+    "hyprtoolkit",
+    "yazi",
+    "obsidian",
+    "zathura",
+    "telegram",
+    "zed",
+    "vscode",
+]
+
+
+[theme.templates.tmux-colors]
+input_path = "$XDG_CONFIG_HOME/tmux/colors-template.conf"
+output_path = "$XDG_CONFIG_HOME/tmux/colors.conf"
+post_hook = 'tmux source-file $XDG_CONFIG_HOME/tmux/tmux.conf'

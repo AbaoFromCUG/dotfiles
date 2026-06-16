@@ -13,7 +13,6 @@ sudo sed -i 's/security.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.
 sudo apt-get update
 type -p add-apt-repository >/dev/null || sudo apt-get install software-properties-common -y
 type -p wget >/dev/null || sudo apt install wget -y
-sudo add-apt-repository ppa:neovim-ppa/unstable -y
 sudo mkdir -p -m 755 /etc/apt/keyrings
 out=$(mktemp)
 wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg
@@ -29,10 +28,8 @@ run = '''
     echo 'Server = https://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch'; 
     grep -v '^Server = https://mirrors.ustc.edu.cn/archlinux/\$repo/os/\$arch' /etc/pacman.d/mirrorlist; 
 } | sudo tee /etc/pacman.d/mirrorlist > /dev/null
-'''
-[tasks.post-init-archlinux]
-depends = ["install pkgfile"]
-run = '''
+
+yay -S pkgfile
 sudo pkgfile -u
 '''
 
@@ -65,7 +62,6 @@ if type -p yay >/dev/null; then
     function is_installed(){
         declare -A alias_names
         alias_names=(
-            ["neovim"]="neovim-git"
             ["noctalia"]="noctalia-shell"
         )
         name="${alias_names[$1]:-$1}"
@@ -186,24 +182,24 @@ mise run install "${package}"
 [tasks.config-zsh]
 description = "Configure zsh shell"
 depends = [
-  "install zsh git",
-  "link home/zshrc",
-  "link home/zprofile",
-  "link home/zshenv",
-  "link config/shell",
+    "install zsh git",
+    "link home/zshrc",
+    "link home/zprofile",
+    "link home/zshenv",
+    "link config/shell",
 ]
 
 
 [tasks.config-mise]
 depends = [
-  "link config/mise",
-  "link home/cargo/config.toml",
-  "link home/npmrc",
-  "link home/condarc",
-  "link home/bunfig.toml",
-  "link config/yazi",
-  "link config/lazygit",
-  "link config/uv",
+    "link config/mise",
+    "link home/cargo/config.toml",
+    "link home/npmrc",
+    "link home/condarc",
+    "link home/bunfig.toml",
+    "link config/yazi",
+    "link config/lazygit",
+    "link config/uv",
 ]
 run = '''
 mise install
@@ -212,9 +208,9 @@ exec `mise which ya` pkg install
 
 
 [tasks.config-nvim]
-depends = ["install neovim", "config-mise", "link config/nvim"]
+depends = ["config-mise", "link config/nvim"]
 run = '''
-nvim --headless -c "Lazy! sync" \
+nvim --headless -c "Lazy! install" \
     -c "TSInstall lua python shell json cpp" \
     -c 'lua print(string.format("Install %s neovim plugins \n", require("lazy").stats().count))' \
     -c "qall"
@@ -283,55 +279,62 @@ sudo usermod -aG i2c "$USER"
 
 [tasks.config-dev]
 depends = [
-  "install wget ripgrep jq fd fzf bat eza zoxide curl cmake man-db github-cli imagemagick",
-  "config zsh",
-  "config mise",
-  "config nvim",
-  "config tmux",
-  "config git",
-  "config translate-shell",
-  "link config/opencode",
+    "install wget fzf curl openssh cmake man-db github-cli imagemagick",
+    "config zsh",
+    "config mise",
+    "config nvim",
+    "config tmux",
+    "config git",
+    "config translate-shell",
+    "link config/opencode",
 ]
 run = '''
-bun install -g @delance/runtime
-bun pm trust -g @delance/runtime
 '''
 
 [tasks.config-hypr]
 depends = [
-  "config-dev",
-  "install hyprland hyprpicker hypridle xdg-desktop-portal-hyprland hyprpolkitagent hyprdynamicmonitors-bin",
-  "install adw-gtk-theme nwg-look",
-  "install xdg-desktop-portal-termfilechooser-hunkyburrito-git",
-  "install wl-clipboard",
+    "config-dev",
+    "install hyprland xdg-desktop-portal-hyprland hyprdynamicmonitors-bin",
+    "install xdg-desktop-portal-termfilechooser-hunkyburrito-git",
+    "install wl-clipboard",
 
-  "install alsa-firmware sof-firmware libva-intel-driver libva-mesa-driver",
+    "install alsa-firmware sof-firmware libva-intel-driver libva-mesa-driver",
 
-  "install networkmanager blueman bluez-utils",
+    "install networkmanager blueman bluez-utils",
 
-  "install pipewire-pulse pipewire-jack pipewire-audio playerctl pavucontrol",
+    "install pipewire-pulse pipewire-jack pipewire-audio playerctl pavucontrol",
 
-  "install curl wget",
+    "install mihomo",
 
-  "install fcitx5-pinyin-zhwiki fcitx5-configtool fcitx5-chinese-addons fcitx5-qt fcitx5-gtk",
+    "install fcitx5-pinyin-zhwiki fcitx5-configtool fcitx5-chinese-addons fcitx5-qt fcitx5-gtk",
 
-  "install grimblast-git",
-  "install ksnip",
-  "config qt5ct",
-  "config qt6ct",
-  "config kitty",
-  "config alacritty",
-  "config ghostty",
-  "link home/face",
-  "link config/hypr",
-  "link config/hyprdynamicmonitors",
-  "link local/bin/hyprlayout",
-  "link local/bin/widgetctl",
-  "config noctalia",
+    "install noto-fonts noto-fonts-cjk noto-fonts-emoji",
+    "install nerd-fonts adobe-source-han-sans-cn-fonts",
 
+    "install ksnip",
+    "config qt5ct",
+    "config qt6ct",
+    "link home/face",
+    "link config/hypr",
+    "link config/hyprdynamicmonitors",
+    "link local/bin/hyprlayout",
+
+    "config noctalia",
+    "install libqalculate upower papirus-icon-theme adw-gtk-theme",
+
+
+    "config kitty",
+    "config alacritty",
+    "config ghostty",
+    "config wezterm",
+    "install firefox google-chrome microsoft-edge-stable",
+    "install zathura mupdf zathura-pdf-mupdf, nm-applet",
+    "install obs-studio",
+
+    "install wechat",
+    "install visual-studio-code-bin",
 ]
 run = '''
-systemctl --user enable --now hypridle.service
 systemctl --user enable --now hyprdynamicmonitors-prepare.service
 
 systemctl --user enable --now pipewire.service

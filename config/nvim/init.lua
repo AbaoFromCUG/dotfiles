@@ -77,6 +77,33 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
+local data = vim.fn.stdpath('data')
+local paths = {
+    async_nvim = data .. '/lazy/async.nvim/lua/async.lua',
+    promise = data .. '/lazy/promise-async/lua/async.lua',
+}
+local loaded = {}
+local function load(kind)
+    if not loaded[kind] then loaded[kind] = dofile(paths[kind]) end
+    return loaded[kind]
+end
+
+local orig_require = _G.require
+_G.require = function(modname, ...)
+    if modname ~= 'async' then return orig_require(modname, ...) end
+
+    for lvl = 2, 16 do
+        local info = debug.getinfo(lvl, 'S')
+        if not info then break end
+        local src = info.source or ''
+        if src:find('refactoring.nvim', 1, true) then return load('async_nvim') end
+        if src:find('promise-async', 1, true) then return load('promise') end
+        if src:find('ufo', 1, true) then return load('promise') end
+    end
+    return load('async_nvim')
+end
+
+
 -- Add support for the LazyFile event
 local Event = require("lazy.core.handler.event")
 
@@ -89,13 +116,14 @@ require("lazy").setup({
     spec = {
         { import = "plugins.core",       cond = not vim.g.vscode },
         { import = "plugins.ui",         cond = not vim.g.vscode },
+        { import = "plugins.oil",        cond = not vim.g.vscode },
         { import = "plugins.snacks",     cond = not vim.g.vscode },
         { import = "plugins.decorator",  cond = not vim.g.vscode },
         { import = "plugins.editor",     cond = not vim.g.vscode },
         { import = "plugins.misc",       cond = not vim.g.vscode },
         { import = "plugins.complete",   cond = not vim.g.vscode },
         { import = "plugins.diagnostic", cond = not vim.g.vscode },
-        { import = "plugins.runner",        cond = not vim.g.vscode },
+        { import = "plugins.runner",     cond = not vim.g.vscode },
         { import = "plugins.dap",        cond = not vim.g.vscode },
         { import = "plugins.test",       cond = not vim.g.vscode },
         { import = "plugins.ai",         cond = not vim.g.vscode },

@@ -70,74 +70,85 @@ return {
             }
         end,
         keys = {
-            { "<leader>fp", function() Snacks.picker() end, desc = "find find" },
+            { "<leader>fp", function() Snacks.picker() end,                                         desc = "find find" },
+
             { "<leader>ff", function() Snacks.picker.files({ ignored = false, hidden = true }) end, desc = "find files" },
-            { "<leader>fh", function() Snacks.picker.recent() end, desc = "find history" },
-            { "<leader>fw", function() Snacks.picker.grep({ regex = false }) end, desc = "find word" },
+            { "<leader>fs", function() Snacks.picker.lsp_workspace_symbols() end,                   desc = "find symbols" },
+            { "<leader>fr", function() Snacks.picker.recent() end,                                  desc = "recent" },
+            { "<leader>f/", function() Snacks.picker.grep({ regex = false }) end,                   desc = "grep" },
+            { "<leader>fw", function() Snacks.picker.grep({ regex = false }) end,                   desc = "grep" },
+            { "<leader>f:", function() Snacks.picker.command_history() end,                         desc = "command history" },
             -- git
-            { "<leader>gB", function() Snacks.gitbrowse() end, desc = "git browse" },
-            { "<leader>gl", function() Snacks.lazygit.log() end, desc = "lazygit log" },
+            { "<leader>gB", function() Snacks.gitbrowse() end,                                      desc = "git browse" },
+            { "<leader>gl", function() Snacks.lazygit.log() end,                                    desc = "lazygit log" },
 
-            { "<leader>nm", function() Snacks.notifier.hide() end, desc = "dismiss all notifications" },
-            { "<leader>nl", function() Snacks.notifier.show_history() end, desc = "show all notifications" },
+            { "<leader>nm", function() Snacks.notifier.hide() end,                                  desc = "dismiss all notifications" },
+            { "<leader>nl", function() Snacks.notifier.show_history() end,                          desc = "show all notifications" },
 
-            { ";x", function() Snacks.bufdelete() end, desc = "close current buffer" },
-            { "<leader>vq", function() Snacks.bufdelete() end, desc = "close current buffer" },
-            { "<leader>vo", function() Snacks.bufdelete.other() end, desc = "close others buffer" },
+            { ";x",         function() Snacks.bufdelete() end,                                      desc = "close current buffer" },
+            { "<leader>vq", function() Snacks.bufdelete() end,                                      desc = "close current buffer" },
+            { "<leader>vo", function() Snacks.bufdelete.other() end,                                desc = "close others buffer" },
 
-            { "<leader>zz", function() Snacks.zen.zen() end, mode = { "n", "i", "v" }, desc = "zen mode" },
+            { "<leader>zz", function() Snacks.zen.zen() end,                                        mode = { "n", "i", "v" },          desc = "zen mode" },
         },
     },
     {
         "nvim-neo-tree/neo-tree.nvim",
-        opts = {
-            event_handlers = {
-                {
-                    event = "file_renamed",
-                    handler = function(data) Snacks.rename.on_rename_file(data.source, data.destination) end,
+
+        opts = function()
+            local events = require("neo-tree.events")
+
+            local function on_move(data)
+                Snacks.rename.on_rename_file(data.source, data.destination)
+            end
+            return {
+                event_handlers = {
+                    {
+                        event = events.FILE_RENAMED,
+                        handler = on_move,
+                    },
+                    {
+                        event = events.FILE_MOVED,
+                        handler = on_move,
+                    },
                 },
-                {
-                    event = "file_moved",
-                    handler = function(data) Snacks.rename.on_rename_file(data.source, data.destination) end,
-                },
-            },
-            filesystem = {
-                window = {
-                    mappings = {
-                        ["<leader>ff"] = {
-                            function(state)
-                                ---@type neotree.FileNode
-                                local node = state.tree:get_node()
+                filesystem = {
+                    window = {
+                        mappings = {
+                            ["<leader>ff"] = {
+                                function(state)
+                                    ---@type neotree.FileNode
+                                    local node = state.tree:get_node()
+                                    local path = vim.fn.fnamemodify(node.path, ":p:h")
+                                    Snacks.picker.files({
+                                        dirs = { path },
+                                        title = string.format("Files in (%s)", path),
+                                        ignored = true,
+                                        hidden = true,
+                                    })
+                                end,
+                                desc = "find files in directory",
+                            },
 
-                                local path = vim.fn.fnamemodify(node.path, ":p:h")
-                                Snacks.picker.files({
-                                    dirs = { path },
-                                    title = string.format("Files in (%s)", path),
-                                    ignored = true,
-                                    hidden = true,
-                                })
-                            end,
-                            desc = "find files in directory",
-                        },
+                            ["<leader>fw"] = {
+                                function(state)
+                                    ---@type neotree.FileNode
+                                    local node = state.tree:get_node()
 
-                        ["<leader>fw"] = {
-                            function(state)
-                                ---@type neotree.FileNode
-                                local node = state.tree:get_node()
-
-                                local path = vim.fn.fnamemodify(node.path, ":p:h")
-                                Snacks.picker.grep({
-                                    dirs = { path },
-                                    title = string.format("Grep in (%s)", path),
-                                    ignored = true,
-                                    hidden = true,
-                                })
-                            end,
-                            desc = "find files in directory",
+                                    local path = vim.fn.fnamemodify(node.path, ":p:h")
+                                    Snacks.picker.grep({
+                                        dirs = { path },
+                                        title = string.format("Grep in (%s)", path),
+                                        ignored = true,
+                                        hidden = true,
+                                    })
+                                end,
+                                desc = "find files in directory",
+                            },
                         },
                     },
                 },
-            },
-        },
+            }
+        end,
     },
 }

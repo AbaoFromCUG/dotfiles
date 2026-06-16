@@ -201,4 +201,14 @@ return {
 
     },
 
+    {
+        "ThePrimeagen/refactoring.nvim",
+        dependencies = {
+            "lewis6991/async.nvim",
+        },
+        keys = {
+            { "<leader>gra", function() require("refactoring").select_refactor() end, desc = "refactor", mode = { "n", "x" } },
+        }
+    },
+
 }
