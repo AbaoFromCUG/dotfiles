@@ -1,0 +1,47 @@
+[bootstrap.packages]
+"brew:postgresql@17" = "latest"
+"brew:ffmpeg" = "latest"
+"brew-cask:firefox" = "latest"
+"brew:curl" = "latest"
+"brew:wget" = "latest"
+"brew:git" = "latest"
+"brew:cmake" = "latest"
+"brew:imagemagick" = "latest"
+"brew:tmux" = "latest"
+"brew:neovim" = "latest"
+
+[tasks.init-macos]
+description = "Initialize macOS environment"
+run = '''
+#!/usr/bin/env bash
+set -euo pipefail
+
+if ! type -p brew >/dev/null; then
+    echo "Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+brew update
+'''
+
+[tasks.install]
+description = "Install application with Homebrew (macOS)"
+usage = '''
+arg "<package>" var=#true help="package name(s), support multiple packages separated by space"
+'''
+run = '''
+#!/usr/bin/env bash
+package_list=($usage_package)
+
+not_installed=()
+for pkg in "${package_list[@]}"; do
+    if ! brew ls --version "$pkg" >/dev/null 2>&1; then
+        not_installed+=("$pkg")
+    fi
+done
+
+if [ ${#not_installed[@]} -gt 0 ]; then
+    brew install "${not_installed[@]}"
+fi
+'''

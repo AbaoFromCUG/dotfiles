@@ -1,0 +1,122 @@
+[bootstrap.packages]
+"pacman:base-devel" = "latest"
+"pacman:curl" = "latest"
+"pacman:wget" = "latest"
+"pacman:git" = "latest"
+"pacman:openssh" = "latest"
+"pacman:cmake" = "latest"
+"pacman:man-db" = "latest"
+"pacman:imagemagick" = "latest"
+"pacman:tmux" = "latest"
+"pacman:neovim" = "latest"
+
+[dotfiles]
+"~/.config/yay" = "config/yay"
+"~/.config/noctalia" = "config/noctalia"
+"~/.config/qt5ct" = "config/qt5ct"
+"~/.config/qt6ct" = "config/qt6ct"
+
+[tasks.init-archlinux]
+run = '''
+{
+    echo 'Server = https://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch';
+    grep -v '^Server = https://mirrors.ustc.edu.cn/archlinux/\$repo/os/\$arch' /etc/pacman.d/mirrorlist;
+} | sudo tee /etc/pacman.d/mirrorlist > /dev/null
+
+yay -S pkgfile
+sudo pkgfile -u
+'''
+
+[tasks.install-yay]
+description = "Install yay, pacman wrapper and AUR helper"
+run = '''
+#!/usr/bin/env bash
+set -euo pipefail
+type -p yay >/dev/null && exit 0
+mkdir /tmp/yay-cache && cd /tmp/yay-cache
+export GOPROXY=https://goproxy.cn
+sudo pacman -S --needed --noconfirm git go base-devel
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si --noconfirm
+yay -Syuu --noconfirm
+'''
+
+[tasks.install]
+description = "Install application with yay (ArchLinux)"
+depends = ["install-yay"]
+usage = '''
+arg "<package>" var=#true help="package name(s), support multiple packages separated by space"
+'''
+run = '''
+#!/usr/bin/env bash
+package_list=($usage_package)
+
+declare -A alias_names
+alias_names=(
+    ["noctalia"]="noctalia-shell"
+)
+
+not_installed=()
+for pkg in "${package_list[@]}"; do
+    name="${alias_names[$pkg]:-$pkg}"
+    if ! yay -Qi "$name" >/dev/null 2>&1; then
+        not_installed+=("$name")
+    fi
+done
+
+if [ ${#not_installed[@]} -gt 0 ]; then
+    yay -S --noconfirm "${not_installed[@]}"
+fi
+'''
+
+[tasks.config-hypr]
+depends = [
+    "config-dev",
+    "install hyprland xdg-desktop-portal-hyprland hyprdynamicmonitors-bin",
+    "install xdg-desktop-portal-termfilechooser-hunkyburrito-git",
+    "install wl-clipboard",
+
+    "install alsa-firmware sof-firmware libva-intel-driver libva-mesa-driver",
+
+    "install networkmanager blueman bluez-utils",
+
+    "install pipewire-pulse pipewire-jack pipewire-audio playerctl pavucontrol",
+
+    "install mihomo sing-box-bin",
+
+    "install fcitx5-pinyin-zhwiki fcitx5-configtool fcitx5-chinese-addons fcitx5-qt fcitx5-gtk",
+
+    "install noto-fonts noto-fonts-cjk noto-fonts-emoji",
+    "install nerd-fonts adobe-source-han-sans-cn-fonts",
+
+    "install ksnip",
+    "install qt5ct",
+    "install qt6ct",
+    "install noctalia",
+    "install libqcalculate upower papirus-icon-theme adw-gtk-theme",
+    "install kitty",
+    "install alacritty",
+    "install ghostty",
+    "install wezterm",
+    "install firefox google-chrome microsoft-edge-stable",
+    "install zathura mupdf zathura-pdf-mupdf nm-applet",
+    "install obs-studio",
+    "install wechat",
+    "install visual-studio-code-bin",
+]
+run = '''
+mise dotfiles apply
+
+systemctl --user enable --now hyprdynamicmonitors-prepare.service
+
+systemctl --user enable --now pipewire.service
+systemctl --user enable --now pipewire-pulse.service
+
+systemctl --user enable --now wireplumber.service
+'''
+
+[tasks.build-container]
+run = '''
+podman build -t abao-archlinux -f container/archlinux/Dockerfile .
+'''

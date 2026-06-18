@@ -1,0 +1,108 @@
+[dotfiles]
+# --- home files ---
+"~/.zshrc" = "home/zshrc"
+"~/.zprofile" = "home/zprofile"
+"~/.zshenv" = "home/zshenv"
+
+"~/.config/ghostty" = "config/ghostty"
+"~/.config/tmux" = "config/tmux"
+
+[tasks.config-zsh]
+description = "Configure zsh shell"
+depends = ["install zsh git"]
+run = "mise dotfiles apply"
+
+[tasks.config-tmux]
+description = "Configure tmux"
+depends = ["install git tmux"]
+run = '''
+
+if [ ! -d ~/.config/tmux/oh-my-tmux ] || [ ! -L ~/.config/tmux/tmux.conf ]; then
+    rm -rf ~/.config/tmux/oh-my-tmux
+    git clone https://github.com/gpakosz/.tmux.git ~/.config/tmux/oh-my-tmux
+    ln -s -f ~/.config/tmux/oh-my-tmux/.tmux.conf ~/.config/tmux/tmux.conf
+fi
+'''
+
+
+[tasks.config-fzf]
+depends = ["install curl"]
+run = '''
+if [ ! -f ~/.local/bin/fzf-preview ]; then
+    curl https://raw.githubusercontent.com/junegunn/fzf/refs/heads/master/bin/fzf-preview.sh -o ~/.local/bin/fzf-preview
+    chmod +x ~/.local/bin/fzf-preview
+fi
+'''
+[tasks.clean-broken-links]
+description = "Check and remove all broken symbolic links in $HOME directory"
+run = '''
+{% raw %}
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "Scanning for broken symbolic links in $HOME directory..."
+
+broken_links=()
+while IFS= read -r -d '' link; do
+    if [ -L "$link" ] && [ ! -e "$link" ]; then
+        broken_links+=("$link")
+    fi
+done < <(find "$HOME" -xtype l \
+    -not -path "$HOME/.cache/*" \
+    -not -path "$HOME/.local/share/*"  \
+    -not -path "$HOME/.local/state/*" \
+    -not -path "$HOME/Documents/*" \
+    -lname "$HOME/.dotfiles/*" \
+    -print0 2>/dev/null)
+
+if [ ${#broken_links[@]} -eq 0 ]; then
+    echo "No broken symbolic links found."
+    exit 0
+fi
+
+echo "Found ${#broken_links[@]} broken symbolic link(s):"
+for link in "${broken_links[@]}"; do
+    echo "  - $link -> $(readlink "$link")"
+done
+
+read -p "Do you want to remove all broken links? (y/N): " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    for link in "${broken_links[@]}"; do
+        rm "$link"
+        echo "Removed: $link"
+    done
+    echo "Successfully removed ${#broken_links[@]} broken symbolic link(s)."
+else
+    echo "Operation cancelled."
+fi
+{% endraw %}
+'''
+
+[tasks.config-git-user]
+depends = ["install git"]
+run = '''
+#!/usr/bin/env zsh
+declare -A keys
+keys=(
+    ["user.name"]="John Doe" 
+    ["user.email"]="user@example.com"
+)
+for key in "${(@k)keys[@]}"; do
+    default_value="$(eval git config get $key)"
+    if [ -z "$default_value" ]; then
+        read -r "value?please input your git's $key of global, e.g. (${keys[$key]}):"
+    else
+        read -r "value?please input your git's $key of global (default: $default_value):"
+        value=${value:-$default_value}
+    fi
+    if [ -z "$value" ]; then 
+        echo "you don't input anything, existing..."
+        exit 1
+    fi;
+    git config --global $key $value
+done
+
+echo "Please check your global configurations of git:\n"
+git config list
+'''

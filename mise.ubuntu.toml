@@ -1,0 +1,68 @@
+[bootstrap.packages]
+"apt:build-essential" = "latest"
+"apt:libssl-dev" = "latest"
+"apt:curl" = "latest"
+"apt:wget" = "latest"
+"apt:git" = "latest"
+"apt:openssh-client" = "latest"
+"apt:cmake" = "latest"
+"apt:man-db" = "latest"
+"apt:imagemagick" = "latest"
+"apt:tmux" = "latest"
+"apt:neovim" = "latest"
+
+[tasks.init-ubuntu]
+run = '''
+#!/usr/bin/env bash
+sudo sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list.d/ubuntu.sources
+sudo sed -i 's/security.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.d/ubuntu.sources
+sudo apt-get update
+type -p add-apt-repository >/dev/null || sudo apt-get install software-properties-common -y
+type -p wget >/dev/null || sudo apt install wget -y
+sudo mkdir -p -m 755 /etc/apt/keyrings
+out=$(mktemp)
+wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg
+cat $out | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null
+sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
+sudo mkdir -p -m 755 /etc/apt/sources.list.d
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"|sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+sudo apt-get update
+'''
+
+[tasks.install]
+description = "Install application with apt (Ubuntu)"
+usage = '''
+arg "<package>" var=#true help="package name(s), support multiple packages separated by space"
+'''
+run = '''
+#!/usr/bin/env bash
+package_list=($usage_package)
+
+function is_installed(){
+    declare -A alias_names
+    alias_names=(["fd"]="fd-find" ["github-cli"]="gh")
+    name="${alias_names[$1]:-$1}"
+    echo $name
+    dpkg -s "$name" >/dev/null 2>&1
+}
+function install_packages(){
+    sudo apt-get install -y "$@"
+    echo install "$@"
+}
+
+not_installed=()
+for pkg in "${package_list[@]}"; do
+    if ! is_installed "$pkg" > /dev/null; then
+        not_installed+=(`is_installed "$pkg"`)
+    fi
+done
+
+if [ ! -z "${not_installed[*]}" ]; then
+    install_packages "${not_installed[@]}"
+fi
+'''
+
+[tasks.build-container]
+run = '''
+podman build -t abao-ubuntu -f container/ubuntu/Dockerfile .
+'''

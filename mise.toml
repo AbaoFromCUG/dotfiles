@@ -1,214 +1,63 @@
 [settings]
 jobs = 1
 experimental = true
+auto_env = true
+dotfiles.root = "~/.dotfiles"
+dotfiles.default_mode = "symlink"
 
 [oci]
-from = "ubuntu:latest"
 
-[tasks.init-ubuntu]
-run = '''
-#!/usr/bin/env bash
-sudo sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list.d/ubuntu.sources
-sudo sed -i 's/security.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.d/ubuntu.sources
-sudo apt-get update
-type -p add-apt-repository >/dev/null || sudo apt-get install software-properties-common -y
-type -p wget >/dev/null || sudo apt install wget -y
-sudo mkdir -p -m 755 /etc/apt/keyrings
-out=$(mktemp)
-wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg
-cat $out | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null
-sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
-sudo mkdir -p -m 755 /etc/apt/sources.list.d
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"|sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-sudo apt-get update
-'''
-[tasks.init-archlinux]
-run = '''
-{ 
-    echo 'Server = https://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch'; 
-    grep -v '^Server = https://mirrors.ustc.edu.cn/archlinux/\$repo/os/\$arch' /etc/pacman.d/mirrorlist; 
-} | sudo tee /etc/pacman.d/mirrorlist > /dev/null
 
-yay -S pkgfile
-sudo pkgfile -u
-'''
+[bootstrap.user]
+login_shell = "/bin/zsh"
 
-[tasks.install-yay]
-description = "Install yay, pacman wrapper and AUR helper"
-run = '''
-#!/usr/bin/env bash
-set -euo pipefail
-type -p yay >/dev/null && exit 0
-mkdir /tmp/yay-cache && cd /tmp/yay-cache
-export GOPROXY=https://goproxy.cn
-sudo pacman -S --needed --noconfirm git go base-devel
-git clone https://aur.archlinux.org/yay.git
-cd yay
-makepkg -si --noconfirm
-yay -Syuu --noconfirm
-'''
+[dotfiles]
+# --- home files ---
+"~/.npmrc" = "home/npmrc"
+"~/.condarc" = "home/condarc"
+"~/.bunfig.toml" = "home/bunfig.toml"
+"~/.face" = "home/face"
+"~/.cargo/config.toml" = "home/cargo/config.toml"
+
+# --- cross-platform config dirs ---
+"~/.config/shell" = "config/shell"
+"~/.config/mise" = "config/mise"
+"~/.config/nvim" = "config/nvim"
+"~/.config/yazi" = "config/yazi"
+"~/.config/lazygit" = "config/lazygit"
+"~/.config/uv" = "config/uv"
+"~/.config/opencode" = "config/opencode"
+"~/.config/git" = "config/git"
+"~/.config/kitty" = "config/kitty"
+"~/.config/wezterm" = "config/wezterm"
+"~/.config/alacritty" = "config/alacritty"
+"~/.config/herdr/config.toml" = "config/herdr/config.toml"
+
+# --- local bin ---
+"~/.local/bin" = { source = "local/bin", mode = "symlink-each" }
 
 
 [tasks.install]
-description = "Install application with system package manager"
+description = "Install packages using system package manager"
 usage = '''
 arg "<package>" var=#true help="package name(s), support multiple packages separated by space"
 '''
 run = '''
 #!/usr/bin/env bash
-package_list=($usage_package)
-
-if type -p yay >/dev/null; then
-    function is_installed(){
-        declare -A alias_names
-        alias_names=(
-            ["noctalia"]="noctalia-shell"
-        )
-        name="${alias_names[$1]:-$1}"
-        echo $name
-        yay -Qi "$name" >/dev/null 2>&1
-    }
-    function install_packages(){
-        yay -S --noconfirm "$@"
-        echo install "$@"
-    }
-elif type -p apt-get >/dev/null; then
-    function is_installed(){
-        declare -A alias_names
-        alias_names=(["fd"]="fd-find" ["github-cli"]="gh")
-        name="${alias_names[$1]:-$1}"
-        echo $name
-        dpkg -s "$name" >/dev/null 2>&1
-    }
-    function install_packages(){
-        sudo apt-get install -y "$@"
-        echo install "$@"
-    }
-elif type -p brew >/dev/null; then
-    function is_installed(){
-        echo $1
-        brew ls --version "$1" >/dev/null 2>&1
-    }
-    function install_packages(){
-        brew install "$@"
-        echo install "$@"
-    }
-fi
-
-not_installed=()
-for pkg in "${package_list[@]}"; do
-    if ! is_installed "$pkg" > /dev/null; then
-        not_installed+=(`is_installed "$pkg"`)
-    fi
-done
-
-if [ ! -z "${not_installed[*]}" ]; then
-    install_packages "${not_installed[@]}"
-fi
+echo "No platform-specific installer available for: ${MISE_ENV:-unknown}" >&2
+exit 1
 '''
-
-
-[tasks.link]
-description = "Create a symbolic link"
-usage = '''
-arg "<source>" help="source file"
-arg "[target]" help="target file" default=""
-'''
-run = '''
-#!/usr/bin/env bash
-source="${usage_source}"
-target="${usage_target}"
-if [ -z "$target" ]; then
-    if [[ "$source" == home/* ]]; then
-        target="~/.${source#home/}"
-    elif [[ "$source" == etc/* ]]; then
-        target="/$source"
-    else
-        target="~/.$source"
-    fi
-fi
-
-source=$(realpath "$source")
-target=$(eval echo "$target")
-if [ ! -e "${source}" ]; then
-    echo "Source file ${source} does not exist, failed"
-    exit 1
-fi
-if [ -e "${target}" ] && [ ! -L "${target}" ]; then
-    echo "File ${target} exists and not a symbolic link of ${source}, failed exists"
-    exit 1
-fi
-if [ ! -L ${target} ] || [ ! "$(readlink ${target})"="${target}" ]; then
-    mkdir -p $(dirname ${target})
-    ln -s $source $target
-fi
-'''
-
-[tasks.config]
-usage = '''
-arg "<package>" help="package name"
-arg "[config]" help="config directory name" default=""
-'''
-run = '''
-#!/usr/bin/env bash
-set -euo pipefail
-package="${usage_package}"
-config="${usage_config}"
-if [ -z "$config" ]; then
-    if mise tasks ls |awk '{print $1}' | grep -q "^config-${package}\$"; then
-        mise run "config-${package}"
-        exit 0
-    fi
-    config=${package}
-fi
-target="~/.config/${config}"
-source="config/${config}"
-
-source=$(realpath "$source")
-target=$(eval echo "$target")
-
-if [ -e "${target}" ] && [ ! -L "${target}" ]; then
-    echo "File ${target} exists ant not a symbolic link of ${source}, failed exists"
-    exit 1
-fi
-if [ ! -L ${target} ] || [ ! "$(readlink ${target})"="${target}" ]; then
-    mkdir -p $(dirname ${target})
-    ln -s $source $target
-fi
-mise run install "${package}"
-'''
-
-
-[tasks.config-zsh]
-description = "Configure zsh shell"
-depends = [
-    "install zsh git",
-    "link home/zshrc",
-    "link home/zprofile",
-    "link home/zshenv",
-    "link config/shell",
-]
-
 
 [tasks.config-mise]
-depends = [
-    "link config/mise",
-    "link home/cargo/config.toml",
-    "link home/npmrc",
-    "link home/condarc",
-    "link home/bunfig.toml",
-    "link config/yazi",
-    "link config/lazygit",
-    "link config/uv",
-]
 run = '''
+mise dotfiles apply
 mise install
-exec `mise which ya` pkg install
+mise bootstrap packages install --yes
+type -p ya >/dev/null 2>&1 && exec `mise which ya` pkg install
 '''
 
-
 [tasks.config-nvim]
-depends = ["config-mise", "link config/nvim"]
+depends = ["config-mise"]
 run = '''
 nvim --headless -c "Lazy! install" \
     -c "TSInstall lua python shell json cpp" \
@@ -217,141 +66,17 @@ nvim --headless -c "Lazy! install" \
 
 '''
 
-
-[tasks.config-tmux]
-description = "Configure tmux"
-depends = ["install git tmux", "link config/tmux"]
-run = '''
-#!/usr/bin/env zsh
-if [ ! -d ~/.config/tmux/oh-my-tmux ] || [ ! -L ~/.config/tmux/tmux.conf ]; then
-    rm -rf ~/.config/tmux/oh-my-tmux
-    git clone https://github.com/gpakosz/.tmux.git ~/.config/tmux/oh-my-tmux
-    ln -s -f ~/.config/tmux/oh-my-tmux/.tmux.conf ~/.config/tmux/tmux.conf
-fi
-'''
-
-[tasks.config-git-user]
-depends = ["install git"]
-run = '''
-#!/usr/bin/env zsh
-declare -A keys
-keys=(
-    ["user.name"]="John Doe" 
-    ["user.email"]="user@example.com"
-)
-for key in "${(@k)keys[@]}"; do
-    default_value="$(eval git config get $key)"
-    if [ -z "$default_value" ]; then
-        read -r "value?please input your git's $key of global, e.g. (${keys[$key]}):"
-    else
-        read -r "value?please input your git's $key of global (default: $default_value):"
-        value=${value:-$default_value}
-    fi
-    if [ -z "$value" ]; then 
-        echo "you don't input anything, existing..."
-        exit 1
-    fi;
-    git config --global $key $value
-done
-
-echo "Please check your global configurations of git:\n"
-git config list
-'''
-
-[tasks.config-fzf]
-depends = ["install fzf curl"]
-run = '''
-if [ ! -f ~/.local/bin/fzf-preview ]; then
-    curl https://raw.githubusercontent.com/junegunn/fzf/refs/heads/master/bin/fzf-preview.sh -o ~/.local/bin/fzf-preview
-    chmod +x ~/.local/bin/fzf-preview
-fi
-'''
-
-[tasks.config-monitor]
-depends = ["install ddcutil"]
-run = '''
-sudo mise run link etc/udev/rules.d/60-ddcutil-i2c.rules
-sudo mise run link etc/udev/rules.d/90-backlight.rules
-sudo udevadm control --reload-rules
-sudo udevadm trigger
-sudo usermod -aG i2c "$USER"
-'''
-
 [tasks.config-dev]
 depends = [
-    "install wget fzf curl openssh cmake man-db github-cli imagemagick",
-    "config zsh",
-    "config mise",
-    "config nvim",
-    "config tmux",
-    "config git",
-    "config translate-shell",
-    "link config/opencode",
+    "config-zsh",
+    "config-mise",
+    "config-nvim",
+    "config-tmux",
+    "config-git-user",
+    "config-fzf",
 ]
-run = '''
-'''
+run = "mise dotfiles apply"
 
-[tasks.config-hypr]
-depends = [
-    "config-dev",
-    "install hyprland xdg-desktop-portal-hyprland hyprdynamicmonitors-bin",
-    "install xdg-desktop-portal-termfilechooser-hunkyburrito-git",
-    "install wl-clipboard",
-
-    "install alsa-firmware sof-firmware libva-intel-driver libva-mesa-driver",
-
-    "install networkmanager blueman bluez-utils",
-
-    "install pipewire-pulse pipewire-jack pipewire-audio playerctl pavucontrol",
-
-    "install mihomo sing-box-bin",
-
-    "install fcitx5-pinyin-zhwiki fcitx5-configtool fcitx5-chinese-addons fcitx5-qt fcitx5-gtk",
-
-    "install noto-fonts noto-fonts-cjk noto-fonts-emoji",
-    "install nerd-fonts adobe-source-han-sans-cn-fonts",
-
-    "install ksnip",
-    "config qt5ct",
-    "config qt6ct",
-    "link home/face",
-    "link config/hypr",
-    "link config/hyprdynamicmonitors",
-    "link local/bin/hyprlayout",
-
-    "config noctalia",
-    "install libqalculate upower papirus-icon-theme adw-gtk-theme",
-
-
-    "config kitty",
-    "config alacritty",
-    "config ghostty",
-    "config wezterm",
-    "install firefox google-chrome microsoft-edge-stable",
-    "install zathura mupdf zathura-pdf-mupdf, nm-applet",
-    "install obs-studio",
-
-    "install wechat",
-    "install visual-studio-code-bin",
-]
-run = '''
-systemctl --user enable --now hyprdynamicmonitors-prepare.service
-
-systemctl --user enable --now pipewire.service
-systemctl --user enable --now pipewire-pulse.service
-
-systemctl --user enable --now wireplumber.service
-# systemctl --user enable --now xdg-user-dirs.service
-'''
-
-[tasks.build-archlinux-container]
-run = '''
-podman build -t abao-archlinux -f container/archlinux/Dockerfile .
-'''
-[tasks.build-ubuntu-container]
-run = '''
-podman build -t abao-ubuntu -f container/ubuntu/Dockerfile .
-'''
 
 [tasks.easyconnect]
 usage = '''
@@ -368,146 +93,4 @@ docker run --rm --device /dev/net/tun --cap-add NET_ADMIN -ti \
     -e EC_VER=7.6.7 \
     -e CLI_OPTS="-d ${usage_domain} -u ${usage_username} -p ${usage_password}" \
     docker.io/hagb/docker-easyconnect:cli
-'''
-
-[tasks.clean-broken-links]
-description = "Check and remove all broken symbolic links in $HOME directory"
-run = '''
-{% raw %}
-#!/usr/bin/env bash
-set -euo pipefail
-
-echo "Scanning for broken symbolic links in $HOME directory..."
-
-broken_links=()
-while IFS= read -r -d '' link; do
-    if [ -L "$link" ] && [ ! -e "$link" ]; then
-        broken_links+=("$link")
-    fi
-done < <(find "$HOME" -xtype l \
-    -not -path "$HOME/.cache/*" \
-    -not -path "$HOME/.local/share/*"  \
-    -not -path "$HOME/.local/state/*" \
-    -not -path "$HOME/Documents/*" \
-    -lname "$HOME/.dotfiles/*" \
-    -print0 2>/dev/null)
-
-if [ ${#broken_links[@]} -eq 0 ]; then
-    echo "No broken symbolic links found."
-    exit 0
-fi
-
-echo "Found ${#broken_links[@]} broken symbolic link(s):"
-for link in "${broken_links[@]}"; do
-    echo "  - $link -> $(readlink "$link")"
-done
-
-read -p "Do you want to remove all broken links? (y/N): " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    for link in "${broken_links[@]}"; do
-        rm "$link"
-        echo "Removed: $link"
-    done
-    echo "Successfully removed ${#broken_links[@]} broken symbolic link(s)."
-else
-    echo "Operation cancelled."
-fi
-{% endraw %}
-'''
-
-[tasks.service-proxy]
-depends = ["install go-yq"]
-usage = '''
-flag "-t --enable-tun" help="enable tuning"
-'''
-
-
-run = '''
-#!/usr/bin/env bash
-set -e pipefail
-
-pushd ./service/mihomo/
-if [ ! -f config.local.yaml ]; then
-    # 参考config.example.yaml 创建
-    echo "Please create the config.local.yaml file in the service/mihomo directory based on the config.example.yaml"
-    exit 1
-fi
-mihomo_configs=(config.base.yaml)
-
-if [ "${usage_enable_tun:-false}" == "true" ]; then
-    mihomo_configs+=("config.tun.yaml")
-fi
-
-mihomo_configs+=("config.local.yaml")
-
-# 使用yq合并配置文件与docker compose文件
-yq ea --yaml-fix-merge-anchor-to-spec=true \
-    '. as $item ireduce ({}; . *+ $item )' \
-    "${mihomo_configs[@]}" \
-    | sed -E 's/^([[:space:]]*)"<<"([[:space:]]*:)/\1<<\2/' \
-    |yq 'explode(.)' \
-    > config.yaml
-
-# 查看/etc/mihomo/config.yaml是否是链接到当前目录的config.yaml，如果不是则提示创建一个符号链接
-if [ ! -L /etc/mihomo/config.yaml ] || [ "$(readlink /etc/mihomo/config.yaml)" != "$(readlink -f config.yaml)" ]; then
-    echo "Please create a symbolic link from /etc/mihomo/config.yaml to the generated config.yaml in the current directory"
-    echo "e.g. sudo ln -s $(readlink -f config.yaml) /etc/mihomo/config.yaml"
-    exit 1
-
-# 否则，提示用户重启mihomo服务
-else
-    echo 'Restarting mihomo service via `systemctl restart mihomo`...'
-fi
-'''
-
-[tasks.service-sing-box]
-depends = ["install sing-box go-yq"]
-usage = '''
-flag "-t --enable-tun" help="enable tun"
-flag "--no-fetch" help="use cached subscription files only"
-'''
-
-run = '''
-#!/usr/bin/env bash
-set -euo pipefail
-
-pushd ./service/sing-box/
-
-if [ ! -f config.local.json ]; then
-    echo "Please create the config.local.json file in the service/sing-box directory based on config.local.example.json"
-    exit 1
-fi
-
-generate_args=(--mihomo-config ../mihomo/config.local.yaml --output config.generated.json)
-if [ "${usage_no_fetch:-false}" == "true" ]; then
-    generate_args+=(--no-fetch)
-fi
-
-uv run ./generate.py "${generate_args[@]}"
-
-sing_box_configs=(config.base.json)
-
-if [ "${usage_enable_tun:-false}" == "true" ]; then
-    sing_box_configs+=("config.tun.json")
-fi
-
-sing_box_configs+=("config.generated.json" "config.local.json")
-
-merge_args=()
-for config in "${sing_box_configs[@]}"; do
-    merge_args+=("-c" "$config")
-done
-
-sing-box merge config.json "${merge_args[@]}"
-sing-box format -w -c config.json
-sing-box check -c config.json
-
-if [ ! -L /etc/sing-box/config.json ] || [ "$(readlink /etc/sing-box/config.json)" != "$(readlink -f config.json)" ]; then
-    echo "Please create a symbolic link from /etc/sing-box/config.json to the generated config.json in the current directory"
-    echo "e.g. sudo ln -s $(readlink -f config.json) /etc/sing-box/config.json"
-    exit 1
-else
-    echo 'Restart sing-box service via `systemctl restart sing-box` when you are ready.'
-fi
 '''
