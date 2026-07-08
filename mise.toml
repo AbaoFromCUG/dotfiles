@@ -28,6 +28,7 @@ login_shell = "/bin/zsh"
 "~/.config/uv" = "config/uv"
 "~/.config/opencode" = "config/opencode"
 "~/.config/git" = "config/git"
+"~/.config/fontconfig" = "config/fontconfig"
 "~/.config/kitty" = "config/kitty"
 "~/.config/wezterm" = "config/wezterm"
 "~/.config/alacritty" = "config/alacritty"
@@ -72,7 +73,6 @@ depends = [
     "config-mise",
     "config-nvim",
     "config-tmux",
-    "config-git-user",
     "config-fzf",
 ]
 run = "mise dotfiles apply"

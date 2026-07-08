@@ -554,10 +554,6 @@ return {
         cmd = { "Norm" },
     },
     {
-        "nvimdev/template.nvim",
-        cmd = "Template",
-    },
-    {
         "jake-stewart/multicursor.nvim",
         config = function()
             local mc = require("multicursor-nvim")
@@ -595,4 +591,66 @@ return {
             { "<leader>mc", function() require("multicursor-nvim").toggleCursor() end, mode = { "n", "x" }, desc = "toggle multi cursor" },
         },
     },
+    {
+        "FylerOrg/fyler.nvim",
+        opts = {
+            kind = "floating",
+            mappings = {
+                n = {
+                    ["<leader>ff"] = {
+                        action = function(instance)
+                            local entry = require('fyler.finder').parse_cursor_line(instance)
+                            if entry then
+                                require("fyler").close()
+                                local Path = require("pathlib")
+                                local dir = Path(entry.full_path):parent()
+                                Snacks.picker.files({
+                                    ignored = true,
+                                    hidden = true,
+                                    dirs = { tostring(dir) },
+                                    title = string.format("Find in %s", dir)
+                                })
+                            end
+                        end
+                    },
+                    ["<leader>fw"] = {
+                        action = function(instance)
+                            local entry = require('fyler.finder').parse_cursor_line(instance)
+                            if entry then
+                                require("fyler").close()
+                                local Path = require("pathlib")
+                                local dir = Path(entry.full_path):parent()
+                                Snacks.picker.grep({
+                                    regex = true,
+                                    dirs = { tostring(dir) },
+                                    title = string.format("Search in %s", dir)
+                                })
+                            end
+                        end
+                    }
+                }
+
+            },
+            integrations = {
+                icon = 'nvim_web_devicons',
+                watcher = { enabled = true }
+            },
+            hooks = {
+                on_rename = function(src_path, destination_path)
+                    Snacks.rename.on_rename_file(src_path, destination_path)
+                end,
+            },
+
+        },
+
+        keys = {
+            {
+                "<leader>b",
+                function()
+                    require("fyler").toggle()
+                end,
+                desc = "file explorer"
+            },
+        }
+    }
 }

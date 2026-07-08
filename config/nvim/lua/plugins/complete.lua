@@ -20,11 +20,13 @@ return {
                 "tailwindcss",
                 "eslint",
                 "tinymist",
-                "vtsls",
+                -- "vtsls",
                 "helm_ls",
                 "zuban",
                 "copilot",
-                "ruff"
+                "ruff",
+                "luau_lsp",
+                "tsgo",
             })
         end
     },

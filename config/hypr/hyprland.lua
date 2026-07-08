@@ -1,6 +1,5 @@
-require("monitors")
-
 require("plugins")
+require("session")
 
 ---------------------
 ---- MY PROGRAMS ----
@@ -20,20 +19,18 @@ end
 -- See https://wiki.hypr.land/Configuring/Basics/Autostart/
 hl.on("hyprland.start", function()
     -- 延迟加载 noctalia 的 Lua 配置
-    require("noctalia")
-
     hl.exec_cmd("libinput-gestures-setup start")
-    hl.exec_cmd("cfw")
-    hl.exec_cmd("pot")
-    hl.exec_cmd("fcitx5 -d")
     hl.exec_cmd("pactl set-sink-mute @DEFAULT_SINK@ 1")
-    hl.exec_cmd("noctalia")
     hl.exec_cmd("mpd")
+    hl.exec_cmd("fcitx5 -d")
     hl.exec_cmd("mpd-mpris")
     hl.exec_cmd("playerctld")
-    -- hl.exec_cmd("hyprdynamicmonitors run --enable-lid-events")
+    require("noctalia").apply_theme()
 end)
 
+hl.on("config.reloaded", function()
+    require("noctalia").apply_theme()
+end)
 
 ---------------------------
 ---- ENVIRONMENT VARS ----
@@ -50,6 +47,8 @@ hl.env("QT_AUTO_SCREEN_SCALE_FACTOR", "1")
 hl.env("QT_WAYLAND_DISABLE_WINDOWDECORATION", "1")
 
 -- Input method
+hl.env("XIM", "fcitx")
+-- hl.env("GTK_IM_MODULE", "fcitx")
 hl.env("QT_IM_MODULE", "fcitx")
 hl.env("XMODIFIERS", "@im=fcitx")
 hl.env("SDL_IM_MODULE", "fcitx")
@@ -63,13 +62,13 @@ hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 
 -- Applications
 hl.env("GRIMBLAST_EDITOR", "ksnip")
-hl.env("TERMINAL", "kitty")
+hl.env("TERMINAL", terminal)
 
 hl.config({
-  debug = {
-    disable_logs = false,
-    -- gl_debugging = true, -- 只在查 OpenGL 问题时开
-  },
+    debug = {
+        disable_logs = false,
+        -- gl_debugging = true, -- 只在查 OpenGL 问题时开
+    },
 })
 
 -----------------------
@@ -174,12 +173,6 @@ hl.config({
     gestures = {
         workspace_swipe_touch = true,
     },
-})
-
-hl.gesture({
-    fingers = 3,
-    direction = "horizontal",
-    action = "workspace",
 })
 
 
@@ -311,16 +304,11 @@ hl.layer_rule({
 })
 
 
--- hl.windowrule("match:class ^(clash_win)$, float on")
--- hl.window_rule({
---
--- })
 -- hl.windowrule("match:class ^(ario)$, float on")
 -- hl.windowrule("match:class ^(QQ)$, float on")
 -- hl.windowrule("match:title ^(Picture in picture)$, float on")
 -- hl.windowrule("match:title ^(Picture-in-Picture)$, float on")
 -- hl.windowrule("match:class ^(io.crow_translate.CrowTranslate)$, float on")
--- hl.windowrule("match:class (pot), match:title (Translate|Translator|OCR|PopClip|Screenshot Translate), float on")
 -- hl.windowrule("match:class ^(org.telegram.desktop)$, match:title ^(Media viewer)$, float on")
 -- hl.windowrule("match:title ^(Demo-Mode)$, float on")
 -- hl.windowrule("match:class ^(Zotero)$, match:title ^(Zotero Settings)$, float on")
@@ -332,21 +320,3 @@ hl.layer_rule({
 -- hl.windowrule("match:title ^(wemeetapp)$, no_focus on")
 --
 -- hl.windowrule("match:class ^(xwaylandvideobridge)$, no_focus on, opacity 0.0 override 0.0 override")
-
-
---------------------------------
----- WINDOWS AND WORKSPACES ----
---------------------------------
-
-
-hl.config({
-    plugin = {
-        -- virtual_desktops = {
-        --     names = "1:config, 2:coding, 3:work, 4:paper, 5:misc, 6:explorer, 7:zero, 8:media, 9:chat, 10:fish",
-        --     cycleworkspaces = 0,
-        --     notifyinit = 1,
-        --     verbose_logging = 1,
-        -- },
-    }
-
-})

@@ -15,6 +15,8 @@
 "~/.config/noctalia" = "config/noctalia"
 "~/.config/qt5ct" = "config/qt5ct"
 "~/.config/qt6ct" = "config/qt6ct"
+"~/.config/systemd/user/*.service" = "config/systemd/user/*.service"
+"~/.config/systemd/user/*.target" = "config/systemd/user/*.target"
 
 [tasks.init-archlinux]
 run = '''
@@ -49,6 +51,7 @@ usage = '''
 arg "<package>" var=#true help="package name(s), support multiple packages separated by space"
 '''
 run = '''
+{% raw %}
 #!/usr/bin/env bash
 package_list=($usage_package)
 
@@ -68,12 +71,13 @@ done
 if [ ${#not_installed[@]} -gt 0 ]; then
     yay -S --noconfirm "${not_installed[@]}"
 fi
+{% endraw %}
 '''
 
 [tasks.config-hypr]
 depends = [
     "config-dev",
-    "install hyprland xdg-desktop-portal-hyprland hyprdynamicmonitors-bin",
+    "install hyprland xdg-desktop-portal-hyprland",
     "install xdg-desktop-portal-termfilechooser-hunkyburrito-git",
     "install wl-clipboard",
 
@@ -88,32 +92,30 @@ depends = [
     "install fcitx5-pinyin-zhwiki fcitx5-configtool fcitx5-chinese-addons fcitx5-qt fcitx5-gtk",
 
     "install noto-fonts noto-fonts-cjk noto-fonts-emoji",
-    "install nerd-fonts adobe-source-han-sans-cn-fonts",
+    "install otf-firamono-nerd adobe-source-han-sans-cn-fonts",
 
     "install ksnip",
     "install qt5ct",
     "install qt6ct",
     "install noctalia",
-    "install libqcalculate upower papirus-icon-theme adw-gtk-theme",
-    "install kitty",
-    "install alacritty",
-    "install ghostty",
-    "install wezterm",
+    "install libqalculate upower papirus-icon-theme adw-gtk-theme",
+    "install kitty alacritty ghostty wezterm",
     "install firefox google-chrome microsoft-edge-stable",
-    "install zathura mupdf zathura-pdf-mupdf nm-applet",
+    "install zathura mupdf zathura-pdf-mupdf",
     "install obs-studio",
     "install wechat",
     "install visual-studio-code-bin",
 ]
 run = '''
+
+#!/usr/bin/env zsh
+set -euo pipefail
 mise dotfiles apply
-
-systemctl --user enable --now hyprdynamicmonitors-prepare.service
-
+systemctl --user daemon-reload
 systemctl --user enable --now pipewire.service
 systemctl --user enable --now pipewire-pulse.service
-
 systemctl --user enable --now wireplumber.service
+systemctl --user enable noctalia.service
 '''
 
 [tasks.build-container]

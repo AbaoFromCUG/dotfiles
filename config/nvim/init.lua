@@ -116,7 +116,6 @@ require("lazy").setup({
     spec = {
         { import = "plugins.core",       cond = not vim.g.vscode },
         { import = "plugins.ui",         cond = not vim.g.vscode },
-        { import = "plugins.oil",        cond = not vim.g.vscode },
         { import = "plugins.snacks",     cond = not vim.g.vscode },
         { import = "plugins.decorator",  cond = not vim.g.vscode },
         { import = "plugins.editor",     cond = not vim.g.vscode },

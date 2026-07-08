@@ -221,20 +221,6 @@ def make_groups(node_tags: list[str]) -> list[dict[str, Any]]:
     foreign_tags = [tag for tag in node_tags if not REGION_PATTERNS["香港"].search(tag)]
 
     groups = [
-        group("香港", region_tags["香港"]),
-        group("台湾", region_tags["台湾"]),
-        group("日本", region_tags["日本"]),
-        group("新加坡", region_tags["新加坡"]),
-        group("美国", region_tags["美国"]),
-        group("其它地区", other_regions),
-        group("自动选择", node_tags, "urltest"),
-        group("全部节点", node_tags),
-        group("外国自动选择", foreign_tags, "urltest"),
-        group("香港自动选择", region_tags["香港"], "urltest"),
-        group("台湾自动选择", region_tags["台湾"], "urltest"),
-        group("日本自动选择", region_tags["日本"], "urltest"),
-        group("美国自动选择", region_tags["美国"], "urltest"),
-        group("新加坡自动选择", region_tags["新加坡"], "urltest"),
         group(
             "默认",
             [
@@ -255,6 +241,20 @@ def make_groups(node_tags: list[str]) -> list[dict[str, Any]]:
             ],
             default="自动选择",
         ),
+        group("自动选择", node_tags, "urltest"),
+        group("全部节点", node_tags),
+        group("香港", region_tags["香港"]),
+        group("台湾", region_tags["台湾"]),
+        group("日本", region_tags["日本"]),
+        group("新加坡", region_tags["新加坡"]),
+        group("美国", region_tags["美国"]),
+        group("其它地区", other_regions),
+        group("外国自动选择", foreign_tags, "urltest"),
+        group("香港自动选择", region_tags["香港"], "urltest"),
+        group("台湾自动选择", region_tags["台湾"], "urltest"),
+        group("日本自动选择", region_tags["日本"], "urltest"),
+        group("美国自动选择", region_tags["美国"], "urltest"),
+        group("新加坡自动选择", region_tags["新加坡"], "urltest"),
     ]
 
     service_groups = [

@@ -85,7 +85,7 @@ fi
 '''
 
 [tasks.service-sing-box]
-depends = ["install sing-box go-yq"]
+depends = ["install go-yq"]
 usage = '''
 flag "-t --enable-tun" help="enable tun"
 flag "--no-fetch" help="use cached subscription files only"

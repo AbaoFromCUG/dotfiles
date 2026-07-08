@@ -107,6 +107,14 @@ function sshr() {
 	kitty -o shell ssh -t $host zsh --login -c "ulimit -n 50000 && tmux attach || tmux new -s work"
 }
 
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	command yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+	command rm -f -- "$tmp"
+}
+
 if (($+commands[uv])); then
 	alias pip="uv pip"
 fi

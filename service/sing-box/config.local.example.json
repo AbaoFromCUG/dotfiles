@@ -1,4 +1,14 @@
 {
+  "services": [
+    {
+      "type": "api",
+      "secret": "xxx",
+      "listen_port": 8092,
+      "dashboard": {
+        "enabled": true
+      }
+    }
+  ],
   "experimental": {
     "clash_api": {
       "external_controller": "127.0.0.1:8092",

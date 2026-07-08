@@ -3,6 +3,38 @@
   "autoupdate": "notify",
   "default_agent": "plan",
   "provider": {
+    "deepseek": {
+      "models": {
+        "deepseek-v4-flash": {
+          "variants": {
+            "thinking": {
+              "thinking": {
+                "type": "enabled"
+              },
+            },
+            "nothinking": {
+              "thinking": {
+                "type": "disabled"
+              },
+            },
+          }
+        },
+        "deepseek-v4-pro": {
+          "variants": {
+            "thinking": {
+              "thinking": {
+                "type": "enabled"
+              },
+            },
+            "nothinking": {
+              "thinking": {
+                "type": "disabled"
+              },
+            },
+          },
+        },
+      }
+    },
     "lmstudio": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "LM Studio (local)",
@@ -10,14 +42,8 @@
         "baseURL": "http://mac2.local:1234/v1"
       },
       "models": {
-        "qwen/qwen3.6-27b": {
-          "name": "Qwen3.6 27b"
-        },
-        "qwen/qwen3.6-35b-a3b": {
-          "name": "Qwen3.6 35b"
-        },
-        "minimax/minimax-m2.7": {
-          "name": "Minmax-m2.7"
+        "deepseek-v4-flash": {
+          "name": "DeepSeek V4 Flash"
         }
       }
     }

@@ -22,7 +22,12 @@ local function neotest()
                 env = { CI = true },
                 cwd = function() return vim.fn.getcwd() end,
             }),
-            require("neotest-vitest")({}),
+            require("neotest-vitest")({
+                vitestCommand = function(path)
+                    return "bun vitest"
+                end,
+                vitestConfigFile = "don't exists and auto detect",
+            }),
             require("neotest-playwright").adapter({
                 options = {
                     persist_project_selection = true,
@@ -79,7 +84,11 @@ return {
                         vim.cmd("CMakeBuild")
                         vim.defer_fn(function() require("neotest").run.run(vim.fn.expand("%")) end, 1000)
                     else
-                        require("neotest").run.run(vim.fn.expand("%"))
+                        require("nio").run(function()
+                            require("neotest").run.run(vim.fn.expand("%"))
+                        end, function(success, err)
+                            assert(success, err)
+                        end)
                     end
                 end,
                 desc = "test current file",

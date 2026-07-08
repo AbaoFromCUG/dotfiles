@@ -26,6 +26,60 @@ end
 require("hipe").setup({
     spec = {
         {
+            "AbaoFromCUG/dynamic-monitors.hypr",
+            ---@type dynamic_monitors.Config
+            opts = {
+                profiles = {
+                    {
+                        name = "dva lab",
+                        monitors = {
+                            {
+                                selector  = "desc:Dell Inc. DELL S2721DS 5GWMQ43",
+                                mode      = "2560x1440@59.95",
+                                position  = "0x0",
+                                scale     = 1,
+                                transform = 1,
+                            },
+                            {
+                                selector = "desc:Apple Computer Inc StudioDisplay 0xB46EA92B",
+                                mode     = "5120x2880@60",
+                                position = "1440x560",
+                                scale    = 2,
+                            },
+                            {
+                                selector = "desc:Lenovo Group Limited 0x8AAF",
+                                mode     = "3072x1920@60",
+                                position = "4000x800",
+                                scale    = "auto",
+                                optional = false,
+                                switches = { "Lid Switch" },
+                                devices  = {
+                                    "gxtp7936:00-27c6:012",
+                                    "gxtp7936:00-27c6:012",
+                                    "synacf00:00-06cb:cf00-touchpad",
+                                    "synacf00:00-06cb:cf00-mouse"
+                                }
+                            },
+                        }
+                    },
+                    {
+                        name = "fallback",
+                        monitors = {
+                            {
+                                selector = "",
+                                mode = "preferred",
+                                position = "auto",
+                                scale = "auto",
+                            },
+                        }
+                    },
+                },
+                notifications = true
+
+            },
+            dev = true,
+        },
+        {
             "AbaoFromCUG/virtual-desktops.hypr",
             opts = {
                 enable_wrapping = true,

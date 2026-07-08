@@ -5,7 +5,6 @@
 
 function update_monitor()
     local laptop_monitor = hl.get_monitor("desc:Lenovo Group Limited 0x8AAF")
-
     if laptop_monitor then
         local dell_moitor = hl.get_monitor("desc:Dell Inc. DELL S2721DS 5GWMQ43")
         if dell_moitor then
