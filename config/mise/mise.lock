@@ -842,6 +842,22 @@ url = "https://github.com/eza-community/eza/releases/download/v0.23.4/eza_x86_64
 version = "10.4.2"
 backend = "aqua:sharkdp/fd"
 
+[tools.fd."platforms.linux-x64"]
+checksum = "sha256:e3257d48e29a6be965187dbd24ce9af564e0fe67b3e73c9bdcd180f4ec11bdde"
+url = "https://github.com/sharkdp/fd/releases/download/v10.4.2/fd-v10.4.2-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.fd."platforms.linux-x64-baseline"]
+checksum = "sha256:e3257d48e29a6be965187dbd24ce9af564e0fe67b3e73c9bdcd180f4ec11bdde"
+url = "https://github.com/sharkdp/fd/releases/download/v10.4.2/fd-v10.4.2-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.fd."platforms.linux-x64-musl"]
+checksum = "sha256:e3257d48e29a6be965187dbd24ce9af564e0fe67b3e73c9bdcd180f4ec11bdde"
+url = "https://github.com/sharkdp/fd/releases/download/v10.4.2/fd-v10.4.2-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.fd."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:e3257d48e29a6be965187dbd24ce9af564e0fe67b3e73c9bdcd180f4ec11bdde"
+url = "https://github.com/sharkdp/fd/releases/download/v10.4.2/fd-v10.4.2-x86_64-unknown-linux-musl.tar.gz"
+
 [[tools.fzf]]
 version = "0.73.1"
 backend = "aqua:junegunn/fzf"
@@ -1059,6 +1075,10 @@ url = "https://mirrors.aliyun.com/nodejs-release/v24.18.0/node-v24.18.0-linux-x6
 
 [tools.node."platforms.linux-x64-musl-baseline"]
 url = "https://mirrors.aliyun.com/nodejs-release/v24.18.0/node-v24.18.0-linux-x64-musl.tar.gz"
+
+[[tools."npm:@builder.io/ai-shell"]]
+version = "1.0.12"
+backend = "npm:@builder.io/ai-shell"
 
 [[tools."npm:@delance/runtime"]]
 version = "prerelease"

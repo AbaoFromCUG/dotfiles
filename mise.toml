@@ -16,22 +16,16 @@ login_shell = "/bin/zsh"
 "~/.npmrc" = "home/npmrc"
 "~/.condarc" = "home/condarc"
 "~/.bunfig.toml" = "home/bunfig.toml"
-"~/.face" = "home/face"
 "~/.cargo/config.toml" = "home/cargo/config.toml"
 
 # --- cross-platform config dirs ---
 "~/.config/shell" = "config/shell"
 "~/.config/mise" = "config/mise"
-"~/.config/nvim" = "config/nvim"
 "~/.config/yazi" = "config/yazi"
 "~/.config/lazygit" = "config/lazygit"
 "~/.config/uv" = "config/uv"
 "~/.config/opencode" = "config/opencode"
 "~/.config/git" = "config/git"
-"~/.config/fontconfig" = "config/fontconfig"
-"~/.config/kitty" = "config/kitty"
-"~/.config/wezterm" = "config/wezterm"
-"~/.config/alacritty" = "config/alacritty"
 "~/.config/herdr/config.toml" = "config/herdr/config.toml"
 
 # --- local bin ---

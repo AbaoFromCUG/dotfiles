@@ -1,32 +1,5 @@
 [dotfiles]
-# Compositors
-"~/.config/hypr" = "config/hypr"
-
-"~/.config/wayfire.ini" = "config/wayfire.ini"
-
-# Desktop portals
-"~/.config/xdg-desktop-portal" = "config/xdg-desktop-portal"
-"~/.config/xdg-desktop-portal-termfilechooser" = "config/xdg-desktop-portal-termfilechooser"
-
-# Browser/electron flags
-"~/.config/chrome-dev-flags.conf" = "config/chrome-dev-flags.conf"
-"~/.config/chrome-flags.conf" = "config/chrome-flags.conf"
-"~/.config/chromium-flags.conf" = "config/chromium-flags.conf"
-"~/.config/code-flags.conf" = "config/code-flags.conf"
-"~/.config/electron-flags.conf" = "config/electron-flags.conf"
-"~/.config/microsoft-edge-stable-flags.conf" = "config/microsoft-edge-stable-flags.conf"
-"~/.config/feishu-flags.conf" = "config/feishu-flags.conf"
-"~/.config/qq-bwrap-flags.conf" = "config/qq-bwrap-flags.conf"
-
-# Input/media
-"~/.config/libinput-gestures.conf" = "config/libinput-gestures.conf"
-"~/.config/mimeapps.list" = "config/mimeapps.list"
-"~/.config/mpd" = "config/mpd"
-
-# Linux-native apps
-"~/.config/wechat-universal" = "config/wechat-universal"
 "~/.config/nushell" = "config/nushell"
-"~/.config/pip" = "config/pip"
 
 [tasks.config-monitor]
 depends = ["install ddcutil"]

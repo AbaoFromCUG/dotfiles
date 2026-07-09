@@ -1,0 +1,83 @@
+[bootstrap.packages]
+
+[dotfiles]
+# Compositors
+"~/.config/hypr" = "config/hypr"
+
+"~/.config/wayfire.ini" = "config/wayfire.ini"
+"~/.config/noctalia" = "config/noctalia"
+"~/.config/qt5ct" = "config/qt5ct"
+"~/.config/qt6ct" = "config/qt6ct"
+"~/.config/fontconfig" = "config/fontconfig"
+"~/.face" = "home/face"
+
+# Desktop portals
+"~/.config/xdg-desktop-portal" = "config/xdg-desktop-portal"
+"~/.config/xdg-desktop-portal-termfilechooser" = "config/xdg-desktop-portal-termfilechooser"
+
+# Browser/electron flags
+"~/.config/chrome-dev-flags.conf" = "config/chrome-dev-flags.conf"
+"~/.config/chrome-flags.conf" = "config/chrome-flags.conf"
+"~/.config/chromium-flags.conf" = "config/chromium-flags.conf"
+"~/.config/code-flags.conf" = "config/code-flags.conf"
+"~/.config/electron-flags.conf" = "config/electron-flags.conf"
+"~/.config/microsoft-edge-stable-flags.conf" = "config/microsoft-edge-stable-flags.conf"
+"~/.config/feishu-flags.conf" = "config/feishu-flags.conf"
+"~/.config/qq-bwrap-flags.conf" = "config/qq-bwrap-flags.conf"
+
+# Input/media
+"~/.config/libinput-gestures.conf" = "config/libinput-gestures.conf"
+"~/.config/mimeapps.list" = "config/mimeapps.list"
+"~/.config/mpd" = "config/mpd"
+
+# Linux-native apps
+"~/.config/wechat-universal" = "config/wechat-universal"
+
+"~/.config/systemd/user/*.service" = "config/systemd/user/*.service"
+"~/.config/systemd/user/*.target" = "config/systemd/user/*.target"
+
+
+[tasks.config-hypr]
+depends = [
+    "config-dev",
+    "install hyprland xdg-desktop-portal-hyprland",
+    "install xdg-desktop-portal-termfilechooser-hunkyburrito-git",
+    "install wl-clipboard",
+
+    "install alsa-firmware sof-firmware libva-intel-driver libva-mesa-driver",
+
+    "install networkmanager blueman bluez-utils",
+
+    "install pipewire-pulse pipewire-jack pipewire-audio playerctl pavucontrol",
+
+    "install mihomo sing-box-bin",
+
+    "install fcitx5-pinyin-zhwiki fcitx5-configtool fcitx5-chinese-addons fcitx5-qt fcitx5-gtk",
+
+    "install noto-fonts noto-fonts-cjk noto-fonts-emoji",
+    "install otf-firamono-nerd adobe-source-han-sans-cn-fonts",
+
+    "install ksnip",
+    "install qt5ct",
+    "install qt6ct",
+    "install noctalia",
+    "install libqalculate upower papirus-icon-theme adw-gtk-theme",
+    "install kitty alacritty ghostty wezterm",
+    "install firefox google-chrome microsoft-edge-stable",
+    "install zathura mupdf zathura-pdf-mupdf",
+    "install obs-studio",
+    "install wechat",
+    "install visual-studio-code-bin",
+]
+run = '''
+
+#!/usr/bin/env zsh
+set -euo pipefail
+mise dotfiles apply
+systemctl --user daemon-reload
+systemctl --user enable --now pipewire.service
+systemctl --user enable --now pipewire-pulse.service
+systemctl --user enable --now wireplumber.service
+systemctl --user enable noctalia.service
+'''
+

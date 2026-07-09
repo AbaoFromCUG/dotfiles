@@ -43,7 +43,6 @@ zinit wait lucid for \
 	OMZP::kubectl \
 	OMZP::docker \
 	OMZP::docker-compose \
-	OMZP::eza \
 	OMZP::command-not-found \
 	OMZP::bun \
 	OMZP::git \
@@ -54,7 +53,8 @@ zinit wait lucid for \
 	OMZP::rsync
 
 zinit wait lucid for \
-	OMZP::mise
+	OMZP::mise \
+	OMZP::eza
 
 zinit wait lucid atload'unalias zi' for OMZP::zoxide
 
@@ -74,7 +74,6 @@ zinit for \
 # For postponing loading `fzf`
 zinit wait lucid for \
 	OMZP::fzf \
-	matheusml/zsh-ai \
 	AbaoFromCUG/friendly-fzf
 
 ### End of plugins

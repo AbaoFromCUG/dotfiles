@@ -35,10 +35,27 @@ export NLTK_DATA=$HOME/Documents/nltk_data
 export HF_ENDPOINT=https://hf-mirror.com
 
 # Platform detection for mise environments
-if [ -z "$MISE_ENV" ] && [ -f /etc/os-release ]; then
-    . /etc/os-release
-    export MISE_ENV=$ID
+export MISE_ENV="${MISE_ENV:+$MISE_ENV,}unix"
+if [[ -r /proc/sys/kernel/osrelease ]] && grep -qiE 'microsoft|wsl' /proc/sys/kernel/osrelease; then
+    export MISE_ENV="$MISE_ENV,wsl"
 fi
+
+# 判断操作系统
+case "$(uname -s)" in
+  Darwin)
+    export MISE_ENV="$MISE_ENV,macos"
+    ;;
+  Linux)
+    export MISE_ENV="$MISE_ENV,linux"
+    if [[ -r /etc/os-release ]]; then
+      source /etc/os-release
+      export MISE_ENV="$MISE_ENV,${ID:l}"
+    fi
+    ;;
+  *)
+    export MISE_ENV="$MISE_ENV,unknown"
+    ;;
+esac
 
 ### Local config
 [[ ! -f ~/.zshenv.local ]] || source ~/.zshenv.local

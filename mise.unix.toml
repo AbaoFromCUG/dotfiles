@@ -3,8 +3,15 @@
 "~/.zshrc" = "home/zshrc"
 "~/.zprofile" = "home/zprofile"
 "~/.zshenv" = "home/zshenv"
+"~/.config/pip" = "config/pip"
+
+"~/.config/nvim" = "config/nvim"
+
 
 "~/.config/ghostty" = "config/ghostty"
+"~/.config/kitty" = "config/kitty"
+"~/.config/wezterm" = "config/wezterm"
+"~/.config/alacritty" = "config/alacritty"
 "~/.config/tmux" = "config/tmux"
 
 [tasks.config-zsh]
