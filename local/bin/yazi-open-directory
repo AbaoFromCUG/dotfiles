@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+set -euo pipefail
+
+target="${1:-$HOME}"
+
+if [[ -f "$target" ]]; then
+	target="${target:h}"
+fi
+
+exec kitty \
+	--title yazi \
+	/bin/zsh -ic 'exec /usr/bin/mise exec -- yazi "$1"' \
+	zsh "$target"

@@ -51,10 +51,13 @@
   "permission": {
     "bash": {
       "*": "ask",
-      "ls": "allow",
-      "find": "allow",
-      "fd": "allow",
-      "rg": "allow",
+      "ls *": "allow",
+      "find *": "allow",
+      "fd *": "allow",
+      "rg *": "allow",
+      "grep *": "allow",
+      "echo *": "allow",
+      "head *": "allow",
       "git status*": "allow",
       "git diff*": "allow",
       "git log*": "allow",

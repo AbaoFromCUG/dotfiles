@@ -46,3 +46,4 @@ config/yazi/theme.toml
 /mise-oci
 /config/hypr/hyprtoolkit.conf
 /config/hypr/noctalia.lua
+/config/yazi/flavors/noctalia.yazi

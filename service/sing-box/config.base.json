@@ -234,6 +234,12 @@
         "outbound": "直连"
       },
       {
+        "domain_suffix": [
+          "cdn.sheetjs.com"
+        ],
+        "outbound": "默认"
+      },
+      {
         "ip_is_private": true,
         "outbound": "直连"
       },

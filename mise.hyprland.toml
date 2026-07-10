@@ -25,14 +25,14 @@
 "~/.config/feishu-flags.conf" = "config/feishu-flags.conf"
 "~/.config/qq-bwrap-flags.conf" = "config/qq-bwrap-flags.conf"
 
+"~/.local/share/applications" = { source = "local/share/applications", mode = "symlink-each" }
+
 # Input/media
 "~/.config/libinput-gestures.conf" = "config/libinput-gestures.conf"
 "~/.config/mimeapps.list" = "config/mimeapps.list"
 "~/.config/mpd" = "config/mpd"
 
 # Linux-native apps
-"~/.config/wechat-universal" = "config/wechat-universal"
-
 "~/.config/systemd/user/*.service" = "config/systemd/user/*.service"
 "~/.config/systemd/user/*.target" = "config/systemd/user/*.target"
 
@@ -50,7 +50,7 @@ depends = [
 
     "install pipewire-pulse pipewire-jack pipewire-audio playerctl pavucontrol",
 
-    "install mihomo sing-box-bin",
+    "install mihomo",
 
     "install fcitx5-pinyin-zhwiki fcitx5-configtool fcitx5-chinese-addons fcitx5-qt fcitx5-gtk",
 

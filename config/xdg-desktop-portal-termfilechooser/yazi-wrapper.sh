@@ -3,19 +3,20 @@
 #
 # For more information about input/output arguments read `xdg-desktop-portal-termfilechooser(5)`
 
-set -e
-
-if [ "$6" -ge 4 ]; then
-    set -x
-fi
-
 multiple="$1"
 directory="$2"
 save="$3"
 path="$4"
 out="$5"
+debug="$6"
 
-cmd=`mise which yazi`
+set -e
+
+if [ "$debug" = 1 ]; then
+    set -x
+fi
+
+cmd="/usr/bin/zsh -fic 'exec /usr/bin/mise exec -- yazi \"\$@\"' zsh"
 termcmd="${TERMCMD:-kitty --title 'termfilechooser'}"
 
 if [ "$save" = "1" ]; then

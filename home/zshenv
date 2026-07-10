@@ -57,5 +57,9 @@ case "$(uname -s)" in
     ;;
 esac
 
+if (($+commands[hyprctl])); then
+    export MISE_ENV="$MISE_ENV,hyprland"
+fi
+
 ### Local config
 [[ ! -f ~/.zshenv.local ]] || source ~/.zshenv.local

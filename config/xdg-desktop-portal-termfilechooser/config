@@ -1,10 +1,10 @@
 [filechooser]
 cmd=yazi-wrapper.sh
 default_dir=$HOME
+
 ; Uncomment to skip creating destination save files with instructions in them
-; create_help_file=0
-; Uncomment and edit the line below to change the terminal emulator command
-; env=TERMCMD=foot
+create_help_file=0
+env=TERMCMD='kitty --title "terminal filechooser"'
 
 ; Mode must be one of 'suggested', 'default', or 'last'.
 open_mode=suggested
